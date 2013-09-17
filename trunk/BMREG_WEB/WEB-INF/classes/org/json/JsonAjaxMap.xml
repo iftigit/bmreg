@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="jsonMap" namespace="/" extends="struts-default,json-default">
+
+		<action name="JSONfindDistrict" class="org.json.Json" method="getDistrict">
+			<result type="json" name="input">
+                            
+			</result>
+			<result type="json">
+				<param name="root">districtList</param>
+			</result>
+		</action>
+		<action name="JSONfindUpazillaOrThana" class="org.json.Json" method="getUpazillaOrThana">
+			<result type="json" name="input">
+                            
+			</result>
+			<result type="json">
+				<param name="root">upazillaOrThanaList</param>
+			</result>
+		</action>
+       <action name="JSONfindUnionOrWard" class="org.json.Json" method="getUnionOrWard">
+			<result type="json" name="input">
+                            
+			</result>
+			<result type="json">
+				<param name="root">unionOrWardList</param>
+			</result>
+		</action>
+		
+		<action name="JSONfindMauzaOrMoholla" class="org.json.Json" method="getMauzaOrMoholla">
+			<result type="json" name="input">
+                            
+			</result>
+			<result type="json">
+				<param name="root">mauzaOrMohollaList</param>
+			</result>
+		</action>
+		
+		<action name="JSONfindVillage" class="org.json.Json" method="getVillage">
+			<result type="json" name="input">
+                            
+			</result>
+			<result type="json">
+				<param name="root">villageList</param>
+			</result>
+		</action>
+		
+		
+		
+       
+
+		<action name="JSONfindThana" class="org.json.Json" method="getThana">
+		<result type="json" name="input">
+			</result>
+			<result type="json">
+				<param name="root">thanaList</param>
+			</result>
+		</action>
+
+		<action name="JSONfindUnion" class="org.json.Json" method="getUnion">
+		<result type="json" name="input">
+			</result>
+			<result type="json">
+				<param name="root">unionList</param>
+			</result>
+		</action>
+
+
+	</package>
+
+</struts>
