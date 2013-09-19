@@ -46,7 +46,7 @@ public class RegistrationDAO {
 				Integer[] jobCategory = new Integer[experienceList.size()];
 				Integer[] subJobCategory = new Integer[experienceList.size()];
 				Integer[] subSubJobCategory = new Integer[experienceList.size()];
-				Integer[] expYear = new Integer[experienceList.size()];
+				Float[] expYear = new Float[experienceList.size()];
 				Integer[] expType = new Integer[experienceList.size()];
 				
 				String[] language = new String[languageList.size()];

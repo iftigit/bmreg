@@ -11,9 +11,9 @@
 
 	<interceptors>
 
-
+			<interceptor name="parameterFilter"  
+                class="com.opensymphony.xwork2.interceptor.ParameterFilterInterceptor" /> 
 			<interceptor name="authenticationInterceptor" class="org.interceptors.LoginInterceptor"/>
-		
 			<interceptor-stack name="secureStack">
 				<interceptor-ref name="authenticationInterceptor" />
 				<interceptor-ref name="defaultStack" >
@@ -267,6 +267,25 @@
 				<param name="contentType">text/xml</param>
 				<param name="inputName">inputStream</param>
 			</result>
+		</action>
+		<action name="np1" class="org.controller.authentication.np1">			
+			<result name="success">/WEB-INF/jsp/password/np1.jsp</result>
+			<interceptor-ref name="defaultStack"/>
+		</action>
+
+
+		<action name="securityCode" class="org.controller.authentication.NewPassword" method="securityCode">			
+			<interceptor-ref name="defaultStack"/>
+		</action>
+		<action name="passwordCode" class="org.controller.authentication.NewPassword" method="getNewPassword">			
+			<interceptor-ref name="defaultStack"/>
+		</action>
+		<action name="np_pp" class="org.controller.authentication.NewPassword" method="np_pp">			
+			<interceptor-ref name="defaultStack"/>
+		</action>
+
+		<action name="sendFirstPassword" class="org.controller.authentication.NewPassword" method="sendFirstPassword">			
+			<interceptor-ref name="defaultStack"/>
 		</action>
 		
 	<action name="regStatHome" class="org.controller.registration.RegistrationStatisticsAction">			

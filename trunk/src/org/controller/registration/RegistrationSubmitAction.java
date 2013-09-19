@@ -1,7 +1,10 @@
 package org.controller.registration;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.ServletContext;
@@ -410,12 +413,12 @@ public void validate()
 	}
 	
 	
-	if(personalDTO.getNationalId().equalsIgnoreCase("") && personalDTO.getBirthRegId().equalsIgnoreCase("")){
-		addFieldError( "sMsg_nationalId_birthReg", " Provide either Birth Reg. No or National Id Number." );
+	if(personalDTO.getNationalId().trim().equalsIgnoreCase("") && personalDTO.getBirthRegId().equalsIgnoreCase("") && personalDTO.getPassportNo().equalsIgnoreCase("")){
+		addFieldError( "sMsg_nationalId_birthReg", " Provide either Birth Reg. No, National Id or Passport Number." );
 		errorMsg+="Provide either Birth Reg. No or National Id Number, ";
 		error=true;
 	}
-	if(!personalDTO.getNationalId().equalsIgnoreCase("") ){
+	if(!personalDTO.getNationalId().trim().equalsIgnoreCase("") ){
 		if(regDao.getNationalIdCount(personalDTO.getNationalId().trim())>0)
 		{
 			addFieldError( "sMsg_nationalId_birthReg", " National Id Already Exist." );
@@ -423,7 +426,7 @@ public void validate()
 			error=true;
 		}
 	}
-	if(!personalDTO.getBirthRegId().equalsIgnoreCase("") ){
+	if(!personalDTO.getBirthRegId().trim().equalsIgnoreCase("") ){
 		if(regDao.getBirthRegIdCount(personalDTO.getBirthRegId().trim())>0)
 		{
 			addFieldError( "sMsg_nationalId_birthReg", " Brith Reg. Id Already Exist." );
@@ -432,34 +435,34 @@ public void validate()
 		}
 	}
 	
-	if(!personalDTO.getPassportNo().equalsIgnoreCase("")){
+	if(!personalDTO.getPassportNo().trim().equalsIgnoreCase("")){
 		if(personalDTO.getPassportIssueDate().equalsIgnoreCase("")){
 		addFieldError( "sMsg_passportIssueDate", " Provide Passport Issue Date." );
 		errorMsg+="Provide Passport Issue Date, ";
 		error=true;
 		}
-		if(personalDTO.getPassportExpDate().equalsIgnoreCase("")){
+		if(personalDTO.getPassportExpDate().trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_passportExpDate", " Provide Passport Expire Date." );
 		errorMsg+="Provide Passport Expire Date, ";
 		error=true;
 		}
 	}
-	if(nomineeDTO.getNomineeRelation().equalsIgnoreCase("")){
+	if(nomineeDTO.getNomineeRelation().trim().equalsIgnoreCase("")){
 		addFieldError( "msg_nomineeName_relationship", " Select Nominee Relationship." );
 		errorMsg+="Select Nominee Relationship, ";
 		error=true;
 	}
-	if(nomineeDTO.getNomineeName().equalsIgnoreCase("")){
+	if(nomineeDTO.getNomineeName().trim().equalsIgnoreCase("")){
 		addFieldError( "msg_nomineeName_relationship", " Provide Nominee Name." );
 		errorMsg+="Provide Nominee Name, ";
 		error=true;
 	}
-	if(nomineeDTO.getNomineeFatherName().equalsIgnoreCase("")){
+	if(nomineeDTO.getNomineeFatherName().trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_nomineeFather", " Provide Nominee Father's Name." );
 		errorMsg+="Provide Nominee Father's Name, ";
 		error=true;
 	}
-	if(nomineeDTO.getNomineeMotherName().equalsIgnoreCase("")){
+	if(nomineeDTO.getNomineeMotherName().trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_nomineeMother", " Provide Nominee Mother's Name." );
 		errorMsg+="Provide Nominee Mother's Name, ";
 		error=true;
@@ -512,22 +515,22 @@ public void validate()
 		error=true;
 	}
 	*/
-	if(nomineeDTO.getNomineePhoneOrMobile()==null || nomineeDTO.getNomineePhoneOrMobile().equalsIgnoreCase("")){
+	if(nomineeDTO.getNomineePhoneOrMobile()==null || nomineeDTO.getNomineePhoneOrMobile().trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_nomineePhone", " Provide Mobile or Phone Number." );
 		errorMsg+="Provide Nominee Mobile or Phone Number, ";
 		error=true;
 	}
-	if(nomineeDTO.getContact1Name().equalsIgnoreCase("") || nomineeDTO.getContact1Mobile().equalsIgnoreCase("") || nomineeDTO.getContact1Relation().equalsIgnoreCase("")){
+	if(nomineeDTO.getContact1Name().trim().equalsIgnoreCase("") || nomineeDTO.getContact1Mobile().trim().equalsIgnoreCase("") || nomineeDTO.getContact1Relation().trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_nomineeContactPerson1", " Provide all Information for Contact 1." );
 		errorMsg+="Provide all Information for Contact 1, ";
 		error=true;
 	}
-	if(nomineeDTO.getContact2Name().equalsIgnoreCase("") || nomineeDTO.getContact2Mobile().equalsIgnoreCase("") || nomineeDTO.getContact2Relation().equalsIgnoreCase("")){
+	if(nomineeDTO.getContact2Name().trim().equalsIgnoreCase("") || nomineeDTO.getContact2Mobile().trim().equalsIgnoreCase("") || nomineeDTO.getContact2Relation().trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_nomineeContactPerson2", " Provide all Information for Contact 2." );
 		errorMsg+="Provide all Information for Contact 2, ";
 		error=true;
 	}
-	if(nomineeDTO.getContact3Name().equalsIgnoreCase("") || nomineeDTO.getContact3Mobile().equalsIgnoreCase("") || nomineeDTO.getContact3Relation().equalsIgnoreCase("")){
+	if(nomineeDTO.getContact3Name().trim().equalsIgnoreCase("") || nomineeDTO.getContact3Mobile().trim().equalsIgnoreCase("") || nomineeDTO.getContact3Relation().trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_nomineeContactPerson3", " Provide all Information for Contact 3." );
 		errorMsg+="Provide all Information for Contact 3, ";
 		error=true;
@@ -596,6 +599,65 @@ public void validate()
 	   errorMsg+="Correct Mailing Address, ";
 	   error=true;	
 	 }
+	if(jobPreference.trim().equalsIgnoreCase("")){
+		addFieldError( "sMsg_expJobPreference", " Select at least one job." );
+		error=true;
+	}
+	if(languages.trim().equalsIgnoreCase("")){
+		addFieldError( "sMsg_language", " Select at least one language." );
+		error=true;
+	}
+	if(personalDTO.getEmpDisabilityYN().equalsIgnoreCase("Y") && personalDTO.getEmpDisabilityDetail().trim().equalsIgnoreCase("")){
+		addFieldError( "sMsg_disabilityDetail", " Provide disablility detail." );
+		error=true;
+	}
+	if(educationDTO.getHeighestDegreeId()!=7)
+	{
+		if(educationDTO.getHeighestDegreeName()==null || educationDTO.getHeighestDegreeName().trim().equalsIgnoreCase(""))
+		{
+			addFieldError( "sMsg_lastInstitute", " Provide Institute Name." );
+			error=true;
+		}
+	}
+	if(educationDTO.getHeighestDegreeId()!=7)
+	{
+		if(educationDTO.getPassingYear()==null || educationDTO.getPassingYear().trim().equalsIgnoreCase(""))
+		{
+			addFieldError( "sMsg_passingYear", " Select Passing year." );
+			error=true;
+		}
+	}
+	
+	if(personalDTO.getPassportIssueDate()!=null && personalDTO.getPassportExpDate()!=null
+			&& !personalDTO.getPassportIssueDate().trim().equalsIgnoreCase("") && !personalDTO.getPassportExpDate().trim().equalsIgnoreCase(""))
+			{		
+				try{
+					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			    	Date issueDate = sdf.parse(personalDTO.getPassportIssueDate());
+			    	Date expDate = sdf.parse(personalDTO.getPassportExpDate());
+			
+			
+			    	if(issueDate.compareTo(expDate)>0){
+			    		addFieldError( "sMsg_passportExpDate", " Exp. date is Smaller than the Issue date." );
+			    	}
+				}catch(ParseException ex){
+		    		ex.printStackTrace();
+		    		addFieldError( "sMsg_passportExpDate", " Incorrect Issue or Exp. Date." );
+		    	}	
+			}
+	if(!personalDTO.getEmpMaritalStatus().equalsIgnoreCase("Single") && personalDTO.getEmpChildYN().equalsIgnoreCase("Y"))
+	{
+		if(personalDTO.getEmpSonCount()==null || personalDTO.getEmpSonCount().equalsIgnoreCase(""))
+		{
+			addFieldError( "sMsg_maritalStatus", " Provide Total Son." );
+			error=true;
+		}
+		if(personalDTO.getEmpDaughterCount()==null || personalDTO.getEmpDaughterCount().equalsIgnoreCase(""))
+		{
+			addFieldError( "sMsg_maritalStatus", " Provide Total Daughter." );
+			error=true;
+		}
+	}
 //	error=true;
 //	addFieldError( "sMsg_mailingAddress", " Correct Mailing Address." );
 	if(error==true){
