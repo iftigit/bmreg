@@ -9,7 +9,7 @@ import oracle.jdbc.driver.OracleCallableStatement;
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
 
-import org.table.CotaDTO;
+import org.table.UserDTO;
 
 import util.connection.ConnectionManager;
 
@@ -166,6 +166,57 @@ public class DataDAO {
         return true;
 
 	}
+	public ArrayList<UserDTO> getUserList(String unionId)
+    {
+        ArrayList<UserDTO> userList = new ArrayList<UserDTO>();
+        Connection conn = ConnectionManager.getConnection();
+      
+        String sql ="Select userid,password from mst_user where union_id='"+unionId+"' and USER_TYPE='UISC_REG_OPERATOR'";
+        ResultSet r = null;
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            r = stmt.executeQuery(sql);
+            UserDTO user=null;
+            while (r.next()) {
+            	user=new UserDTO();
+            	user.setUserId(r.getString("userid"));
+            	user.setPassword(r.getString("password"));
+            	            	
+            	userList.add(user);
+            }
+        } catch (Exception e){e.printStackTrace();}
+		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+		{e.printStackTrace();}stmt = null;conn = null;}
+        
+		return userList;
+    } 
+	
+	public ArrayList<UserDTO> passwordByUserId(String userId)
+    {
+        ArrayList<UserDTO> userList = new ArrayList<UserDTO>();
+        Connection conn = ConnectionManager.getConnection();
+      
+        String sql ="Select userid,password from mst_user where USERID='"+userId+"' and USER_TYPE='UISC_REG_OPERATOR'";
+        ResultSet r = null;
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            r = stmt.executeQuery(sql);
+            UserDTO user=null;
+            while (r.next()) {
+            	user=new UserDTO();
+            	user.setUserId(r.getString("userid"));
+            	user.setPassword(r.getString("password"));
+            	            	
+            	userList.add(user);
+            }
+        } catch (Exception e){e.printStackTrace();}
+		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+		{e.printStackTrace();}stmt = null;conn = null;}
+        
+		return userList;
+    } 
 	
 	
 	

@@ -45,7 +45,8 @@
       
       function onFinishCallback(){
        if(validateAllSteps()){
-        $('form').submit();
+        //$('form').submit();
+        previewRegistrationForm();
        }
       }
 		});
@@ -98,7 +99,7 @@
 		
 	function validateSteps(step){
 		  var isStepValid = true;
-      // validate step 1
+      	// validate step 1
       if(step == 1){
         if(validateStep1() == false ){
           isStepValid = false; 
@@ -244,9 +245,9 @@
        }else if(IsNumber(heightFeet)==false){
          isValid = false;
          $('#msg_height').html(alertImg+"Height Feet Should be a numeric value"+postFix).show();
-       }else if(IsNumber(heightInches)==false && heightInches!=""){
+       }else if(IsNumber(heightInches)==false || heightInches=="" || heightInches>11){
          isValid = false;
-         $('#msg_height').html(alertImg+"Height Inches Should be a numeric value"+postFix).show();
+         $('#msg_height').html(alertImg+"Height Inches Should be a numeric value and smaller than 12."+postFix).show();
        }else{
          $('#msg_height').html('').hide();
        }
@@ -1855,8 +1856,8 @@ http://rishida.net/tools/conversion/
     </tr>
     <tr>
      <td>Zila/District<font color="red">*</font></td>
-     <td valign="top" id="PERMANENT_DIST_TD">
-     <div style="float: left">
+     <td valign="top" >
+     <div style="float: left" id="PERMANENT_DIST_TD">
      <select tabindex="502"  name="pAddress.districtId" id="PERMANENT_DIST" class="addressSelectBox">
      <option value=""></option>	
      </select>
@@ -1864,8 +1865,8 @@ http://rishida.net/tools/conversion/
      <div id="msg_pDistrict" style="float: left"></div>&nbsp;
      </td>
      <td valign="top">Zila/District<font color="red">*</font></td>
-     <td valign="top" id="MAILING_DIST_TD">
-     <div style="float: left">
+     <td valign="top">
+     <div style="float: left"  id="MAILING_DIST_TD">
      <select tabindex="552" name="mAddress.districtId" id="MAILING_DIST" class="addressSelectBox" onchange="fetchJSONData_Thana(this.value,'MAILING_THANA')">
      <option value=""></option>
      </select>
@@ -1879,8 +1880,8 @@ http://rishida.net/tools/conversion/
     
     <tr>
      <td>Upazila/Thana<font color="red">*</font></td>
-     <td valign="top" id="PERMANENT_UPAZILLA_OR_THANA_TD">
-        <div style="float: left">
+     <td valign="top">
+        <div style="float: left"  id="PERMANENT_UPAZILLA_OR_THANA_TD">
         <select tabindex="503" name="pAddress.upazillaOrThanaId" id="PERMANENT_UPAZILLA_OR_THANA" class="addressSelectBox">
         <option value=""></option>
         </select>
@@ -1888,8 +1889,8 @@ http://rishida.net/tools/conversion/
         <div id="msg_pUpazillaOrThana" style="float: left"></div>&nbsp;
      </td>
      <td valign="top">Upazila/Thana<font color="red">*</font></td>
-     <td valign="top" id="MAILING_UPAZILLA_OR_THANA_TD">
-     	<div style="float: left">
+     <td valign="top">
+     	<div style="float: left"  id="MAILING_UPAZILLA_OR_THANA_TD">
      	<select tabindex="553" name="mAddress.upazillaOrThanaId" id="MAILING_UPAZILLA_OR_THANA" class="addressSelectBox">
         <option value=""></option>
         </select>
@@ -1902,8 +1903,8 @@ http://rishida.net/tools/conversion/
     
     <tr>
      <td>Union/Ward<font color="red">*</font></td>
-     <td valign="top" id="PERMANENT_UNION_OR_WARD_TD">
-       <div style="float: left">
+     <td valign="top">
+       <div style="float: left"  id="PERMANENT_UNION_OR_WARD_TD">
        <select tabindex="504" name="pAddress.unionOrWardId" id="PERMANENT_UNION_OR_WARD" class="addressSelectBox" >
        <option value=""></option>
         </select>
@@ -1911,8 +1912,8 @@ http://rishida.net/tools/conversion/
         <div id="msg_pUnionOrWard" style="float: left"></div>&nbsp;
      </td>
      <td valign="top">Union/Ward<font color="red">*</font></td>
-     <td valign="top" id="MAILING_UNION_OR_WARD_TD">
-     	<div style="float: left">
+     <td valign="top">
+     	<div style="float: left"  id="MAILING_UNION_OR_WARD_TD">
      	<select tabindex="554" name="mAddress.unionOrWardId" id="MAILING_UNION_OR_WARD" class="addressSelectBox" >
         <option value=""></option>
         </select>
@@ -1923,8 +1924,8 @@ http://rishida.net/tools/conversion/
     
     <tr>
      <td>Mauza/Moholla<font color="red">*</font></td>
-     <td valign="top" id="PERMANENT_MAUZA_OR_MOHOLLA_TD">
-     	<div style="float: left">
+     <td valign="top">
+     	<div style="float: left"  id="PERMANENT_MAUZA_OR_MOHOLLA_TD">
         <select tabindex="505" name="pAddress.mauzaOrMohollaId" id="PERMANENT_MAUZA_OR_MOHOLLA" class="addressSelectBox">
         <option value=""></option>
         </select>
@@ -1932,8 +1933,8 @@ http://rishida.net/tools/conversion/
         <div id="msg_pMauzaOrMoholla" style="float: left"></div>&nbsp;
      </td>
      <td valign="top">Mauza/Moholla<font color="red">*</font></td>
-     <td valign="top" id="MAILING_MAUZA_OR_MOHOLLA_TD">
-     	<div style="float: left">
+     <td valign="top">
+     	<div style="float: left" id="MAILING_MAUZA_OR_MOHOLLA_TD">
      	<select tabindex="555" name="mAddress.mauzaOrMohollaId" id="MAILING_MAUZA_OR_MOHOLLA" class="addressSelectBox">
         <option value=""></option>
         </select>
@@ -1944,8 +1945,8 @@ http://rishida.net/tools/conversion/
     
     <tr>
      <td>Village<font color="red">*</font></td>
-     <td valign="top" id="PERMANENT_VILLAGE_TD">
-     	<div style="float: left">
+     <td valign="top">
+     	<div style="float: left"  id="PERMANENT_VILLAGE_TD">
      	<select tabindex="506" name="pAddress.villageId" id="PERMANENT_VILLAGE" class="addressSelectBox">
         <option value=""></option>
         </select>
@@ -1953,8 +1954,8 @@ http://rishida.net/tools/conversion/
         <div id="msg_pVillage" style="float: left"></div>&nbsp;
      </td>
      <td valign="top">Village<font color="red">*</font></td>
-     <td valign="top" id="MAILING_VILLAGE_TD">
-     	<div style="float: left">
+     <td valign="top">
+     	<div style="float: left"  id="MAILING_VILLAGE_TD">
      	<select tabindex="556" name="mAddress.villageId" id="MAILING_VILLAGE" class="addressSelectBox">
         <option value=""></option>
         </select>

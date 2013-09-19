@@ -20,7 +20,8 @@
   function submitForm(actionName)
   {
    document.myForm.action=actionName;
-   document.myForm.submit();
+   //document.myForm.submit();
+   checkConnectivityAndSubmitForm("myForm");
   }
  </script>
   
