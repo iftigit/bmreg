@@ -86,9 +86,10 @@
      	<input type="hidden" name="personalDTO.empBirthDate" value="<s:property value="personalDTO.empBirthDate" />" />
      </td>
      <td style="color:#7D2252;">Place of Birth</td>
-     <td><s:property value="personalDTO.empBirthDistrict" />
+     <td>
      	<input type="hidden" name="personalDTO.empBirthDistrict" value="<s:property value="personalDTO.empBirthDistrict" />" />
      	<input type="hidden" name="personalDTO.empBirthUpazilaOrThana" value="<s:property value="personalDTO.empBirthUpazilaOrThana" />" />
+     	<s:property value="personalDTO.empBirthDistrictName" />, <s:property value="personalDTO.empBirthUpazilaOrThanaName" />
      </td>
     </tr>
 
@@ -151,11 +152,11 @@
      <td>
      <s:property value="personalDTO.heightFeet" />
      <input type="hidden" name="personalDTO.empHeightFeet" value="<s:property value="personalDTO.empHeightFeet" />" />
-     Feet
+     <s:property value="personalDTO.empHeightFeet" /> Feet
      
      <s:property value="personalDTO.heightInches" />
      <input type="hidden" name="personalDTO.empHeightInches" value="<s:property value="personalDTO.empHeightInches" />" />
-     Inches
+     <s:property value="personalDTO.empHeightInches" /> Inches
      
      </td>
      <td style="color:#7D2252;">Weight(KG)</td>

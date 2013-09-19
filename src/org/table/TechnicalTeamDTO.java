@@ -1,8 +1,10 @@
 package org.table;
 
-public class TechnicalTeamDTO {
-	
-	
+import java.io.Serializable;
+
+public class TechnicalTeamDTO implements Serializable {
+
+	private static final long serialVersionUID = 3412731324163767760L;
 	private String contactName;
 	private String mobileNo;
 	

@@ -15,7 +15,7 @@ public class ExperienceDTO {
 	private int jobSubSubCategoryId;
 	private String jobSubSubCategoryName;
 	
-	private int totalYears;
+	private float totalYears;
 
 	public int getCountryId() {
 		return countryId;
@@ -82,11 +82,12 @@ public class ExperienceDTO {
 	}
 
 	
-	public int getTotalYears() {
+	
+	public float getTotalYears() {
 		return totalYears;
 	}
 
-	public void setTotalYears(int totalYears) {
+	public void setTotalYears(float totalYears) {
 		this.totalYears = totalYears;
 	}
 

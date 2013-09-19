@@ -462,7 +462,7 @@ function checkConnectivityAndSubmitForm(formName)
 		{
 			if (jqXHR.status === 0)
 			{
-				alert('No Internet Connection.\nPlease Verify Your Network.');
+				alert('No Internet Connection.\nPlease Verify Your Internet Connection.');
 			}
 			else if (jqXHR.status === 403) {
 				alert("Sorry, your session has expired. Please login again to continue");

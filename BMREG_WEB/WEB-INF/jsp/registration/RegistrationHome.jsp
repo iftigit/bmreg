@@ -96,11 +96,14 @@
        return isStepValid;
     } 	
 		
-		
+	function clearMsgBox(){
+		$(".msgBox").css("display", "none");
+	};	
 	function validateSteps(step){
 		  var isStepValid = true;
       	// validate step 1
       if(step == 1){
+        clearMsgBox();
         if(validateStep1() == false ){
           isStepValid = false; 
           $('#wizard').smartWizard('showMessage','<font color="red">Please correct the errors in step'+step+ ' and click next.</font>');
@@ -110,7 +113,8 @@
         }
       }
       // validate step 2
-      if(step == 2){
+      if(step == 2){   
+        clearMsgBox();     
         if(validateStep2() == false ){
           isStepValid = false; 
           $('#wizard').smartWizard('showMessage','<font color="red">Please correct the errors in step'+step+ ' and click next.</font>');
@@ -122,6 +126,7 @@
       
       // validate step3
       if(step == 3){
+        clearMsgBox();
         if(validateStep3() == false ){
           isStepValid = false; 
           $('#wizard').smartWizard('showMessage','<font color="red">Please correct the errors in step'+step+ ' and click next.</font>');
@@ -133,6 +138,7 @@
       
       // validate step4
       if(step == 4){
+        clearMsgBox();
         if(validateStep4() == false ){
           isStepValid = false; 
           $('#wizard').smartWizard('showMessage','<font color="red">Please correct the errors in step'+step+ ' and click next.</font>');
@@ -144,6 +150,7 @@
       
       // validate step5
       if(step == 5){
+        clearMsgBox();
         if(validateStep5() == false ){
           isStepValid = false; 
           $('#wizard').smartWizard('showMessage','<font color="red">Please correct the errors in step'+step+ ' and click next.</font>');
@@ -179,7 +186,15 @@
 	   var heightFeet = $('#heightFeet').val();
 	   var heightInches = $('#heightInches').val();
 	   var weightKg = $('#weightKg').val();
-	   	   
+	   
+	   var disablilityYes = document.getElementById("disablilityYes").checked;
+	   var disabilityDetail = $('#disabilityDetail').val();	
+	   
+	   
+	   var totalSon = $('#totalSon').val();
+	   var totalDaughter = $('#totalDaughter').val();
+	   var childYes=document.getElementById("childYes").checked;
+	   
        if(givenName=="" && lastName==""){
          isValid = false;
          $('#msg_seekerName').html(alertImg+'Please fill Given Name or Last Name'+postFix).show();
@@ -224,6 +239,22 @@
        }else{
          $('#msg_maritalStatus').html('').hide();
        }
+       
+       if(maritalStatus!="Single" && childYes==true)
+	   {
+	   
+	     if(totalSon=="" || totalSon==0 || IsNumber(totalSon)==false)
+	     {
+	      isValid = false;
+          $('#msg_maritalStatus').html(alertImg+'Provide Correct value for Total Son'+postFix).show();
+	     }
+	     if(totalDaughter=="" || totalDaughter==0 || IsNumber(totalDaughter)==false)
+	     {
+	      isValid = false;
+          $('#msg_maritalStatus').html(alertImg+'Provide Correct value for Total Daughter'+postFix).show();
+	     }
+	   }
+	   
               
        if(religion==""){
          isValid = false;
@@ -245,22 +276,30 @@
        }else if(IsNumber(heightFeet)==false){
          isValid = false;
          $('#msg_height').html(alertImg+"Height Feet Should be a numeric value"+postFix).show();
-       }else if(IsNumber(heightInches)==false || heightInches=="" || heightInches>11){
+       }else if((IsNumber(heightInches)==false && heightInches!="") || (heightInches!="" && heightInches>11)){
          isValid = false;
          $('#msg_height').html(alertImg+"Height Inches Should be a numeric value and smaller than 12."+postFix).show();
        }else{
          $('#msg_height').html('').hide();
        }
        
-       if(weightKg=="" || weightKg<30){
+       if(weightKg=="" || weightKg<30 || weightKg>150){
          isValid = false;
-         $('#msg_weight').html(alertImg+"Weight Cannot be smaller than 30 Kg"+postFix).show();
+         $('#msg_weight').html(alertImg+"Weight shold be between 30 to 150 Kg"+postFix).show();
        }else if(IsNumber(weightKg)==false){
          isValid = false;
          $('#msg_weight').html(alertImg+"Weight Should be a numeric value"+postFix).show();
        }else{
          $('#msg_weight').html('').hide();
        }
+       
+       if(disablilityYes==true && disabilityDetail==""){
+         isValid = false;
+         $('#msg_disabilityDetail').html(alertImg+"Provide disability detail."+postFix).show();
+       }else{
+         $('#msg_disabilityDetail').html('').hide();
+       }
+       
             
        return isValid;
     }
@@ -316,7 +355,7 @@
        }
       if(nationalId!="")
       { 
-       if(nationalId.length<9)
+       if(nationalId.length<14)
          {
          	isValid = false;
          	$('#msg_nationalId_birthReg').html(alertImg+"National Id must be 13 digit long."+postFix).show();
@@ -325,10 +364,18 @@
        
       if(passportNumber!=""){
       
-         if(passportNumber.length<9)
+         if(passportNumber.length!=8 && passportNumber.length!=9)
          {
          	isValid = false;
-         	$('#msg_passportNumber').html(alertImg+"Invalid Passport Number."+postFix).show();
+         	$('#msg_passportNumber').html(alertImg+"Wrong Passport Number format."+postFix).show();
+         }
+         else
+         {
+            if(passportNumber.length==8)
+          		{
+          		  //var part1=str.substr(0,1);
+          		  //var part2=str.substr(1,7);
+          		}
          }
         
          
@@ -342,6 +389,9 @@
          	isValid = false;
          	$('#msg_passportIssueDate').html(alertImg+"Incorrect issue date"+postFix).show();
          }
+         else{
+         $('#msg_passportIssueDate').html('').hide();
+         }
          
          if(passportExpireDate=="")
          {
@@ -351,11 +401,13 @@
          else if(isValidDate(passportExpireDate)==false)
          {
          	isValid = false;
-         	$('#msg_passportExpDate').html(alertImg+"Incorrect issue date"+postFix).show();
+         	$('#msg_passportExpDate').html(alertImg+"Incorrect expire date"+postFix).show();
+         }
+         else{
+             $('#msg_passportExpDate').html('').hide();
          }
        }else{
-         $('#msg_passportIssueDate').html('').hide();
-         $('#msg_passportExpDate').html('').hide();
+         $('#msg_passportNumber').html('').hide();
        }
         
        
@@ -565,6 +617,20 @@
        }else{
          $('#msg_expJobPreference').html('').hide();
        }
+       if(checkJobPreference()==false){
+         isValid = false;
+         $('#msg_expJobPreference').html(alertImg+"One or more Preferred Job is Blank."+postFix).show();
+       }else{
+        	if(document.getElementById("jobPreferenceHidden").value==""){
+	         isValid = false;
+	         $('#msg_expJobPreference').html(alertImg+"Select at least one desire job."+postFix).show();
+	       }else{
+	         $('#msg_expJobPreference').html('').hide();
+	       }
+       }
+       
+       
+       
        
               
       return isValid;
@@ -602,8 +668,17 @@
          isValid = false;
          $('#msg_language').html(alertImg+"One or More Language Information is Blank."+postFix).show();
        }else{
-         $('#msg_language').html('').hide();
+	         if(document.getElementById("languageHidden").value==""){
+	       isValid = false;
+	         $('#msg_language').html(alertImg+"Please select at least one language."+postFix).show();
+	       }else{
+	         $('#msg_language').html('').hide();
+	       }
        }
+       
+       
+       
+       
        
        
         if(checkTrainingInformation()==false){
@@ -954,11 +1029,11 @@ http://rishida.net/tools/conversion/
      					   <table  width="90%" border="0">
      					   <tr>
      					   	<td width="50%" align="left">&#2459;&#2503;&#2482;&#2503;&#2480; &#2488;&#2434;&#2454;&#2509;&#2479;&#2494;</td>
-     					   	<td width="50%" align="left"><input type="text" tabindex="14" id="totalSon" name="personalDTO.empSonCount" value="" class="txtBox" style="width: 100px;" maxlength="2"></td>
+     					   	<td width="50%" align="left"><input type="text" tabindex="14" id="totalSon" name="personalDTO.empSonCount" value="<s:property value='personalDTO.empSonCount' />" class="txtBox" style="width: 100px;" maxlength="2"></td>
      					   </tr>
      					   <tr>
      					   	<td align="left">&#2478;&#2503;&#2527;&#2503;&#2480; &#2488;&#2434;&#2454;&#2509;&#2479;&#2494;</td>
-     					   	<td align="left"><input type="text" id="totalDaughter" tabindex="15" name="personalDTO.empDaughterCount" value="" class="txtBox" style="width: 100px;" maxlength="2"></td>
+     					   	<td align="left"><input type="text" id="totalDaughter" tabindex="15" name="personalDTO.empDaughterCount" value="<s:property value='personalDTO.empDaughterCount' />" class="txtBox" style="width: 100px;" maxlength="2"></td>
      					   </tr>
      					   </table>
      					  </div>
@@ -1073,8 +1148,8 @@ http://rishida.net/tools/conversion/
 												<option value="A+">A+</option>
 												<option value="B-">B-</option>
 												<option value="B+">B+</option>
-												<option value="B-">AB-</option>
-												<option value="B+">AB+</option>
+												<option value="AB-">AB-</option>
+												<option value="AB+">AB+</option>
 						    </select>  
                     	  
                         </td>
@@ -1089,7 +1164,7 @@ http://rishida.net/tools/conversion/
      					  	<input type="radio" tabindex="24" name="personalDTO.empDisabilityYN" value="N" id="disablilityNo" checked="checked" onClick="controlDisabilityDiv(0)"  /> &#2472;&#2494;     					    
                     		<div id="disabilityDiv" style="display: none;">
                     		&#2453;&#2495; &#2471;&#2480;&#2472;&#2503;&#2480; &#2437;&#2488;&#2494;&#2478;&#2480;&#2509;&#2469;&#2509;&#2479;&#2468;&#2494; &#2438;&#2459;&#2503; &#2468;&#2494;&#2480; &#2482;&#2495;&#2454;&#2497;&#2472; -
-                    		<textarea rows="3" cols="55" tabindex="25" name="personalDTO.empDisabilityDetail" style="border: 1px solid grey;"></textarea>
+                    		<textarea rows="3" cols="55" tabindex="25" name="personalDTO.empDisabilityDetail" id="disabilityDetail" style="border: 1px solid grey;"><s:property value='personalDTO.empDisabilityDetail' /></textarea>
                     		</div>
                     		<script type="text/javascript">
                     		function controlDisabilityDiv(status)
@@ -1107,7 +1182,10 @@ http://rishida.net/tools/conversion/
                     		}
                     		</script>
                         </td>
-                    	<td align="left" valign="top">&nbsp;</td>
+                    	<td align="left" valign="top">
+                    	<span id="msg_disabilityDetail"></span>&nbsp;
+                    	<font style="color:red"><s:label name="sMsg_disabilityDetail"></s:label></font>
+                    	</td>
           			</tr>
           			
           			
@@ -1148,6 +1226,9 @@ http://rishida.net/tools/conversion/
                     	  Old Passport(If any)
                     	  
                     	  <input type="text" tabindex="29" id="prevPassportNo" name="personalDTO.oldPassportNo" value="<s:property value='personalDTO.oldPassportNo' />" class="txtBox" style="width: 120px;margin-left: 2px;" disabled="disabled">
+                    	  <br/>
+                    	  
+                    	  <font style='color:maroon;font-size: 13px;'>[XX9999999 or X9999999]</font>
                       </td>
                     	<td align="left"><span id="msg_passportNumber"></span>&nbsp;
                     	<font style="color:red"><s:label name="sMsg_passportNumber"></s:label></font>
@@ -1585,7 +1666,7 @@ http://rishida.net/tools/conversion/
           		   </td>
           		   </tr>	
           			<tr>
-                    	<td align="left" valign="top">Country Preference(&#2453;&#2478;&#2474;&#2453;&#2509;&#2487;&#2503; &#2541; &#2463;&#2495; &#2470;&#2503;&#2486;&#2503;&#2480; &#2472;&#2494;&#2478; &#2441;&#2482;&#2509;&#2482;&#2503;&#2454; &#2453;&#2480;&#2497;&#2472;)</td>
+                    	<td align="left" valign="top">Country Preference(&#2488;&#2480;&#2509;&#2476;&#2507;&#2458;&#2509;&#2458; &#2541; &#2463;&#2495; &#2470;&#2503;&#2486;&#2503;&#2480; &#2472;&#2494;&#2478; &#2441;&#2482;&#2509;&#2482;&#2503;&#2454; &#2453;&#2480;&#2497;&#2472;)</td>
                     	<td align="left" valign="top">
                             <select id="countryPreference" name="countryPreferenceIds" multiple="multiple" class="txtBox">
 							<s:iterator value="countryList" id="countryList">
@@ -1635,7 +1716,7 @@ http://rishida.net/tools/conversion/
                     	&#2476;&#2453;&#2509;&#2488;&#2503; &#2465;&#2495;&#2474;&#2509;&#2482;&#2507;&#2478;&#2494;&#2480; &#2456;&#2480;&#2463;&#2495; &#2441;&#2482;&#2509;&#2482;&#2503;&#2454; &#2453;&#2480;&#2497;&#2472;
                     	</td>
                     	<td align="left" width="50%" valign="top">
-                    	  <select tabindex="401" name="educationDTO.heighestDegreeId" id="heighestDegree" class="txtBox">
+                    	  <select tabindex="401" name="educationDTO.heighestDegreeId" id="heighestDegree" class="txtBox" onchange="controlDegree(this.value)">
                     	      <option value="">--Select Degree--</option>
                     	  <s:iterator value="%{#application.ALL_DEGREE}" id="relationList">
 					     	  <option value="<s:property value="degreeId" />"><s:property value="degreeName" /></option>
@@ -1676,7 +1757,7 @@ http://rishida.net/tools/conversion/
           			</tr>
           			
           			<tr>
-                    	<td align="left" valign="top">Language</td>
+                    	<td align="left" valign="top">Language<font color="red">*</font></td>
                     	<td align="left" valign="top" colspan="2">
                     	 
                     	  		<table align="center" border="0" cellpadding="3" cellspacing="0"
@@ -2765,7 +2846,25 @@ $(document).ready(function(){
 	defaultAbroadExpLoad();
 	addJobPreferenceDiv();
 	$("#heighestDegree").val("7");
+	$("#language0").val("Bangla");
+	
+	document.getElementById("lastInstitute").disabled='true';
+    document.getElementById("passingYear").disabled='true';
+	
 });
+function controlDegree(degree)
+{
+  if(degree==7)
+   {
+   	document.getElementById("lastInstitute").disabled='true';
+    document.getElementById("passingYear").disabled='true';	
+   }
+   else
+   {
+    document.getElementById("lastInstitute").disabled=false;
+    document.getElementById("passingYear").disabled=false;
+   }
+}
 </script>
  <%} %>
  
