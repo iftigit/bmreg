@@ -37,8 +37,14 @@ function fetchJSONData_Dist(divId,dest){
     	  tdId="NOMINEE_DIST_TD";
     	  document.getElementById(tdId).innerHTML="";
     	 }
+     	else if(destiField=="PASSWORD_DIST")
+	   	  {
+	   	   options="<select tabindex='31' name=\"addressDTO.pDistrict\" id=\"PASSWORD_DIST\" class=\"addressSelectBox\" onchange=\"fetchJSONData_UpazillaOrThana(this.value,'PASSWORD_UPAZILLA_OR_THANA')\">";
+	   	   tdId="PASSWORD_DIST_TD";
+	   	   document.getElementById(tdId).innerHTML="";
+	   	  }
  		
- 		options+="<option value='select'>--Select District--</option>";
+ 		options+="<option value=''>--Select District--</option>";
  		for (var i=0;i<result.districtList.length;i=i+2)
  		{
         	options+="<option value='"+result.districtList[i+1]+"'>"+result.districtList[i]+"</option>"; 
@@ -101,8 +107,14 @@ function fetchJSONData_Dist(divId,dest){
 	   	  tdId="BIRTH_UPAZILLA_OR_THANA_TD";
 	   	  document.getElementById(tdId).innerHTML="";
 	   	 }
+    	else if(destiField=="PASSWORD_UPAZILLA_OR_THANA")
+        {
+        	options="<select tabindex='32' name=\"addressDTO.pThana\" id=\"PASSWORD_THANA\" class=\"addressSelectBox\" onchange=\"fetchJSONData_UnionOrWard(this.value,'PASSWORD_UNION_OR_WARD')\" >";
+        	tdId="PASSWORD_THANA_TD";
+        	document.getElementById(tdId).innerHTML="";
+        }
 			
-		options+="<option value='select'>--Select Upazilla/Thana--</option>";
+		options+="<option value=''>--Select Upazilla/Thana--</option>";
 		for (var i=0;i<result.upazillaOrThanaList.length;i=i+2)
 		{
        	options+="<option value='"+result.upazillaOrThanaList[i+1]+"'>"+result.upazillaOrThanaList[i]+"</option>"; 
@@ -128,6 +140,10 @@ function fetchJSONData_Dist(divId,dest){
 	   else if(dest=="NOMINEE_UNION_OR_WARD"){
 		   divisionId=document.getElementById("NOMINEE_DIV").value;
 		   districtId=document.getElementById("NOMINEE_DIST").value;
+	   }
+	   else if(dest=="PASSWORD_UNION_OR_WARD"){
+		   divisionId=0;
+		   districtId=0;
 	   }
 	   
     var url = 'JSONfindUnionOrWard.action';
@@ -165,9 +181,15 @@ function fetchJSONData_Dist(divId,dest){
   	  options="<select tabindex='39' name=\"nomineeDTO.address.unionOrWardId\" id=\"NOMINEE_UNION_OR_WARD\" class=\"addressSelectBox\" onchange=\"fetchJSONData_MauzaOrMoholla(this.value,'NOMINEE_MAUZA_OR_MOHOLLA')\">";
   	  tdId="NOMINEE_UNION_OR_WARD_TD";
   	  document.getElementById(tdId).innerHTML="";
-  	 }
-		
-		options+="<option value='select'>--Select Union/Ward--</option>";
+  	 }   	
+   	else if(destiField=="PASSWORD_UNION_OR_WARD")
+    {
+    	options="<select tabindex='32' name=\"addressDTO.pUnion\" id=\"PASSWORD_UNION\" class=\"addressSelectBox\" onchange=\"fetchPasswordInformation(this.value)\" >";
+    	tdId="PASSWORD_UNION_TD";
+    	document.getElementById(tdId).innerHTML="";
+    	
+    }
+		options+="<option value=''>--Select Union/Ward--</option>";
 		for (var i=0;i<result.unionOrWardList.length;i=i+2)
 		{
       	options+="<option value='"+result.unionOrWardList[i+1]+"'>"+result.unionOrWardList[i]+"</option>"; 
@@ -239,7 +261,7 @@ function fetchMauzaOrMohollaSuccess(originalRequest){
 	  document.getElementById(tdId).innerHTML="";
 	 }
 		
-		options+="<option value='select'>--Select Mauza/Moholla--</option>";
+		options+="<option value=''>--Select Mauza/Moholla--</option>";
 		for (var i=0;i<result.mauzaOrMohollaList.length;i=i+2)
 		{
     	options+="<option value='"+result.mauzaOrMohollaList[i+1]+"'>"+result.mauzaOrMohollaList[i]+"</option>"; 
@@ -313,7 +335,7 @@ function fetchVillageSuccess(originalRequest){
 	  document.getElementById(tdId).innerHTML="";
 	 }
 		
-		options+="<option value='select'>--Select Village --</option>";
+		options+="<option value=''>--Select Village --</option>";
 		for (var i=0;i<result.villageList.length;i=i+2)
 		{
  	options+="<option value='"+result.villageList[i+1]+"'>"+result.villageList[i]+"</option>"; 

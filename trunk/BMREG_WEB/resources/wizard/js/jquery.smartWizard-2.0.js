@@ -98,7 +98,8 @@
                       return false;
                   }); 
                   $(btFinish).click(function() {
-                      if(!$(this).hasClass('buttonDisabled')){
+
+                	  if(!$(this).hasClass('buttonDisabled')){
                          if($.isFunction(options.onFinish)) {
                             if(!options.onFinish.call(this,$(steps))){
                               return false;
@@ -106,11 +107,11 @@
                          }else{
                            var frm = obj.parents('form');
                            if(frm && frm.length){
-                             frm.submit();
+                        	   //previewRegistrationForm();
+                        	   frm.submit();
                            }                         
                          }                      
-                      }
-
+                      }	
                       return false;
                   }); 
                   

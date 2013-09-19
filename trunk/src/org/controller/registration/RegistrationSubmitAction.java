@@ -84,14 +84,14 @@ public String execute() throws Exception
 		{
 			return "blankForm";
 		}
-//		else if(!loggedInUser.getAuthenticationKey().equalsIgnoreCase(submittedAuthKey) && !loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))
-//		{
-//			return "logout";
-//		}
-//		else if(loggedInUser.getAccessRight()==0)
-//		{
-//			return "timeOver";	
-//		}
+		else if(!loggedInUser.getAuthenticationKey().equalsIgnoreCase(submittedAuthKey) && !loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))
+		{
+			return "logout";
+		}
+		else if(loggedInUser.getAccessRight()==0)
+		{
+			return "timeOver";	
+		}
 		
 		RegistrationDAO regDAO=new RegistrationDAO();
         String registrationId="";

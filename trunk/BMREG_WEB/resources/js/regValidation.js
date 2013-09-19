@@ -438,3 +438,60 @@ $("#"+mstFieldId)
 	 
 			});
 }
+
+function previewRegistrationForm()
+{
+	checkConnectivityAndSubmitForm("empRegForm");
+}
+
+function checkConnectivityAndSubmitForm(formName)
+{
+	  var newDataRequest = $.ajax({
+			 url: "getContactNumberCount.action",
+			 timeout: 30000, // timeout after 30 seconds
+			 data: { timestamp: new Date().getTime() }
+		});
+
+		newDataRequest.done(function(data)
+				{
+					 //console.log(data);	
+					 document.forms[formName].submit();
+				});
+
+		newDataRequest.fail(function(jqXHR, textStatus)
+		{
+			if (jqXHR.status === 0)
+			{
+				alert('No Internet Connection.\nPlease Verify Your Network.');
+			}
+			else if (jqXHR.status === 403) {
+				alert("Sorry, your session has expired. Please login again to continue");
+			}
+			else if (jqXHR.status == 404)
+			{
+				alert('Requested page not found. [404]');
+			}
+			else if (jqXHR.status == 500)
+			{
+				alert('Internal Server Error [500].');
+			}
+			else if (exception === 'parsererror')
+			{
+				alert('Requested JSON parse failed.');
+			}
+			else if (exception === 'timeout')
+			{
+				alert('Time out error.');
+			}
+			else if (exception === 'abort')
+			{
+				alert('Ajax request aborted.');
+			}
+			else
+			{
+				alert('Uncaught Error.\n' + jqXHR.responseText);
+			}
+
+			});     
+		     
+}

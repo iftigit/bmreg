@@ -61,6 +61,10 @@ public class CheckValidity extends ActionSupport{
 		{
 			return "editOperatorHome";
 		}
+		else if(user!=null && user.getUserType().equalsIgnoreCase("A2I_OPERATOR"))
+		{
+			return "a2iOperatorHome";
+		}
 		
 		
 		
