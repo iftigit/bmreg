@@ -241,7 +241,7 @@ public void validate()
 			expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[3])));
 		
 					
-		expDTO.setTotalYears(Integer.parseInt(tmpExp[tmpExp.length-1]));					
+		expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
 		expDTO.setExpType(2);
 		
 		experienceList.add(expDTO);
@@ -423,6 +423,14 @@ public void validate()
 		{
 			addFieldError( "sMsg_nationalId_birthReg", " National Id Already Exist." );
 			errorMsg+="National Id Already Exist, ";
+			error=true;
+		}
+	}
+	if(personalDTO.getNationalId()!=null &&  !personalDTO.getNationalId().equalsIgnoreCase("")){
+		if(personalDTO.getNationalId().length()<13 || personalDTO.getNationalId().length()>18)
+		{
+			addFieldError( "sMsg_nationalId_birthReg", " National Id should be 13-18 digit long." );
+			errorMsg+="National Id should be 13-18 digit long, ";
 			error=true;
 		}
 	}
@@ -659,15 +667,35 @@ public void validate()
 		if(personalDTO.getEmpSonCount()==null || personalDTO.getEmpSonCount().equalsIgnoreCase(""))
 		{
 			addFieldError( "sMsg_maritalStatus", " Provide Total Son, " );
-			errorMsg+=" Provide Total Son.";
+			errorMsg+=" Provide Total Son, ";
 			error=true;
 		}
 		if(personalDTO.getEmpDaughterCount()==null || personalDTO.getEmpDaughterCount().equalsIgnoreCase(""))
 		{
 			addFieldError( "sMsg_maritalStatus", " Provide Total Daughter, " );
-			errorMsg+=" Provide Total Daughter.";
+			errorMsg+=" Provide Total Daughter, ";
 			error=true;
 		}
+		if(personalDTO.getEmpSonCount()!=null && personalDTO.getEmpDaughterCount()!=null
+				   &&
+				   !personalDTO.getEmpSonCount().equalsIgnoreCase("") && !personalDTO.getEmpDaughterCount().equalsIgnoreCase("")
+				   )
+				{
+					try{
+					if(Integer.parseInt(personalDTO.getEmpSonCount())==0 && Integer.parseInt(personalDTO.getEmpDaughterCount())==0)
+					{
+						addFieldError( "sMsg_maritalStatus", " Total Son and Daughter can't be zero." );
+						errorMsg+=" Invalid Son or Daughter Number Found, ";
+						error=true;
+					}
+					}
+					catch(Exception ex)
+					{
+						addFieldError( "sMsg_maritalStatus", " Invalid Son or Daughter Number Found." );
+						errorMsg+=" Invalid Son or Daughter Number Found, ";
+						error=true;
+					}
+				}
 	}
 //	error=true;
 //	addFieldError( "sMsg_mailingAddress", " Correct Mailing Address." );

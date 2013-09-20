@@ -181,8 +181,8 @@
     <tr>
     
      <td style="color:#7D2252;">Disability Detail</td>
-     <td colspan="3"><s:property value="personalDTO.disabilityDetail" />
-     <input type="hidden" name="personalDTO.empDisabilityDetail" value="<s:property value="personalDTO.disabilityDetail" />" />
+     <td colspan="3"><s:property value='personalDTO.empDisabilityDetail' />
+     <input type="hidden" name="personalDTO.empDisabilityDetail" value="<s:property value="personalDTO.empDisabilityDetail" />" />
      </td>
     </tr>
    

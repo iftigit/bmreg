@@ -59,6 +59,8 @@ public class PersonalInfoDTO {
 	private String printDateTime;
 	private String regDateTime;
 	
+	private String ipAddress;
+	
 	public String getJobseekerNumber() {
 		return jobseekerNumber;
 	}
@@ -336,9 +338,11 @@ public class PersonalInfoDTO {
 	public void setEmpAge(String empAge) {
 		this.empAge = empAge;
 	}
-	
-	
-	
-		
+	public String getIpAddress() {
+		return ipAddress;
+	}
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
 	
 }
