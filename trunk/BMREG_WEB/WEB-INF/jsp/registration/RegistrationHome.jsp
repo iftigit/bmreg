@@ -243,15 +243,15 @@
        if(maritalStatus!="Single" && childYes==true)
 	   {
 	   
-	     if(totalSon=="" || totalSon==0 || IsNumber(totalSon)==false)
+	     if(totalSon=="" || (totalSon==0 && totalDaughter==0) || IsNumber(totalSon)==false)
 	     {
 	      isValid = false;
-          $('#msg_maritalStatus').html(alertImg+'Provide Correct value for Total Son'+postFix).show();
+          $('#msg_maritalStatus').html(alertImg+'Provide Correct value for Total Son and Daughter'+postFix).show();
 	     }
-	     if(totalDaughter=="" || totalDaughter==0 || IsNumber(totalDaughter)==false)
+	     if(totalDaughter=="" || (totalSon==0 && totalDaughter==0) || IsNumber(totalDaughter)==false)
 	     {
 	      isValid = false;
-          $('#msg_maritalStatus').html(alertImg+'Provide Correct value for Total Daughter'+postFix).show();
+          $('#msg_maritalStatus').html(alertImg+'Provide Correct value for Total Son and Daughter'+postFix).show();
 	     }
 	   }
 	   
@@ -355,10 +355,10 @@
        }
       if(nationalId!="")
       { 
-       if(nationalId.length<14)
+       if(nationalId.length<13 || nationalId.length>18)
          {
          	isValid = false;
-         	$('#msg_nationalId_birthReg').html(alertImg+"National Id must be 13 digit long."+postFix).show();
+         	$('#msg_nationalId_birthReg').html(alertImg+"National Id must be 13-18 digit long."+postFix).show();
          }
        } 
        

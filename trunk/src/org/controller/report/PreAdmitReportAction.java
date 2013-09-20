@@ -72,19 +72,19 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		String generatedCode = (String) ServletActionContext.getRequest().getSession().getAttribute("captchaText");
 		
 
-		if(sessionRegId==null)
-		{
-		if(captchaCode==null || !captchaCode.equalsIgnoreCase(generatedCode))
-			{
-				addFieldError( "Err_captchaError", " Please Write Correctly" );
-				return "admit_home";
-			}
-		else
-		{
-			ServletActionContext.getRequest().getSession().setAttribute("captchaText",PassPhrase.getNext());
-		}
-		}
-		
+//		if(sessionRegId==null)
+//		{
+//		if(captchaCode==null || !captchaCode.equalsIgnoreCase(generatedCode))
+//			{
+//				addFieldError( "Err_captchaError", " Please Write Correctly" );
+//				return "admit_home";
+//			}
+//		else
+//		{
+//			ServletActionContext.getRequest().getSession().setAttribute("captchaText",PassPhrase.getNext());
+//		}
+//		}
+//		
 		PersonalInfoDTO personalInfoDto= regDAO.getPersonalInformation(registrationId);
 		if(personalInfoDto==null)
 		{
@@ -169,7 +169,7 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 			
 			over.setFontAndSize(bf, 8);
 			over.setTextMatrix(90, 515);
-			over.showText("Printed on : "+personalInfoDto.getPrintDateTime()+"    IP Address :  , Submitted on :"+personalInfoDto.getRegDateTime());
+			over.showText("Printed on : "+personalInfoDto.getPrintDateTime()+"    IP Address : "+personalInfoDto.getIpAddress()+" , Submitted on :"+personalInfoDto.getRegDateTime());
 			
 			over.setFontAndSize(bf, 12);
 			over.setTextMatrix(200, 450);
@@ -195,6 +195,13 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 			over.setFontAndSize(bf, 12);
 			over.setTextMatrix(365, 322);
 			over.showText(personalInfoDto.getEmpBirthDistrictName());
+			
+			if(personalInfoDto.getEmpBirthDistrictName()!=null && !personalInfoDto.getEmpBirthDistrictName().equalsIgnoreCase("")){
+			over.setFontAndSize(bf, 12);
+			over.setTextMatrix(185, 322);
+			over.showText("Bangladesh");
+			}
+			
 			
 			over.setFontAndSize(bf, 12);
 			over.setTextMatrix(200, 292);

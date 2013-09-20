@@ -129,7 +129,7 @@ public class EditRegistrationFormAction extends ActionSupport{
 			if(tmpExp.length>=4 && !tmpExp[3].equalsIgnoreCase(""))
 				expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[3])));
 						
-			expDTO.setTotalYears(Integer.parseInt(tmpExp[tmpExp.length-1]));					
+			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
 			
 			
 			abroadExperienceList.add(expDTO);

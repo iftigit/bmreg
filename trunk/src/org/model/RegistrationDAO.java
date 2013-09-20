@@ -282,7 +282,7 @@ public class RegistrationDAO {
 		   				"  (  " +
 		   				" Select EMP_PERSONAL.jobseekerid,(GIVEN_NAME||' '||LAST_NAME) fullName,given_name,last_name,FATHER_NAME,MOTHER_NAME,MOBILE, " +
 		   				" to_char(BIRTH_DATE,'dd-mm-YYYY') birthDate,GENDER,NATIONALID,BIRTHREGID,PPOST_OFFICE,PPOST_CODE,PROAD_NUMBER,PVILLAGE,PDISTRICT,BIRTH_DISTRICT, " +
-		   				" to_char(sysdate,'dd-mm-YYYY HH:MI:SS') printedOn,to_char(REG_DATE,'dd-mm-YYYY HH24:MI:SS') applicationDateTime " +
+		   				" to_char(sysdate,'dd-mm-YYYY HH:MI:SS') printedOn,to_char(REG_DATE,'dd-mm-YYYY HH24:MI:SS') applicationDateTime,REMOTE_ADDRESS " +
 		   				" from EMP_PERSONAL,EMP_REG_LOG,EMP_ADDRESS Where EMP_PERSONAL.jobseekerid=?   AND  EMP_PERSONAL.jobseekerid=EMP_REG_LOG.jobseekerid " +
 		   				" AND    EMP_PERSONAL.jobseekerid=EMP_ADDRESS.jobseekerid " +
 		   				" )tmp1 left outer join village  " +
@@ -334,6 +334,7 @@ public class RegistrationDAO {
 					addDto.setPostOffice(r.getString("PPOST_OFFICE"));
 					addDto.setVillageName(r.getString("villageName"));
 					addDto.setRoadNumber(r.getString("PROAD_NUMBER"));
+					personalDto.setIpAddress(r.getString("REMOTE_ADDRESS"));
 					
 					personalDto.setPermanentAddress(addDto);
 				}

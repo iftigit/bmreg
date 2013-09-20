@@ -149,6 +149,13 @@ public class PreviewRegFormAction extends ActionSupport{
 				error=true;
 			}
 		}
+			if(personalDTO.getNationalId().length()<13 || personalDTO.getNationalId().length()>18)
+				if(personalDTO.getNationalId()!=null && !personalDTO.getNationalId().equalsIgnoreCase("") ){
+			{
+				addFieldError( "sMsg_nationalId_birthReg", " National Id should be 13-18 digit long." );
+				error=true;
+			}
+		}
 		if(!personalDTO.getBirthRegId().trim().equalsIgnoreCase("") ){
 			if(regDao.getBirthRegIdCount(personalDTO.getBirthRegId().trim())>0)
 			{
@@ -284,7 +291,7 @@ public class PreviewRegFormAction extends ActionSupport{
 		}
 		if(educationDTO.getHeighestDegreeId()!=7)
 		{
-			if(educationDTO.getHeighestDegreeName()==null || educationDTO.getHeighestDegreeName().trim().equalsIgnoreCase(""))
+			if(educationDTO.getLastInstitute()==null || educationDTO.getLastInstitute().trim().equalsIgnoreCase(""))
 			{
 				addFieldError( "sMsg_lastInstitute", " Provide Institute Name." );
 				error=true;
@@ -330,6 +337,24 @@ public class PreviewRegFormAction extends ActionSupport{
 			{
 				addFieldError( "sMsg_maritalStatus", " Provide Total Daughter." );
 				error=true;
+			}
+			if(personalDTO.getEmpSonCount()!=null && personalDTO.getEmpDaughterCount()!=null
+			   &&
+			   !personalDTO.getEmpSonCount().equalsIgnoreCase("") && !personalDTO.getEmpDaughterCount().equalsIgnoreCase("")
+			   )
+			{
+				try{
+				if(Integer.parseInt(personalDTO.getEmpSonCount())==0 && Integer.parseInt(personalDTO.getEmpDaughterCount())==0)
+				{
+					addFieldError( "sMsg_maritalStatus", " Total Son and Daughter can't be zero." );
+					error=true;
+				}
+				}
+				catch(Exception ex)
+				{
+					addFieldError( "sMsg_maritalStatus", " Invalid Son or Daughter Number Found." );
+					error=true;
+				}
 			}
 		}
 		
@@ -453,7 +478,7 @@ public class PreviewRegFormAction extends ActionSupport{
 			if(tmpExp.length>=4 && !tmpExp[3].equalsIgnoreCase(""))
 				expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[3])));
 						
-			expDTO.setTotalYears(Integer.parseInt(tmpExp[tmpExp.length-1]));					
+			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
 			
 			
 			abroadExperienceList.add(expDTO);
