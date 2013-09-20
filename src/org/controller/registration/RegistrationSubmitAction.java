@@ -206,7 +206,7 @@ public void validate()
 			expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[2])));
 		
 					
-		expDTO.setTotalYears(Integer.parseInt(tmpExp[tmpExp.length-1]));	
+		expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));	
 		expDTO.setExpType(1);
 		experienceList.add(expDTO);
 		localExperienceList.add(expDTO);
@@ -601,14 +601,17 @@ public void validate()
 	 }
 	if(jobPreference.trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_expJobPreference", " Select at least one job." );
+		errorMsg+=" Select at least one job, ";
 		error=true;
 	}
 	if(languages.trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_language", " Select at least one language." );
+		errorMsg+=" Select at least one language, ";
 		error=true;
 	}
 	if(personalDTO.getEmpDisabilityYN().equalsIgnoreCase("Y") && personalDTO.getEmpDisabilityDetail().trim().equalsIgnoreCase("")){
 		addFieldError( "sMsg_disabilityDetail", " Provide disablility detail." );
+		errorMsg+=" Provide disablility detail, ";
 		error=true;
 	}
 	if(educationDTO.getHeighestDegreeId()!=7)
@@ -616,6 +619,7 @@ public void validate()
 		if(educationDTO.getHeighestDegreeName()==null || educationDTO.getHeighestDegreeName().trim().equalsIgnoreCase(""))
 		{
 			addFieldError( "sMsg_lastInstitute", " Provide Institute Name." );
+			errorMsg+=" Provide Institute Name, ";
 			error=true;
 		}
 	}
@@ -624,6 +628,7 @@ public void validate()
 		if(educationDTO.getPassingYear()==null || educationDTO.getPassingYear().trim().equalsIgnoreCase(""))
 		{
 			addFieldError( "sMsg_passingYear", " Select Passing year." );
+			errorMsg+=" Select Passing year, ";
 			error=true;
 		}
 	}
@@ -639,22 +644,28 @@ public void validate()
 			
 			    	if(issueDate.compareTo(expDate)>0){
 			    		addFieldError( "sMsg_passportExpDate", " Exp. date is Smaller than the Issue date." );
+			    		errorMsg+=" Exp. date is Smaller than the Issue date, ";
+			    		error=true;
 			    	}
 				}catch(ParseException ex){
 		    		ex.printStackTrace();
 		    		addFieldError( "sMsg_passportExpDate", " Incorrect Issue or Exp. Date." );
+		    		errorMsg+=" Incorrect Issue or Exp. Date, ";
+		    		error=true;
 		    	}	
 			}
 	if(!personalDTO.getEmpMaritalStatus().equalsIgnoreCase("Single") && personalDTO.getEmpChildYN().equalsIgnoreCase("Y"))
 	{
 		if(personalDTO.getEmpSonCount()==null || personalDTO.getEmpSonCount().equalsIgnoreCase(""))
 		{
-			addFieldError( "sMsg_maritalStatus", " Provide Total Son." );
+			addFieldError( "sMsg_maritalStatus", " Provide Total Son, " );
+			errorMsg+=" Provide Total Son.";
 			error=true;
 		}
 		if(personalDTO.getEmpDaughterCount()==null || personalDTO.getEmpDaughterCount().equalsIgnoreCase(""))
 		{
-			addFieldError( "sMsg_maritalStatus", " Provide Total Daughter." );
+			addFieldError( "sMsg_maritalStatus", " Provide Total Daughter, " );
+			errorMsg+=" Provide Total Daughter.";
 			error=true;
 		}
 	}
