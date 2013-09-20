@@ -4,7 +4,8 @@
      "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="false" />
 	<constant name="serve.static.browserCache" value="false" />
 	<constant name="struts.action.excludePattern" value="/CaptchaServlet.cap"/>
 	<package name="default" extends="struts-default" namespace="/">
@@ -18,7 +19,7 @@
 				<interceptor-ref name="authenticationInterceptor" />
 				<interceptor-ref name="defaultStack" >
               			<param name="params.excludeParams">
-                 		d-\d+?-[sop]
+                 		dojo\..*,^struts\..*,_.*,d-\d+?-[sop],^\d+(f?\d+)?$  
               			</param>
               	</interceptor-ref>
 			</interceptor-stack>
