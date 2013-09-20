@@ -47,7 +47,7 @@ public class DashBoardDAO {
 			while (r.next())
 			{
 
-				response+="<tr onclick=\"loadDistrictStatistics("+r.getString("dist_id")+",'"+r.getString("dist_name")+"')\">";
+				response+="<tr onclick=\"loadDistrictStatistics('"+r.getString("dist_id")+"','"+r.getString("dist_name")+"')\">";
 				response+="<td width='60%' align='left' style='padding-right:10px;'>"+r.getString("dist_name")+"</td>";
 				if(r.getInt("total")==0)
 					response+="<td class='redCell' width='40%'align='right' style='padding-right:10px;'>"+r.getInt("total")+"</td>";
@@ -98,7 +98,7 @@ public class DashBoardDAO {
 			while (r.next())
 			{
 
-				response+="<tr onclick=\"loadDistrictStatistics("+r.getString("dist_id")+",'"+r.getString("dist_name")+"')\">";
+				response+="<tr onclick=\"loadDistrictStatistics('"+r.getString("dist_id")+"','"+r.getString("dist_name")+"')\">";
 				response+="<td width='60%' align='left' style='padding-right:10px;'>"+r.getString("dist_name")+"</td>";
 				if(r.getInt("total")==0)
 					response+="<td class='redCell' width='40%'align='right' style='padding-right:10px;'>"+r.getInt("total")+"</td>";
