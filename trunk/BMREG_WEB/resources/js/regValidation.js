@@ -1,6 +1,6 @@
 function checkLocalExperience()
 {
-
+ 
             var  jobCategory;
             var  jobSubCategory;
             var  jobSubSubCategory;
