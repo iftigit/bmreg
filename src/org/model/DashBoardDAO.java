@@ -235,7 +235,7 @@ public class DashBoardDAO {
 				     " LEFT OUTER JOIN " +
 				     " (SELECT   PUNION_OR_WARD, COUNT (*) total  " +
 				     "  FROM EMP_ADDRESS " +
-				     "  WHERE PUNION_OR_WARD = ? " +
+				     "  WHERE PUPAZILA_OR_THANA = ? " +
 				     "  GROUP BY PUNION_OR_WARD) tmp1 ON unions.unionid = tmp1.PUNION_OR_WARD " +
 				     "  WHERE thanaid = ?";
 
@@ -355,7 +355,7 @@ public class DashBoardDAO {
 	public double getTotalRegCount()
 	{		
 		Connection conn = ConnectionManager.getConnection();
-		String sql = " Select count(*) total from JOBSEEKER ";
+		String sql = " Select count(*) total from EMP_PERSONAL ";
 
 		System.out.println("Stat by Total (sql) :" + sql);
 		PreparedStatement stmt = null;
