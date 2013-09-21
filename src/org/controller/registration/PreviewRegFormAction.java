@@ -583,8 +583,21 @@ public class PreviewRegFormAction extends ActionSupport{
 		/*---------------- End of Server Side Validation ----------------------*/
 		
 
-		
-		
+		if(personalDTO.getEmpChildYN().equalsIgnoreCase("N")){
+			personalDTO.setEmpSonCount(null);
+			personalDTO.setEmpDaughterCount(null);
+		}
+		if(personalDTO.getEmpMaritalStatus().equalsIgnoreCase("Single")){
+			personalDTO.setEmpSonCount(null);
+			personalDTO.setEmpDaughterCount(null);
+			personalDTO.setEmpSpouseName(null);
+		}
+		if(personalDTO.getEmpDisabilityYN().equalsIgnoreCase("N"))
+			personalDTO.setEmpDisabilityDetail(null);
+		if(educationDTO.getHeighestDegreeId()==7){
+			educationDTO.setLastInstitute(null);
+			educationDTO.setPassingYear(null);
+		}
 	}
 
 	public PersonalInfoDTO getPersonalDTO() {
