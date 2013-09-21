@@ -80,6 +80,221 @@ public class PreviewRegFormAction extends ActionSupport{
 			tmpCountryList.add(cdto);
 		}
 		countryList=tmpCountryList;
+		
+		/*========================*/
+		HashMap<Integer, String>  countryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_COUNTRY_MAP");
+		HashMap<Integer, String>  jobMainCategoryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_MAIN_CATEGORY_MAP");
+		HashMap<Integer, String>  jobSubCategoryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_SUB_CATEGORY_MAP");
+		HashMap<Integer, String>  allJobMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_MAP");
+		HashMap<Integer, String>  allDegreeMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_DEGREE_MAP");
+		HashMap<Integer, String>  allRelationMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_RELATION_MAP");
+		
+		
+
+		HashMap<Integer, String>  allDivisionMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_DIVISTION_MAP");
+		HashMap<Integer, String>  allDistrictMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_DISTRICT_MAP");
+		HashMap<Integer, String>  allUpazillaOrThanaMap=(HashMap<Integer, String>) getServletContext().getAttribute("AL_UPAZILLA_THANA_MAP");
+		HashMap<Integer, String>  allUnionOrWardMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_UNION_WARD_MAP");
+		HashMap<Integer, String>  allMauzaOrMohollaMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_MAUZA_MOHOLLA_MAP");
+		HashMap<Integer, String>  allVillageMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_VILLAGE_MAP");
+				
+		
+		nomineeDTO.getAddress().setDivisionName(allDivisionMap.get(Integer.valueOf(nomineeDTO.getAddress().getDivisionId())));
+		nomineeDTO.getAddress().setDistrictName(allDistrictMap.get(Integer.valueOf(nomineeDTO.getAddress().getDistrictId())));
+		nomineeDTO.getAddress().setUpazillaOrThanaName(allUpazillaOrThanaMap.get(Integer.valueOf(nomineeDTO.getAddress().getUpazillaOrThanaId())));
+		nomineeDTO.getAddress().setUnionOrWardName(allUnionOrWardMap.get(Integer.valueOf(nomineeDTO.getAddress().getUnionOrWardId())));
+		nomineeDTO.getAddress().setMauzaOrMohollaName(allMauzaOrMohollaMap.get(Integer.valueOf(nomineeDTO.getAddress().getMauzaOrMohollaId())));
+		nomineeDTO.getAddress().setVillageName(allVillageMap.get(Integer.valueOf(nomineeDTO.getAddress().getVillageId())));
+
+		pAddress.setDivisionName(allDivisionMap.get(Integer.valueOf(pAddress.getDivisionId())));
+		pAddress.setDistrictName(allDistrictMap.get(Integer.valueOf(pAddress.getDistrictId())));
+		pAddress.setUpazillaOrThanaName(allUpazillaOrThanaMap.get(Integer.valueOf(pAddress.getUpazillaOrThanaId())));
+		pAddress.setUnionOrWardName(allUnionOrWardMap.get(Integer.valueOf(pAddress.getUnionOrWardId())));
+		pAddress.setMauzaOrMohollaName(allMauzaOrMohollaMap.get(Integer.valueOf(pAddress.getMauzaOrMohollaId())));
+		pAddress.setVillageName(allVillageMap.get(Integer.valueOf(pAddress.getVillageId())));
+
+		mAddress.setDivisionName(allDivisionMap.get(Integer.valueOf(mAddress.getDivisionId())));
+		mAddress.setDistrictName(allDistrictMap.get(Integer.valueOf(mAddress.getDistrictId())));
+		mAddress.setUpazillaOrThanaName(allUpazillaOrThanaMap.get(Integer.valueOf(mAddress.getUpazillaOrThanaId())));
+		mAddress.setUnionOrWardName(allUnionOrWardMap.get(Integer.valueOf(mAddress.getUnionOrWardId())));
+		mAddress.setMauzaOrMohollaName(allMauzaOrMohollaMap.get(Integer.valueOf(mAddress.getMauzaOrMohollaId())));
+		mAddress.setVillageName(allVillageMap.get(Integer.valueOf(mAddress.getVillageId())));
+		
+		if(personalDTO.getEmpBirthDistrict()!=null && !personalDTO.getEmpBirthDistrict().equalsIgnoreCase("")){
+		personalDTO.setEmpBirthDistrictName(allDistrictMap.get(Integer.valueOf((personalDTO.getEmpBirthDistrict()))));
+		}
+		if(personalDTO.getEmpBirthUpazilaOrThana()!=null && !personalDTO.getEmpBirthUpazilaOrThana().equalsIgnoreCase("")){
+		personalDTO.setEmpBirthUpazilaOrThanaName(allUpazillaOrThanaMap.get(Integer.valueOf((personalDTO.getEmpBirthUpazilaOrThana()))));
+		}
+		
+		educationDTO.setHeighestDegreeName(allDegreeMap.get(Integer.valueOf(educationDTO.getHeighestDegreeId())));
+		
+		
+		nomineeDTO.setNomineeRelationName(allRelationMap.get(Integer.valueOf(nomineeDTO.getNomineeRelation())));
+		nomineeDTO.setContact1RelationName(allRelationMap.get(Integer.valueOf(nomineeDTO.getContact1Relation())));
+		nomineeDTO.setContact2RelationName(allRelationMap.get(Integer.valueOf(nomineeDTO.getContact2Relation())));
+		nomineeDTO.setContact3RelationName(allRelationMap.get(Integer.valueOf(nomineeDTO.getContact3Relation())));
+		
+		
+		allRows = this.localExperience;
+		System.out.println("Local Experience String:"+allRows);		
+		
+		if(!allRows.equalsIgnoreCase("")){
+		String[] allExperience=allRows.split("99ifti99");
+		for(int i=0;i<allExperience.length;i++)
+		{
+			String[] tmpExp=new String[4];
+			String hold=allExperience[i];
+			ExperienceDTO expDTO=new ExperienceDTO();
+			tmpExp=hold.split("88khayer88");
+			
+						
+			expDTO.setJobCategoryId(Integer.parseInt(tmpExp[0]));
+			if(tmpExp.length>=2 && !tmpExp[1].equalsIgnoreCase(""))
+				expDTO.setJobSubCategoryId(Integer.parseInt(tmpExp[1]));
+			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
+				expDTO.setJobSubSubCategoryId(Integer.parseInt(tmpExp[2]));
+			
+			expDTO.setJobCategoryName(allJobMap.get(Integer.parseInt(tmpExp[0])));
+			if(tmpExp.length>=2 && !tmpExp[1].equalsIgnoreCase(""))
+				expDTO.setJobSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[1])));
+			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
+				expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[2])));
+						
+			try{
+			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));
+			}
+			catch(Exception ex){
+				expDTO.setTotalYears(0);
+			}
+			localExperienceList.add(expDTO);
+			
+		}
+		}
+		allRows = this.abroadExperience;
+		System.out.println("Abroad Experience String:"+allRows);		
+		if(!allRows.equalsIgnoreCase("")){
+		String[]  allExperience=allRows.split("99ifti99");
+		for(int i=0;i<allExperience.length;i++)
+		{
+			String[] tmpExp=new String[5];
+			String hold=allExperience[i];
+			ExperienceDTO expDTO=new ExperienceDTO();
+			tmpExp=hold.split("88khayer88");
+			
+			expDTO.setCountryId(Integer.parseInt(tmpExp[0]));
+			if(tmpExp.length>=2 && !tmpExp[1].equalsIgnoreCase(""))
+				expDTO.setJobCategoryId(Integer.parseInt(tmpExp[1]));
+			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
+				expDTO.setJobSubCategoryId(Integer.parseInt(tmpExp[2]));
+			if(tmpExp.length>=4 && !tmpExp[3].equalsIgnoreCase(""))
+				expDTO.setJobSubSubCategoryId(Integer.parseInt(tmpExp[3]));
+			
+			
+			expDTO.setCountryName(countryMap.get(Integer.parseInt(tmpExp[0])));
+			if(tmpExp.length>=2 && !tmpExp[1].equalsIgnoreCase(""))
+				expDTO.setJobCategoryName(allJobMap.get(Integer.parseInt(tmpExp[1])));
+			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
+				expDTO.setJobSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[2])));
+			if(tmpExp.length>=4 && !tmpExp[3].equalsIgnoreCase(""))
+				expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[3])));
+						
+			try{
+			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
+			}
+			catch(Exception ex){
+				expDTO.setTotalYears(0);
+			}
+			
+			abroadExperienceList.add(expDTO);
+		}
+		}
+		
+		
+		allRows = this.jobPreference;
+		if(!allRows.equalsIgnoreCase("")){
+		String[] allJobPrefernce=allRows.split("99ifti99");
+		for(int i=0;i<allJobPrefernce.length;i++)
+		{
+			String[] tmpJob=new String[3];
+			String hold=allJobPrefernce[i];
+			JobPreferenceDTO jobDTO=new JobPreferenceDTO();
+			tmpJob=hold.split("88khayer88");
+			
+			if(tmpJob[0]!=null && !tmpJob[0].equalsIgnoreCase("") && !tmpJob[0].equalsIgnoreCase("undefined"))
+				jobDTO.setCategoryId(Integer.parseInt(tmpJob[0]));			
+			if(tmpJob[1]!=null && !tmpJob[1].equalsIgnoreCase("") && !tmpJob[1].equalsIgnoreCase("undefined"))
+				jobDTO.setSubCategoryId(Integer.parseInt(tmpJob[1]));			
+			if(tmpJob[2]!=null && !tmpJob[2].equalsIgnoreCase("") && !tmpJob[2].equalsIgnoreCase("undefined"))
+				jobDTO.setSubSubCategoryId(Integer.parseInt(tmpJob[2]));
+			
+			if(tmpJob[0]!=null && !tmpJob[0].equalsIgnoreCase("") && !tmpJob[0].equalsIgnoreCase("undefined"))
+				jobDTO.setCategoryName(allJobMap.get(Integer.parseInt(tmpJob[0])));			
+			if(tmpJob[1]!=null && !tmpJob[1].equalsIgnoreCase("") && !tmpJob[1].equalsIgnoreCase("undefined"))
+				jobDTO.setSubCategoryName(allJobMap.get(Integer.parseInt(tmpJob[1])));			
+			if(tmpJob[2]!=null && !tmpJob[2].equalsIgnoreCase("") && !tmpJob[2].equalsIgnoreCase("undefined"))
+				jobDTO.setSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpJob[2])));
+			
+			jobPreferenceList.add(jobDTO);
+		}
+		}
+		
+		
+		if(countryPreferenceIds!=null && !countryPreferenceIds.equalsIgnoreCase(""))
+		{
+			String tmpCountry="";
+			String countryArr1[]=countryPreferenceIds.split(",");
+			for(int i=0;i<countryArr1.length;i++)
+				tmpCountry+=countryMap.get(Integer.parseInt(countryArr1[i].trim()))+", ";
+			
+			if(tmpCountry.length()>0)
+				tmpCountry=tmpCountry.substring(0, tmpCountry.length()-2);
+
+			countryPreferenceNames=tmpCountry;
+			
+		}
+		
+		allRows = this.languages;
+		System.out.println("Language String:"+allRows);
+		if(!allRows.equals(""))
+		{
+			String[] allLanguages=allRows.split("99ifti99");
+			for(int i=0;i<allLanguages.length;i++)
+			{
+				String[] tempLng=new String[3];
+				String hold=allLanguages[i];
+				LanguageDTO lngDTO=new LanguageDTO();
+				tempLng=hold.split("88khayer88");
+				lngDTO.setLanguage(tempLng[0]);
+				lngDTO.setOralSkill(tempLng[1]);
+				lngDTO.setWritingSkill(tempLng[2]);
+				
+				languageList.add(lngDTO);
+	
+			}
+		}
+		
+		
+		allRows = this.trainings;
+		System.out.println("Training String:"+allRows);
+		if(!allRows.equals(""))
+		{
+			String[] allTraining=allRows.split("99ifti99");
+			for(int i=0;i<allTraining.length;i++)
+			{
+				String[] tempTrain=new String[3];
+				String hold=allTraining[i];
+				TrainingDTO trainDTO=new TrainingDTO();
+				tempTrain=hold.split("88khayer88");
+				trainDTO.setTrainingName(tempTrain[0]);
+				trainDTO.setFromWhere(tempTrain[1]);
+				trainDTO.setDuration(tempTrain[2]);
+				trainDTO.setDescription(tempTrain[3]);
+				
+				trainingList.add(trainDTO);
+			}
+		}
+		/*========================*/
 		/*---------------Server Side Validation -----------------*/		
 		if(personalDTO.getEmpGivenName().trim().equalsIgnoreCase("") && personalDTO.getEmpLastName().trim().equalsIgnoreCase("")){
 			addFieldError( "sMsg_seekerName", " Provide Name." );
@@ -366,209 +581,7 @@ public class PreviewRegFormAction extends ActionSupport{
 		}
 		
 		/*---------------- End of Server Side Validation ----------------------*/
-		HashMap<Integer, String>  countryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_COUNTRY_MAP");
-		HashMap<Integer, String>  jobMainCategoryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_MAIN_CATEGORY_MAP");
-		HashMap<Integer, String>  jobSubCategoryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_SUB_CATEGORY_MAP");
-		HashMap<Integer, String>  allJobMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_MAP");
-		HashMap<Integer, String>  allDegreeMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_DEGREE_MAP");
-		HashMap<Integer, String>  allRelationMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_RELATION_MAP");
 		
-		
-
-		HashMap<Integer, String>  allDivisionMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_DIVISTION_MAP");
-		HashMap<Integer, String>  allDistrictMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_DISTRICT_MAP");
-		HashMap<Integer, String>  allUpazillaOrThanaMap=(HashMap<Integer, String>) getServletContext().getAttribute("AL_UPAZILLA_THANA_MAP");
-		HashMap<Integer, String>  allUnionOrWardMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_UNION_WARD_MAP");
-		HashMap<Integer, String>  allMauzaOrMohollaMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_MAUZA_MOHOLLA_MAP");
-		HashMap<Integer, String>  allVillageMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_VILLAGE_MAP");
-				
-		
-		nomineeDTO.getAddress().setDivisionName(allDivisionMap.get(Integer.valueOf(nomineeDTO.getAddress().getDivisionId())));
-		nomineeDTO.getAddress().setDistrictName(allDistrictMap.get(Integer.valueOf(nomineeDTO.getAddress().getDistrictId())));
-		nomineeDTO.getAddress().setUpazillaOrThanaName(allUpazillaOrThanaMap.get(Integer.valueOf(nomineeDTO.getAddress().getUpazillaOrThanaId())));
-		nomineeDTO.getAddress().setUnionOrWardName(allUnionOrWardMap.get(Integer.valueOf(nomineeDTO.getAddress().getUnionOrWardId())));
-		nomineeDTO.getAddress().setMauzaOrMohollaName(allMauzaOrMohollaMap.get(Integer.valueOf(nomineeDTO.getAddress().getMauzaOrMohollaId())));
-		nomineeDTO.getAddress().setVillageName(allVillageMap.get(Integer.valueOf(nomineeDTO.getAddress().getVillageId())));
-
-		pAddress.setDivisionName(allDivisionMap.get(Integer.valueOf(pAddress.getDivisionId())));
-		pAddress.setDistrictName(allDistrictMap.get(Integer.valueOf(pAddress.getDistrictId())));
-		pAddress.setUpazillaOrThanaName(allUpazillaOrThanaMap.get(Integer.valueOf(pAddress.getUpazillaOrThanaId())));
-		pAddress.setUnionOrWardName(allUnionOrWardMap.get(Integer.valueOf(pAddress.getUnionOrWardId())));
-		pAddress.setMauzaOrMohollaName(allMauzaOrMohollaMap.get(Integer.valueOf(pAddress.getMauzaOrMohollaId())));
-		pAddress.setVillageName(allVillageMap.get(Integer.valueOf(pAddress.getVillageId())));
-
-		mAddress.setDivisionName(allDivisionMap.get(Integer.valueOf(mAddress.getDivisionId())));
-		mAddress.setDistrictName(allDistrictMap.get(Integer.valueOf(mAddress.getDistrictId())));
-		mAddress.setUpazillaOrThanaName(allUpazillaOrThanaMap.get(Integer.valueOf(mAddress.getUpazillaOrThanaId())));
-		mAddress.setUnionOrWardName(allUnionOrWardMap.get(Integer.valueOf(mAddress.getUnionOrWardId())));
-		mAddress.setMauzaOrMohollaName(allMauzaOrMohollaMap.get(Integer.valueOf(mAddress.getMauzaOrMohollaId())));
-		mAddress.setVillageName(allVillageMap.get(Integer.valueOf(mAddress.getVillageId())));
-		
-		if(personalDTO.getEmpBirthDistrict()!=null && !personalDTO.getEmpBirthDistrict().equalsIgnoreCase("")){
-		personalDTO.setEmpBirthDistrictName(allDistrictMap.get(Integer.valueOf((personalDTO.getEmpBirthDistrict()))));
-		}
-		if(personalDTO.getEmpBirthUpazilaOrThana()!=null && !personalDTO.getEmpBirthUpazilaOrThana().equalsIgnoreCase("")){
-		personalDTO.setEmpBirthUpazilaOrThanaName(allUpazillaOrThanaMap.get(Integer.valueOf((personalDTO.getEmpBirthUpazilaOrThana()))));
-		}
-		
-		educationDTO.setHeighestDegreeName(allDegreeMap.get(Integer.valueOf(educationDTO.getHeighestDegreeId())));
-		
-		
-		nomineeDTO.setNomineeRelationName(allRelationMap.get(Integer.valueOf(nomineeDTO.getNomineeRelation())));
-		nomineeDTO.setContact1RelationName(allRelationMap.get(Integer.valueOf(nomineeDTO.getContact1Relation())));
-		nomineeDTO.setContact2RelationName(allRelationMap.get(Integer.valueOf(nomineeDTO.getContact2Relation())));
-		nomineeDTO.setContact3RelationName(allRelationMap.get(Integer.valueOf(nomineeDTO.getContact3Relation())));
-		
-		
-		allRows = this.localExperience;
-		System.out.println("Local Experience String:"+allRows);		
-		
-		if(!allRows.equalsIgnoreCase("")){
-		String[] allExperience=allRows.split("99ifti99");
-		for(int i=0;i<allExperience.length;i++)
-		{
-			String[] tmpExp=new String[4];
-			String hold=allExperience[i];
-			ExperienceDTO expDTO=new ExperienceDTO();
-			tmpExp=hold.split("88khayer88");
-			
-						
-			expDTO.setJobCategoryId(Integer.parseInt(tmpExp[0]));
-			if(tmpExp.length>=2 && !tmpExp[1].equalsIgnoreCase(""))
-				expDTO.setJobSubCategoryId(Integer.parseInt(tmpExp[1]));
-			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
-				expDTO.setJobSubSubCategoryId(Integer.parseInt(tmpExp[2]));
-			
-			expDTO.setJobCategoryName(allJobMap.get(Integer.parseInt(tmpExp[0])));
-			if(tmpExp.length>=2 && !tmpExp[1].equalsIgnoreCase(""))
-				expDTO.setJobSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[1])));
-			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
-				expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[2])));
-						
-			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
-			localExperienceList.add(expDTO);
-			
-		}
-		}
-		allRows = this.abroadExperience;
-		System.out.println("Abroad Experience String:"+allRows);		
-		if(!allRows.equalsIgnoreCase("")){
-		String[]  allExperience=allRows.split("99ifti99");
-		for(int i=0;i<allExperience.length;i++)
-		{
-			String[] tmpExp=new String[5];
-			String hold=allExperience[i];
-			ExperienceDTO expDTO=new ExperienceDTO();
-			tmpExp=hold.split("88khayer88");
-			
-			expDTO.setCountryId(Integer.parseInt(tmpExp[0]));
-			if(tmpExp.length>=2 && !tmpExp[1].equalsIgnoreCase(""))
-				expDTO.setJobCategoryId(Integer.parseInt(tmpExp[1]));
-			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
-				expDTO.setJobSubCategoryId(Integer.parseInt(tmpExp[2]));
-			if(tmpExp.length>=4 && !tmpExp[3].equalsIgnoreCase(""))
-				expDTO.setJobSubSubCategoryId(Integer.parseInt(tmpExp[3]));
-			
-			
-			expDTO.setCountryName(countryMap.get(Integer.parseInt(tmpExp[0])));
-			if(tmpExp.length>=2 && !tmpExp[1].equalsIgnoreCase(""))
-				expDTO.setJobCategoryName(allJobMap.get(Integer.parseInt(tmpExp[1])));
-			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
-				expDTO.setJobSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[2])));
-			if(tmpExp.length>=4 && !tmpExp[3].equalsIgnoreCase(""))
-				expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[3])));
-						
-			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
-			
-			
-			abroadExperienceList.add(expDTO);
-		}
-		}
-		
-		
-		allRows = this.jobPreference;
-		if(!allRows.equalsIgnoreCase("")){
-		String[] allJobPrefernce=allRows.split("99ifti99");
-		for(int i=0;i<allJobPrefernce.length;i++)
-		{
-			String[] tmpJob=new String[3];
-			String hold=allJobPrefernce[i];
-			JobPreferenceDTO jobDTO=new JobPreferenceDTO();
-			tmpJob=hold.split("88khayer88");
-			
-			if(tmpJob[0]!=null && !tmpJob[0].equalsIgnoreCase("") && !tmpJob[0].equalsIgnoreCase("undefined"))
-				jobDTO.setCategoryId(Integer.parseInt(tmpJob[0]));			
-			if(tmpJob[1]!=null && !tmpJob[1].equalsIgnoreCase("") && !tmpJob[1].equalsIgnoreCase("undefined"))
-				jobDTO.setSubCategoryId(Integer.parseInt(tmpJob[1]));			
-			if(tmpJob[2]!=null && !tmpJob[2].equalsIgnoreCase("") && !tmpJob[2].equalsIgnoreCase("undefined"))
-				jobDTO.setSubSubCategoryId(Integer.parseInt(tmpJob[2]));
-			
-			if(tmpJob[0]!=null && !tmpJob[0].equalsIgnoreCase("") && !tmpJob[0].equalsIgnoreCase("undefined"))
-				jobDTO.setCategoryName(allJobMap.get(Integer.parseInt(tmpJob[0])));			
-			if(tmpJob[1]!=null && !tmpJob[1].equalsIgnoreCase("") && !tmpJob[1].equalsIgnoreCase("undefined"))
-				jobDTO.setSubCategoryName(allJobMap.get(Integer.parseInt(tmpJob[1])));			
-			if(tmpJob[2]!=null && !tmpJob[2].equalsIgnoreCase("") && !tmpJob[2].equalsIgnoreCase("undefined"))
-				jobDTO.setSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpJob[2])));
-			
-			jobPreferenceList.add(jobDTO);
-		}
-		}
-		
-		
-		if(countryPreferenceIds!=null && !countryPreferenceIds.equalsIgnoreCase(""))
-		{
-			String tmpCountry="";
-			String countryArr1[]=countryPreferenceIds.split(",");
-			for(int i=0;i<countryArr1.length;i++)
-				tmpCountry+=countryMap.get(Integer.parseInt(countryArr1[i].trim()))+", ";
-			
-			if(tmpCountry.length()>0)
-				tmpCountry=tmpCountry.substring(0, tmpCountry.length()-2);
-
-			countryPreferenceNames=tmpCountry;
-			
-		}
-		
-		allRows = this.languages;
-		System.out.println("Language String:"+allRows);
-		if(!allRows.equals(""))
-		{
-			String[] allLanguages=allRows.split("99ifti99");
-			for(int i=0;i<allLanguages.length;i++)
-			{
-				String[] tempLng=new String[3];
-				String hold=allLanguages[i];
-				LanguageDTO lngDTO=new LanguageDTO();
-				tempLng=hold.split("88khayer88");
-				lngDTO.setLanguage(tempLng[0]);
-				lngDTO.setOralSkill(tempLng[1]);
-				lngDTO.setWritingSkill(tempLng[2]);
-				
-				languageList.add(lngDTO);
-	
-			}
-		}
-		
-		
-		allRows = this.trainings;
-		System.out.println("Training String:"+allRows);
-		if(!allRows.equals(""))
-		{
-			String[] allTraining=allRows.split("99ifti99");
-			for(int i=0;i<allTraining.length;i++)
-			{
-				String[] tempTrain=new String[3];
-				String hold=allTraining[i];
-				TrainingDTO trainDTO=new TrainingDTO();
-				tempTrain=hold.split("88khayer88");
-				trainDTO.setTrainingName(tempTrain[0]);
-				trainDTO.setFromWhere(tempTrain[1]);
-				trainDTO.setDuration(tempTrain[2]);
-				trainDTO.setDescription(tempTrain[3]);
-				
-				trainingList.add(trainDTO);
-			}
-		}
 
 		
 		

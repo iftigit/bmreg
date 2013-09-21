@@ -96,7 +96,12 @@ public class EditRegistrationFormAction extends ActionSupport{
 			if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
 				expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[2])));
 						
-			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
+			try {
+			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));
+			}
+			catch(Exception ex){
+				expDTO.setTotalYears(0);
+			}
 			localExperienceList.add(expDTO);
 			
 		}
@@ -128,9 +133,13 @@ public class EditRegistrationFormAction extends ActionSupport{
 				expDTO.setJobSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[2])));
 			if(tmpExp.length>=4 && !tmpExp[3].equalsIgnoreCase(""))
 				expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[3])));
-						
-			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
 			
+			try {
+			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
+			}
+			catch(Exception ex){
+				expDTO.setTotalYears(0);
+			}
 			
 			abroadExperienceList.add(expDTO);
 		}
