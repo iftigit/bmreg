@@ -57,6 +57,16 @@
 BMET Home
 </a>
 </td>
+<td id="sampleReg.cell" onmouseover="menuItemIn(0, 'sampleReg')" onmouseout="menuItemOut(0, 'sampleReg')" class="pulldownMenuItem" nowrap>
+<a href="/BMREG_WEB/resources/manuals/Sample_Registration_Form.pdf">
+Sample Registration Form
+</a>
+</td>
+<td id="regManual.cell" onmouseover="menuItemIn(0, 'regManual')" onmouseout="menuItemOut(0, 'regManual')" class="pulldownMenuItem" nowrap>
+<a href="/BMREG_WEB/resources/manuals/Registration_User_Manual.pdf">
+Registration Manual
+</a>
+</td>
 
 <td width="100%"></td>
 <td id="login.cell" onmouseover="menuItemIn(0, 'login')" onmouseout="menuItemOut(0, 'login')" class="pulldownMenuItem" nowrap>
@@ -64,9 +74,10 @@ BMET Home
 Log In
 </a>
 </td>
+
 </tr>
 </table>
-<Br/>
+<br/>
 
 <table width="100%" cellpadding="5" cellspacing="0" align="center">
 <tr>
