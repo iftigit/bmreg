@@ -114,7 +114,7 @@ function fetchJSONData_Dist(divId,dest){
         	document.getElementById(tdId).innerHTML="";
         }
 			
-		options+="<option value=''>--Select Upazilla/Thana--</option>";
+		options+="<option value=''>--Select Upazilla/Thana/City Corp./Pourashava--</option>";
 		for (var i=0;i<result.upazillaOrThanaList.length;i=i+2)
 		{
        	options+="<option value='"+result.upazillaOrThanaList[i+1]+"'>"+result.upazillaOrThanaList[i]+"</option>"; 

@@ -80,7 +80,7 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		String generatedCode = (String) ServletActionContext.getRequest().getSession().getAttribute("captchaText");
 		
 
-		if(registrationId!=null && !requestType.equalsIgnoreCase("A"))
+		if(registrationId!=null && requestType!=null && !requestType.equalsIgnoreCase("A"))
 		{
 		if(captchaCode==null || !captchaCode.equalsIgnoreCase(generatedCode))
 			{
