@@ -54,6 +54,12 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		
 		String sessionRegId=(String)ServletActionContext.getRequest().getSession().getAttribute("sessionObj_regId");
 		
+		if(registrationId==null && sessionRegId!=null)
+		{
+			registrationId=sessionRegId;
+		}
+		
+		/*
 		if(sessionRegId==null && (registrationId==null || captchaCode==null))
 		{
 			return "registration_home";
@@ -63,28 +69,29 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		{
 			registrationId=sessionRegId;
 		}
+		*/
 
 		
-		ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",null);
+		//ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",null);
 		RegistrationDAO regDAO=new RegistrationDAO();
 		
 		
 		String generatedCode = (String) ServletActionContext.getRequest().getSession().getAttribute("captchaText");
 		
 
-//		if(sessionRegId==null)
-//		{
-//		if(captchaCode==null || !captchaCode.equalsIgnoreCase(generatedCode))
-//			{
-//				addFieldError( "Err_captchaError", " Please Write Correctly" );
-//				return "admit_home";
-//			}
-//		else
-//		{
-//			ServletActionContext.getRequest().getSession().setAttribute("captchaText",PassPhrase.getNext());
-//		}
-//		}
-//		
+		if(sessionRegId==null)
+		{
+		if(captchaCode==null || !captchaCode.equalsIgnoreCase(generatedCode))
+			{
+				addFieldError( "Err_captchaError", " Please Write Correctly" );
+				return "admit_home";
+			}
+		else
+		{
+			ServletActionContext.getRequest().getSession().setAttribute("captchaText",PassPhrase.getNext());
+		}
+		}
+		
 		PersonalInfoDTO personalInfoDto= regDAO.getPersonalInformation(registrationId);
 		if(personalInfoDto==null)
 		{
