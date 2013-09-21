@@ -165,7 +165,9 @@ public class PreviewRegFormAction extends ActionSupport{
 			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));
 			}
 			catch(Exception ex){
-				expDTO.setTotalYears(0);
+				addFieldError( "sMsg_expLocal", " Total year should be a numeric number." );
+				error=true;
+				//expDTO.setTotalYears(0);
 			}
 			localExperienceList.add(expDTO);
 			
@@ -203,7 +205,9 @@ public class PreviewRegFormAction extends ActionSupport{
 			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
 			}
 			catch(Exception ex){
-				expDTO.setTotalYears(0);
+				addFieldError( "sMsg_expAborad", " Total year should be a numeric number." );
+				error=true;
+				//expDTO.setTotalYears(0);
 			}
 			
 			abroadExperienceList.add(expDTO);
