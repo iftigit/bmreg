@@ -10,7 +10,7 @@
 
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
-<title>G2G Project - User Home</title>
+<title></title>
  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />	
   <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
