@@ -205,8 +205,12 @@ public void validate()
 		if(tmpExp.length>=3 && !tmpExp[2].equalsIgnoreCase(""))
 			expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[2])));
 		
-					
-		expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));	
+		try {			
+		expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));
+		}
+		catch(Exception ex){
+			expDTO.setTotalYears(0);
+		}
 		expDTO.setExpType(1);
 		experienceList.add(expDTO);
 		localExperienceList.add(expDTO);
@@ -240,8 +244,12 @@ public void validate()
 		if(tmpExp.length>=4 && !tmpExp[3].equalsIgnoreCase(""))
 			expDTO.setJobSubSubCategoryName(allJobMap.get(Integer.parseInt(tmpExp[3])));
 		
-					
-		expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));					
+		try {			
+			expDTO.setTotalYears(Float.parseFloat(tmpExp[tmpExp.length-1]));
+		}
+		catch(Exception ex){
+			expDTO.setTotalYears(0);
+		}
 		expDTO.setExpType(2);
 		
 		experienceList.add(expDTO);
