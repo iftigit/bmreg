@@ -165,7 +165,7 @@ public class RegistrationDAO {
 						stmt.setString(17, personalDTO.getEmpHeightFeet());
 						stmt.setString(18, personalDTO.getEmpHeightInches());
 						//stmt.setString(19, personalDTO.getEmpHeightCM());
-						stmt.setString(19, personalDTO.getEmpHeightCM());
+						stmt.setString(19, personalDTO.getEmpHeightCM()); 
 						
 						stmt.setString(20, personalDTO.getEmpWeight());
 						stmt.setString(21, personalDTO.getEmpBloodGroup());
