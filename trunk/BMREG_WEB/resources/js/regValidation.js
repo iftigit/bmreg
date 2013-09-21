@@ -475,6 +475,15 @@ function checkConnectivityAndSubmitForm(formName)
 			{
 				alert('Internal Server Error [500].');
 			}
+			else if (jqXHR.status == 400)
+			{
+				alert('Bad Request. [400]');
+			}
+			else if (jqXHR.status == 200)
+			{
+				document.forms[formName].submit();
+			}
+			/*
 			else if (exception === 'parsererror')
 			{
 				alert('Requested JSON parse failed.');
@@ -486,7 +495,7 @@ function checkConnectivityAndSubmitForm(formName)
 			else if (exception === 'abort')
 			{
 				alert('Ajax request aborted.');
-			}
+			}*/
 			else
 			{
 				alert('Uncaught Error.\n' + jqXHR.responseText);
