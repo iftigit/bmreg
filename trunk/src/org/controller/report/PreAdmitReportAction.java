@@ -34,6 +34,7 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 	private ServletContext servlet;
 	private String registrationId;
 	private String captchaCode;
+	private String requestType;
 	
 	public ServletContext getServlet() {
 		return servlet;
@@ -51,14 +52,14 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 	public String execute() throws Exception
 	{	
 		
-		
+		/*
 		String sessionRegId=(String)ServletActionContext.getRequest().getSession().getAttribute("sessionObj_regId");
 		
 		if(registrationId==null && sessionRegId!=null)
 		{
 			registrationId=sessionRegId;
 		}
-		
+		*/
 		/*
 		if(sessionRegId==null && (registrationId==null || captchaCode==null))
 		{
@@ -72,14 +73,14 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		*/
 
 		
-		//ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",null);
+		ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",null);
 		RegistrationDAO regDAO=new RegistrationDAO();
 		
 		
 		String generatedCode = (String) ServletActionContext.getRequest().getSession().getAttribute("captchaText");
 		
 
-		if(sessionRegId==null)
+		if(registrationId!=null && !requestType.equalsIgnoreCase("A"))
 		{
 		if(captchaCode==null || !captchaCode.equalsIgnoreCase(generatedCode))
 			{
@@ -305,6 +306,14 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 
 	public void setCaptchaCode(String captchaCode) {
 		this.captchaCode = captchaCode;
+	}
+
+	public String getRequestType() {
+		return requestType;
+	}
+
+	public void setRequestType(String requestType) {
+		this.requestType = requestType;
 	}
 	
 	

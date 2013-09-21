@@ -37,7 +37,7 @@
 	Registration has successfully been received. Please click below button to download your Registration Card.
 </div>
 <div style="margin-top: 100px;text-align: center;">
-<a href="downloadAdmit.action?registrationId=<%=(String)ServletActionContext.getRequest().getSession().getAttribute("sessionObj_regId")%>" style="text-decoration: none;">
+<a href="downloadAdmit.action?registrationId=<%=(String)ServletActionContext.getRequest().getSession().getAttribute("sessionObj_regId")%>&requestType=A" style="text-decoration: none;">
 <input type="button" class="submitButton" name="Downalod Card" value="Click Here to Download Registration Card" style="width: 300px;"  />
 </a>
 
