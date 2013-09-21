@@ -972,7 +972,7 @@ http://rishida.net/tools/conversion/
 						</div>
 						<div style="float:left;margin-left: 35px;" id="BIRTH_UPAZILLA_OR_THANA_TD">                    	 
                     	 <select style="width:200px;" class="addressSelectBox"  tabindex="7">
-                    	  <option>--Select Upazilla/Thana--</option>
+                    	  <option>--Select Upazilla/Thana/City Corp./Pourashava--</option>
                     	 </select>   
                     	</div>
                       	</td>
@@ -1324,7 +1324,7 @@ http://rishida.net/tools/conversion/
                     			</tr>
                     			
                     			<tr>
-                    				<td>Upazila/Thana<font color="red">*</font></td>
+                    				<td>Upazila/Thana/City Corp./Pourashava<font color="red">*</font></td>
                     				<td id="NOMINEE_UPAZILLA_OR_THANA_TD">
                     					<select tabindex="38" name="nomineeDTO.address.upazillaOrThanaId" id="NOMINEE_UPAZILLA_OR_THANA" class="addressSelectBox">
 										<option value=""></option>
@@ -1960,7 +1960,7 @@ http://rishida.net/tools/conversion/
   
     
     <tr>
-     <td>Upazila/Thana<font color="red">*</font></td>
+     <td>Upazila/Thana/City Corp./Pourashava<font color="red">*</font></td>
      <td valign="top">
         <div style="float: left"  id="PERMANENT_UPAZILLA_OR_THANA_TD">
         <select tabindex="503" name="pAddress.upazillaOrThanaId" id="PERMANENT_UPAZILLA_OR_THANA" class="addressSelectBox">
@@ -1969,7 +1969,7 @@ http://rishida.net/tools/conversion/
         </div>
         <div id="msg_pUpazillaOrThana" style="float: left"></div>&nbsp;
      </td>
-     <td valign="top">Upazila/Thana<font color="red">*</font></td>
+     <td valign="top">Upazila/Thana/City Corp./Pourashava<font color="red">*</font></td>
      <td valign="top">
      	<div style="float: left"  id="MAILING_UPAZILLA_OR_THANA_TD">
      	<select tabindex="553" name="mAddress.upazillaOrThanaId" id="MAILING_UPAZILLA_OR_THANA" class="addressSelectBox">

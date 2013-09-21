@@ -281,7 +281,7 @@
 				</td>				
 			</tr>
 			<tr>
-				<td align="left">Upazila/Thana</td>
+				<td align="left">Upazila/Thana/City Corp./Pourashava</td>
 				<td align="left">
 					<s:property value="nomineeDTO.address.upazillaOrThanaName" />
      				<input type="hidden" name="nomineeDTO.address.upazillaOrThanaId" value="<s:property value="nomineeDTO.address.upazillaOrThanaId" />" />
@@ -641,13 +641,13 @@
     </tr>
     
     <tr>
-     <td width="15%" style="color:#7D2252;">Upazila/Thana</td>
+     <td width="15%" style="color:#7D2252;">Upazila/Thana/City Corp./Pourashava</td>
      <td width="35%">     	
      	<s:property value="pAddress.upazillaOrThanaName" />     	
      	<input type="hidden" name="pAddress.upazillaOrThanaId" value="<s:property value="pAddress.upazillaOrThanaId" />" />
      	
      </td>
-     <td width="15%" style="color:#7D2252;">Upazila/Thana</td>
+     <td width="15%" style="color:#7D2252;">Upazila/Thana/City Corp./Pourashava</td>
      <td width="35%">
      	<s:property value="mAddress.upazillaOrThanaName" />
      	<input type="hidden" name="mAddress.upazillaOrThanaId" value="<s:property value="mAddress.upazillaOrThanaId" />" />

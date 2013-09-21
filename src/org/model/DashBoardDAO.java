@@ -194,7 +194,7 @@ public class DashBoardDAO {
 
 		      response+=" <table class='divisionStatTable' width='100%'> " +
 						" 	<tr> " +
-						"     <th>Upazilla/Thana</th><th>Total Selected Jobseeker</th> " +
+						"     <th>Upazilla/Thana/City Corp./Pourashava</th><th>Total Selected Jobseeker</th> " +
 						"	</tr>";
 		try
 		{
@@ -244,7 +244,7 @@ public class DashBoardDAO {
 		ResultSet r = null;
 		double totalReg=0;
 		String response=" <p class='statLine1'> " +
-						" Registration Statistics for <font style='color:blue'> "+thanaName+" </font> Upazilla/Thana" +
+						" Registration Statistics for <font style='color:blue'> "+thanaName+" </font> Upazilla/Thana/City Corp./Pourashava" +
 						" </p>";
 
 		      response+=" <table class='divisionStatTable' width='100%'> " +
