@@ -2808,7 +2808,9 @@ function deletePreferredJob(id)
 
 function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType)
 {
-
+	    
+		$(".buttonNext").addClass("buttonDisabled");
+		
         if(level==2 && selectType=="abroadJobCategory")
 	         document.getElementById("abroadExpJobSubSubCat"+componentIndex).innerHTML="";
 	    if(level==2 && selectType=="localJobCategory")
@@ -2824,7 +2826,7 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
 				if(responseText!="")
 				$("#"+waitingDiv).innerHTML= responseText;
 				
-				
+				$(".buttonNext").removeClass("buttonDisabled");
 			});
 }
 
