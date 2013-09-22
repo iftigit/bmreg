@@ -6,7 +6,19 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import oracle.jdbc.driver.OracleCallableStatement;
+import oracle.sql.ARRAY;
+import oracle.sql.ArrayDescriptor;
+
 import org.table.AddressDTO;
+import org.table.EducationDTO;
+import org.table.ExperienceDTO;
+import org.table.JobPreferenceDTO;
+import org.table.LanguageDTO;
+import org.table.LogDTO;
+import org.table.NomineeDTO;
+import org.table.PersonalInfoDTO;
+import org.table.TrainingDTO;
 
 import util.connection.ConnectionManager;
 
@@ -435,6 +447,42 @@ public class AddressDAO {
 
 		return villageList;
 	}
+	
+	public String insertNewAddress(String requestType,String divisionId,String districtId,String upazilaId,String upazilaName,
+			                       String unionId, String unionName,String mauzaId,String mauzaName,
+			                       String villageName) 
+	{	     
+		String response="";
+		Connection conn = ConnectionManager.getConnection();
+		OracleCallableStatement stmt=null;
+
+	try {
+		System.out.println("Procedure Insert_New_Address Begins");
+		stmt = (OracleCallableStatement) conn.prepareCall(
+		  "{ call Insert_New_Address(?,?,?,?,?,?,?,?,?,?,?) }");
+
+		stmt.setString(1,  requestType);
+		stmt.setString(2,  divisionId);
+		stmt.setString(3,  districtId);
+		stmt.setString(4,  upazilaId);
+		stmt.setString(5,  upazilaName);
+		stmt.setString(6,  unionId);
+		stmt.setString(7,  unionName);
+		stmt.setString(8,  mauzaId);
+		stmt.setString(9,  mauzaName);
+		stmt.setString(10,  villageName);
+		
+		stmt.registerOutParameter(11, java.sql.Types.VARCHAR);
+		stmt.executeUpdate();
+		response = (stmt.getString(11)).trim();
+		System.out.println("Response : " + response);	
+	}
+	catch (Exception e){e.printStackTrace();return response;}
+	finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+	{e.printStackTrace();}stmt = null;conn = null;}
+
+	return response;	           
+  }
 	
 	
 }

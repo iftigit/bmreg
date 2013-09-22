@@ -80,6 +80,10 @@
 		<result name="a2iOperatorHome">
 			/WEB-INF/jsp/A2IoperatorHome.jsp
 		</result>
+		<result name="systemAdminHome">
+			/WEB-INF/jsp/admin/SystemAdminHome.jsp
+		</result>
+		
 		<!-- 
 		<result name="regLotViewAdmin">
 			/WEB-INF/jsp/RegLotViewAdminHome.jsp
@@ -125,6 +129,7 @@
 	 <result name="ttcMedicalHome">/WEB-INF/jsp/TTCmedicalHome.jsp</result>
 	 <result name="ttcCharimanHome">/WEB-INF/jsp/TTCcharimanHome.jsp</result>
 	  -->
+	  <result name="systemAdminHome">/WEB-INF/jsp/admin/SystemAdminHome.jsp</result>
 	</action>
 
 	<action name="dataEntryAction" class="org.controller.DataEntryAction" >
@@ -344,6 +349,32 @@
 				<param name="inputName">inputStream</param>
 			</result>
 		</action>
+		
+		
+		<action name="systemAdminHome">
+			<result name="success">/WEB-INF/jsp/admin/SystemAdminHome.jsp</result>
+		</action>
+		<action name="addressEntryHome">
+			<result name="success">/WEB-INF/jsp/admin/AddressEntryHome.jsp</result>
+		</action>
+		<action name="fetchAddressEntryForm" class="org.controller.admin.FetchAddressEntryForm">
+			<result name="UPAZILA_ENTRY">/WEB-INF/jsp/admin/address/UpazillaEntry.jsp</result>
+			<result name="UNION_ENTRY">/WEB-INF/jsp/admin/address/UnionEntry.jsp</result>
+			<result name="MAUZA_ENTRY">/WEB-INF/jsp/admin/address/MauzaEntry.jsp</result>
+			<result name="VILLAGE_ENTRY">/WEB-INF/jsp/admin/address/VillageEntry.jsp</result>
+		</action>
+		
+		<action name="saveNewAddressInfo" class="org.controller.admin.FetchAddressEntryForm" method="saveNewAddressInfo">
+			<result type="stream">
+				<param name="contentType">text/xml</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		
+		
+		
+		
 				
 	</package>
 	

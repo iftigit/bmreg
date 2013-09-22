@@ -65,6 +65,10 @@ public class CheckValidity extends ActionSupport{
 		{
 			return "a2iOperatorHome";
 		}
+		else if(user!=null && user.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		{
+			return "systemAdminHome";
+		}
 		
 		
 		
