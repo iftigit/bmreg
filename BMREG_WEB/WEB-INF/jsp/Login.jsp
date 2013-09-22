@@ -67,6 +67,11 @@ Sample Registration Form
 Registration Manual
 </a>
 </td>
+<td id="malaysia.cell" onmouseover="menuItemIn(0, 'malaysia')" onmouseout="menuItemOut(0, 'malaysia')" class="pulldownMenuItem" nowrap>
+<a href="http://g2g.bmet.gov.bd/BMG2G_WEB/login.action">
+Malaysia Reg. System
+</a>
+</td>
 
 <td width="100%"></td>
 <td id="login.cell" onmouseover="menuItemIn(0, 'login')" onmouseout="menuItemOut(0, 'login')" class="pulldownMenuItem" nowrap>
