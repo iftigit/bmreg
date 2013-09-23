@@ -220,8 +220,8 @@ System.out.println("SMS code :"+(String) ServletActionContext.getRequest().getPa
   public String sendFirstPassword()
   {
 	  ArrayList<UserDTO> tmp = null;
-//	  tmp = new NewPaawordDAO().getAllUser();
-	  tmp = new NewPaawordDAO().getFirstLottery();
+	  tmp = new NewPaawordDAO().getAllUser();
+//	  tmp = new NewPaawordDAO().getFirstLottery();
 	  Iterator<UserDTO> it = tmp.iterator();
 	  String pass = "";
 	  int counter=0;
@@ -231,32 +231,20 @@ System.out.println("SMS code :"+(String) ServletActionContext.getRequest().getPa
 		  {
 			  UserDTO ut = it.next();
 
-//			  pass = getPasswordCode().substring(0, 5);
-//			  NewPaawordDAO.setNewPassword(ut.getUserId(), pass);
-//			  String pass1="pls login: g2g.bmet.gov.bd ID:type your mobile no abong Password:"+pass+" .login korte na parle call korun 09613016364.";
+			  pass = getPasswordCode().substring(0, 5);
+			  NewPaawordDAO.setNewPassword(ut.getUserId(), pass);
+			  String pass1="pls login: g2g.bmet.gov.bd ID:type your mobile no abong Password:"+pass+" .login korte na parle call korun 09613016364.";
 
-			  
-			  
-//			  pass = ut.getPassword();
-//			  String pass1="Interview o training ar tarikh abong sthan poriborton hoyeche. Poribortito confirmation card g2g.bmet.gov.bd theke shongroho korun o onayanno bishoy jene nin.";
-//			  String pass1="Interview ar din 3 copy PP size cobir sate 1 copy 3R size color full body picture (white background) nie asben.";			  
-//			  String pass1="apnar Interview ar sthan change hoiese. apnar confirmation card abar download kore nin.";			  
-//			  String pass1="Apni druto Malaysia jete chaile drutoi passport (MRP) korun. Passport office shohojogita korbe.";			  
-//			  String pass1="Malaysia te niog bisoe gurutto purno alochona hobe.Apni shoporibare Montri mohodoyer bodorpurer barite agami 2 March Shonibar bikal 3.30 minite alochonae ashben";
-			  String pass1="Onibarjo karone agami 2 March shanibarer Malayshiate niog bishoe Montri mohodoyer barir onushthanti sthogit (cancel) kora hoyeche.";
 
-			  
-//			  pass2 = "Apni final lotteryte joyi hoyesen. g2g.bmet.gov.bd web thikanay log in kore proshikhhoner sthan o tarikhsoho onyanno bishoy jene nin.";
-			  
 			  URL yahoo;
 				if(ut.getUserId().substring(0,3).equalsIgnoreCase("011"))
 					yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+ut.getUserId())+
 							"&txt="+URLEncoder.encode(pass1)+
-							"&username="+URLEncoder.encode("bmet2")+"&password="+URLEncoder.encode("bmet1231")); 		  
+							"&username="+URLEncoder.encode("bmet2")+"&password="+URLEncoder.encode("BI909")); 		  
 				else
 					yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+ut.getUserId())+
 							"&txt="+URLEncoder.encode(pass1)+
-							"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet1231")); 		  
+							"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("BI909")); 		  
 					
 				URLConnection yc = yahoo.openConnection();
 				BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
@@ -279,7 +267,7 @@ System.out.println("SMS code :"+(String) ServletActionContext.getRequest().getPa
 			  e.printStackTrace();
 		  }
 	  }
-	  
+	  System.out.println("END");
 	  return null;
   }
 	
@@ -301,7 +289,7 @@ System.out.println("SMS code :"+(String) ServletActionContext.getRequest().getPa
 	    String result = String.valueOf(password);
 	    return result;
 	  }	   
-  public String getPasswordCode() {
+  public String getPasswordCode1() {
 	    Random rand = new Random();
 	    int length = rand.nextInt(6) + 8;
 	    char[] password = new char[length];
@@ -320,6 +308,43 @@ System.out.println("SMS code :"+(String) ServletActionContext.getRequest().getPa
 	    return result;
 	  }	
 
+  public String getPasswordCode() {
+      Random rand = new Random();
+      int length = rand.nextInt(6) + 8;
+      char[] password = new char[length];
+      for (int x = 0; x < length; x++) {
+        int randDecimalAsciiVal = 0;
+        int cas = rand.nextInt(3);
+        if (cas == 0)
+          randDecimalAsciiVal = rand.nextInt(9) + 48;
+        else if (cas == 1)
+          randDecimalAsciiVal = rand.nextInt(26) + 65;
+        else
+          randDecimalAsciiVal = rand.nextInt(26) + 97;
+        password[x] = (char) randDecimalAsciiVal;
+      }
+      String result = String.valueOf(password);
+      
+
+      while(result.contains("l") || result.contains("1") || result.contains("I") || result.contains("o") || result.contains("O") || result.contains("0"))
+      {
+              result=result.replaceAll("l", "");
+              result=result.replaceAll("1", "");
+              result=result.replaceAll("I", "");
+              result=result.replaceAll("o", "");
+              result=result.replaceAll("O", "");
+              result=result.replaceAll("0", "");
+              
+              if(result.length()<6)
+                      result=getSecurityCode();
+              
+      }
+      
+      return result.toUpperCase();
+    }
+
+ 
+  
   public String getLottery1()
   {
 	  
