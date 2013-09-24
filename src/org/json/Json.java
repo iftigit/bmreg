@@ -103,14 +103,14 @@ public class Json extends ActionSupport
 	public void fetchVillage()
 	{
 		villageList = new HashMap<String, ArrayList<String>>();
-		ArrayList<String> vList=(ArrayList<String>) getServletContext().getAttribute("MAUZA_OR_MOHOLLA_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_UNIONorWARD_MAUZAorMOHOLLA_"+divisionId+"_"+districtId+"_"+upazillaOrThanaId+"_"+unionOrWardId+"_"+mauzaOrMohollaId);
+		ArrayList<String> vList=(ArrayList<String>) getServletContext().getAttribute("VILLAGE_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_UNIONorWARD_MAUZAorMOHOLLA_"+divisionId+"_"+districtId+"_"+upazillaOrThanaId+"_"+unionOrWardId+"_"+mauzaOrMohollaId);
 		if(vList==null)
 		{
 			AddressDAO addDAO = new AddressDAO();
 			//vList = addDAO.getVillage(divisionId,districtId,upazillaOrThanaId,unionOrWardId,mauzaOrMohollaId);
 			vList = addDAO.getVillage(mauzaOrMohollaId);
 			villageList.put("villageList", vList);
-			getServletContext().setAttribute("MAUZA_OR_MOHOLLA_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_UNIONorWARD_MAUZAorMOHOLLA_"+divisionId+"_"+districtId+"_"+upazillaOrThanaId+"_"+unionOrWardId+"_"+mauzaOrMohollaId,vList);
+			getServletContext().setAttribute("VILLAGE_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_UNIONorWARD_MAUZAorMOHOLLA_"+divisionId+"_"+districtId+"_"+upazillaOrThanaId+"_"+unionOrWardId+"_"+mauzaOrMohollaId,vList);
 		}
 		else
 			villageList.put("villageList", vList);

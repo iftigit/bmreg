@@ -77,7 +77,6 @@ public class FetchAddressEntryForm extends ActionSupport implements ServletConte
 		}
 		else if(requestType.equalsIgnoreCase("union"))
 		{
-			getServletContext().setAttribute("UPAZILLA_OR_THANA_BY_DIVISION_DISTRICT_"+divisionId+"_"+districtId,null);
 			if(unionName.trim().equalsIgnoreCase(""))
 				responseString="Union/Ward Name cannot be empty";
 			else{
@@ -92,7 +91,6 @@ public class FetchAddressEntryForm extends ActionSupport implements ServletConte
 		}
 		else if(requestType.equalsIgnoreCase("mauza"))
 		{
-			getServletContext().setAttribute("UNION_OR_WARD_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_"+divisionId+"_"+districtId+"_"+upazilaId,null);
 			if(mauzaName.trim().equalsIgnoreCase(""))
 				responseString="Mauza/Moholla Name cannot be empty";
 			else{
@@ -107,14 +105,13 @@ public class FetchAddressEntryForm extends ActionSupport implements ServletConte
 		}
 		else if(requestType.equalsIgnoreCase("village"))
 		{
-			getServletContext().setAttribute("MAUZA_OR_MOHOLLA_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_UNIONorWARD_"+divisionId+"_"+districtId+"_"+upazilaId+"_"+unionId,null);
 			if(villageName.trim().equalsIgnoreCase(""))
 				responseString="Village Name cannot be empty";
 			else{
 				String res=addDAO.insertNewAddress(requestType, divisionId, districtId, upazilaId, upazilaName, unionId, unionName, mauzaId, mauzaName, villageName);
 				if(res.equalsIgnoreCase("SUCCESS")){
 					responseString="Village Successfully Added.";
-					getServletContext().setAttribute("MAUZA_OR_MOHOLLA_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_UNIONorWARD_MAUZAorMOHOLLA_"+divisionId+"_"+districtId+"_"+upazilaId+"_"+unionId+"_"+mauzaId,null);
+					getServletContext().setAttribute("VILLAGE_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_UNIONorWARD_MAUZAorMOHOLLA_"+divisionId+"_"+districtId+"_"+upazilaId+"_"+unionId+"_"+mauzaId,null);
 				}
 				else
 					responseString="Error Occured during saving the information. Please contact with System Admin.\n\nTechnical Detail :"+res;
