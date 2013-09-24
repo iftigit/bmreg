@@ -44,16 +44,10 @@
     
 <form id="loginForm" name="loginForm" method="post" action="checkValidity.action">    
     <table width="100%" border="0" cellspacing="1" class="infoTable">
-    
-    
- 	<tr>
-     <td style="text-align: center">
-     	<a href="addressEntryHome.action">Address Management</a>
-     </td>
-    </tr>
+  
     <tr>
      <td style="text-align: center">
-     	<a href="userAdministrationHome.action">User Management</a>
+     	<a href="newUserRequestHome.action">User Management</a>
      </td>
     </tr>
     

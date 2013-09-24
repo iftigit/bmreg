@@ -1407,7 +1407,7 @@ http://rishida.net/tools/conversion/
           			<tr>
                     	<td align="left">Mobile/Land Phone(Nominee) <font color="red">*</font></td>
                     	<td align="left">
-                    	  <input type="text" tabindex="46" id="nomineePhone" name="nomineeDTO.nomineePhoneOrMobile" value="<s:property value='nomineeDTO.nomineePhoneOrMobile'/>" class="txtBox">
+                    	  <input type="text" tabindex="46" id="nomineePhone" name="nomineeDTO.nomineePhoneOrMobile" value="<s:property value='nomineeDTO.nomineePhoneOrMobile'/>" class="txtBox" maxlength="15">
                       </td>
                     	<td align="left"><span id="msg_nomineePhone"></span>&nbsp;
                     	<font style="color:red"><s:label name="sMsg_nomineePhone"></s:label></font>
@@ -1730,7 +1730,7 @@ http://rishida.net/tools/conversion/
           			<tr>
                     	<td align="left" valign="top">Name of the last attended Institute(&#2488;&#2480;&#2509;&#2476;&#2486;&#2503;&#2487; &#2486;&#2495;&#2453;&#2509;&#2487;&#2494; &#2474;&#2509;&#2480;&#2468;&#2495;&#2487;&#2509;&#2464;&#2494;&#2472;&#2503;&#2480; &#2472;&#2494;&#2478; &#2441;&#2482;&#2509;&#2482;&#2503;&#2454; &#2453;&#2480;&#2497;&#2472;)</td>
                     	<td align="left" valign="top">
-                    	  <input type="text" tabindex="402" id="lastInstitute" name="educationDTO.lastInstitute" value="<s:property value="educationDTO.lastInstitute" />" class="txtBox">
+                    	  <input type="text" tabindex="402" id="lastInstitute" name="educationDTO.lastInstitute" value="<s:property value="educationDTO.lastInstitute" />" class="txtBox" maxlength="100" />
                       </td>
                     	<td align="left" valign="top"><span id="msg_lastInstitute"></span>&nbsp;
                     	<font style="color:red"><s:label name="sMsg_lastInstitute"></s:label></font>
@@ -2049,7 +2049,7 @@ http://rishida.net/tools/conversion/
      <td>Post Office</td>
      <td valign="top">
      	<div style="float: left">
-     		<input type="text" tabindex="507" name="pAddress.postOffice" maxlength="100" id="PERMANENT_POST_OFFICE"  class="textBox" value="<s:property value="pAddress.postOffice"/>" />
+     		<input type="text" tabindex="507" name="pAddress.postOffice" maxlength="100" id="PERMANENT_POST_OFFICE"  class="textBox" value="<s:property value="pAddress.postOffice"/>"  />
      	</div>
      	<div id="msg_pPostOffice" style="float: left"></div>&nbsp;
      </td>
@@ -2066,14 +2066,14 @@ http://rishida.net/tools/conversion/
      <td>Post Code</td>
      <td valign="top">
      	<div style="float: left">
-     		<input type="text" tabindex="508" name="pAddress.postCode" maxlength="50" id="PERMANENT_POST_CODE"  class="textBox" value="<s:property value="pAddress.postCode"/>" />
+     		<input type="text" tabindex="508" name="pAddress.postCode" maxlength="20" id="PERMANENT_POST_CODE"  class="textBox" value="<s:property value="pAddress.postCode"/>" />
      	</div>
      	<div id="msg_pPostCode" style="float: left"></div>&nbsp;
      </td>
      <td valign="top">Post Code</td>
      <td valign="top">
      <div style="float: left">
-     	<input type="text" tabindex="558" name="mAddress.postCode" maxlength="50" id="MAILING_POST_CODE"  class="textBox" value="<s:property value="mAddress.postCode"/>" />
+     	<input type="text" tabindex="558" name="mAddress.postCode" maxlength="20" id="MAILING_POST_CODE"  class="textBox" value="<s:property value="mAddress.postCode"/>" />
      </div>
      	<div id="msg_mPostCode" style="float: left"></div>&nbsp;     		
      </td>

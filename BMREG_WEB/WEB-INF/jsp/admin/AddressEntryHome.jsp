@@ -166,7 +166,7 @@ I want to Insert a New -
 <div id="addressDiv" style="margin-top: 60px;width: 700px;text-align: center;"></div>
 
     <br/>
-    <a href="systemAdminHome.action">Go Home</a>
+    <a href="homePage.action">Go Home</a>
     <br/>
 <p style="height: 30px"></p>
 </center>

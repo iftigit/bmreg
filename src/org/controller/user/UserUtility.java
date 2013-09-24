@@ -27,8 +27,10 @@ public class UserUtility {
 			 return "ttcCharimanHome";
 		else if(user.getUserType().equalsIgnoreCase("EDIT_OPERATOR"))						 
 			 return "editOperatorHome";
-		
-		
+		else if(user.getUserType().equalsIgnoreCase("REG_DC_ADMIN"))						 
+			 return "regDcAdminHome";
+		else if(user.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))						 
+			 return "systemAdminHome";		
 		 else
 			 return null;
 		
