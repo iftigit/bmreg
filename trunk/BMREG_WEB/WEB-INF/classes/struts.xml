@@ -43,8 +43,7 @@
 
 
 <global-results>
-   <result name="login" type="redirectAction">login.action</result>
-   
+   <result name="login" type="redirectAction">login.action</result>   
 </global-results>	
 
  	
@@ -83,6 +82,10 @@
 		<result name="systemAdminHome">
 			/WEB-INF/jsp/admin/SystemAdminHome.jsp
 		</result>
+		<result name="regDcAdminHome">
+			/WEB-INF/jsp/DCregAdminHome.jsp
+		</result>
+		
 		
 		<!-- 
 		<result name="regLotViewAdmin">
@@ -130,6 +133,7 @@
 	 <result name="ttcCharimanHome">/WEB-INF/jsp/TTCcharimanHome.jsp</result>
 	  -->
 	  <result name="systemAdminHome">/WEB-INF/jsp/admin/SystemAdminHome.jsp</result>
+	  <result name="regDcAdminHome">/WEB-INF/jsp/DCregAdminHome.jsp</result>
 	</action>
 
 	<action name="dataEntryAction" class="org.controller.DataEntryAction" >
@@ -369,10 +373,61 @@
 				<param name="contentType">text/xml</param>
 				<param name="inputName">inputStream</param>
 			</result>
+			<result name="logout" type="redirectAction">
+			logout.action
+			</result>
+			<result name="timeOver">
+				/WEB-INF/jsp/TimeOver.jsp
+			</result>
 		</action>
 		
+		<action name="userAdministrationHome" class="org.controller.admin.UserAdministration"  method="checkRequestedUserList">
+			<result name="success">/WEB-INF/jsp/admin/user/UserAdministrationHome.jsp</result>
+			<result name="logout" type="redirectAction">
+			logout.action
+			</result>
+			<result name="timeOver">
+				/WEB-INF/jsp/TimeOver.jsp
+			</result>
+		</action>
+		<action name="approveNewUserAndSendSms" class="org.controller.admin.UserApproveAdministration"  method="approveNewUserAndSendSms">
+			<result name="success" type="redirectAction">
+			    <param name="actionName">userAdministrationHome.action</param>		    
+	      		<param name="message">Successfully Approved and SMS send to the approved users</param>
+   			</result>
+   			<result name="input">/WEB-INF/jsp/admin/user/UserAdministrationHome.jsp</result>
+			<result name="logout" type="redirectAction">
+			logout.action
+			</result>
+			<result name="timeOver">
+				/WEB-INF/jsp/TimeOver.jsp
+			</result>
+		</action>
 		
+		<action name="newUserRequestHome">
+			<result name="success">/WEB-INF/jsp/user/NewUserRequest.jsp</result>
+		</action>
 		
+		<action name="newUserRequest" class="org.controller.user.NewUserRequest" >
+			<result type="stream">
+				<param name="contentType">text/xml</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="logout" type="redirectAction">
+			logout.action
+			</result>
+			<result name="timeOver">
+				/WEB-INF/jsp/TimeOver.jsp
+			</result>
+		</action>
+				
+		
+		<action name="contextHandler" class="org.controller.admin.ContextHandler" >
+			<result type="stream">
+				<param name="contentType">text/xml</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
 		
 		
 				

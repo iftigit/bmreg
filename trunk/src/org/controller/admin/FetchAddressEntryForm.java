@@ -1,11 +1,16 @@
 package org.controller.admin;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.util.ServletContextAware;
 import org.model.AddressDAO;
+import org.table.UserDTO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -44,6 +49,18 @@ public class FetchAddressEntryForm extends ActionSupport implements ServletConte
 		HttpServletResponse response = ServletActionContext.getResponse();
 		AddressDAO addDAO=new AddressDAO();
 		String responseString="";
+		
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(loggedInUser.getAccessRight()==0)
+		{
+			return "timeOver";	
+		}
+		else if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		{
+			return "logout";
+		}
+		
+		
 		if(requestType.equalsIgnoreCase("upazila"))
 		{
 			if(upazilaName.trim().equalsIgnoreCase(""))
@@ -60,6 +77,7 @@ public class FetchAddressEntryForm extends ActionSupport implements ServletConte
 		}
 		else if(requestType.equalsIgnoreCase("union"))
 		{
+			getServletContext().setAttribute("UPAZILLA_OR_THANA_BY_DIVISION_DISTRICT_"+divisionId+"_"+districtId,null);
 			if(unionName.trim().equalsIgnoreCase(""))
 				responseString="Union/Ward Name cannot be empty";
 			else{
@@ -74,6 +92,7 @@ public class FetchAddressEntryForm extends ActionSupport implements ServletConte
 		}
 		else if(requestType.equalsIgnoreCase("mauza"))
 		{
+			getServletContext().setAttribute("UNION_OR_WARD_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_"+divisionId+"_"+districtId+"_"+upazilaId,null);
 			if(mauzaName.trim().equalsIgnoreCase(""))
 				responseString="Mauza/Moholla Name cannot be empty";
 			else{
@@ -88,6 +107,7 @@ public class FetchAddressEntryForm extends ActionSupport implements ServletConte
 		}
 		else if(requestType.equalsIgnoreCase("village"))
 		{
+			getServletContext().setAttribute("MAUZA_OR_MOHOLLA_BY_DIVISION_DISTRICT_UPAZILLAorTHANA_UNIONorWARD_"+divisionId+"_"+districtId+"_"+upazilaId+"_"+unionId,null);
 			if(villageName.trim().equalsIgnoreCase(""))
 				responseString="Village Name cannot be empty";
 			else{
@@ -213,5 +233,28 @@ public class FetchAddressEntryForm extends ActionSupport implements ServletConte
 	public ServletContext getServletContext()
 	{
 		return ServletActionContext.getServletContext();
+	}
+	
+	public void clearContextDatea()
+	{
+		try {
+		  URL url = new URL("http://g2g3.bmet.gov.bd:8080/BMREG_WEB/contextHandler.action"); 		  			  		
+		  url.openConnection();
+		  
+		  url = new URL("http://g2g3.bmet.gov.bd:9080/BMREG_WEB/contextHandler.action");
+		  url.openConnection();
+		} 
+		catch (MalformedURLException e) { 
+		    // new URL() failed
+		    // ...
+			e.printStackTrace();
+		} 
+		catch (IOException e) {   
+		    // openConnection() failed
+		    // ...
+			e.printStackTrace();
+		}
+
+		  
 	}
 }

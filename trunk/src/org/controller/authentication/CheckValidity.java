@@ -69,6 +69,11 @@ public class CheckValidity extends ActionSupport{
 		{
 			return "systemAdminHome";
 		}
+		else if(user!=null && user.getUserType().equalsIgnoreCase("REG_DC_ADMIN"))
+		{
+			return "regDcAdminHome";
+		}
+		
 		
 		
 		
@@ -159,6 +164,14 @@ public class CheckValidity extends ActionSupport{
 				else if(user!=null && user.getUserType().equalsIgnoreCase("EDIT_OPERATOR"))
 				{
 					return "editOperatorHome";
+				}				
+				else if(user!=null && user.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+				{
+					return "systemAdminHome";
+				}
+				else if(user!=null && user.getUserType().equalsIgnoreCase("REG_DC_ADMIN"))
+				{
+					return "regDcAdminHome";
 				}
 				
 
