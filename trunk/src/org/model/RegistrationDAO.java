@@ -160,7 +160,7 @@ public class RegistrationDAO {
 						stmt.setString(12, personalDTO.getEmpChildYN());
 						stmt.setString(13, personalDTO.getEmpSonCount());
 						stmt.setString(14, personalDTO.getEmpDaughterCount());
-						stmt.setString(15, personalDTO.getEmpSpouseName().trim());
+						stmt.setString(15, personalDTO.getEmpSpouseName());
 						stmt.setString(16, personalDTO.getEmpMobileNumber().trim());
 						stmt.setString(17, personalDTO.getEmpHeightFeet());
 						stmt.setString(18, personalDTO.getEmpHeightInches());
