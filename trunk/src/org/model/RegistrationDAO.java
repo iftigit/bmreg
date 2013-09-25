@@ -99,10 +99,10 @@ public class RegistrationDAO {
 				{
 					TrainingDTO  _trainDTO = (TrainingDTO) trainingList.get(i);
 					
-					trainingName[i] 	=  _trainDTO.getTrainingName().trim();
-					trainingFrom[i]     =  _trainDTO.getFromWhere().trim();
-					trainingDuration[i] =  _trainDTO.getDuration().trim();
-					trainingDesc[i]     =  _trainDTO.getDescription().trim();
+					trainingName[i] 	=  _trainDTO.getTrainingName()==null?_trainDTO.getTrainingName():_trainDTO.getTrainingName().trim();
+					trainingFrom[i]     =  _trainDTO.getFromWhere()==null?_trainDTO.getFromWhere():_trainDTO.getFromWhere().trim();
+					trainingDuration[i] =  _trainDTO.getDuration()==null?_trainDTO.getDuration():_trainDTO.getDuration().trim();
+					trainingDesc[i]     =  _trainDTO.getDescription()==null?_trainDTO.getDescription():_trainDTO.getDescription().trim();
 				}
 			 
 			    try
@@ -149,8 +149,8 @@ public class RegistrationDAO {
 				 		stmt.setString(1,  registrationId);
 						stmt.setString(2,  personalDTO.getEmpGivenName());
 						stmt.setString(3,  personalDTO.getEmpLastName());
-						stmt.setString(4,  personalDTO.getEmpFatherName().trim());
-						stmt.setString(5,  personalDTO.getEmpMotherName().trim());
+						stmt.setString(4,  personalDTO.getEmpFatherName()==null?personalDTO.getEmpFatherName():personalDTO.getEmpFatherName().trim());
+						stmt.setString(5,  personalDTO.getEmpMotherName()==null?personalDTO.getEmpMotherName():personalDTO.getEmpMotherName().trim());
 						stmt.setString(6,  personalDTO.getEmpBirthDate());
 						stmt.setString(7,  personalDTO.getEmpBirthDistrict());
 						stmt.setString(8,  personalDTO.getEmpBirthUpazilaOrThana());
@@ -160,8 +160,8 @@ public class RegistrationDAO {
 						stmt.setString(12, personalDTO.getEmpChildYN());
 						stmt.setString(13, personalDTO.getEmpSonCount());
 						stmt.setString(14, personalDTO.getEmpDaughterCount());
-						stmt.setString(15, personalDTO.getEmpSpouseName());
-						stmt.setString(16, personalDTO.getEmpMobileNumber().trim());
+						stmt.setString(15, personalDTO.getEmpSpouseName()==null?personalDTO.getEmpSpouseName():personalDTO.getEmpSpouseName().trim());
+						stmt.setString(16, personalDTO.getEmpMobileNumber()==null?personalDTO.getEmpMobileNumber():personalDTO.getEmpMobileNumber().trim());
 						stmt.setString(17, personalDTO.getEmpHeightFeet());
 						stmt.setString(18, personalDTO.getEmpHeightInches());
 						//stmt.setString(19, personalDTO.getEmpHeightCM());
@@ -170,7 +170,7 @@ public class RegistrationDAO {
 						stmt.setString(20, personalDTO.getEmpWeight());
 						stmt.setString(21, personalDTO.getEmpBloodGroup());
 						stmt.setString(22, personalDTO.getEmpDisabilityYN());
-						stmt.setString(23, personalDTO.getEmpDisabilityDetail().trim());
+						stmt.setString(23, personalDTO.getEmpDisabilityDetail()==null?personalDTO.getEmpDisabilityDetail():personalDTO.getEmpDisabilityDetail().trim());
 						stmt.setString(24, personalDTO.getNationalId());
 						stmt.setString(25, personalDTO.getBirthRegId());
 						stmt.setString(26, personalDTO.getPassportNo());
@@ -203,23 +203,23 @@ public class RegistrationDAO {
 						
 						
 						stmt.setInt(51, educationDTO.getHeighestDegreeId());
-						stmt.setString(52, educationDTO.getLastInstitute().trim());
+						stmt.setString(52, educationDTO.getLastInstitute()==null?educationDTO.getLastInstitute():educationDTO.getLastInstitute().trim());
 						stmt.setString(53, educationDTO.getPassingYear());						
 						
-						stmt.setString(54, nomineeDTO.getNomineeName().trim());
+						stmt.setString(54, nomineeDTO.getNomineeName()==null?nomineeDTO.getNomineeName():nomineeDTO.getNomineeName().trim());
 						stmt.setString(55, nomineeDTO.getNomineeRelation());
-						stmt.setString(56, nomineeDTO.getNomineeFatherName().trim());
-						stmt.setString(57, nomineeDTO.getNomineeMotherName().trim());
-						stmt.setString(58, nomineeDTO.getNomineePhoneOrMobile().trim());
-						stmt.setString(59, nomineeDTO.getContact1Name().trim());						
-						stmt.setString(60, nomineeDTO.getContact1Mobile().trim());
-						stmt.setString(61, nomineeDTO.getContact1Relation().trim());
-						stmt.setString(62, nomineeDTO.getContact2Name().trim());
-						stmt.setString(63, nomineeDTO.getContact2Mobile().trim());
-						stmt.setString(64, nomineeDTO.getContact2Relation().trim());
-						stmt.setString(65, nomineeDTO.getContact3Name().trim());
-						stmt.setString(66, nomineeDTO.getContact3Mobile().trim());
-						stmt.setString(67, nomineeDTO.getContact3Relation().trim());
+						stmt.setString(56, nomineeDTO.getNomineeFatherName()==null?nomineeDTO.getNomineeFatherName():nomineeDTO.getNomineeFatherName().trim());
+						stmt.setString(57, nomineeDTO.getNomineeMotherName()==null?nomineeDTO.getNomineeMotherName():nomineeDTO.getNomineeMotherName().trim());
+						stmt.setString(58, nomineeDTO.getNomineePhoneOrMobile()==null?nomineeDTO.getNomineePhoneOrMobile():nomineeDTO.getNomineePhoneOrMobile().trim());
+						stmt.setString(59, nomineeDTO.getContact1Name()==null?nomineeDTO.getContact1Name():nomineeDTO.getContact1Name().trim());						
+						stmt.setString(60, nomineeDTO.getContact1Mobile()==null?nomineeDTO.getContact1Mobile():nomineeDTO.getContact1Mobile().trim());
+						stmt.setString(61, nomineeDTO.getContact1Relation()==null?nomineeDTO.getContact1Relation():nomineeDTO.getContact1Relation().trim());
+						stmt.setString(62, nomineeDTO.getContact2Name()==null?nomineeDTO.getContact2Name():nomineeDTO.getContact2Name().trim());
+						stmt.setString(63, nomineeDTO.getContact2Mobile()==null?nomineeDTO.getContact2Mobile():nomineeDTO.getContact2Mobile().trim());
+						stmt.setString(64, nomineeDTO.getContact2Relation()==null?nomineeDTO.getContact2Relation():nomineeDTO.getContact2Relation().trim());
+						stmt.setString(65, nomineeDTO.getContact3Name()==null?nomineeDTO.getContact3Name():nomineeDTO.getContact3Name().trim());
+						stmt.setString(66, nomineeDTO.getContact3Mobile()==null?nomineeDTO.getContact3Mobile():nomineeDTO.getContact3Mobile().trim());
+						stmt.setString(67, nomineeDTO.getContact3Relation()==null?nomineeDTO.getContact3Relation():nomineeDTO.getContact3Relation().trim());
 						
 						stmt.setString(68, nomineeDTO.getAddress().getDivisionId());
 						stmt.setString(69, nomineeDTO.getAddress().getDistrictId());
