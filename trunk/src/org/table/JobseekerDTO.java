@@ -2,26 +2,32 @@ package org.table;
 
 public class JobseekerDTO {
 
-	private String jobSeekerId;
-	private String jobSeekerName;
+	private String regId;
+	private String name;
 	private String fatherName;
 	private String motherName;
-	private String mobileNumber;
-	private String dateOfBirth;
 	
+	private String pDivisionId;
+	private String pDivisionName;
+	private String pDistrictId;
+	private String pDistrictName;
+	private String pThanaId;
+	private String pThanaName;
+	private String pUnionId;
+	private String pUnionName;
+	private String pMobileNumber;
 	
-	
-	public String getJobSeekerId() {
-		return jobSeekerId;
+	public String getRegId() {
+		return regId;
 	}
-	public void setJobSeekerId(String jobSeekerId) {
-		this.jobSeekerId = jobSeekerId;
+	public void setRegId(String regId) {
+		this.regId = regId;
 	}
-	public String getJobSeekerName() {
-		return jobSeekerName;
+	public String getName() {
+		return name;
 	}
-	public void setJobSeekerName(String jobSeekerName) {
-		this.jobSeekerName = jobSeekerName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getFatherName() {
 		return fatherName;
@@ -35,17 +41,59 @@ public class JobseekerDTO {
 	public void setMotherName(String motherName) {
 		this.motherName = motherName;
 	}
-	public String getMobileNumber() {
-		return mobileNumber;
+	public String getpDivisionId() {
+		return pDivisionId;
 	}
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
+	public void setpDivisionId(String pDivisionId) {
+		this.pDivisionId = pDivisionId;
 	}
-	public String getDateOfBirth() {
-		return dateOfBirth;
+	public String getpDivisionName() {
+		return pDivisionName;
 	}
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setpDivisionName(String pDivisionName) {
+		this.pDivisionName = pDivisionName;
+	}
+	public String getpDistrictId() {
+		return pDistrictId;
+	}
+	public void setpDistrictId(String pDistrictId) {
+		this.pDistrictId = pDistrictId;
+	}
+	public String getpDistrictName() {
+		return pDistrictName;
+	}
+	public void setpDistrictName(String pDistrictName) {
+		this.pDistrictName = pDistrictName;
+	}
+	public String getpThanaId() {
+		return pThanaId;
+	}
+	public void setpThanaId(String pThanaId) {
+		this.pThanaId = pThanaId;
+	}
+	public String getpThanaName() {
+		return pThanaName;
+	}
+	public void setpThanaName(String pThanaName) {
+		this.pThanaName = pThanaName;
+	}
+	public String getpUnionId() {
+		return pUnionId;
+	}
+	public void setpUnionId(String pUnionId) {
+		this.pUnionId = pUnionId;
+	}
+	public String getpUnionName() {
+		return pUnionName;
+	}
+	public void setpUnionName(String pUnionName) {
+		this.pUnionName = pUnionName;
+	}
+	public String getpMobileNumber() {
+		return pMobileNumber;
+	}
+	public void setpMobileNumber(String pMobileNumber) {
+		this.pMobileNumber = pMobileNumber;
 	}
 	
 	

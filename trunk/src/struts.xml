@@ -421,6 +421,9 @@
 			</result>
 		</action>
 				
+		<action name="getRegisteredJobseekerList" class="org.controller.registration.RegisteredJobseeker" method="getRegisteredJobseekerList">
+			<result name="success">/WEB-INF/jsp/registration/RegisteredJobSeeker.jsp</result>
+		</action>
 		
 		<action name="contextHandler" class="org.controller.admin.ContextHandler" >
 			<result type="stream">
