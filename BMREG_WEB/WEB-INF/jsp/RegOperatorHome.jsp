@@ -55,13 +55,13 @@
      	<a href="adminCardDownloadHome.action">Download Registration Card</a>
      </td>
     </tr>
-    <!-- 
+    
     <tr>
      <td style="text-align: center">
      	<a href="getRegisteredJobseekerList.action">Registered Jobseeker List</a>
      </td>
     </tr>
-  -->
+  
  	<tr>
      <td style="text-align: center">
      	<a href="technicalTeam.action">Contact your Technical Person</a>

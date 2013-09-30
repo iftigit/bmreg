@@ -13,11 +13,11 @@ import org.table.AddressDTO;
 import org.table.EducationDTO;
 import org.table.ExperienceDTO;
 import org.table.JobPreferenceDTO;
+import org.table.JobseekerDTO;
 import org.table.LanguageDTO;
 import org.table.LogDTO;
 import org.table.NomineeDTO;
 import org.table.PersonalInfoDTO;
-import org.table.SelectPersonDTO;
 import org.table.TrainingDTO;
 
 import util.connection.ConnectionManager;
@@ -842,6 +842,50 @@ public class RegistrationDAO {
 	 }
 */
 	 
+	 public ArrayList<JobseekerDTO> getAllRegisteredJobseeker(String registrationBy)
+	 {
+		 Connection conn = ConnectionManager.getConnection();
+		 ArrayList<JobseekerDTO> jobSeekerList=new ArrayList<JobseekerDTO>();
+		   String sql = " Select  EMP_PERSONAL.JOBSEEKERID,GIVEN_NAME,LAST_NAME,FATHER_NAME,MOTHER_NAME,DIVISION.DIVISION_NAME, " +
+		   		        " DISTRICT.DIST_NAME,THANA.THANA_NAME,UNIONNAME from EMP_PERSONAL,EMP_REG_LOG,EMP_ADDRESS,DIVISION,DISTRICT,THANA,UNIONS Where " +
+		   		        " EMP_PERSONAL.JOBSEEKERID=EMP_REG_LOG.JOBSEEKERID " +
+		   		        " And EMP_REG_LOG.REG_BY=? " +
+		   		        " AND EMP_PERSONAL.JOBSEEKERID=EMP_ADDRESS.JOBSEEKERID " +
+		   		        " And EMP_ADDRESS.PDIVISION=DIVISION.DIVISIONID " +
+		   		        " And EMP_ADDRESS.PDISTRICT=DISTRICT.DIST_ID " +
+		   		        " And EMP_ADDRESS.PUPAZILA_OR_THANA=THANA.THANAID " +
+		   		        " And EMP_ADDRESS.PUNION_OR_WARD=UNIONS.UNIONID " ; 
+		   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   JobseekerDTO jobseeker  = null;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, registrationBy);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					jobseeker=new JobseekerDTO();
+					jobseeker.setRegId(r.getString("JOBSEEKERID"));
+					jobseeker.setName(r.getString("GIVEN_NAME")+" "+r.getString("LAST_NAME"));
+					jobseeker.setFatherName(r.getString("FATHER_NAME"));
+					jobseeker.setMotherName(r.getString("MOTHER_NAME"));
+					jobseeker.setpDivisionName(r.getString("DIVISION_NAME"));
+					jobseeker.setpDistrictName(r.getString("DIST_NAME"));
+					jobseeker.setpThanaName(r.getString("THANA_NAME"));
+					jobseeker.setpUnionName(r.getString("UNIONNAME"));
+					jobSeekerList.add(jobseeker);
+					
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return jobSeekerList;
+	 }
 	 public int getNomineeContactPhoneCount(String phoneNumber)
 	 {
 		   Connection conn = ConnectionManager.getConnection();
