@@ -868,8 +868,12 @@ public class RegistrationDAO {
 				while (r.next())
 				{
 					jobseeker=new JobseekerDTO();
+					String gName=r.getString("GIVEN_NAME")==null?"":r.getString("GIVEN_NAME");
+					String lName=r.getString("LAST_NAME")==null?"":r.getString("LAST_NAME");
+					
 					jobseeker.setRegId(r.getString("JOBSEEKERID"));
 					jobseeker.setName(r.getString("GIVEN_NAME")+" "+r.getString("LAST_NAME"));
+					jobseeker.setName(gName+" "+lName);
 					jobseeker.setFatherName(r.getString("FATHER_NAME"));
 					jobseeker.setMotherName(r.getString("MOTHER_NAME"));
 					jobseeker.setpDivisionName(r.getString("DIVISION_NAME"));
