@@ -10,7 +10,7 @@
 
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
-<title>G2G Project - User Home</title>
+<title></title>
  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />	
   <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
@@ -33,14 +33,14 @@
 	</div>
 	<div style="float: left;margin-left: 30px;color: black;margin-top: 15px;text-align: left;">
 	 	<div style="font-size: 27px;font-weight: bold;">Bureau of Manpower, Employment & Training (BMET)</div>
-	 	<div style="font-size: 20px;margin-top: 10px;">G2G Project </div>
+	 	
 	</div>
 </div>
 </center>
 </div>
 <center>
 <br/>
-<div class="box" style="margin-top: 100px;width: 1000px;text-align: center;">
+<div class="box" style="margin-top: 40px;width: 1000px;text-align: center;">
     <h3>List of all Registered Jobseeker</h3>
     
     
