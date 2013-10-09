@@ -87,7 +87,7 @@ public String execute() throws Exception
 		{
 			return "blankForm";
 		}
-		else if(!loggedInUser.getAuthenticationKey().equalsIgnoreCase(submittedAuthKey) && !loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))
+		else if(!loggedInUser.getAuthenticationKey().equalsIgnoreCase(submittedAuthKey) || !loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))
 		{
 			return "logout";
 		}
