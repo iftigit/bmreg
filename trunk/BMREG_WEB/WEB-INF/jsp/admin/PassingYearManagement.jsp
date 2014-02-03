@@ -10,17 +10,46 @@
 
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
-<title>Reg. System - Admin Home</title>
+<title>BMET</title>
  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />	
+ <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/prototype-1.6.0.2.js"></script>	
   <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/numeric.js"></script>
- <script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
  
  <link type="text/css" rel="Stylesheet" href="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jquery.validity.css" />
         <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jQuery.validity.js"></script>
  
+  <script type="text/javascript" src="/BMREG_WEB/resources/js/address.js"></script>
+  
+  <script type="text/javascript">
 
+var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.gif' border='0' /></center>";
+
+function updateYearInfo()
+{
+
+var fromYear=document.getElementById("fromYear").value;
+var toYear=document.getElementById("toYear").value;
+if(fromYear=="" || toYear=="")
+{
+ 	jQuery("#msgDiv").html("<font color='red'>Please provide correct data.</font>");
+ 	return;
+} 
+
+
+ var loadUrl="savePassingYearInfo.action?fromYear="+fromYear+"&toYear="+toYear;
+			jQuery("#msgDiv")  
+				.html(ajax_load)  
+				.load(loadUrl, {},function(responseText){  
+					jQuery("#msgDiv").html(responseText);
+									   
+				});
+				
+}
+
+
+</script>
 </head>
 <body style="margin: 0px;">
 
@@ -32,68 +61,32 @@
 	</div>
 	<div style="float: left;margin-left: 30px;color: black;margin-top: 15px;text-align: left;">
 	 	<div style="font-size: 27px;font-weight: bold;">Bureau of Manpower, Employment & Training (BMET)</div>
-	 	<div style="font-size: 20px;margin-top: 10px;">Online Registration System</div>
 	</div>
 </div>
 </center>
 </div>
 <center>
 <br/>
-<div class="box" style="margin-top: 100px;width: 500px;text-align: center;">
-    <h3>Activities</h3>
-    
-<form id="loginForm" name="loginForm" method="post" action="checkValidity.action">    
-    <table width="100%" border="0" cellspacing="1" class="infoTable">
-    
-    
- 	<tr>
-     <td style="text-align: center">
-     	<a href="addressEntryHome.action">Address Management</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="userAdministrationHome.action">User Management(Approval)</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="userAdministrationHome.action">Create New User</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	Drop down List Management<br/>
-     	<a href="jobCategoryManagement.action">Job Category</a> |
-     	<a href="countryManagement.action">Country</a> |
-     	<a href="degreeNameManagement.action">Educational Qualifications</a> |
-     	<a href="passingYearManagement.action">Passing Year</a>
-     </td>
-    </tr>
-    
-    
-     <tr>
-     <td style="text-align: center">
-     	<a href="logout.action">Logout</a>
-     </td>
-    </tr>
-    
-     <tr>
-     <td style="text-align: center" height="20px;">
-     
-     </td>
-    </tr>
+<div class="box" style="margin-top: 50px;width: 900px;text-align: center;">
+    <h3>Passing Year Management</h3>
+    <div style="padding-bottom: 30px;">
+    From Year : <input type="text" name="fromYear" id="fromYear" value="<s:property value='fromYear' />" style="border: 1px solid gray;"  maxlength="4" />
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    To Year : <input type="text" name="toYear" id="toYear"  value="<s:property value='toYear' />" style="border: 1px solid gray;" maxlength="4"/><br/>
 
-    </table>
-</form>    
-    
-  
+<p style="padding-top: 40px;">     
+<input type="button" name="save" value="Save Changes" style="width: 200px;height: 35px;"  onclick="updateYearInfo()"/>
+</p>
 </div>
-<p style="height: 30px"></p>
+    
+    <p style="padding-bottom: 20px;">
+    <a href="systemAdminHome.action">Go Home</a>
+    </p>
+
+</div>
+<p id="msgDiv"></p>
 </center>
-<script type="text/javascript">
-$('input').attr('autocomplete','off');   
-</script>
+
 </body>
 
 </html>

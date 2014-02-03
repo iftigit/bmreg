@@ -4,6 +4,7 @@ public class CountryDTO {
 
 	private int countryId;
 	private String countryName;
+	private int visibility;
 	
 	private String isSelected;
 	
@@ -25,6 +26,11 @@ public class CountryDTO {
 	public void setIsSelected(String isSelected) {
 		this.isSelected = isSelected;
 	}
-	
+	public int getVisibility() {
+		return visibility;
+	}
+	public void setVisibility(int visibility) {
+		this.visibility = visibility;
+	}
 	
 }

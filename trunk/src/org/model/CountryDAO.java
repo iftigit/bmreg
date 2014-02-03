@@ -17,7 +17,7 @@ public class CountryDAO {
 		ArrayList<CountryDTO> countryList=new ArrayList<CountryDTO>();
 		
 	 	   Connection conn = ConnectionManager.getConnection();
-		   String sql = "SELECT COUNTRY_ID,SHORT_NAME FROM MST_COUNTRY ORDER BY SHORT_NAME";
+		   String sql = "SELECT COUNTRY_ID,SHORT_NAME,Visibility FROM MST_COUNTRY ORDER BY SHORT_NAME";
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   CountryDTO countryDto  = null;
@@ -32,6 +32,7 @@ public class CountryDAO {
 					countryDto.setCountryId(r.getInt("COUNTRY_ID"));
 					countryDto.setCountryName(r.getString("SHORT_NAME"));
 					countryDto.setIsSelected("N");
+					countryDto.setVisibility(r.getInt("Visibility"));
 					countryList.add(countryDto);
 				}
 			} 
