@@ -425,20 +425,91 @@
 			<result name="success">/WEB-INF/jsp/registration/RegisteredJobSeeker.jsp</result>
 		</action>
 		
-		<action name="contextHandler" class="org.controller.admin.ContextHandler" >
+		
+		<action name="passingYearManagement" class="org.controller.admin.PassingYearManagement" >
+			<result name="success">/WEB-INF/jsp/admin/PassingYearManagement.jsp</result>
+		</action>
+		
+		<action name="savePassingYearInfo" class="org.controller.admin.PassingYearManagement" method="savePassingYearInfo">			
 			<result type="stream">
 				<param name="contentType">text/xml</param>
 				<param name="inputName">inputStream</param>
 			</result>
 		</action>
 		
+		<action name="degreeNameManagement" class="org.controller.admin.DegreeNameManagement" >
+			<result name="success">/WEB-INF/jsp/admin/DegreeNameManagement.jsp</result>
+		</action>
 		
-				
+		<action name="addNewDegreeName" class="org.controller.admin.DegreeNameManagement" method="addNewDegreeName">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="updateDegreeName" class="org.controller.admin.DegreeNameManagement" method="updateDegreeName">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="deleteDegreeName" class="org.controller.admin.DegreeNameManagement" method="deleteDegreeName">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="fetchDegreeNameList" class="org.controller.admin.DegreeNameManagement" >
+			<result name="success">/WEB-INF/jsp/admin/DegreeNameList.jsp</result>
+		</action>
+		
+		<action name="countryManagement" class="org.controller.admin.CountryManagement" >
+			<result name="success">/WEB-INF/jsp/admin/CountryManagement.jsp</result>
+		</action>
+		<action name="updateCountry" class="org.controller.admin.CountryManagement" method="updateCountry">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="updateCountryList" class="org.controller.admin.CountryManagement" method="updateCountryList" >
+			<result name="success">/WEB-INF/jsp/admin/CountryManagement.jsp</result>
+		</action>
+		
+		<action name="jobCategoryManagement" class="org.controller.admin.JobCategoryManagement" >
+			<result name="success">/WEB-INF/jsp/admin/JobCategoryManagement.jsp</result>
+		</action>
+		<action name="saveJobStatus" class="org.controller.admin.JobCategoryManagement" method="saveJobStatus">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="fetchJobList" class="org.controller.admin.JobCategoryManagement" >
+			<result name="success">/WEB-INF/jsp/admin/JobList.jsp</result>
+		</action>
+		<action name="createNewJob" class="org.controller.admin.JobCategoryManagement" method="createNewJob">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<action name="getJobEditPanel" class="org.controller.admin.JobCategoryManagement" method="getJobEditPanel">
+			<result name="success">/WEB-INF/jsp/admin/JobCategoryPanel.jsp</result>
+		</action>
+		
+		
+		
+		<action name="contextHandler" class="org.controller.admin.ContextHandler" >
+			<result type="stream">
+				<param name="contentType">text/xml</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+						
 	</package>
-	
-
 <include file="org/json/JsonAjaxMap.xml" />
-
 </struts>
 
 

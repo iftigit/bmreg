@@ -4,14 +4,69 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.table.CountryDTO;
+import org.table.JobCategoryDTO;
 import org.table.JobPreferenceDTO;
 
 import util.connection.ConnectionManager;
 
 public class JobCategoryDAO {
 	
+	
+	public static ArrayList<JobCategoryDTO> getAllJob()
+	{
+		   ArrayList<JobCategoryDTO> jobList=new ArrayList<JobCategoryDTO>();
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql="Select main_jobid,subjob_id,sub_subjobid,main_job_title,sub_job_title,sub_subjobtitle,main_job_visibility,sub_job_visibility,sub_subjob_visibility from  " +
+				 	  "( " +
+				 	  "Select tmp4.*,job_title sub_subjobtitle,visibility sub_subjob_visibility from  " +
+				 	  "( " +
+				 	  "Select tmp3.*,JOBS_MAPPING.child_id sub_subjobId from ( " +
+				 	  "Select tmp2.*,MST_JOBS.JOB_TITLE sub_job_title,visibility sub_job_visibility from (Select child_id subJob_id,tmp1.* from (Select job_id main_jobId,job_title main_job_title,visibility main_job_visibility from MST_JOBS where Level_No=1 order by job_title)tmp1  left outer join JOBS_MAPPING " +
+				 	  "on parent_id=main_jobId)tmp2,MST_JOBS  " +
+				 	  "Where tmp2.subJob_id=MST_JOBS.job_id)tmp3 left outer join jobs_mapping " +
+				 	  "on subjob_id=jobs_mapping.PARENT_ID " +
+				 	  ")tmp4 left outer join mst_jobs " +
+				 	  "on sub_subjobid=job_id " +
+				 	  ") " +
+				 	  "order by main_jobid,subjob_id,sub_subjobid ";
+	 	   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   JobCategoryDTO jobDto  = null;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					jobDto=new JobCategoryDTO();
+					jobDto.setCategoryId(r.getInt("MAIN_JOBID"));
+					jobDto.setCategoryName(r.getString("MAIN_JOB_TITLE"));
+					jobDto.setMainJobVisibility(r.getInt("MAIN_JOB_VISIBILITY"));
+					
+					jobDto.setSubCategoryId(r.getInt("SUBJOB_ID"));
+					jobDto.setSubCategoryName(r.getString("SUB_JOB_TITLE"));
+					jobDto.setSubJobVisibility(r.getInt("SUB_JOB_VISIBILITY"));
+					
+					jobDto.setSubSubCategoryId(r.getInt("SUB_SUBJOBID"));
+					jobDto.setSubSubCategoryName(r.getString("SUB_SUBJOBTITLE"));
+					jobDto.setSubSubJobVisibility(r.getInt("SUB_SUBJOB_VISIBILITY"));
+					
+					jobList.add(jobDto);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return jobList;
+
+	}
 	
 	public static ArrayList<JobPreferenceDTO> getAllJob(int level)
 	{
@@ -47,6 +102,36 @@ public class JobCategoryDAO {
 
 	}
 	
+	public static ArrayList<JobPreferenceDTO> getSubJobs(int patentJobId,int level)
+	{
+		   ArrayList<JobPreferenceDTO> jobList=new ArrayList<JobPreferenceDTO>();
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql = "Select * from MST_JOBS where job_Id in (Select child_id from JOBS_MAPPING where Parent_Id="+patentJobId+") and Level_No="+level+" Order by Job_Title";
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   JobPreferenceDTO jobDto  = null;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					jobDto=new JobPreferenceDTO();
+					jobDto.setJobId(r.getInt("JOB_ID"));
+					jobDto.setJobTitle(r.getString("JOB_TITLE"));
+					jobList.add(jobDto);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return jobList;
+
+	}
+
 	public String getJobCagegorySelectBox(int parentJobId,int level,int componentIndex,String selectType)
 	{
 		
@@ -102,9 +187,59 @@ public class JobCategoryDAO {
 	 				selectTxt="<select name='localSubJob_2_"+componentIndex+"' id='localSubJob_2_"+componentIndex+"' style='width:120px;border:1px solid grey;'>"+selectTxt;
 	 			selectTxt+="</select>";
 	 			}
+	 			else if(selectType.equalsIgnoreCase("jobManagement"))
+	 			{
+	 			if(level==2)
+	 				selectTxt="<select name='subJob1' id='subJob1' style='width:200px;border:1px solid grey;' onchange=\"fetchJobCategory(this.value,3,0,'subJobDiv"+level+"','jobManagement')\">"+selectTxt;
+	 			else
+	 				selectTxt="<select name='subJob2' id='subJob2' style='width:200px;border:1px solid grey;'>"+selectTxt;
+	 			selectTxt+="</select>";
+	 			}
 	 		}
 	 	return selectTxt;
 
+	}
+	
+	public static boolean updateJobStatus(int jobId,int status)
+	{
+		
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="";
+		 if(status==0){
+		  sql = " Update MST_JOBS Set VISIBILITY=? Where JOB_ID in "+
+		                "(select child_id from JOBS_MAPPING "+
+"where parent_id in (select child_id from JOBS_MAPPING where parent_id=?)"+
+" union "+
+"select child_id from JOBS_MAPPING where parent_id=? union select ? from dual)";
+		 }
+		 else if(status==1){
+			  sql = " Update MST_JOBS Set VISIBILITY=? Where JOB_ID in "+
+              "(select parent_id from JOBS_MAPPING "+
+"where child_id in (select parent_id from JOBS_MAPPING where child_id=?)"+
+" union "+
+"select parent_id from JOBS_MAPPING where child_id=? union select ? from dual)";
+}
+		   
+		   int operation=0;
+		   PreparedStatement stmt = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, status);
+			    stmt.setInt(2, jobId);	
+			    stmt.setInt(3, jobId);
+			    stmt.setInt(4, jobId);
+			    
+			    operation=stmt.executeUpdate();
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		if(operation>=1)
+			return true;
+		else
+			return false;
 	}
 
 
