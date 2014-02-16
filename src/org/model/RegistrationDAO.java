@@ -345,7 +345,248 @@ public class RegistrationDAO {
 	 		
 	 		return personalDto;
 	 }
+	 public NomineeDTO getNomineeInformation(String registrationId)
+	 {
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = "  Select * from EMP_NOMINEE Where JobseekerId=? "; 
+		     
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   NomineeDTO nomineeInfo  = null;
+		   AddressDTO addressInfo=null;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, registrationId);
+				r = stmt.executeQuery();
+				if (r.next())
+				{
+					nomineeInfo=new NomineeDTO();
+					addressInfo=new AddressDTO();
+					
+					nomineeInfo.setNomineeName(r.getString("NOMINEE_NAME"));
+					nomineeInfo.setContact1Relation(r.getString("RELATIONSHIP"));
+					nomineeInfo.setNomineeFatherName(r.getString("FATHER_NAME"));
+					nomineeInfo.setNomineeMotherName(r.getString("MOTHER_NAME"));
+					nomineeInfo.setNomineePhoneOrMobile(r.getString("PHONE_MOBILE"));
+					nomineeInfo.setContact1Name(r.getString("CONTACT1_NAME"));					
+					nomineeInfo.setContact1Mobile(r.getString("CONTACT1_MOBILE"));
+					nomineeInfo.setContact1Relation(r.getString("CONTACT1_RELATION"));
+					nomineeInfo.setContact2Name(r.getString("CONTACT2_NAME"));
+					nomineeInfo.setContact2Mobile(r.getString("CONTACT2_MOBILE"));
+					nomineeInfo.setContact2Relation(r.getString("CONTACT2_RELATION"));
+					nomineeInfo.setContact3Name(r.getString("CONTACT3_NAME"));
+					nomineeInfo.setContact3Mobile(r.getString("CONTACT3_MOBILE"));
+					nomineeInfo.setContact3Relation(r.getString("CONTACT3_RELATION"));
+										
+					
+					addressInfo.setDivisionId(r.getString("DIVISTION"));
+					addressInfo.setDistrictId(r.getString("DISTRICT"));
+					addressInfo.setUpazillaOrThanaId(r.getString("UPAZILA_OR_THANA"));
+					addressInfo.setUnionOrWardId(r.getString("UNION_OR_WARD"));
+					addressInfo.setMauzaOrMohollaId(r.getString("MAUZA_OR_MOHOLLA"));
+					addressInfo.setVillageId(r.getString("VILLAGE"));
+					addressInfo.setPostOffice(r.getString("POST_OFFICE"));
+					addressInfo.setPostCode(r.getString("POST_CODE"));
+					addressInfo.setRoadNumber(r.getString("ROAD_NUMBER"));
+					addressInfo.setHouseHoldNumber(r.getString("HOUSEHOLD_NUMBER"));
+				
+					nomineeInfo.setAddress(addressInfo);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return nomineeInfo;
+	 }
 	 
+	 public EducationDTO getEducationInformation(String registrationId)
+	 {
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = "  Select * from EMP_NOMINEE Where JobseekerId=? "; 
+		     
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   EducationDTO educationInfo  = null;
+
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, registrationId);
+				r = stmt.executeQuery();
+				if (r.next())
+				{
+					educationInfo=new EducationDTO();
+					
+					educationInfo.setHeighestDegreeId(r.getInt("DEGREE"));
+					educationInfo.setLastInstitute(r.getString("INSTITUTE_NAME"));
+					educationInfo.setPassingYear(r.getString("PASSING_YEAR"));
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return educationInfo;
+	 }
+	 
+	 public ArrayList<ExperienceDTO> getExperienceList(String registrationId,String experienceType)
+	 {
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = "  Select * from EMP_EXPERIENCE Where JobseekerId=? and EXP_TYPE=? "; 
+		     
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   ArrayList<ExperienceDTO> expList=null;
+		   ExperienceDTO expInfo  = null;
+
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, registrationId);
+				stmt.setString(2, experienceType);
+				r = stmt.executeQuery();
+				int count=0;
+				while (r.next())
+				{
+					if(count==0)
+						expList=new ArrayList<ExperienceDTO>();
+					
+					expInfo=new ExperienceDTO();
+					
+					expInfo.setCountryId(r.getInt("COUNTRY"));
+					expInfo.setJobCategoryId(r.getInt("JOB_CATEGORY"));
+					expInfo.setJobSubCategoryId(r.getInt("SUB_JOB_CATEGORY"));
+					expInfo.setJobSubSubCategoryId(r.getInt("SUB_SUB_JOB_CATEGORY"));
+					expInfo.setTotalYears(r.getInt("EXP_YEAR"));
+					expList.add(expInfo);
+					count++;
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return expList;
+	 }
+	 public ArrayList<JobPreferenceDTO> getJobPreferenceList(String registrationId,String experienceType)
+	 {
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = "  Select * from EMP_EXPERIENCE Where JobseekerId=? and EXP_TYPE=? "; 
+		     
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   ArrayList<JobPreferenceDTO> jobPreferenceList=null;
+		   JobPreferenceDTO jobPreferenceInfo  = null;
+
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, registrationId);
+				stmt.setString(2, experienceType);
+				r = stmt.executeQuery();
+				int count=0;
+				while (r.next())
+				{
+					if(count==0)
+						jobPreferenceList=new ArrayList<JobPreferenceDTO>();
+					
+					jobPreferenceInfo=new JobPreferenceDTO();
+
+					jobPreferenceInfo.setCategoryId(r.getInt("CATEGORY"));
+					jobPreferenceInfo.setSubCategoryId(r.getInt("SUB_CATEGORY"));
+					jobPreferenceInfo.setSubSubCategoryId(r.getInt("SUB_SUB_CATEGORY"));
+					jobPreferenceList.add(jobPreferenceInfo);
+					count++;
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return jobPreferenceList;
+	 }
+	 public ArrayList<LanguageDTO> getLanguageList(String registrationId)
+	 {
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = "  Select * from EMP_LANGUAGE Where JobseekerId=? "; 
+		     
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   ArrayList<LanguageDTO> languageList=null;
+		   LanguageDTO languageInfo  = null;
+
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, registrationId);
+				r = stmt.executeQuery();
+				int count=0;
+				while (r.next())
+				{
+					if(count==0)
+						languageList=new ArrayList<LanguageDTO>();
+					
+					languageInfo=new LanguageDTO();
+
+					languageInfo.setLanguage(r.getString("LANGUAGE"));
+					languageInfo.setOralSkill(r.getString("ORAL_SKILL"));
+					languageInfo.setWritingSkill(r.getString("WRITING_SKILL"));
+					languageList.add(languageInfo);
+					count++;
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return languageList;
+	 }
+	 public ArrayList<TrainingDTO> getTrainingList(String registrationId)
+	 {
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = "  Select * from EMP_TRAINING Where JobseekerId=? "; 
+		     
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   ArrayList<TrainingDTO> trainingList=null;
+		   TrainingDTO trainingInfo  = null;
+
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, registrationId);
+				r = stmt.executeQuery();
+				int count=0;
+				while (r.next())
+				{
+					if(count==0)
+						trainingList=new ArrayList<TrainingDTO>();
+					
+					trainingInfo=new TrainingDTO();
+
+					trainingInfo.setTrainingName(r.getString("TRAINING_NAME"));
+					trainingInfo.setFromWhere(r.getString("INSTITUTE"));
+					trainingInfo.setDuration(r.getString("DURATION"));
+					trainingInfo.setDescription(r.getString("DESCRIPTION"));
+					trainingList.add(trainingInfo);
+					count++;
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return trainingList;
+	 }
+
 	 /*
 	 public String updateEmpRegistrationInfo(PersonalInfoDTO personalDTO,AddressDTO addressDTO,String userId) 
 			{	     
@@ -971,6 +1212,56 @@ public class RegistrationDAO {
 				{e.printStackTrace();}stmt = null;conn = null;}
 	 		
 	 		return count;
+	 }
+	 public ArrayList<PersonalInfoDTO> searchJobSeeker(PersonalInfoDTO personalInfo){
+		 ArrayList<PersonalInfoDTO> jobSeekerList=null;
+		 
+		 Connection conn = ConnectionManager.getConnection();
+		   String sql="Select * from EMP_PERSONAL Where JobseekerId=? or PassportNo=?  " +
+		   		" or NationalId=? or BirthRegId=? or lower(given_name||' '||last_name) like lower(?) " +
+		   		" or to_char(birth_date,'dd-MM-YYYY')=? or Mobile=?";
+	   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   PersonalInfoDTO personalInfoDTO=null;
+
+		   int count=0;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, personalInfo.getJobseekerNumber());
+				stmt.setString(2, personalInfo.getPassportNo());
+				stmt.setString(3, personalInfo.getNationalId());
+				stmt.setString(4, personalInfo.getBirthRegId());
+				stmt.setString(5, personalInfo.getEmpFullName());
+				stmt.setString(6, personalInfo.getEmpBirthDate());
+				stmt.setString(7, personalInfo.getEmpMobileNumber());
+				r = stmt.executeQuery();
+				while(r.next())
+				{
+					if(count==0)
+						jobSeekerList=new ArrayList<PersonalInfoDTO>();
+					
+					personalInfoDTO=new PersonalInfoDTO();
+					personalInfoDTO.setJobseekerNumber(r.getString("JOBSEEKERID"));
+					personalInfoDTO.setEmpFullName(r.getString("GIVEN_NAME")+" "+r.getString("LAST_NAME"));
+					personalInfoDTO.setEmpFatherName(r.getString("FATHER_NAME"));
+					personalInfoDTO.setEmpMotherName(r.getString("MOTHER_NAME"));
+					jobSeekerList.add(personalInfoDTO);
+					count++;
+					
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+
+	 		
+		 
+		 
+		 return jobSeekerList;
 	 }
 	 
 
