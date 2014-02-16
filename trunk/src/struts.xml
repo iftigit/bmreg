@@ -499,8 +499,31 @@
 			<result name="success">/WEB-INF/jsp/admin/JobCategoryPanel.jsp</result>
 		</action>
 		
+		<action name="raEntryHome">
+			<result name="success">/WEB-INF/jsp/admin/recruitingAgency/raEntryForm.jsp</result>
+		</action>
+		 
+		<action name="raListHome">
+			<result name="success">/WEB-INF/jsp/admin/recruitingAgency/raListHome.jsp</result>
+		</action>
+		<action name="raSearchHome">
+			<result name="success">/WEB-INF/jsp/admin/recruitingAgency/raSearchHome.jsp</result>
+		</action>
+		<action name="fetchRaList">
+			<result name="success">/WEB-INF/jsp/admin/recruitingAgency/raList.jsp</result>
+		</action>
 		
+		<action name="regCorrectionHome">
+			<result name="success">/WEB-INF/jsp/admin/registration/regCorrectionHome.jsp</result>
+		</action>
+		<action name="searchJobSeeker" class="org.controller.admin.RegistrationManagement" method="searchJobseeker">			
+			<result name="success">/WEB-INF/jsp/admin/registration/empList.jsp</result>
+		</action>
+		<action name="editRegInfo" class="org.controller.admin.RegistrationManagement" method="getRegInfo">
+			<result name="success">/WEB-INF/jsp/admin/registration/regEditForm.jsp</result>
+		</action>
 		
+		 
 		<action name="contextHandler" class="org.controller.admin.ContextHandler" >
 			<result type="stream">
 				<param name="contentType">text/xml</param>

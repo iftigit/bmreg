@@ -70,6 +70,19 @@
      	<a href="passingYearManagement.action">Passing Year</a>
      </td>
     </tr>
+    <tr>
+     <td style="text-align: center">
+     	RA Management<br/>
+     	<a href="raEntryHome.action">Create New RA</a> |
+     	<a href="raListHome.action">RA List</a> |
+     	<a href="raSearchHome.action">Search RA</a>
+     </td>
+    </tr>
+    <tr>
+     <td style="text-align: center">
+     	<a href="regCorrectionHome.action">Registration Correction</a>
+     </td>
+    </tr>
     
     
      <tr>
