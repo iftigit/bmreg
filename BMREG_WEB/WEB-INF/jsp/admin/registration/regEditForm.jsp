@@ -2832,28 +2832,8 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
 
 
 </script>
-<%String form_error=(String) request.getSession().getAttribute("form_error");
- if(form_error==null)form_error="first_time";
- if(form_error.equalsIgnoreCase("form_error") || form_error.equalsIgnoreCase("edit_form") ){
-  %>
-   <%@ include file="SetFormContent.jsp" %>
- <%} 
- 
- else{%>
+<%@ include file="SetFormContent.jsp" %>
  <script type="text/javascript">
-$(document).ready(function(){
-    defaultTrainingLoad();
-	defaultLanguageLoad();
-	defaultLocalExpLoad();
-	defaultAbroadExpLoad();
-	addJobPreferenceDiv();
-	$("#heighestDegree").val("7");
-	$("#language0").val("Bangla");
-	
-	document.getElementById("lastInstitute").disabled='true';
-    document.getElementById("passingYear").disabled='true';
-	
-});
 function controlDegree(degree)
 {
   if(degree==7)
@@ -2868,10 +2848,12 @@ function controlDegree(degree)
    }
 }
 </script>
- <%} %>
  
 <script type="text/javascript">
-	//$('input').attr('autocomplete','off');  
+	//$('input').attr('autocomplete','off');
+	$(document).ready(function(){
+	document.getElementById("goHomeAnchor").innerHTML="<a class='buttonFinish' href='regCorrectionHome.action'><< Go Back</a> ";
+	});
 </script>
 </body>
 </html>

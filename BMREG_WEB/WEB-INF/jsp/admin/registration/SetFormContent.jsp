@@ -158,6 +158,7 @@ document.getElementById("childNo").checked=true;
 
 <script type="text/javascript">
 calculateAge('age','birthDate');
+
  for(var i=0;i<document.forms['empRegForm'].BIRTH_DIST.length;i++)
 	  { 
         if(document.forms['empRegForm'].BIRTH_DIST.options[i].value=="<%=reset_birthDistrict%>")
@@ -635,7 +636,7 @@ function setMailingAddress(){
 } //End of Function
 <% AddressDTO mAddress=((AddressDTO) (request.getAttribute("mAddress")));%>
 function funcSetMailingDistrict(){
- <% String sub_mDistrict=mAddress.getDistrictId(); %>
+ <% String sub_mDistrict=mAddress.getDistrictId(); System.out.println("----->>"+sub_mDistrict);%>
      for(var i=0;i<document.forms['empRegForm'].MAILING_DIST.length;i++)
 	  { 
         if(document.forms['empRegForm'].MAILING_DIST.options[i].value=="<%=sub_mDistrict%>")
