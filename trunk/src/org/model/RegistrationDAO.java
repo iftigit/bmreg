@@ -281,8 +281,9 @@ public class RegistrationDAO {
 		   				"  (Select tmp1.*,villname villageName from " +
 		   				"  (  " +
 		   				" Select EMP_PERSONAL.jobseekerid,(GIVEN_NAME||' '||LAST_NAME) fullName,given_name,last_name,FATHER_NAME,MOTHER_NAME,MOBILE, " +
-		   				" to_char(BIRTH_DATE,'dd-mm-YYYY') birthDate,GENDER,NATIONALID,BIRTHREGID,PPOST_OFFICE,PPOST_CODE,PROAD_NUMBER,PVILLAGE,PDISTRICT,BIRTH_DISTRICT, " +
-		   				" to_char(sysdate,'dd-mm-YYYY HH:MI:SS') printedOn,to_char(REG_DATE,'dd-mm-YYYY HH24:MI:SS') applicationDateTime,REMOTE_ADDRESS " +
+		   				" to_char(BIRTH_DATE,'dd-mm-YYYY') birthDate,GENDER,NATIONALID,BIRTHREGID,PPOST_OFFICE,PPOST_CODE,PROAD_NUMBER,PVILLAGE,PDISTRICT,BIRTH_DISTRICT,BIRTH_UPAZILA_OR_THANA, " +
+		   				" to_char(sysdate,'dd-mm-YYYY HH:MI:SS') printedOn,to_char(REG_DATE,'dd-mm-YYYY HH24:MI:SS') applicationDateTime,REMOTE_ADDRESS, " +
+		   				" DISABILITYYN,DISABILITY_DETAIL,RELIGION,MARITAL_STATUS,CHILDYN,TOTAL_SON,TOTAL_DAUGHTER,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,BLOOD_GROUP"+
 		   				" from EMP_PERSONAL,EMP_REG_LOG,EMP_ADDRESS Where EMP_PERSONAL.jobseekerid=?   AND  EMP_PERSONAL.jobseekerid=EMP_REG_LOG.jobseekerid " +
 		   				" AND    EMP_PERSONAL.jobseekerid=EMP_ADDRESS.jobseekerid " +
 		   				" )tmp1 left outer join village  " +
@@ -327,6 +328,22 @@ public class RegistrationDAO {
 					personalDto.setEmpGender(gender);
 					personalDto.setEmpBirthDate(r.getString("birthDate"));
 					personalDto.setEmpBirthDistrictName(r.getString("birth_dist_name"));
+					personalDto.setEmpBirthDistrict(r.getString("BIRTH_DISTRICT"));
+					personalDto.setEmpBirthUpazilaOrThana(r.getString("BIRTH_UPAZILA_OR_THANA"));
+					personalDto.setEmpDisabilityDetail(r.getString("DISABILITY_DETAIL"));
+					personalDto.setEmpDisabilityYN(r.getString("DISABILITYYN"));
+					
+					personalDto.setEmpReligion(r.getString("RELIGION"));
+					personalDto.setEmpMaritalStatus(r.getString("MARITAL_STATUS"));
+					personalDto.setEmpChildYN(r.getString("CHILDYN"));
+					personalDto.setEmpSonCount(r.getString("TOTAL_SON"));
+					personalDto.setEmpDaughterCount(r.getString("TOTAL_DAUGHTER"));
+					personalDto.setEmpHeightFeet(r.getString("HEIGHT_FEET"));
+					personalDto.setEmpHeightInches(r.getString("HEIGHT_INCHES"));
+					personalDto.setEmpHeightCM(r.getString("HEIGHT_CM"));
+					personalDto.setEmpWeight(r.getString("WEIGHT_KG"));
+					personalDto.setEmpBloodGroup(r.getString("BLOOD_GROUP"));
+					
 					
 					AddressDTO addDto=new AddressDTO();
 					addDto.setDistrictName(r.getString("pdistrict_name"));
@@ -344,6 +361,60 @@ public class RegistrationDAO {
 				{e.printStackTrace();}stmt = null;conn = null;}
 	 		
 	 		return personalDto;
+	 }
+	 
+	 public PersonalInfoDTO getAddressInfo(String registrationId)
+	 {
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = "  Select * from EMP_ADDRESS Where JobseekerId=? "; 
+		     
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   PersonalInfoDTO personalInfoDTO  = null;
+
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, registrationId);
+				r = stmt.executeQuery();
+				if (r.next())
+				{
+					personalInfoDTO=new PersonalInfoDTO();
+					AddressDTO pAddress=new AddressDTO();
+					pAddress.setDivisionId(r.getString("PDIVISION"));
+					pAddress.setDistrictId(r.getString("PDISTRICT"));
+					pAddress.setUpazillaOrThanaId(r.getString("PUPAZILA_OR_THANA"));
+					pAddress.setUnionOrWardId(r.getString("PUNION_OR_WARD"));
+					pAddress.setMauzaOrMohollaId(r.getString("PMAUZA_OR_MOHOLLA"));
+					pAddress.setVillageId(r.getString("PVILLAGE"));
+					pAddress.setPostOffice(r.getString("PPOST_OFFICE"));
+					pAddress.setPostCode(r.getString("PPOST_CODE"));
+					pAddress.setRoadNumber(r.getString("PROAD_NUMBER"));
+					pAddress.setHouseHoldNumber(r.getString("PHOUSEHOLD_NUMBER"));
+					personalInfoDTO.setPermanentAddress(pAddress);
+					
+					AddressDTO mAddress=new AddressDTO();
+					mAddress.setDivisionId(r.getString("MDIVISION"));
+					mAddress.setDistrictId(r.getString("MDISTRICT"));
+					mAddress.setUpazillaOrThanaId(r.getString("MUPAZILA_OR_THANA"));
+					mAddress.setUnionOrWardId(r.getString("MUNION_OR_WARD"));
+					mAddress.setMauzaOrMohollaId(r.getString("MMAUZA_OR_MOHOLLA"));
+					mAddress.setVillageId(r.getString("MVILLAGE"));
+					mAddress.setPostOffice(r.getString("MPOST_OFFICE"));
+					mAddress.setPostCode(r.getString("MPOST_CODE"));
+					mAddress.setRoadNumber(r.getString("MROAD_NUMBER"));
+					mAddress.setHouseHoldNumber(r.getString("MHOUSEHOLD_NUMBER"));
+					personalInfoDTO.setMailingAddress(mAddress);
+					
+					
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return personalInfoDTO;
 	 }
 	 public NomineeDTO getNomineeInformation(String registrationId)
 	 {
@@ -366,7 +437,7 @@ public class RegistrationDAO {
 					addressInfo=new AddressDTO();
 					
 					nomineeInfo.setNomineeName(r.getString("NOMINEE_NAME"));
-					nomineeInfo.setContact1Relation(r.getString("RELATIONSHIP"));
+					nomineeInfo.setNomineeRelation(r.getString("RELATIONSHIP"));
 					nomineeInfo.setNomineeFatherName(r.getString("FATHER_NAME"));
 					nomineeInfo.setNomineeMotherName(r.getString("MOTHER_NAME"));
 					nomineeInfo.setNomineePhoneOrMobile(r.getString("PHONE_MOBILE"));
@@ -405,7 +476,7 @@ public class RegistrationDAO {
 	 public EducationDTO getEducationInformation(String registrationId)
 	 {
 		   Connection conn = ConnectionManager.getConnection();
-		   String sql = "  Select * from EMP_NOMINEE Where JobseekerId=? "; 
+		   String sql = "  Select * from EMP_EDUCATION Where JobseekerId=? "; 
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -473,10 +544,10 @@ public class RegistrationDAO {
 	 		
 	 		return expList;
 	 }
-	 public ArrayList<JobPreferenceDTO> getJobPreferenceList(String registrationId,String experienceType)
+	 public ArrayList<JobPreferenceDTO> getJobPreferenceList(String registrationId)
 	 {
 		   Connection conn = ConnectionManager.getConnection();
-		   String sql = "  Select * from EMP_EXPERIENCE Where JobseekerId=? and EXP_TYPE=? "; 
+		   String sql = "  Select * from EMP_JOB_PREFERENCE Where JobseekerId=? "; 
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -488,7 +559,6 @@ public class RegistrationDAO {
 			{
 				stmt = conn.prepareStatement(sql);
 				stmt.setString(1, registrationId);
-				stmt.setString(2, experienceType);
 				r = stmt.executeQuery();
 				int count=0;
 				while (r.next())
@@ -514,7 +584,7 @@ public class RegistrationDAO {
 	 public ArrayList<LanguageDTO> getLanguageList(String registrationId)
 	 {
 		   Connection conn = ConnectionManager.getConnection();
-		   String sql = "  Select * from EMP_LANGUAGE Where JobseekerId=? "; 
+		   String sql = "  Select * from EMP_LANGUAGE Where JOBSEEKER_ID=? "; 
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
