@@ -83,9 +83,17 @@
      	<a href="regCorrectionHome.action">Registration Correction</a>
      </td>
     </tr>
-    
-    
-     <tr>
+    <tr>
+     <td style="text-align: center">
+     	<a href="selectionHome.action">Lottery Home</a>
+     </td>
+    </tr>
+    <tr>
+     <td style="text-align: center">
+     	<a href="raLotteryHome.action">RA Lottery Home</a>
+     </td>
+    </tr>    
+    <tr>
      <td style="text-align: center">
      	<a href="logout.action">Logout</a>
      </td>
