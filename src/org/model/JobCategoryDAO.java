@@ -187,6 +187,14 @@ public class JobCategoryDAO {
 	 				selectTxt="<select name='localSubJob_2_"+componentIndex+"' id='localSubJob_2_"+componentIndex+"' style='width:120px;border:1px solid grey;'>"+selectTxt;
 	 			selectTxt+="</select>";
 	 			}
+	 			else if(selectType.equalsIgnoreCase("lotteryJobCategory"))
+	 			{
+	 			if(level==2)
+	 				selectTxt="<select name='lotterySubJob_1_"+componentIndex+"' id='lotterySubJob_1_"+componentIndex+"' style='width:120px;border:1px solid grey;' onchange=\"fetchJobCategory(this.value,3,"+componentIndex+",'lotteryJobSubSubCat"+componentIndex+"','lotteryJobCategory')\">"+selectTxt;
+	 			else
+	 				selectTxt="<select name='lotterySubJob_2_"+componentIndex+"' id='lotterySubJob_2_"+componentIndex+"' style='width:120px;border:1px solid grey;' multiple='multiple' class='txtBox'>"+selectTxt;
+	 			selectTxt+="</select>";
+	 			}
 	 			else if(selectType.equalsIgnoreCase("jobManagement"))
 	 			{
 	 			if(level==2)

@@ -509,10 +509,17 @@
 		<action name="raSearchHome">
 			<result name="success">/WEB-INF/jsp/admin/recruitingAgency/raSearchHome.jsp</result>
 		</action>
-		<action name="fetchRaList">
+		<action name="fetchRaList" class="org.controller.admin.RecruitingAgencyManagement" method="fetchRaList">
 			<result name="success">/WEB-INF/jsp/admin/recruitingAgency/raList.jsp</result>
 		</action>
+		<action name="searchRaList" class="org.controller.admin.RecruitingAgencyManagement" method="searchRaList">
+			<result name="success">/WEB-INF/jsp/admin/recruitingAgency/raList.jsp</result>
+		</action>
+		<action name="createNewRa" class="org.controller.admin.RecruitingAgencyManagement" method="createNewRa">
+			<result name="success">/WEB-INF/jsp/admin/recruitingAgency/raEntryForm.jsp</result>
+		</action>
 		
+						
 		<action name="regCorrectionHome">
 			<result name="success">/WEB-INF/jsp/admin/registration/regCorrectionHome.jsp</result>
 		</action>
@@ -523,7 +530,23 @@
 			<result name="success">/WEB-INF/jsp/admin/registration/regEditForm.jsp</result>
 		</action>
 		
-		 
+		<action name="selectionHome" class="org.controller.admin.LotteryManagement" method="selectionHome">
+			<result name="success">/WEB-INF/jsp/admin/lottery/selectionHome.jsp</result>
+		</action>
+		
+		<action name="jobseekerSelection" class="org.controller.admin.LotteryManagement" method="jobseekerSelection">
+			<result name="success">/WEB-INF/jsp/admin/lottery/selectionHome.jsp</result>
+		</action>
+		<action name="raLotteryHome" class="org.controller.admin.LotteryManagement" method="raLotteryHome">
+			<result name="success">/WEB-INF/jsp/admin/lottery/raSelectionHome.jsp</result>
+		</action>
+		<action name="searchSelection" class="org.controller.admin.LotteryManagement" method="searchSelection">
+			<result name="success">/WEB-INF/jsp/admin/lottery/raSelectionSearchResult.jsp</result>
+		</action>
+		
+		
+		
+		
 		<action name="contextHandler" class="org.controller.admin.ContextHandler" >
 			<result type="stream">
 				<param name="contentType">text/xml</param>
