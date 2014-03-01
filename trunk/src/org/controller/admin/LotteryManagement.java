@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import org.model.CountryDAO;
 import org.model.LanguageDAO;
+import org.model.LotteryDAO;
 import org.model.RADAO;
 import org.table.CountryDTO;
 import org.table.LanguageDTO;
 import org.table.RecruitingAgencyDTO;
+import org.table.SelectedEmpDTO;
 import org.table.SelectionParamDTO;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -22,6 +24,11 @@ public class LotteryManagement extends ActionSupport{
 	private SelectionParamDTO selection;
 	private String agentId;
 	private String workOrder;
+	private ArrayList<SelectionParamDTO> selectionList;
+	private ArrayList<SelectedEmpDTO> jobseekerList;
+	private int selectionId;
+	String[] selectStatusList;
+	private String msg;
 	
 	public String selectionHome()
 	{
@@ -32,7 +39,16 @@ public class LotteryManagement extends ActionSupport{
 	}
 	public String jobseekerSelection(){
 		
-		return null;
+		int responseCode=LotteryDAO.jobseekerSelection(selection);
+		if(responseCode==-11){
+			msg="No Jobseeker found for the selected criteria.";
+			return SUCCESS;
+		}
+		agentList=RADAO.getRecruitingAgencyList("all");
+		countryList=CountryDAO.getAllCountry();
+		languageList=LanguageDAO.getAllLanguage();
+		selectionId=responseCode;
+		return "report";
 	}
 	public String raLotteryHome(){
 		
@@ -40,6 +56,21 @@ public class LotteryManagement extends ActionSupport{
 		return SUCCESS;
 	}
 	public String searchSelection(){
+		LotteryDAO lotteryDAO=new LotteryDAO();
+		selectionList=lotteryDAO.getSelectionList(agentId,workOrder);
+		return SUCCESS;
+	}
+	public String fetchSelectionDetail(){
+		LotteryDAO lotteryDAO=new LotteryDAO();
+		jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
+		selection=lotteryDAO.getSelectionCriteria(selectionId);
+		return SUCCESS;
+	}
+	
+	public String saveJobseekerSelection(){
+		LotteryDAO lotteryDAO=new LotteryDAO();
+		boolean result=lotteryDAO.saveJobseekerSelection(selectionId,selectStatusList);
+		jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
 		return SUCCESS;
 	}
 
@@ -84,4 +115,34 @@ public class LotteryManagement extends ActionSupport{
 	public void setWorkOrder(String workOrder) {
 		this.workOrder = workOrder;
 	}
+	public ArrayList<SelectionParamDTO> getSelectionList() {
+		return selectionList;
+	}
+	public void setSelectionList(ArrayList<SelectionParamDTO> selectionList) {
+		this.selectionList = selectionList;
+	}
+	public int getSelectionId() {
+		return selectionId;
+	}
+	public void setSelectionId(int selectionId) {
+		this.selectionId = selectionId;
+	}
+	public ArrayList<SelectedEmpDTO> getJobseekerList() {
+		return jobseekerList;
+	}
+	public void setJobseekerList(ArrayList<SelectedEmpDTO> jobseekerList) {
+		this.jobseekerList = jobseekerList;
+	}
+	public String[] getSelectStatusList() {
+		return selectStatusList;
+	}
+	public void setSelectStatusList(String[] selectStatusList) {
+		this.selectStatusList = selectStatusList;
+	}
+	public String getMsg() {
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}	
 }

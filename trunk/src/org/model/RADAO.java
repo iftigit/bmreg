@@ -167,4 +167,31 @@ public class RADAO {
 
 	}
 	
+	public static String getCompanyNameFromAgentId(String agencyId)
+	{
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql="Select company_name from AGENT_LICENCE Where Agent_Id=?";
+	 	   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   String companyName="";
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, agencyId);
+				r = stmt.executeQuery();
+				if (r.next())
+				{
+					companyName=r.getString("COMPANY_NAME");
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return companyName;
+
+	}
 }
