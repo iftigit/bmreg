@@ -1,15 +1,26 @@
 package org.table;
 
+import java.util.ArrayList;
+
 public class SelectionParamDTO {
 	
+	private int selectionId;
 	private String agentId;
+	private String agentCompanyName;
 	private String workOrder;
 	private String countryPreference;
 	private String gender;
 	private String languages;
-	private String workPrefererence;
-	private String workExperience;
+	private String jobPreference;
+	private String jobExperience;
 	private int yearOfExperience;
+	private String selectionDate;
+	private String expireDate;
+	private String status;
+	
+	private ArrayList<JobPreferenceDTO> jobPrefererenceList;
+	private ExperienceDTO jobExperienceList;
+	
 	
 	public String getAgentId() {
 		return agentId;
@@ -41,17 +52,17 @@ public class SelectionParamDTO {
 	public void setLanguages(String languages) {
 		this.languages = languages;
 	}
-	public String getWorkPrefererence() {
-		return workPrefererence;
+	public String getJobPreference() {
+		return jobPreference;
 	}
-	public void setWorkPrefererence(String workPrefererence) {
-		this.workPrefererence = workPrefererence;
+	public void setJobPreference(String jobPreference) {
+		this.jobPreference = jobPreference;
 	}
-	public String getWorkExperience() {
-		return workExperience;
+	public String getJobExperience() {
+		return jobExperience;
 	}
-	public void setWorkExperience(String workExperience) {
-		this.workExperience = workExperience;
+	public void setJobExperience(String jobExperience) {
+		this.jobExperience = jobExperience;
 	}
 	public int getYearOfExperience() {
 		return yearOfExperience;
@@ -59,7 +70,48 @@ public class SelectionParamDTO {
 	public void setYearOfExperience(int yearOfExperience) {
 		this.yearOfExperience = yearOfExperience;
 	}
+	public ArrayList<JobPreferenceDTO> getJobPrefererenceList() {
+		return jobPrefererenceList;
+	}
+	public void setJobPrefererenceList(
+			ArrayList<JobPreferenceDTO> jobPrefererenceList) {
+		this.jobPrefererenceList = jobPrefererenceList;
+	}
+	public ExperienceDTO getJobExperienceList() {
+		return jobExperienceList;
+	}
+	public void setJobExperienceList(ExperienceDTO jobExperienceList) {
+		this.jobExperienceList = jobExperienceList;
+	}	
+	public int getSelectionId() {
+		return selectionId;
+	}
+	public void setSelectionId(int selectionId) {
+		this.selectionId = selectionId;
+	}
+	public String getSelectionDate() {
+		return selectionDate;
+	}
+	public void setSelectionDate(String selectionDate) {
+		this.selectionDate = selectionDate;
+	}
+	public String getExpireDate() {
+		return expireDate;
+	}
+	public void setExpireDate(String expireDate) {
+		this.expireDate = expireDate;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getAgentCompanyName() {
+		return agentCompanyName;
+	}
+	public void setAgentCompanyName(String agentCompanyName) {
+		this.agentCompanyName = agentCompanyName;
+	}
 	
-	
-
 }

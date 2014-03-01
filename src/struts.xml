@@ -536,6 +536,11 @@
 		
 		<action name="jobseekerSelection" class="org.controller.admin.LotteryManagement" method="jobseekerSelection">
 			<result name="success">/WEB-INF/jsp/admin/lottery/selectionHome.jsp</result>
+			<result name="report" type="redirectAction">
+			    <param name="actionName">selectionReportAction.action</param>		    
+			    <param name="selectionId">${selectionId}</param>
+   			</result>	    
+			
 		</action>
 		<action name="raLotteryHome" class="org.controller.admin.LotteryManagement" method="raLotteryHome">
 			<result name="success">/WEB-INF/jsp/admin/lottery/raSelectionHome.jsp</result>
@@ -543,7 +548,18 @@
 		<action name="searchSelection" class="org.controller.admin.LotteryManagement" method="searchSelection">
 			<result name="success">/WEB-INF/jsp/admin/lottery/raSelectionSearchResult.jsp</result>
 		</action>
-		
+		<action name="fetchSelectionDetail" class="org.controller.admin.LotteryManagement" method="fetchSelectionDetail">
+		    <result name="success">/WEB-INF/jsp/admin/lottery/selectionDetail.jsp</result>
+		</action>
+		<action name="saveJobseekerSelection" class="org.controller.admin.LotteryManagement" method="saveJobseekerSelection">
+		    <result name="success">/WEB-INF/jsp/admin/lottery/raSelectionHome.jsp</result>	
+		</action>
+		<action name="selectionReportAction" class="org.controller.admin.SelectionReportAction" >
+			<result type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">inputStream</param>
+			</result>		    
+		</action>
 		
 		
 		

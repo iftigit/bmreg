@@ -3,10 +3,15 @@ package org.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import org.table.JobseekerDTO;
 import org.table.LotteryDTO;
 import org.table.LotteryStatusDTO;
+import org.table.SelectedEmpDTO;
+import org.table.SelectionParamDTO;
 
 import oracle.jdbc.driver.OracleCallableStatement;
 
@@ -15,6 +20,324 @@ import util.connection.ConnectionManager;
 public class LotteryDAO {
 
 
+	public ArrayList<SelectionParamDTO> getSelectionList(String agentId,String workOrder){
+		
+		ArrayList<SelectionParamDTO> selectionList=null;
+		Connection conn = ConnectionManager.getConnection();
+		String sql = "Select * from SELECTION_CRITERIA Where Agent_Id=? and Work_Order like ?  order by Selection_Date desc";
+		PreparedStatement stmt = null;
+		ResultSet r = null;
+		try
+		{
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, agentId);
+			stmt.setString(2, "%"+workOrder+"%");
+			r = stmt.executeQuery();
+			int count=0;
+			SelectionParamDTO selection=null;
+			while (r.next())
+			{
+				if(count==0)
+					selectionList=new ArrayList<SelectionParamDTO>();
+				
+				selection=new SelectionParamDTO();
+				
+				selection.setSelectionId(r.getInt("SELECTION_ID"));
+				selection.setAgentId(r.getString("AGENT_ID"));
+				selection.setWorkOrder(r.getString("WORK_ORDER"));
+				selection.setGender(r.getString("GENDER"));
+				selection.setYearOfExperience(r.getInt("EXPERIENCE_YEAR"));
+				selection.setSelectionDate(r.getString("SELECTION_DATE"));
+				selection.setExpireDate(r.getString("EXPIRE_DATE"));
+				selection.setStatus(r.getString("STATUS"));
+				selection.setLanguages(r.getString("LANGUAGE"));
+				
+				selectionList.add(selection);
+				count++;
+				
+			}
+		} 
+		catch (Exception e){e.printStackTrace();}
+ 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+			{e.printStackTrace();}stmt = null;conn = null;}
+ 		
+		
+		return selectionList;
+	}
+	public ArrayList<SelectedEmpDTO> getSelectionDetail(int selectionId){
+		
+		ArrayList<SelectedEmpDTO> jobseekerList=null;
+		Connection conn = ConnectionManager.getConnection();
+		String sql = " Select tmp1.*, " +
+					 " Division.DIVISION_NAME M_DIVISION_NAME,District.DIST_NAME M_DIST_NAME,Thana.THANA_NAME M_THANA_NAME,Unions.UNIONNAME M_UNIONNAME,Mauza.MAUZANAME M_MAUZANAME, " +
+					 " Village.VILLNAME M_VILLNAME,address.MPOST_OFFICE ,address.MPOST_CODE,address.MROAD_NUMBER,address.MHOUSEHOLD_NUMBER   " +
+					 " From " +
+					 " ( " +
+					 " Select personal.JOBSEEKERID,GIVEN_NAME,LAST_NAME,FATHER_NAME,TO_CHAR(BIRTH_DATE,'DD-MM-YYYY') BIRTH_DATE,GENDER,MARITAL_STATUS,MOBILE,SELECTED_YN, " +
+					 " Division.DIVISION_NAME P_DIVISION_NAME,District.DIST_NAME P_DIST_NAME,Thana.THANA_NAME P_THANA_NAME,Unions.UNIONNAME P_UNIONNAME,Mauza.MAUZANAME P_MAUZANAME, " +
+					 " Village.VILLNAME P_VILLNAME,address.PPOST_OFFICE ,address.PPOST_CODE,address.PROAD_NUMBER,address.PHOUSEHOLD_NUMBER " +
+					 " From SELECTION_LOG log,EMP_PERSONAL personal, EMP_ADDRESS address,Division,District,Thana,Unions,Mauza,Village " +
+					 " Where log.JOBSEEKERID=personal.JOBSEEKERID " +
+					 " And log.JOBSEEKERID=address.JOBSEEKERID " +
+					 " And address.pdivision=division.DIVISIONID " +
+					 " And address.PDISTRICT=district.DIST_ID " +
+					 " And address.PUPAZILA_OR_THANA=Thana.THANAID " +
+					 " And address.PUNION_OR_WARD=Unions.UNIONID " +
+					 " And address.PMAUZA_OR_MOHOLLA=Mauza.MAUZAID " +
+					 " And address.PVILLAGE=Village.VILLID  " +
+					 " And log.SELECTION_ID=? " +
+					 " )tmp1,EMP_ADDRESS address,Division,District,Thana,Unions,Mauza,Village " +
+					 " Where " +
+					 " tmp1.JOBSEEKERID=address.JOBSEEKERID " +
+					 " And address.pdivision=division.DIVISIONID " +
+					 " And address.PDISTRICT=district.DIST_ID " +
+					 " And address.PUPAZILA_OR_THANA=Thana.THANAID " +
+					 " And address.PUNION_OR_WARD=Unions.UNIONID " +
+					 " And address.PMAUZA_OR_MOHOLLA=Mauza.MAUZAID " +
+					 " And address.PVILLAGE=Village.VILLID Order by GIVEN_NAME";
+		
+		PreparedStatement stmt = null;
+		ResultSet r = null;
+		try
+		{
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, selectionId);
+			r = stmt.executeQuery();
+			int count=0;
+			SelectedEmpDTO emp=null;
+			while (r.next())
+			{
+				if(count==0)
+					jobseekerList=new ArrayList<SelectedEmpDTO>();
+				
+				emp=new SelectedEmpDTO();
+				emp.setJobseekerId(r.getString("JOBSEEKERID"));
+				emp.setGivenName(r.getString("GIVEN_NAME"));
+				emp.setLastName(r.getString("LAST_NAME"));
+				emp.setFatherName(r.getString("FATHER_NAME"));
+				emp.setBirthDate(r.getString("BIRTH_DATE"));
+				emp.setGender(r.getString("GENDER"));
+				emp.setMaritalStatus(r.getString("MARITAL_STATUS"));
+				emp.setMobileNumber(r.getString("MOBILE"));
+				emp.setSelectedYN(r.getString("SELECTED_YN"));
+				emp.setpDivisionName(r.getString("P_DIVISION_NAME"));
+				emp.setpDistrictName(r.getString("P_DIST_NAME"));
+				emp.setpThanaName(r.getString("P_THANA_NAME"));
+				emp.setpUnionName(r.getString("P_UNIONNAME"));
+				emp.setpMauzaName(r.getString("P_MAUZANAME"));
+				emp.setpVillageName(r.getString("P_VILLNAME"));
+				emp.setpPostCode(r.getString("PPOST_CODE"));
+				emp.setpPostOffice(r.getString("PPOST_OFFICE"));
+				emp.setpRoadNumber(r.getString("PROAD_NUMBER"));
+				emp.setpHouseholdNumber(r.getString("PHOUSEHOLD_NUMBER"));
+				
+				emp.setmDivisionName(r.getString("M_DIVISION_NAME"));
+				emp.setmDistrictName(r.getString("M_DIST_NAME"));
+				emp.setmThanaName(r.getString("M_THANA_NAME"));
+				emp.setmUnionName(r.getString("M_UNIONNAME"));
+				emp.setmMauzaName(r.getString("M_MAUZANAME"));
+				emp.setmVillageName(r.getString("M_VILLNAME"));
+				emp.setmPostCode(r.getString("MPOST_CODE"));
+				emp.setmPostOffice(r.getString("MPOST_OFFICE"));
+				emp.setmRoadNumber(r.getString("MROAD_NUMBER"));
+				emp.setmHouseholdNumber(r.getString("MHOUSEHOLD_NUMBER"));
+				
+				jobseekerList.add(emp);
+				count++;
+				
+			}
+		} 
+		catch (Exception e){e.printStackTrace();}
+ 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+			{e.printStackTrace();}stmt = null;conn = null;}
+ 		
+		
+		return jobseekerList;
+	}
+	public SelectionParamDTO getSelectionCriteria(int selectionId){
+		
+
+		Connection conn = ConnectionManager.getConnection();
+		String sql = "Select * from SELECTION_CRITERIA where Selection_Id=?";
+		PreparedStatement stmt = null;
+		ResultSet r = null;
+		SelectionParamDTO selection=null;
+		try
+		{
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, selectionId);			
+			r = stmt.executeQuery();
+			
+			if (r.next())
+			{
+				
+				selection=new SelectionParamDTO();
+				
+				selection.setSelectionId(r.getInt("SELECTION_ID"));
+				selection.setAgentId(r.getString("AGENT_ID"));
+				selection.setAgentCompanyName(RADAO.getCompanyNameFromAgentId(r.getString("AGENT_ID")));
+				selection.setWorkOrder(r.getString("WORK_ORDER"));
+				selection.setGender(r.getString("GENDER"));
+				selection.setYearOfExperience(r.getInt("EXPERIENCE_YEAR"));
+				selection.setSelectionDate(r.getString("SELECTION_DATE"));
+				selection.setExpireDate(r.getString("EXPIRE_DATE"));
+				selection.setStatus(r.getString("STATUS"));
+				selection.setLanguages(r.getString("LANGUAGE"));
+				
+				
+			}
+		} 
+		catch (Exception e){e.printStackTrace();}
+ 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+			{e.printStackTrace();}stmt = null;conn = null;}
+ 		
+		
+		return selection;
+	}
+	public boolean saveJobseekerSelection(int selectionId,String[] jobseekerList)
+	{
+		   	
+		   
+	 	  Connection conn = ConnectionManager.getConnection();
+	 	  
+	 	  String sql = "Update SELECTION_LOG Set SELECTED_YN='N' where Selection_Id=?";
+		   PreparedStatement stmt = null;
+		   
+			try
+			{
+				conn.setAutoCommit(false);
+				stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, selectionId);
+				int a=stmt.executeUpdate();
+				Statement stmt1 = conn.createStatement();
+				for(int i=0;i<jobseekerList.length;i++){
+					sql = "Update SELECTION_LOG Set SELECTED_YN='Y' where Selection_Id="+selectionId+" and JOBSEEKERID='"+jobseekerList[i]+"'";
+					stmt1.addBatch(sql);
+				}
+				int b[]=stmt1.executeBatch();
+				conn.commit();
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return false;
+
+	}
+	public static synchronized int jobseekerSelection(SelectionParamDTO selection)
+	{
+		 int responseCode=0;
+		 Connection conn = ConnectionManager.getConnection();
+		 OracleCallableStatement stmt=null;
+		 String[] jobPrefArr=selection.getJobPreference().split("@");
+		 String   jobPreQueryStr="";
+		 String   selectValStr="";
+		 
+		 String[] jobExpArr=selection.getJobExperience().split("@");
+		 String   jobExpQueryStr="";
+		 
+		 String tableJobPref="";
+		 String tableJobExp="";
+		 int totalYearExp=selection.getYearOfExperience();
+		 String experienceYearQuery="";
+		 
+		 if(!selection.getJobPreference().equalsIgnoreCase("") && jobPrefArr.length>0 && Integer.parseInt(jobPrefArr[0].split("#")[0])>0){
+			 for(int i=0;i<jobPrefArr.length;i++){
+				 String[] jobPrefInd=jobPrefArr[i].split("@");
+				 selectValStr="";
+				 	for(int j=0;j<jobPrefInd.length;j++){
+				 		selectValStr+=jobPrefInd[j]+",";
+				 	}
+				 	if(selectValStr.length()>0)
+				 		selectValStr=selectValStr.substring(0, selectValStr.length()-1);
+				 	
+				 jobPreQueryStr+=" (jobPref.category,jobPref.sub_category,jobPref.sub_sub_category) in (select "+selectValStr+" from dual) or";
+			 }
+			 if(jobPreQueryStr.length()>0)
+			 {
+				 jobPreQueryStr=jobPreQueryStr.substring(0, jobPreQueryStr.length()-3);
+				 jobPreQueryStr=" And  per.JOBSEEKERID=jobPref.JOBSEEKERID And  ("+jobPreQueryStr+") ";
+				 tableJobPref=" ,EMP_JOB_PREFERENCE jobPref ";				 				 
+			 }
+		 }
+		 
+		 if(!selection.getJobExperience().equalsIgnoreCase("") && jobExpArr.length>0 && Integer.parseInt(jobExpArr[0].split("#")[0])>0){
+			 for(int i=0;i<jobExpArr.length;i++){
+				 String[] jobExpInd=jobExpArr[i].split("@");
+				 if(jobExpInd.length>2){
+					 String[] subSubJobExp=jobExpInd[2].split(",");
+					 for(int j=0;j<subSubJobExp.length;j++){
+						 selectValStr=jobExpInd[0]+","+jobExpInd[1]+","+subSubJobExp[j];
+						 jobExpQueryStr+=" (jobExp.JOB_CATEGORY,jobExp.SUB_JOB_CATEGORY,jobExp.SUB_SUB_JOB_CATEGORY) in (select "+selectValStr+" from dual) or";
+						 experienceYearQuery+=" (experience.JOB_CATEGORY,experience.SUB_JOB_CATEGORY,experience.SUB_SUB_JOB_CATEGORY) in (select "+selectValStr+" from dual) or";
+					 }
+				 }
+				 else{
+					 selectValStr=jobExpInd[0]+","+jobExpInd[1];
+					 jobExpQueryStr+=" (jobExp.JOB_CATEGORY,jobExp.SUB_JOB_CATEGORY,jobExp.SUB_SUB_JOB_CATEGORY) in (select "+selectValStr+" from dual) or";
+					 experienceYearQuery+=" (experience.JOB_CATEGORY,experience.SUB_JOB_CATEGORY,experience.SUB_SUB_JOB_CATEGORY) in (select "+selectValStr+" from dual) or";
+				 }
+			 }
+		 }
+		 if(jobExpQueryStr.length()>0)
+		 {
+			 jobExpQueryStr=jobExpQueryStr.substring(0, jobExpQueryStr.length()-3);
+			 experienceYearQuery=experienceYearQuery.substring(0, experienceYearQuery.length()-3);
+			 jobExpQueryStr=" And  ("+jobExpQueryStr+") ";
+			 tableJobExp=" ,EMP_EXPERIENCE jobExp ";
+		 }
+		 if(totalYearExp>0){
+			 
+			 experienceYearQuery=" And per.JOBSEEKERID in (Select distinct jobseekerid from ( " +
+			 					  " Select JOBSEEKERID,SUM(EXP_YEAR)  FROM EMP_EXPERIENCE  experience " +
+			 					  " Where ( " +
+			 					  	experienceYearQuery+
+			 					  "      ) " +
+			 					  "  GROUP BY JOBSEEKERID HAVING SUM(EXP_YEAR)>2 ) )";
+		 }
+		 
+		 String filterQuery=" Select * from (Select per.JOBSEEKERID  From EMP_PERSONAL per,EMP_ADDRESS addr,EMP_LANGUAGE lang"+tableJobPref+tableJobExp+
+		 					" Where Assign_Status='N' " +
+		 					" And per.JOBSEEKERID=addr.JOBSEEKERID " +
+		 					" And per.GENDER='M' " +
+		 					" And per.JOBSEEKERID=lang.JOBSEEKER_ID " +
+		 					" And lang.LANGUAGE in ('"+selection.getLanguages().replaceAll(", ", "','")+"') " +
+		 					" And " +
+		 					" (per.PREFERRED_COUNTRIES like ('"+selection.getCountryPreference().replaceAll(", ", "|")+"%')  or per.PREFERRED_COUNTRIES like ('%|"+selection.getCountryPreference().replaceAll(", ", "|")+"|%') or per.PREFERRED_COUNTRIES like ('%|"+selection.getCountryPreference().replaceAll(", ", "|")+"')) " +
+		 					" " +jobPreQueryStr+" "+jobExpQueryStr+" "+experienceYearQuery +")";
+		 
+		 System.out.println(filterQuery);
+		    try
+			  {
+			
+				System.out.println("Procedure jobseekerSelection Begins");
+				 stmt = (OracleCallableStatement) conn.prepareCall(
+						 	  "{ call jobseekerSelection(?,?,?,?,?,?,?,?,?,?,?,?) }");
+				 
+
+			 		stmt.setString(1,  filterQuery);
+				    stmt.setString(2, selection.getAgentId());
+				    stmt.setString(3, selection.getWorkOrder());
+				    stmt.setString(4, selection.getCountryPreference());
+				    stmt.setString(5, selection.getGender());
+				    stmt.setString(6, selection.getLanguages());
+				    stmt.setString(7, selection.getJobPreference());
+				    stmt.setString(8, selection.getJobExperience());
+				    stmt.setInt(9, selection.getYearOfExperience());
+			 		stmt.setInt(10,  10);
+			 		stmt.setInt(11,  40);
+					stmt.registerOutParameter(12, java.sql.Types.NUMERIC);
+					stmt.executeUpdate();
+					responseCode = stmt.getInt(12);
+					System.out.println("Response : " + responseCode);
+					}
+				    catch (Exception e){e.printStackTrace();}
+			 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+						{e.printStackTrace();}stmt = null;conn = null;}
+		 	
+			 		return responseCode;
+	}
+	
 	public int getTotalRegisteredJobseeker(String districtId)
 	{
 		
