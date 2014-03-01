@@ -75,12 +75,12 @@ function validate()
          if(document.getElementById("subJob_2_"+i) && document.getElementById("subJob_2_"+i).style.display!="none")
  			l3=document.getElementById("subJob_2_"+i).value;
          
-         	jobPreference+=l1+"@"+l2+"@"+l3+"#";
+         	jobPreference+=l1+"#"+l2+"#"+l3+"@";
        }
     }
     l1=0;l2=0;l3=0;
  } 
- 
+
  document.getElementById("jobPreference").value=jobPreference;
 
 if(document.getElementById("lotteryJobCat0") && document.getElementById("lotteryJobCat0").value!="")
@@ -90,11 +90,14 @@ if(document.getElementById("lotterySubJob_1_0") && document.getElementById("lott
 if(document.getElementById("lotterySubJob_2_0") && document.getElementById("lotterySubJob_2_0").style.display!="none")
  l3=document.getElementById("lotterySubJob_2_0").value;
  
- jobExp=l1+"@"+l2+"@"+l3;
+ jobExp=l1+"#"+l2+"#"+l3;
  
- document.getElementById("workExperience").value=jobExp;
+ if(l1==0)
+  jobExp="";
  
-document.selectionForm.submit();
+ document.getElementById("jobExperience").value=jobExp;
+ 
+ document.selectionForm.submit();
  
 }
 
@@ -185,14 +188,13 @@ document.selectionForm.submit();
      		</td>
         </tr>
         <tr>
-     		<td align="left" style="vertical-align: top;">Work Preference</td>
+     		<td align="left" style="vertical-align: top;">Job Preference</td>
      		<td align="left">
      		<div id="jobPreferenceDiv"></div>
                     	   <br/><br/>
                     	   <input name='abc' type='button' value='Add more(if needed)' onclick='addJobPreferenceDiv()' width='42' height='9' tabindex='299' />
                     	   <div id="msg_expJobPreference" style="clear: both"></div>
-                    	   <font style="color:red"><s:label name="sMsg_expJobPreference"></s:label></font>
-                    	   <input type="hidden" id="jobPreference" name="selection.jobPreference" />
+                    	   <input type="hidden" id="jobPreference" name="selection.jobPreference" value="" />
      		</td>
         </tr> 
         <tr>
@@ -240,7 +242,7 @@ document.selectionForm.submit();
 							</table>
 							<span id="msg_expAborad"></span>
 							<font style="color:red"><s:label name="sMsg_expAborad"></s:label></font>
-							<input type="hidden" id="workExperience" name="selection.workExperience" />
+							<input type="hidden" id="jobExperience" name="selection.jobExperience" />
      		</td>
         </tr>
         <tr>
@@ -256,7 +258,7 @@ document.selectionForm.submit();
 </form>
 
 </div>
-    
+    <s:property value="msg"/><br/>
     <p style="padding-bottom: 20px;">
     	<a href="systemAdminHome.action">Go Home</a>
     </p>
