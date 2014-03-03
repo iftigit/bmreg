@@ -71,6 +71,7 @@ public class LotteryManagement extends ActionSupport{
 		LotteryDAO lotteryDAO=new LotteryDAO();
 		boolean result=lotteryDAO.saveJobseekerSelection(selectionId,selectStatusList);
 		jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
+		agentList=RADAO.getRecruitingAgencyList("all");
 		return SUCCESS;
 	}
 
