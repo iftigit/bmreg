@@ -69,20 +69,20 @@ if(agentId=="none")
 <div class="box" style="margin-top: 30px;width: 950px;text-align: center;">
     <h3>Selection Detail</h3>
     <div style="padding-bottom: 30px;">
-    <table width="100%" border="0">
+    <table width="100%" border="0" style="padding-left: 10px;">
     	<tr>
     	 <td width="10%" align="left">Selection Id</td><td width="20%" align="left">: <s:property value="selection.selectionId" /></td>
-    	 <td width="10%" align="left">Agency </td><td width="20%" align="left">: <s:property value="selection.agentCompanyName" /></td>
+    	 <td width="10%" align="left">Agency </td><td width="20%" align="left" style="font-size: 12px; ">: <s:property value="selection.agentCompanyName" /></td>
     	 <td width="10%" align="left">Work Order</td><td width="20%" align="left">: <s:property value="selection.workOrder" /></td>
     	</tr>
     	<tr>
     	 <td align="left">Country</td><td align="left">: <s:property value="selection.countryPreference" /></td>
     	 <td align="left">Gender </td><td align="left">: <s:property value="selection.gender" /></td>
-    	 <td align="left">Language</td><td align="left">: <s:property value="selection.workOrder" /></td>
+    	 <td align="left">Language</td><td align="left">: <s:property value="selection.languages" /></td>
     	</tr>
     	<tr>
     	 <td align="left">Job Preference</td><td align="left">: <s:property value="selection.selectionId" /></td>
-    	 <td align="left">Job Experience </td><td align="left">: <s:property value="selection.agentCompanyName" /></td>
+    	 <td align="left">Job Experience </td><td align="left">: <s:property value="" /></td>
     	 <td align="left">Exp. Year</td><td align="left">: <s:property value="selection.yearOfExperience" /></td>
     	</tr>
     </table>
