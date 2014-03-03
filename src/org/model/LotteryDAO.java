@@ -243,7 +243,7 @@ public class LotteryDAO {
 		 
 		 if(!selection.getJobPreference().equalsIgnoreCase("") && jobPrefArr.length>0 && Integer.parseInt(jobPrefArr[0].split("#")[0])>0){
 			 for(int i=0;i<jobPrefArr.length;i++){
-				 String[] jobPrefInd=jobPrefArr[i].split("@");
+				 String[] jobPrefInd=jobPrefArr[i].split("#");
 				 selectValStr="";
 				 	for(int j=0;j<jobPrefInd.length;j++){
 				 		selectValStr+=jobPrefInd[j]+",";
@@ -263,7 +263,7 @@ public class LotteryDAO {
 		 
 		 if(!selection.getJobExperience().equalsIgnoreCase("") && jobExpArr.length>0 && Integer.parseInt(jobExpArr[0].split("#")[0])>0){
 			 for(int i=0;i<jobExpArr.length;i++){
-				 String[] jobExpInd=jobExpArr[i].split("@");
+				 String[] jobExpInd=jobExpArr[i].split("#");
 				 if(jobExpInd.length>2){
 					 String[] subSubJobExp=jobExpInd[2].split(",");
 					 for(int j=0;j<subSubJobExp.length;j++){
@@ -284,7 +284,7 @@ public class LotteryDAO {
 			 jobExpQueryStr=jobExpQueryStr.substring(0, jobExpQueryStr.length()-3);
 			 experienceYearQuery=experienceYearQuery.substring(0, experienceYearQuery.length()-3);
 			 jobExpQueryStr=" And  ("+jobExpQueryStr+") ";
-			 tableJobExp=" ,EMP_EXPERIENCE jobExp ";
+			 //tableJobExp=" ,EMP_EXPERIENCE jobExp ";
 		 }
 		 if(totalYearExp>0){
 			 
@@ -293,10 +293,10 @@ public class LotteryDAO {
 			 					  " Where ( " +
 			 					  	experienceYearQuery+
 			 					  "      ) " +
-			 					  "  GROUP BY JOBSEEKERID HAVING SUM(EXP_YEAR)>2 ) )";
+			 					  "  GROUP BY JOBSEEKERID HAVING SUM(EXP_YEAR)>"+totalYearExp+" ) )";
 		 }
 		 
-		 String filterQuery=" Select * from (Select per.JOBSEEKERID  From EMP_PERSONAL per,EMP_ADDRESS addr,EMP_LANGUAGE lang"+tableJobPref+tableJobExp+
+		 String filterQuery=" Select * from (Select distinct per.JOBSEEKERID  From EMP_PERSONAL per,EMP_ADDRESS addr,EMP_LANGUAGE lang"+tableJobPref+tableJobExp+
 		 					" Where Assign_Status='N' " +
 		 					" And per.JOBSEEKERID=addr.JOBSEEKERID " +
 		 					" And per.GENDER='M' " +
@@ -304,8 +304,8 @@ public class LotteryDAO {
 		 					" And lang.LANGUAGE in ('"+selection.getLanguages().replaceAll(", ", "','")+"') " +
 		 					" And " +
 		 					" (per.PREFERRED_COUNTRIES like ('"+selection.getCountryPreference().replaceAll(", ", "|")+"%')  or per.PREFERRED_COUNTRIES like ('%|"+selection.getCountryPreference().replaceAll(", ", "|")+"|%') or per.PREFERRED_COUNTRIES like ('%|"+selection.getCountryPreference().replaceAll(", ", "|")+"')) " +
-		 					" " +jobPreQueryStr+" "+jobExpQueryStr+" "+experienceYearQuery +")";
-		 
+		 					" " +jobPreQueryStr+" "+experienceYearQuery +")";
+		 					//" " +jobPreQueryStr+" "+jobExpQueryStr+" "+experienceYearQuery +")";
 		 System.out.println(filterQuery);
 		    try
 			  {
