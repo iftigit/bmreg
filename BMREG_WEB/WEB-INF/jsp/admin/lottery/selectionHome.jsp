@@ -60,7 +60,7 @@ function validate()
  
  var jobPreference="";
  var jobExp="";
- var l1=""; var l2=""; var l3="";
+ var l1="0"; var l2="0"; var l3="0";
  
  for(var i=0;i<20;i++)
  {
@@ -87,9 +87,17 @@ if(document.getElementById("lotteryJobCat0") && document.getElementById("lottery
  l1=document.getElementById("lotteryJobCat0").value;
 if(document.getElementById("lotterySubJob_1_0") && document.getElementById("lotterySubJob_1_0").style.display!="none")
  l2=document.getElementById("lotterySubJob_1_0").value;
-if(document.getElementById("lotterySubJob_2_0") && document.getElementById("lotterySubJob_2_0").style.display!="none")
- l3=document.getElementById("lotterySubJob_2_0").value;
- 
+if(document.getElementById("lotterySubJob_2_0")){
+ $( '#lotterySubJob_2_0 :selected' ).each( function( i, selected ) {
+      l3+=$( selected ).val()+",";
+  });
+ }
+  
+ if(l3.length>0){
+    l3=l3.substring(0,l3.length-1);
+ }
+
+  
  jobExp=l1+"#"+l2+"#"+l3;
  
  if(l1==0)

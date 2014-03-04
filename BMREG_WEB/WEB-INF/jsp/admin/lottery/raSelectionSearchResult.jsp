@@ -26,7 +26,11 @@
       	<td align="center"                           height="25"><s:property value="status" /></td>
       	<td align="center"  						 height="25">
       	<a href="fetchSelectionDetail.action?selectionId=<s:property value='selectionId'/>">View</a>
-      	<td width="5%" align="center"  height="25">Download</td>
+      	</td>
+      	<td width="5%" align="center"  height="25">
+      		<a href="selectionReportAction.action?selectionId=<s:property value='selectionId'/>">
+      			Download
+      		</a>
       	</td>   	
         </tr> 
       </s:iterator>           

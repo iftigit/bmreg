@@ -92,9 +92,9 @@ document.getElementById("bid").style.display = "block";
 </script>
 
 <%String reset_Gender=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpGender(); %>
-<%String reset_Religion=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpReligion(); %>
-<%String reset_MaritalStatus=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpMaritalStatus(); %>
-<%String reset_BloodGroup=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpBloodGroup(); %>
+<%//String reset_Religion=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpReligion(); %>
+<%//String reset_MaritalStatus=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpMaritalStatus(); %>
+<%//String reset_BloodGroup=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpBloodGroup(); %>
 <%String reset_DisabilityYN=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpDisabilityYN(); %>
 
 <%String reset_birthDistrict=((PersonalInfoDTO) (request.getAttribute("personalDTO"))).getEmpBirthDistrict(); %>
