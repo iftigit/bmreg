@@ -361,8 +361,8 @@ public class PreviewRegFormAction extends ActionSupport{
 			addFieldError( "sMsg_nationalId_birthReg", " Provide either Birth Reg. No, National Id or Passport Number Number." );
 			error=true;
 		}
-		if(!personalDTO.getNationalId().trim().equalsIgnoreCase("") && !personalDTO.getNationalId().trim().equalsIgnoreCase(personalDTO.getOldNationalId())){
-			if(regDao.getNationalIdCount(personalDTO.getNationalId().trim())>0)
+		if(!personalDTO.getNationalId().trim().equalsIgnoreCase("") ){
+			if(regDao.getNationalIdCount(personalDTO.getNationalId().trim())>0 && !personalDTO.getNationalId().trim().equalsIgnoreCase(personalDTO.getOldNationalId()))
 			{
 				addFieldError( "sMsg_nationalId_birthReg", " National Id Already Exist." );
 				error=true;
@@ -375,8 +375,8 @@ public class PreviewRegFormAction extends ActionSupport{
 				error=true;
 			}
 		}
-		if(!personalDTO.getBirthRegId().trim().equalsIgnoreCase("") && !personalDTO.getBirthRegId().trim().equalsIgnoreCase(personalDTO.getOldBirthRegId())){
-			if(regDao.getBirthRegIdCount(personalDTO.getBirthRegId().trim())>0)
+		if(!personalDTO.getBirthRegId().trim().equalsIgnoreCase("") ){
+			if(regDao.getBirthRegIdCount(personalDTO.getBirthRegId().trim())>0 && !personalDTO.getBirthRegId().trim().equalsIgnoreCase(personalDTO.getOldBirthRegId()))
 			{
 				addFieldError( "sMsg_nationalId_birthReg", " Brith Reg. Id Already Exist." );
 				error=true;

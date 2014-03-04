@@ -536,6 +536,11 @@
 		<action name="editRegAction" class="org.controller.admin.EditRegistrationAction">
 			<result name="success">/WEB-INF/jsp/admin/registration/regEditForm.jsp</result>
 		</action>	
+		<action name="updateRegistration" class="org.controller.admin.RegistrationUpdateAction">
+			<result name="success">/WEB-INF/jsp/admin/registration/RegistrationUpdateSuccess.jsp</result>
+			<result name="input">/WEB-INF/jsp/admin/registration/PreviewRegistrationForm.jsp</result>
+			<result name="logout" type="redirectAction">logout.action</result>
+		</action>
 		
 		
 		<action name="selectionHome" class="org.controller.admin.LotteryManagement" method="selectionHome">

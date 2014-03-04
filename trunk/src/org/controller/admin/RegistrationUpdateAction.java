@@ -1,5 +1,4 @@
-package org.controller.registration;
-
+package org.controller.admin;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,13 +26,13 @@ import org.table.UserDTO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class RegistrationSubmitAction  extends ActionSupport{
+public class RegistrationUpdateAction extends ActionSupport{
 
 	private static final long serialVersionUID = 3937606573865099216L;
 	PersonalInfoDTO personalDTO;
 	NomineeDTO		nomineeDTO;
 	EducationDTO    educationDTO;
-	
+	private String registrationId="";
 	private String localExperience;
 	private String abroadExperience;
 	private String countryPreferenceIds;
@@ -67,7 +66,6 @@ public String execute() throws Exception
 		String xForward=ServletActionContext.getRequest().getHeader("X-Forwarded-For")==null?"":ServletActionContext.getRequest().getHeader("X-Forwarded-For");
 		String via=ServletActionContext.getRequest().getHeader("Via")==null?"":ServletActionContext.getRequest().getHeader("Via");
 		String remoteId=ServletActionContext.getRequest().getRemoteAddr()==null?"":ServletActionContext.getRequest().getRemoteAddr();
-		String submittedAuthKey=xForward+via+remoteId;
 		LogDTO  logInfoDTO=new LogDTO();
 		logInfoDTO.setxForward(xForward);
 		logInfoDTO.setVia(via);
@@ -75,6 +73,7 @@ public String execute() throws Exception
 		
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
 		String userId="";String userType="";
+	
 		if(loggedInUser==null){
 			userId="";
 			userType="Individual";
@@ -82,23 +81,17 @@ public String execute() throws Exception
 		else{
 			userId=loggedInUser.getUserId();
 			userType=loggedInUser.getUserType();
-		}
+		}		
+		
 		if(duplicateSumissionCheck==null)
 		{
 			return "blankForm";
 		}
-		else if(!loggedInUser.getAuthenticationKey().equalsIgnoreCase(submittedAuthKey) || !loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))
-		{
-			return "logout";
-		}
-		else if(loggedInUser.getAccessRight()==0)
-		{
-			return "timeOver";	
-		}
+		
 		
 		RegistrationDAO regDAO=new RegistrationDAO();
-        String registrationId="";
-        registrationId=RegistrationSingleton.generateRegistrationId(pAddress.getDistrictId(),personalDTO.getEmpGender());
+        
+        registrationId=personalDTO.getJobseekerNumber();
         String response=regDAO.insertEmpRegistrationInfo(
         		 registrationId,
 				 personalDTO,
@@ -109,14 +102,12 @@ public String execute() throws Exception
 				 jobPreferenceList,
 				 languageList,
 				 trainingList,			 								 
-				 userId,userType,"new"
+				 userId,userType,"update"
 				 );
         if(response.equalsIgnoreCase("SUCCESS"))
         {
-        	ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",registrationId);
         	personalDTO=null;
         	nomineeDTO=null;
-        	ServletActionContext.getRequest().getSession().setAttribute("sessionObj_PersonalInfo",null);
         	return "success";
         }
         else
@@ -128,6 +119,7 @@ public String execute() throws Exception
         
 	} //End of Method...
 
+@SuppressWarnings("unchecked")
 public void validate()
 {
 	RegistrationDAO regDao=new RegistrationDAO();
@@ -427,7 +419,7 @@ public void validate()
 		error=true;
 	}
 	if(!personalDTO.getNationalId().trim().equalsIgnoreCase("") ){
-		if(regDao.getNationalIdCount(personalDTO.getNationalId().trim())>0)
+		if(regDao.getNationalIdCount(personalDTO.getNationalId().trim())>0 && !personalDTO.getNationalId().trim().equalsIgnoreCase(personalDTO.getOldNationalId()))
 		{
 			addFieldError( "sMsg_nationalId_birthReg", " National Id Already Exist." );
 			errorMsg+="National Id Already Exist, ";
@@ -443,7 +435,7 @@ public void validate()
 		}
 	}
 	if(!personalDTO.getBirthRegId().trim().equalsIgnoreCase("") ){
-		if(regDao.getBirthRegIdCount(personalDTO.getBirthRegId().trim())>0)
+		if(regDao.getBirthRegIdCount(personalDTO.getBirthRegId().trim())>0 && !personalDTO.getBirthRegId().trim().equalsIgnoreCase(personalDTO.getOldBirthRegId()))
 		{
 			addFieldError( "sMsg_nationalId_birthReg", " Brith Reg. Id Already Exist." );
 			errorMsg+="Brith Reg. Id Already Exist, ";
@@ -972,6 +964,14 @@ public void validate()
 
 	public void setCountryList(ArrayList<CountryDTO> countryList) {
 		this.countryList = countryList;
+	}
+
+	public String getRegistrationId() {
+		return registrationId;
+	}
+
+	public void setRegistrationId(String registrationId) {
+		this.registrationId = registrationId;
 	}
 
 	

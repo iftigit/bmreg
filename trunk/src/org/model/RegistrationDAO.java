@@ -35,7 +35,7 @@ public class RegistrationDAO {
 			 								 ArrayList<JobPreferenceDTO> jobPreferenceList,
 			 								 ArrayList<LanguageDTO> languageList,
 			 								 ArrayList<TrainingDTO> trainingList,			 								 
-			 								 String userid,String userType		 							 			 
+			 								 String userid,String userType,String operationType	 							 			 
 			 								 ) 
 	    {	     
 			 	String response="";
@@ -132,7 +132,8 @@ public class RegistrationDAO {
 					ARRAY inputTrainingDesc=new ARRAY(arrString,conn,trainingDesc);
 					
 				
-					System.out.println("Procedure Insert_RegInfo Begins");
+					 if(operationType.equalsIgnoreCase("new")){
+					 System.out.println("Procedure Insert_RegInfo Begins");
 					 stmt = (OracleCallableStatement) conn.prepareCall(
 							 	  "{ call Insert_RegistrationInfo(?,?,?,?,?,?,?,?,?,?," +
 					                                    "?,?,?,?,?,?,?,?,?,?, " +
@@ -145,7 +146,22 @@ public class RegistrationDAO {
 					                                    "?,?,?,?,?,?,?,?,?,?, " +
 					                                    "?,?,?,?,?,?,?,?,?) }");
 					 
-
+					 }else if(operationType.equalsIgnoreCase("update")){
+						 System.out.println("Procedure Update_RegInfo Begins");
+						 stmt = (OracleCallableStatement) conn.prepareCall(
+								 	  "{ call Update_RegistrationInfo(?,?,?,?,?,?,?,?,?,?," +
+						                                    "?,?,?,?,?,?,?,?,?,?, " +
+						                                    "?,?,?,?,?,?,?,?,?,?, " +
+						                                    "?,?,?,?,?,?,?,?,?,?, " +
+						                                    "?,?,?,?,?,?,?,?,?,?, " +
+						                                    "?,?,?,?,?,?,?,?,?,?, " +
+						                                    "?,?,?,?,?,?,?,?,?,?, " +
+						                                    "?,?,?,?,?,?,?,?,?,?, " +
+						                                    "?,?,?,?,?,?,?,?,?,?, " +
+						                                    "?,?,?,?,?,?,?,?,?) }");
+							 
+					 }
+					 
 				 		stmt.setString(1,  registrationId);
 						stmt.setString(2,  personalDTO.getEmpGivenName());
 						stmt.setString(3,  personalDTO.getEmpLastName());
