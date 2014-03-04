@@ -77,6 +77,23 @@ public class RegistrationManagement extends ActionSupport{
 		localExperienceList=regDAO.getExperienceList("BLM1300090620N", "1");
 		abroadExperienceList=regDAO.getExperienceList("BLM1300090620N", "2");
 		countryList=CountryDAO.getAllCountry();
+		ArrayList<CountryDTO> tmpCountryList=new ArrayList<CountryDTO>();
+		String[] countryArr=personalDTO.getCountryPreferenceStr().split("\\|", -1);
+		for(int i=0;i<countryList.size();i++)
+		{
+			CountryDTO cdto=new CountryDTO();
+			cdto=countryList.get(i);
+			for(int j=0;j<countryArr.length;j++)
+			{
+				if(cdto.getCountryId()==Integer.parseInt(countryArr[j].trim()))
+				{
+					cdto.setIsSelected("Y");
+				}
+			}
+			tmpCountryList.add(cdto);
+		}
+		countryList=tmpCountryList;
+		
 		jobPreferenceList=regDAO.getJobPreferenceList("BLM1300090620N");
 		
 		languageList=regDAO.getLanguageList("BLM1300090620N");

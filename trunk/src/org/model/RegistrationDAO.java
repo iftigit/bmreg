@@ -280,10 +280,10 @@ public class RegistrationDAO {
 		   				"  from " +
 		   				"  (Select tmp1.*,villname villageName from " +
 		   				"  (  " +
-		   				" Select EMP_PERSONAL.jobseekerid,(GIVEN_NAME||' '||LAST_NAME) fullName,given_name,last_name,FATHER_NAME,MOTHER_NAME,MOBILE, " +
+		   				" Select EMP_PERSONAL.jobseekerid,(GIVEN_NAME||' '||LAST_NAME) fullName,given_name,last_name,FATHER_NAME,MOTHER_NAME,MOBILE,PREFERRED_COUNTRIES, " +
 		   				" to_char(BIRTH_DATE,'dd-mm-YYYY') birthDate,GENDER,NATIONALID,BIRTHREGID,PPOST_OFFICE,PPOST_CODE,PROAD_NUMBER,PVILLAGE,PDISTRICT,BIRTH_DISTRICT,BIRTH_UPAZILA_OR_THANA, " +
 		   				" to_char(sysdate,'dd-mm-YYYY HH:MI:SS') printedOn,to_char(REG_DATE,'dd-mm-YYYY HH24:MI:SS') applicationDateTime,REMOTE_ADDRESS, " +
-		   				" DISABILITYYN,DISABILITY_DETAIL,RELIGION,MARITAL_STATUS,CHILDYN,TOTAL_SON,TOTAL_DAUGHTER,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,BLOOD_GROUP"+
+		   				" DISABILITYYN,DISABILITY_DETAIL,RELIGION,MARITAL_STATUS,CHILDYN,TOTAL_SON,TOTAL_DAUGHTER,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,BLOOD_GROUP,SPOUSE_NAME"+
 		   				" from EMP_PERSONAL,EMP_REG_LOG,EMP_ADDRESS Where EMP_PERSONAL.jobseekerid=?   AND  EMP_PERSONAL.jobseekerid=EMP_REG_LOG.jobseekerid " +
 		   				" AND    EMP_PERSONAL.jobseekerid=EMP_ADDRESS.jobseekerid " +
 		   				" )tmp1 left outer join village  " +
@@ -332,6 +332,7 @@ public class RegistrationDAO {
 					personalDto.setEmpBirthUpazilaOrThana(r.getString("BIRTH_UPAZILA_OR_THANA"));
 					personalDto.setEmpDisabilityDetail(r.getString("DISABILITY_DETAIL"));
 					personalDto.setEmpDisabilityYN(r.getString("DISABILITYYN"));
+					personalDto.setCountryPreferenceStr(r.getString("PREFERRED_COUNTRIES").trim());
 					
 					personalDto.setEmpReligion(r.getString("RELIGION"));
 					personalDto.setEmpMaritalStatus(r.getString("MARITAL_STATUS"));
@@ -343,6 +344,7 @@ public class RegistrationDAO {
 					personalDto.setEmpHeightCM(r.getString("HEIGHT_CM"));
 					personalDto.setEmpWeight(r.getString("WEIGHT_KG"));
 					personalDto.setEmpBloodGroup(r.getString("BLOOD_GROUP"));
+					personalDto.setEmpSpouseName(r.getString("SPOUSE_NAME"));
 					
 					
 					AddressDTO addDto=new AddressDTO();

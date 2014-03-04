@@ -529,6 +529,14 @@
 		<action name="editRegInfo" class="org.controller.admin.RegistrationManagement" method="getRegInfo">
 			<result name="success">/WEB-INF/jsp/admin/registration/regEditForm.jsp</result>
 		</action>
+		<action name="previewEditFormAction" class="org.controller.admin.PreviewRegFormAction">
+			<result name="input">/WEB-INF/jsp/admin/registration/regEditForm.jsp</result>
+			<result name="success">/WEB-INF/jsp/admin/registration/PreviewRegistrationForm.jsp</result>
+		</action>
+		<action name="editRegAction" class="org.controller.admin.EditRegistrationAction">
+			<result name="success">/WEB-INF/jsp/admin/registration/regEditForm.jsp</result>
+		</action>	
+		
 		
 		<action name="selectionHome" class="org.controller.admin.LotteryManagement" method="selectionHome">
 			<result name="success">/WEB-INF/jsp/admin/lottery/selectionHome.jsp</result>

@@ -35,6 +35,9 @@ public class PersonalInfoDTO {
 	
 	private String nationalId;
 	private String birthRegId;
+	private String oldNationalId;
+	private String oldBirthRegId;
+	
 	private String passportNo;
 	private String oldPassportNo;
 	private String passportIssueDate;
@@ -344,5 +347,18 @@ public class PersonalInfoDTO {
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
 	}
+	public String getOldNationalId() {
+		return oldNationalId;
+	}
+	public void setOldNationalId(String oldNationalId) {
+		this.oldNationalId = oldNationalId;
+	}
+	public String getOldBirthRegId() {
+		return oldBirthRegId;
+	}
+	public void setOldBirthRegId(String oldBirthRegId) {
+		this.oldBirthRegId = oldBirthRegId;
+	}
+	
 	
 }
