@@ -64,7 +64,7 @@
      	<font color='black'/><s:property value="personalDTO.empLastName" /></font>
      	<input type="hidden" name="personalDTO.empLastName" value="<s:property value="personalDTO.empLastName" />" />
      </div>
-     
+     <input type="hidden" name="personalDTO.jobseekerNumber" value="<s:property value='personalDTO.jobseekerNumber' />" />
      
      </td>
     </tr>
@@ -202,11 +202,13 @@
      <td width="30%">     	
      	<s:property value="personalDTO.nationalId" />     	
      	<input type="hidden" name="personalDTO.nationalId" value="<s:property value="personalDTO.nationalId" />" />
+     	<input type="hidden" name="personalDTO.oldNationalId" value="<s:property value="personalDTO.oldNationalId" />" />
      </td>
      <td width="20%" style="color:#7D2252;">Birth Reg Id</td>
      <td width="30%">
      	<s:property value="personalDTO.birthRegId" />
      	<input type="hidden" name="personalDTO.birthRegId" value="<s:property value="personalDTO.birthRegId" />" />
+     	<input type="hidden" name="personalDTO.oldBirthRegId" value="<s:property value="personalDTO.oldBirthRegId" />" />
      </td>
     </tr>
     <tr>
@@ -761,7 +763,7 @@
 <p style="height: 10px"></p>
 <div style="margin-top: 10px;">
 <input type="button" class="submitButton" name="Edit Application" value="Go Back" onclick="submitForm('editRegAction.action')"/>
-<input type="button" class="submitButton" name="Submit Application" value="Submit Application" style="margin-left: 100px;" onclick="submitForm('submitRegistration.action')"/>
+<input type="button" class="submitButton" name="Submit Application" value="Submit Application" style="margin-left: 100px;" onclick="submitForm('updateRegistration.action')"/>
 </div>
 <p style="height: 30px"></p>
 </center>

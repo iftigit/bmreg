@@ -920,7 +920,7 @@ http://rishida.net/tools/conversion/
                     	  <br/>
                     	  <div style="float: left;width: 212px;font-size: 10px;">Given Name</div>
                     	  <div style="float: left;margin-left: 5px;font-size: 10px;">Last Name(Sur Name)</div>
-                    	  
+                    	  <input type="hidden" name="personalDTO.jobseekerNumber" value="<s:property value='personalDTO.jobseekerNumber' />" />
                       </td>
                     	<td align="left" width="30%" valign="middle">                    		                    		
                     		<span id="msg_seekerName"></span>&nbsp;
