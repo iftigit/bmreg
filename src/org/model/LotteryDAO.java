@@ -46,7 +46,7 @@ public class LotteryDAO {
 				selection.setAgentId(r.getString("AGENT_ID"));
 				selection.setWorkOrder(r.getString("WORK_ORDER"));
 				selection.setGender(r.getString("GENDER"));
-				selection.setYearOfExperience(r.getInt("EXPERIENCE_YEAR"));
+				selection.setYearOfExperience(r.getString("EXPERIENCE_YEAR"));
 				selection.setSelectionDate(r.getString("SELECTION_DATE"));
 				selection.setExpireDate(r.getString("EXPIRE_DATE"));
 				selection.setStatus(r.getString("STATUS"));
@@ -178,7 +178,7 @@ public class LotteryDAO {
 				selection.setAgentCompanyName(RADAO.getCompanyNameFromAgentId(r.getString("AGENT_ID")));
 				selection.setWorkOrder(r.getString("WORK_ORDER"));
 				selection.setGender(r.getString("GENDER"));
-				selection.setYearOfExperience(r.getInt("EXPERIENCE_YEAR"));
+				selection.setYearOfExperience(r.getString("EXPERIENCE_YEAR"));
 				selection.setSelectionDate(r.getString("SELECTION_DATE"));
 				selection.setExpireDate(r.getString("EXPIRE_DATE"));
 				selection.setStatus(r.getString("STATUS"));
@@ -238,10 +238,25 @@ public class LotteryDAO {
 		 
 		 String tableJobPref="";
 		 String tableJobExp="";
-		 int totalYearExp=selection.getYearOfExperience();
+		 int totalYearExp=Integer.parseInt(selection.getYearOfExperience()==null||selection.getYearOfExperience().equalsIgnoreCase("")?"0":selection.getYearOfExperience());
 		 String experienceYearQuery="";
 		 
-		 if(!selection.getJobPreference().equalsIgnoreCase("") && jobPrefArr.length>0 && Integer.parseInt(jobPrefArr[0].split("#")[0])>0){
+		 String languageQueryString="";
+		 String countryQueryString="";
+		 String tableLanguage="";
+		 String genderQueryString="";
+		 if(selection.getLanguages()!=null && !selection.getLanguages().equalsIgnoreCase("")){
+			 tableLanguage=" ,EMP_LANGUAGE lang ";
+			 languageQueryString=" And lang.LANGUAGE in ('"+selection.getLanguages().replaceAll(", ", "','")+"') "+
+								 " And per.JOBSEEKERID=lang.JOBSEEKER_ID ";
+		 }
+		 if(selection.getCountryPreference()!=null && !selection.getCountryPreference().equalsIgnoreCase("")){
+			 countryQueryString=" And (per.PREFERRED_COUNTRIES like ('"+selection.getCountryPreference().replaceAll(", ", "|")+"%')  or per.PREFERRED_COUNTRIES like ('%|"+selection.getCountryPreference().replaceAll(", ", "|")+"|%') or per.PREFERRED_COUNTRIES like ('%|"+selection.getCountryPreference().replaceAll(", ", "|")+"')) ";
+		 }
+		 if(!selection.getGender().equalsIgnoreCase("A"))
+			 genderQueryString=" And per.GENDER='"+selection.getGender()+"' ";
+		 
+		 if(selection.getJobPreference()!=null && !selection.getJobPreference().equalsIgnoreCase("") && jobPrefArr.length>0 && Integer.parseInt(jobPrefArr[0].split("#")[0])>0){
 			 for(int i=0;i<jobPrefArr.length;i++){
 				 String[] jobPrefInd=jobPrefArr[i].split("#");
 				 selectValStr="";
@@ -284,7 +299,7 @@ public class LotteryDAO {
 			 jobExpQueryStr=jobExpQueryStr.substring(0, jobExpQueryStr.length()-3);
 			 experienceYearQuery=experienceYearQuery.substring(0, experienceYearQuery.length()-3);
 			 jobExpQueryStr=" And  ("+jobExpQueryStr+") ";
-			 //tableJobExp=" ,EMP_EXPERIENCE jobExp ";
+			 tableJobExp=" ,EMP_EXPERIENCE jobExp ";
 		 }
 		 if(totalYearExp>0){
 			 
@@ -295,16 +310,14 @@ public class LotteryDAO {
 			 					  "      ) " +
 			 					  "  GROUP BY JOBSEEKERID HAVING SUM(EXP_YEAR)>"+totalYearExp+" ) )";
 		 }
+		 else
+			 experienceYearQuery="";
 		 
-		 String filterQuery=" Select * from (Select distinct per.JOBSEEKERID  From EMP_PERSONAL per,EMP_ADDRESS addr,EMP_LANGUAGE lang"+tableJobPref+tableJobExp+
+		 String filterQuery=" Select * from (Select distinct per.JOBSEEKERID  From EMP_PERSONAL per,EMP_ADDRESS addr"+tableLanguage+tableJobPref+tableJobExp+
 		 					" Where Assign_Status='N' " +
 		 					" And per.JOBSEEKERID=addr.JOBSEEKERID " +
-		 					" And per.GENDER='M' " +
-		 					" And per.JOBSEEKERID=lang.JOBSEEKER_ID " +
-		 					" And lang.LANGUAGE in ('"+selection.getLanguages().replaceAll(", ", "','")+"') " +
-		 					" And " +
-		 					" (per.PREFERRED_COUNTRIES like ('"+selection.getCountryPreference().replaceAll(", ", "|")+"%')  or per.PREFERRED_COUNTRIES like ('%|"+selection.getCountryPreference().replaceAll(", ", "|")+"|%') or per.PREFERRED_COUNTRIES like ('%|"+selection.getCountryPreference().replaceAll(", ", "|")+"')) " +
-		 					" " +jobPreQueryStr+" "+experienceYearQuery +")";
+		 					genderQueryString+" "+languageQueryString+" "+countryQueryString+
+		 					" " +jobPreQueryStr+" "+jobExpQueryStr+" "+experienceYearQuery +")";
 		 					//" " +jobPreQueryStr+" "+jobExpQueryStr+" "+experienceYearQuery +")";
 		 System.out.println(filterQuery);
 		    try
@@ -323,7 +336,7 @@ public class LotteryDAO {
 				    stmt.setString(6, selection.getLanguages());
 				    stmt.setString(7, selection.getJobPreference());
 				    stmt.setString(8, selection.getJobExperience());
-				    stmt.setInt(9, selection.getYearOfExperience());
+				    stmt.setString(9, selection.getYearOfExperience());
 			 		stmt.setInt(10,  10);
 			 		stmt.setInt(11,  40);
 					stmt.registerOutParameter(12, java.sql.Types.NUMERIC);

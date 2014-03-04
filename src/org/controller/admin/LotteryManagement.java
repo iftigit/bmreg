@@ -42,11 +42,11 @@ public class LotteryManagement extends ActionSupport{
 		int responseCode=LotteryDAO.jobseekerSelection(selection);
 		if(responseCode==-11){
 			msg="No Jobseeker found for the selected criteria.";
+			agentList=RADAO.getRecruitingAgencyList("all");
+			countryList=CountryDAO.getAllCountry();
+			languageList=LanguageDAO.getAllLanguage();
 			return SUCCESS;
 		}
-		agentList=RADAO.getRecruitingAgencyList("all");
-		countryList=CountryDAO.getAllCountry();
-		languageList=LanguageDAO.getAllLanguage();
 		selectionId=responseCode;
 		return "report";
 	}

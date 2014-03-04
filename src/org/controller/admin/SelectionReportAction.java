@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -68,7 +72,11 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		}
 		*/
 		
-		String fileName="Selection_Report_1.pdf";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd__HH-mm-ss",Locale.getDefault());
+		Calendar cal = Calendar.getInstance();
+		
+		
+		String fileName="Selection_Report_"+selectionId+"_"+dateFormat.format(cal.getTime()).toUpperCase()+".pdf";
 		
 		document.setMargins(40, 40, 20, 20);
 		
@@ -92,48 +100,6 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 			Font fontT = FontFactory.getFont("Helvetica", 9, Font.NORMAL,Color.BLACK);			
 			Font fontb = FontFactory.getFont("Helvetica", 10, Font.BOLD,Color.BLACK);
 			
-			ptable = new PdfPTable(5);
-			ptable.setHeaderRows(1);
-			ptable.setWidthPercentage(100);
-			ptable.setWidths(new float[]{8,17,25,25,25});
-			
-
-			pcell=new PdfPCell(new Paragraph("Sl. No.",fontb));
-			pcell.setMinimumHeight(25f);
-			pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
-			ptable.addCell(pcell);
-			
-			pcell=new PdfPCell(new Paragraph("Jobseeker Id",fontb));
-			pcell.setMinimumHeight(25f);
-			pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-			ptable.addCell(pcell);
-			
-			
-			pcell=new PdfPCell(new Paragraph("Jobseeker Name",fontb));
-			pcell.setMinimumHeight(25f);
-			pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-			ptable.addCell(pcell);
-			
-			
-			
-			pcell=new PdfPCell(new Paragraph("Father Name",fontb));
-			pcell.setMinimumHeight(25f);
-			pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-			ptable.addCell(pcell);
-						
-			pcell=new PdfPCell(new Paragraph("Contact Number",fontb));
-			pcell.setMinimumHeight(25f);
-			pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-			ptable.addCell(pcell);
-			
-						
-			String preUnion="";
-			String preUnionName="";
 			int counter=0;
 			for(int i=0;i<jobseekerList.size();i++)
 			{
@@ -186,7 +152,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					ptable.addCell(pcell);
 								
-					pcell=new PdfPCell(new Paragraph("Mother Name",fontb));
+					pcell=new PdfPCell(new Paragraph("Contact Number",fontb));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);

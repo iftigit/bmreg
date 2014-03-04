@@ -13,7 +13,7 @@ public class SelectionParamDTO {
 	private String languages;
 	private String jobPreference;
 	private String jobExperience;
-	private int yearOfExperience;
+	private String yearOfExperience;
 	private String selectionDate;
 	private String expireDate;
 	private String status;
@@ -64,12 +64,7 @@ public class SelectionParamDTO {
 	public void setJobExperience(String jobExperience) {
 		this.jobExperience = jobExperience;
 	}
-	public int getYearOfExperience() {
-		return yearOfExperience;
-	}
-	public void setYearOfExperience(int yearOfExperience) {
-		this.yearOfExperience = yearOfExperience;
-	}
+	
 	public ArrayList<JobPreferenceDTO> getJobPrefererenceList() {
 		return jobPrefererenceList;
 	}
@@ -112,6 +107,12 @@ public class SelectionParamDTO {
 	}
 	public void setAgentCompanyName(String agentCompanyName) {
 		this.agentCompanyName = agentCompanyName;
+	}
+	public String getYearOfExperience() {
+		return yearOfExperience;
+	}
+	public void setYearOfExperience(String yearOfExperience) {
+		this.yearOfExperience = yearOfExperience;
 	}
 	
 }
