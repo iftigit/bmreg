@@ -862,7 +862,7 @@ http://rishida.net/tools/conversion/
 <table align="center" border="0" cellpadding="0" cellspacing="0">
 <tr><td>
  
-<form id="empRegForm" name="empRegForm" method="post" action="previewRegFormAction.action">
+<form id="empRegForm" name="empRegForm" method="post" action="previewEditFormAction.action">
   <input type='hidden' name="issubmit" value="1">
 <!-- Tabs -->
   		<div id="wizard" class="swMain">
@@ -1209,10 +1209,12 @@ http://rishida.net/tools/conversion/
                     	<td align="left" width="23%">National Id</td>
                     	<td align="left" width="47%">
                     	  <input type="text" tabindex="26" id="nationalId" name="personalDTO.nationalId" value="<s:property value='personalDTO.nationalId' />" class="txtBox" style="width: 154px;">
+                    	  <input type="hidden" name="personalDTO.oldNationalId" value="<s:property value='personalDTO.nationalId' />" />
                     	  &nbsp;&nbsp;
                     	  Birth Reg Id
                     	  &nbsp;&nbsp;&nbsp;&nbsp;
                     	  <input type="text" tabindex="27" id="birthRegId" name="personalDTO.birthRegId" value="<s:property value='personalDTO.birthRegId' />" class="txtBox" style="width: 152px;">
+                    	  <input type="hidden" name="personalDTO.oldBirthRegId" value="<s:property value='personalDTO.birthRegId' />" />
                       </td>
                     	<td align="left" width="30%" valign="middle"><span id="msg_nationalId_birthReg"></span>&nbsp;
                     	<font style="color:red"><s:label name="sMsg_nationalId_birthReg"></s:label></font>
