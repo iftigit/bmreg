@@ -21,7 +21,7 @@
         <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jQuery.validity.js"></script>
  
   <script type="text/javascript" src="/BMREG_WEB/resources/js/address.js"></script>
-  
+  <script type="text/javascript" src="/BMREG_WEB/resources/js/regValidation.js"></script>
   <script type="text/javascript">
 
 var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.gif' border='0' /></center>";
@@ -94,10 +94,20 @@ function createNewRA()
    	alert("Please provide License Date.");
    	return;
    }
-   else if(licenseValidTill==""){
-   	alert("Please provide License Date(Up to).");
+   else if(isValidDate(licenseDate)==false){
+   	alert("Please provide valid license date.");
    	return;
    }
+   
+   else if(licenseValidTill==""){
+   	alert("Please provide license end date.");
+   	return;
+   }
+   else if(isValidDate(licenseValidTill)==false){
+   	alert("Please provide valid license end date.");
+   	return;
+   }
+   
    else if(contactPerson==""){
    	alert("Please provide Contact Person.");
    	return;
@@ -135,69 +145,73 @@ function createNewRA()
     <table width="80%" align="center" border="0">
      	<tr>
      		<td width="15%" align="left">Agent Id</td>
-     		<td width="35%" align="left"><input type="text" name="rAgent.agentId" id="agentId" value="" style="border: 1px solid gray;" /></td>
+     		<td width="35%" align="left"><input type="text" name="rAgent.agentId" id="agentId" value="<s:property value='rAgent.agentId' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td width="15%" align="left">File Reference</td>
-     		<td width="35%" align="left"><input type="text" name="rAgent.agentFileRef" id="agentFileRef" value="" style="border: 1px solid gray;" /></td>
+     		<td width="35%" align="left"><input type="text" name="rAgent.agentFileRef" id="agentFileRef" value="<s:property value='rAgent.agentFileRef' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
         <tr>
      		<td align="left">Company Name</td>
-     		<td align="left"><input type="text" name="rAgent.companyName" id="companyName" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.companyName" id="companyName" value="<s:property value='rAgent.companyName' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">Address</td>
-     		<td align="left"><textarea name="rAgent.address" id="address" style="border: 1px solid gray;"></textarea></td>
+     		<td align="left"><textarea name="rAgent.address" id="address" style="border: 1px solid gray;" cols="22" ><s:property value='rAgent.address' /></textarea></td>
         </tr>
         <tr>
      		<td align="left">Phone</td>
-     		<td align="left"><input type="text" name="rAgent.phone" id="phone" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.phone" id="phone" value="<s:property value='rAgent.phone' />" style="border: 1px solid gray;width: 200px;width: 200px;" /></td>
      		<td align="left">Email</td>
-     		<td align="left"><input type="text" name="rAgent.emailAddress" id="emailAddress" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.emailAddress" id="emailAddress" value="<s:property value='rAgent.emailAddress' />" style="border: 1px solid gray;width: 200px;width: 200px;" /></td>
         </tr>
         <tr>
      		<td align="left">Fax</td>
-     		<td align="left"><input type="text" name="rAgent.fax" id="fax" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.fax" id="fax" value="<s:property value='rAgent.fax' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">License No</td>
-     		<td align="left"><input type="text" name="rAgent.licenseNumber" id="licenseNumber" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.licenseNumber" id="licenseNumber" value="<s:property value='rAgent.licenseNumber' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
         <tr>
      		<td align="left">Space</td>
-     		<td align="left"><input type="text" name="rAgent.space" id="space" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.space" id="space" value="<s:property value='rAgent.space' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">Status</td>
-     		<td align="left"><input type="text" name="rAgent.status" id="status" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.status" id="status" value="<s:property value='rAgent.status' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
         <tr>
      		<td align="left">Company Type</td>
-     		<td align="left"><input type="text" name="rAgent.companyType" id="companyType" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.companyType" id="companyType" value="<s:property value='rAgent.companyType' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">License Date</td>
-     		<td align="left"><input type="text" name="rAgent.licenseDate" id="licenseDate" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.licenseDate" id="licenseDate" value="<s:property value='rAgent.licenseDate' />" style="border: 1px solid gray;width: 100px;" />
+     		     <font style='color:maroon;font-size: 13px;'>[DD-MM-YYYY]</font>     		
+     		</td>
         </tr>
         <tr>
      		<td align="left">License Valid Up to</td>
-     		<td align="left"><input type="text" name="rAgent.licenseValidTill" id="licenseValidTill" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.licenseValidTill" id="licenseValidTill" value="<s:property value='rAgent.licenseValidTill' />" style="border: 1px solid gray;width: 100px;" />
+     		     <font style='color:maroon;font-size: 13px;'>[DD-MM-YYYY]</font>     		
+     		</td>
      		<td align="left">Ministry Ref.</td>
-     		<td align="left"><input type="text" name="rAgent.ministryRef" id="ministryRef" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.ministryRef" id="ministryRef" value="<s:property value='rAgent.ministryRef' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
          <tr>
      		<td align="left">Contact Person</td>
-     		<td align="left"><input type="text" name="rAgent.contactPerson" id="contactPerson" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.contactPerson" id="contactPerson" value="<s:property value='rAgent.contactPerson' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">Designation</td>
-     		<td align="left"><input type="text" name="rAgent.designation" id="designation" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.designation" id="designation" value="<s:property value='rAgent.designation' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
          <tr>
      		<td align="left">Comment</td>
-     		<td align="left"><input type="text" name="rAgent.comments" id="comments" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.comments" id="comments" value="<s:property value='rAgent.comments' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">Branch</td>
-     		<td align="left"><input type="text" name="rAgent.branch" id="branch" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.branch" id="branch" value="<s:property value='rAgent.branch' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
          <tr>
      		<td align="left">Training Center</td>
-     		<td align="left"><input type="text" name="rAgent.trainingCenter" id="trainingCenter" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.trainingCenter" id="trainingCenter" value="<s:property value='rAgent.trainingCenter' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left"></td>
      		<td align="left"></td>
         </tr>
          <tr>
      		<td align="left">CEO Name</td>
-     		<td align="left"><input type="text" name="rAgent.ceoName" id="ceoName" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.ceoName" id="ceoName" value="<s:property value='rAgent.ceoName' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">CEO Contact Number</td>
-     		<td align="left"><input type="text" name="rAgent.ceoContactInfo" id="ceoContactInfo" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="rAgent.ceoContactInfo" id="ceoContactInfo"  value="<s:property value='rAgent.ceoContactInfo' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
     </table>
 <p style="padding-top: 40px;">     
@@ -214,9 +228,10 @@ function createNewRA()
 <p id="msgDiv"></p>
 </center>
 <script type="text/javascript">
-<s:if test="%{msg!=null">
-alert("<s:property value='msg' />");
+<s:if test='msg != null'>
+  alert("<s:property value='msg' />");  
 </s:if>
+
 </script>
 </body>
 

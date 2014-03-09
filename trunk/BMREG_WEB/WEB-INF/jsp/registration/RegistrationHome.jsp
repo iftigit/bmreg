@@ -34,6 +34,14 @@
   <script type="text/javascript" src="/BMREG_WEB/resources/js/registration.js"></script>
   
   <script type="text/javascript">
+  var totalLanguageString="";
+    
+    <s:iterator value="languageList" id="languageList" status="stat">
+		totalLanguageString+="<s:property value='language' />"+"#";		 
+	</s:iterator>
+	if(totalLanguageString.length>0)
+		totalLanguageString=totalLanguageString.substring(0,totalLanguageString.length-1);
+		
     $(document).ready(function(){
     	// Smart Wizard     	
   		$('#wizard').smartWizard({transitionEffect:'slideleft',onLeaveStep:leaveAStepCallback,onFinish:onFinishCallback,enableFinishButton:false});

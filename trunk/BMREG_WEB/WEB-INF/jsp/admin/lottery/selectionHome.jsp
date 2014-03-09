@@ -49,6 +49,8 @@ if(fromYear=="" || toYear=="")
 }
 function validate()
 {
+var sugestedTotal=parseInt(document.getElementById("suggestedTotal").value,10)
+
  if(document.getElementById("agentId").value=="none"){
   alert("Please select an agency.");
   return;
@@ -57,6 +59,11 @@ function validate()
   alert("Please provide work order number.");
   return;
  }
+ else if(sugestedTotal<=0){
+  alert("Suggested total cannot be zero.");
+  return;
+ }
+ 
  
  var jobPreference="";
  var jobExp="";
@@ -109,7 +116,9 @@ if(document.getElementById("lotterySubJob_2_0")){
  
 }
 
-
+function setSuggestedTotal(total){
+document.getElementById("suggestedTotal").value=parseInt(total*3,10);
+}
 </script>
  <style type="text/css">
  .ui-multiselect-header ul {
@@ -257,6 +266,14 @@ if(document.getElementById("lotterySubJob_2_0")){
      		<td align="left">Years of Experience</td>
      		<td align="left"><input type="text" name="selection.yearOfExperience" id="yearOfExperience" value="" style="border: 1px solid gray;" /></td>
         </tr> 
+        <tr>
+     		<td align="left">Total Emp. Required</td>
+     		<td align="left"><input type="text" name="selection.workOrderTotal" id="workOrderTotal" value="" style="border: 1px solid gray;" onkeyup="setSuggestedTotal(this.value)" /></td>
+        </tr>
+         <tr>
+     		<td align="left">Total Emp. Suggested</td>
+     		<td align="left"><input type="text" name="selection.suggestedTotal" id="suggestedTotal" value="" style="border: 1px solid gray;"  /></td>
+        </tr>
     </table>
     
 	<p style="padding-top: 40px;">     

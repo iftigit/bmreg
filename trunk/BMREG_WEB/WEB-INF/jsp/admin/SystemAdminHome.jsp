@@ -58,7 +58,7 @@
     </tr>
     <tr>
      <td style="text-align: center">
-     	<a href="userAdministrationHome.action">Create New User</a>
+     	<a href="newUserForm.action">Create New User</a>
      </td>
     </tr>
     <tr>
@@ -68,6 +68,9 @@
      	<a href="countryManagement.action">Country</a> |
      	<a href="degreeNameManagement.action">Educational Qualifications</a> |
      	<a href="passingYearManagement.action">Passing Year</a>
+     	<br/>
+     	<a href="languageManagement.action">Language</a>
+     	
      </td>
     </tr>
     <tr>

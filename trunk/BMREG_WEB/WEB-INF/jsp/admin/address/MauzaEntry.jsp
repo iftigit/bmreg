@@ -22,7 +22,7 @@
       	<td width="50%" align="left" style="padding-left: 10px;">District</td>
       	<td width="50%" align="left" style="padding-left: 10px;" id="PERMANENT_DIST_TD">
       			<select tabindex="20"  id="PERMANENT_DIST" class="addressSelectBox">
-      			<option value=""></option>
+      				<option value=""></option>
      			</select>
       	</td>
       </tr>
@@ -31,7 +31,7 @@
       	<td width="50%" align="left" style="padding-left: 10px;">Upazilla/ Pourashava/&nbsp;&nbsp; City Corporation</td>
       	<td width="50%" align="left" style="padding-left: 10px;" id="PERMANENT_UPAZILLA_OR_THANA_TD">
       			<select tabindex="21" name="addressDTO.pThana" id="PERMANENT_UPAZILLA_OR_THANA" class="addressSelectBox" onchange="fetchJSONData_Union(this.value,'PASSWORD_UNION')">
-      			<option value=""></option>
+      				<option value=""></option>
     			</select>
       	</td>
       </tr>
@@ -40,7 +40,7 @@
       	<td width="50%" align="left" style="padding-left: 10px;">Union/Ward</td>
       	<td width="50%" align="left" style="padding-left: 10px;" id="PERMANENT_UNION_OR_WARD_TD">
       			<select tabindex="22" name="addressDTO.pUnion" id="PERMANENT_UNION_OR_WARD" class="addressSelectBox" >
-      			<option value=""></option>
+      				<option value=""></option>
     			</select>
       	</td>
       </tr>
