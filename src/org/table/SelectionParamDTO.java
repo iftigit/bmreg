@@ -17,6 +17,8 @@ public class SelectionParamDTO {
 	private String selectionDate;
 	private String expireDate;
 	private String status;
+	private String workOrderTotal;
+	private String suggestedTotal;
 	
 	private ArrayList<JobPreferenceDTO> jobPrefererenceList;
 	private ExperienceDTO jobExperienceList;
@@ -113,6 +115,18 @@ public class SelectionParamDTO {
 	}
 	public void setYearOfExperience(String yearOfExperience) {
 		this.yearOfExperience = yearOfExperience;
+	}
+	public String getWorkOrderTotal() {
+		return workOrderTotal;
+	}
+	public void setWorkOrderTotal(String workOrderTotal) {
+		this.workOrderTotal = workOrderTotal;
+	}
+	public String getSuggestedTotal() {
+		return suggestedTotal;
+	}
+	public void setSuggestedTotal(String suggestedTotal) {
+		this.suggestedTotal = suggestedTotal;
 	}
 	
 }

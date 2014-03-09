@@ -34,7 +34,7 @@ public class LotteryManagement extends ActionSupport{
 	{
 		agentList=RADAO.getRecruitingAgencyList("all");
 		countryList=CountryDAO.getAllCountry();
-		languageList=LanguageDAO.getAllLanguage();
+		languageList=LanguageDAO.getAllLanguage("all");
 		return SUCCESS;	
 	}
 	public String jobseekerSelection(){
@@ -44,7 +44,7 @@ public class LotteryManagement extends ActionSupport{
 			msg="No Jobseeker found for the selected criteria.";
 			agentList=RADAO.getRecruitingAgencyList("all");
 			countryList=CountryDAO.getAllCountry();
-			languageList=LanguageDAO.getAllLanguage();
+			languageList=LanguageDAO.getAllLanguage("all");
 			return SUCCESS;
 		}
 		selectionId=responseCode;

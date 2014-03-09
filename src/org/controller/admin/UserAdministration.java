@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts2.ServletActionContext;
+import org.model.MasterDataManagement;
 import org.model.NewPaawordDAO;
 import org.model.UserDAO;
 import org.table.UserDTO;
@@ -22,9 +25,16 @@ public class UserAdministration extends ActionSupport{
 	private static final long serialVersionUID = 1L;
 	ArrayList<UserTmpDTO> userList=new ArrayList<UserTmpDTO>();
 	String[] approveUserList;
+	private String message;
+	private String userId;
+	private String password;
+	private String userType;
+	private String division;
+	private String district;
+	private String upazila;
+	private String union;
 	private String startDate;
 	private String endDate;
-	private String message;
 	
 	public String checkRequestedUserList()
 	{
@@ -42,6 +52,39 @@ public class UserAdministration extends ActionSupport{
 		userList=userDao.getNewUserList();
 		
 		return SUCCESS;
+	}
+	public String newUserForm(){
+		return SUCCESS;
+	}
+	public String createNewUser(){
+		
+		UserDTO user=new UserDTO();
+		user.setUserId(userId);
+		user.setPassword(password);
+		user.setUserType(userType);
+		user.setDivisionId(division);
+		user.setDistrictId(district);
+		user.setUnionId(union);
+		user.setUpazillaId(upazila);
+		user.setFormDate(startDate);
+		user.setToDate(endDate);
+		
+		HttpServletResponse response = ServletActionContext.getResponse();
+		String msg="";
+		boolean resp=UserDAO.createNewUser(user);
+		
+		if(resp==true)
+			msg="Successfully Created New User.";
+		
+		try{
+        	response.setContentType("text/html");
+        	response.setHeader("Cache-Control", "no-cache");
+        	response.getWriter().write(msg);
+        	response.flushBuffer();
+          }
+        catch(Exception e) {e.printStackTrace();}
+        
+		return null;	
 	}
 
 	public ArrayList<UserTmpDTO> getUserList() {
@@ -74,6 +117,48 @@ public class UserAdministration extends ActionSupport{
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+	public String getDivision() {
+		return division;
+	}
+	public void setDivision(String division) {
+		this.division = division;
+	}
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}	
+	public String getUpazila() {
+		return upazila;
+	}
+	public void setUpazila(String upazila) {
+		this.upazila = upazila;
+	}
+	public String getUnion() {
+		return union;
+	}
+	public void setUnion(String union) {
+		this.union = union;
 	}
 	
 

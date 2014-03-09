@@ -24,7 +24,7 @@ public class LotteryDAO {
 		
 		ArrayList<SelectionParamDTO> selectionList=null;
 		Connection conn = ConnectionManager.getConnection();
-		String sql = "Select * from SELECTION_CRITERIA Where Agent_Id=? and Work_Order like ?  order by Selection_Date desc";
+		String sql = "Select * from SELECTION_CRITERIA,AGENT_LICENCE Where SELECTION_CRITERIA.Agent_Id=AGENT_LICENCE.Agent_Id and  SELECTION_CRITERIA.Agent_Id=? and Work_Order like ?  order by Selection_Date desc";
 		PreparedStatement stmt = null;
 		ResultSet r = null;
 		try
@@ -44,6 +44,7 @@ public class LotteryDAO {
 				
 				selection.setSelectionId(r.getInt("SELECTION_ID"));
 				selection.setAgentId(r.getString("AGENT_ID"));
+				selection.setAgentCompanyName(r.getString("COMPANY_NAME"));
 				selection.setWorkOrder(r.getString("WORK_ORDER"));
 				selection.setGender(r.getString("GENDER"));
 				selection.setYearOfExperience(r.getString("EXPERIENCE_YEAR"));
@@ -158,7 +159,7 @@ public class LotteryDAO {
 		
 
 		Connection conn = ConnectionManager.getConnection();
-		String sql = "Select * from SELECTION_CRITERIA where Selection_Id=?";
+		String sql = "Select * from SELECTION_CRITERIA,AGENT_LICENCE  where SELECTION_CRITERIA.Agent_Id=AGENT_LICENCE.Agent_Id AND Selection_Id=?";
 		PreparedStatement stmt = null;
 		ResultSet r = null;
 		SelectionParamDTO selection=null;
@@ -337,8 +338,8 @@ public class LotteryDAO {
 				    stmt.setString(7, selection.getJobPreference());
 				    stmt.setString(8, selection.getJobExperience());
 				    stmt.setString(9, selection.getYearOfExperience());
-			 		stmt.setInt(10,  10);
-			 		stmt.setInt(11,  40);
+			 		stmt.setInt(10,  Integer.parseInt(selection.getWorkOrderTotal()));
+			 		stmt.setInt(11,  Integer.parseInt(selection.getSuggestedTotal()));
 					stmt.registerOutParameter(12, java.sql.Types.NUMERIC);
 					stmt.executeUpdate();
 					responseCode = stmt.getInt(12);

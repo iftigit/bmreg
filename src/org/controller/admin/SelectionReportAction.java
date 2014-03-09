@@ -20,6 +20,7 @@ import org.model.AddressDAO;
 import org.model.LotteryDAO;
 import org.table.LotteryDTO;
 import org.table.SelectedEmpDTO;
+import org.table.SelectionParamDTO;
 import org.table.UserDTO;
 
 import com.lowagie.text.Document;
@@ -86,6 +87,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		
 		LotteryDAO lotteryDAO=new LotteryDAO();
 		ArrayList<SelectedEmpDTO> jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
+		SelectionParamDTO selectionParam=lotteryDAO.getSelectionCriteria(selectionId);
 		
 
 		PdfPTable ptable = null;
@@ -99,6 +101,8 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 			font1.setColor(new Color(0x92, 0x90, 0x83));
 			Font fontT = FontFactory.getFont("Helvetica", 9, Font.NORMAL,Color.BLACK);			
 			Font fontb = FontFactory.getFont("Helvetica", 10, Font.BOLD,Color.BLACK);
+			
+			eEvent.setDisplayValue(selectionParam.getAgentCompanyName()+"#"+selectionParam.getWorkOrder()+"#"+selectionParam.getSelectionId());
 			
 			int counter=0;
 			for(int i=0;i<jobseekerList.size();i++)
@@ -428,10 +432,10 @@ class DCLotteryReportEvent extends PdfPageEventHelper
 			ptable.addCell(pcell);
 			
 			String dValue=getDisplayValue();
-			String[] valArr=dValue.split("#seperator#");
+			String[] valArr=dValue.split("#");
 			
 			
-			String header1="G2G Project Lottery Result for Upazilla : "+valArr[0]+", Union :"+valArr[1]+"[Total Quota= "+valArr[2]+"]";
+			String header1="Company Name : "+valArr[0]+", Work Order :"+valArr[1]+", Selection Id :"+valArr[2];
 			pcell = new PdfPCell();
 			pg = new Paragraph(header1,new Font(Font.TIMES_ROMAN,13,Font.BOLD));
 			pg.setAlignment(Element.ALIGN_LEFT);
