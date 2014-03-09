@@ -22,7 +22,13 @@ function addMoreLanguage()
 	var elementLanguage = document.createElement("select");
 	elementLanguage.id = "language"+cntL[row];
 	elementLanguage.name = cntL[row];
+	var langArr=totalLanguageString.split("#");
 	elementLanguage.options[0] = new Option("Select","select");
+	for(var i=0;i<langArr.size();i++){
+		
+		elementLanguage.options[i+1] = new Option(langArr[i],langArr[i]);
+	}
+		/*
 	elementLanguage.options[1] = new Option("Abenaki","Abenaki");
 	elementLanguage.options[2] = new Option("Arabic","Arabic");
 	elementLanguage.options[3] = new Option("Aramaic","Aramaic");
@@ -88,8 +94,9 @@ function addMoreLanguage()
 	elementLanguage.options[58] = new Option("Venda","Venda");
 	elementLanguage.options[59] = new Option("Vietnamese","Vietnamese");
 	elementLanguage.options[60] = new Option("Wagiman","Wagiman");
+	
     elementLanguage.options[61] = new Option("Others","Others");
-
+*/
 
 	elementLanguage.style.width = '200px';
 	elementLanguage.style.textAlign = 'left';
@@ -215,8 +222,13 @@ function defaultLanguageLoad()
 	var elementLanguage = document.createElement("select");
 	elementLanguage.id = "language"+cntL[row];
 	elementLanguage.name = cntL[row];
-	
+	var langArr=totalLanguageString.split("#");
 	elementLanguage.options[0] = new Option("Select","select");
+	for(var i=0;i<langArr.size();i++){
+		
+		elementLanguage.options[i+1] = new Option(langArr[i],langArr[i]);
+	}
+	/*
 	elementLanguage.options[1] = new Option("Abenaki","Abenaki");
 	elementLanguage.options[2] = new Option("Arabic","Arabic");
 	elementLanguage.options[3] = new Option("Aramaic","Aramaic");
@@ -283,6 +295,7 @@ function defaultLanguageLoad()
 	elementLanguage.options[59] = new Option("Vietnamese","Vietnamese");
 	elementLanguage.options[60] = new Option("Wagiman","Wagiman");
     elementLanguage.options[61] = new Option("Others","Others");
+    */
     
 	elementLanguage.style.width = '200px';
 	elementLanguage.style.textAlign = 'left';

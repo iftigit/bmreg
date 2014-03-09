@@ -26,14 +26,14 @@
 
 var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.gif' border='0' /></center>";
 
-function updateCountry(countryId,serial)
+function updateLanguage(languageName,serial)
 {
 
 var visibility=0;
 if(document.getElementById("visibility"+serial).checked==true)
  visibility=1;
 
- var loadUrl="updateCountry.action?countryId="+countryId+"&visibility="+visibility;
+ var loadUrl="updateLanguage.action?languageName="+languageName+"&visibility="+visibility;
 			jQuery("#msgDiv")  
 				.html(ajax_load)  
 				.load(loadUrl, {},function(responseText){  
@@ -85,39 +85,39 @@ if(document.getElementById("selectAll").checked==true)
 </div>
 </center>
 </div>
-<form method="post" action="updateCountryList.action">
+<form method="post" action="updateLanguageList.action">
 <center>
 <br/>
 <div class="box" style="margin-top: 20px;width: 900px;text-align: center;">
-    <h3>Country Management</h3>
+    <h3>Language Management</h3>
 <div style="height: 400px;overflow: auto;">
     <table width="98%" align="center" border="0" cellpadding="2" cellspacing="0" style="border: 1px solid grey;">
      <tr bgcolor="#F1F1F1">
      
-        <td width="10%" align="center" style="padding-left: 10px;" height="25"></td>
-      	<td width="60%" align="left" style="padding-left: 10px;" height="25">Country Name</td>
+        <td width="10%" align="center" style="padding-left: 10px;" height="25">SL</td>
+      	<td width="60%" align="left" style="padding-left: 10px;" height="25">Language Name</td>
       	<td width="20%" align="center" height="25">Visibility<br/>
       	<input type="checkbox" onchange="checkUncheckAll()" id="selectAll" />
       	</td>
       	<td width="10%" align="left" style="padding-left: 10px;" height="25">Edit</td>
       </tr>
-      <s:iterator value="countryList" id="country" status="indx">
+      <s:iterator value="languageList" id="country" status="indx">
         <tr>
-        <td align="left" style="padding-left: 10px;" height="25"><s:property value="%{#indx.count}" /></td>
-      	<td align="left" style="padding-left: 10px;" height="25"><s:property value="countryName" /></td>
+        <td align="center" height="25"><s:property value="%{#indx.count}" /></td>
+      	<td align="left" style="padding-left: 10px;" height="25"><s:property value="language"  /></td>
       	<td align="center" height="25">
       	 
       	<s:if test="#country.visibility==1">
-		  <input type="checkbox" name="cList[<s:property value="%{#indx.index}" />].visibility" checked="checked" id="visibility<s:property value="%{#indx.count}" />" value="1" onclick="setVisibilityValue(this.id)" />
+		  <input type="checkbox" name="lList[<s:property value="%{#indx.index}" />].visibility" checked="checked" id="visibility<s:property value="%{#indx.count}" />" value="1" onclick="setVisibilityValue(this.id)" />
 		</s:if>
 		<s:elseif test="#country.visibility==0">
-		  <input type="checkbox" name="cList[<s:property value="%{#indx.index}" />].visibility" id="visibility<s:property value="%{#indx.count}" />" value="0"  onclick="setVisibilityValue(this.id)" />
+		  <input type="checkbox" name="lList[<s:property value="%{#indx.index}" />].visibility" id="visibility<s:property value="%{#indx.count}" />" value="0"  onclick="setVisibilityValue(this.id)" />
 		</s:elseif> 
-		<input type="hidden" name="cList[<s:property value="%{#indx.index}" />].countryId" value="<s:property value='countryId' />" /> 	
+		<input type="hidden" name="lList[<s:property value="%{#indx.index}" />].language" value="<s:property value='language' />" /> 	
       		
       	</td>
       	<td align="left" style="padding-left: 10px;" height="25">
-			<a href="#" onclick='updateCountry(<s:property value="countryId" />,<s:property value="%{#indx.count}" />)'  style="text-decoration: none;">
+			<a href="#" onclick='updateLanguage("<s:property value="language" />",<s:property value="%{#indx.count}" />)'  style="text-decoration: none;">
 		      	<img src='/BMREG_WEB/resources/images/edit.png' border='0' width="20" height="20"/>
       		</a>
 		</td>      	
