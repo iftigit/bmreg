@@ -1,6 +1,9 @@
 package org.controller.admin;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.model.JobCategoryDAO;
 import org.model.RADAO;
@@ -34,14 +37,28 @@ public class RecruitingAgencyManagement extends ActionSupport{
 	}
 	public String createNewRa()
 	{
-		boolean response=RADAO.createNewRA(rAgent);
-		if(response==true){			
-			msg="Successfully Created new Recruting Agency";
-			rAgent=null;
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	    	Date licenseDate = sdf.parse(rAgent.getLicenseDate());
+	    	Date llisenseValidUpto = sdf.parse(rAgent.getLicenseValidTill());
+	
+	
+	    	if(licenseDate.compareTo(llisenseValidUpto)>0){
+	    		msg="License date cannot be greater than the valid upto date.";
+	    	}
+		}catch(ParseException ex){
+    		ex.printStackTrace();
+    		msg="Incorrect format of License date.";
+    	}
+		if(msg.equalsIgnoreCase("")){
+			boolean response=RADAO.createNewRA(rAgent);
+			if(response==true){			
+				msg="Successfully Created new Recruting Agency";
+				rAgent=null;
+			}
+			else
+				msg="Problem in creating new Recruting Agency";
 		}
-		else
-			msg="Problem in creating new Recruting Agency";
-		
 		return SUCCESS;
 	}
 	public ArrayList<RecruitingAgencyDTO> getAgentList() {

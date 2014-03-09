@@ -3,7 +3,7 @@ package org.table;
 public class RecruitingAgencyDTO {
 	
 	private String agentFileRef;
-	private int agentId;
+	private String agentId;
 	private String companyName;
 	private String address;
 	private String phone;
@@ -31,10 +31,11 @@ public class RecruitingAgencyDTO {
 	public void setAgentFileRef(String agentFileRef) {
 		this.agentFileRef = agentFileRef;
 	}
-	public int getAgentId() {
+	
+	public String getAgentId() {
 		return agentId;
 	}
-	public void setAgentId(int agentId) {
+	public void setAgentId(String agentId) {
 		this.agentId = agentId;
 	}
 	public String getCompanyName() {

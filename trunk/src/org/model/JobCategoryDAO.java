@@ -75,9 +75,9 @@ public class JobCategoryDAO {
 	 	   Connection conn = ConnectionManager.getConnection();
 	 	  String sql="";
 	 	   if(level==99)
-	 		  sql = "Select * from MST_JOBS order by job_title";
+	 		  sql = "Select * from MST_JOBS where VISIBILITY=1 order by job_title";
 	 	   else
-	 		  sql = "Select * from MST_JOBS Where level_no="+level+" order by job_title";
+	 		  sql = "Select * from MST_JOBS Where level_no="+level+" and VISIBILITY=1 order by job_title";
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   JobPreferenceDTO jobDto  = null;
@@ -107,7 +107,8 @@ public class JobCategoryDAO {
 		   ArrayList<JobPreferenceDTO> jobList=new ArrayList<JobPreferenceDTO>();
 		
 	 	   Connection conn = ConnectionManager.getConnection();
-	 	   String sql = "Select * from MST_JOBS where job_Id in (Select child_id from JOBS_MAPPING where Parent_Id="+patentJobId+") and Level_No="+level+" Order by Job_Title";
+	 	   //String sql = "Select * from MST_JOBS where job_Id in (Select child_id from JOBS_MAPPING where Parent_Id="+patentJobId+") and Level_No="+level+" Order by Job_Title";
+	 	  String sql = "Select * from MST_JOBS where  Level_No="+level+" Order by Job_Title";
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   JobPreferenceDTO jobDto  = null;

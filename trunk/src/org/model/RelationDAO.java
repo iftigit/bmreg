@@ -18,7 +18,7 @@ public class RelationDAO {
 		
 	 	   Connection conn = ConnectionManager.getConnection();
 		   //String sql = "SELECT DIVISIONID,DIVISION_NAME FROM DIVISION ORDER BY DIVISIONID";
-	 	  String sql = "SELECT * FROM MST_RELATION";
+	 	  String sql = "SELECT * FROM MST_RELATION Where ACTIVE_YN='Y' order by VIEW_ORDER";
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   RelationDTO relationDTO  = null;

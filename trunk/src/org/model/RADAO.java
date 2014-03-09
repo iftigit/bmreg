@@ -34,7 +34,7 @@ public class RADAO {
 				while (r.next())
 				{
 					raDTO=new RecruitingAgencyDTO();
-					raDTO.setAgentId(r.getInt("AGENT_ID"));
+					raDTO.setAgentId(r.getString("AGENT_ID"));
 					raDTO.setAgentFileRef(r.getString("AGENT_FILE_REF"));
 					raDTO.setCompanyName(r.getString("COMPANY_NAME"));
 					raDTO.setAddress(r.getString("ADDRESS"));
@@ -86,7 +86,7 @@ public class RADAO {
 				while (r.next())
 				{
 					raDTO=new RecruitingAgencyDTO();
-					raDTO.setAgentId(r.getInt("AGENT_ID"));
+					raDTO.setAgentId(r.getString("AGENT_ID"));
 					raDTO.setAgentFileRef(r.getString("AGENT_FILE_REF"));
 					raDTO.setCompanyName(r.getString("COMPANY_NAME"));
 					raDTO.setAddress(r.getString("ADDRESS"));
@@ -126,7 +126,7 @@ public class RADAO {
 	 	   		        " SPACE,STATUS,COMPANY_TYPE,LICENSEDATE,LICENSE_VALID_UPTO,MINISTRY_REFERENCE,CONTACT_PERSON,DESIGNATION, " +
 	 	   		        " COMMENTS,BRANCH,TRAINING_CENTER,CEONAME,CEOCONTACTNO)  " +
 	 	   		        " Values(?,?,?,?,?,?,?,?,?,?," +
-	 	   		        "        ?,to_date(?,'dd/MM/YYYY'),to_date(?,'dd/MM/YYYY'),?,?,?,?,?,?,?," +
+	 	   		        "        ?,to_date(?,'dd-MM-YYYY'),to_date(?,'dd-MM-YYYY'),?,?,?,?,?,?,?," +
 	 	   		        "        ?)";
 		   PreparedStatement stmt = null;
 		   boolean resp=false;
@@ -134,7 +134,7 @@ public class RADAO {
 			try
 			{
 				stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, rAgent.getAgentId());
+				stmt.setString(1, rAgent.getAgentId());
 				stmt.setString(2, rAgent.getAgentFileRef());
 				stmt.setString(3, rAgent.getCompanyName());
 				stmt.setString(4, rAgent.getAddress());

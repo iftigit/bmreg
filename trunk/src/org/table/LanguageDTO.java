@@ -8,6 +8,7 @@ public class LanguageDTO implements Serializable{
 	private String language;
 	private String oralSkill;
 	private String writingSkill;
+	private int visibility;
 	
 	public String getLanguage() {
 		return language;
@@ -26,6 +27,12 @@ public class LanguageDTO implements Serializable{
 	}
 	public void setWritingSkill(String writingSkill) {
 		this.writingSkill = writingSkill;
+	}
+	public int getVisibility() {
+		return visibility;
+	}
+	public void setVisibility(int visibility) {
+		this.visibility = visibility;
 	}
 
 }

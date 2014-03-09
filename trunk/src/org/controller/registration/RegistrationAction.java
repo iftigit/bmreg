@@ -6,7 +6,9 @@ import javax.servlet.ServletContext;
 
 import org.apache.struts2.ServletActionContext;
 import org.model.CountryDAO;
+import org.model.LanguageDAO;
 import org.table.CountryDTO;
+import org.table.LanguageDTO;
 import org.table.UserDTO;
 import org.util.PassPhrase;
 
@@ -17,12 +19,14 @@ public class RegistrationAction extends ActionSupport{
 	
 	private static final long serialVersionUID = 8818190897989491886L;
 	private ArrayList<CountryDTO> countryList=new ArrayList<CountryDTO>();
+	private ArrayList<LanguageDTO> languageList=new ArrayList<LanguageDTO>();
 	
 	public String regHomeAction()
 	{
 		//this.rc= PassPhrase.getNext();
 		//countryList=(ArrayList<CountryDTO>)getServletContext().getAttribute("ALL_COUNTRY");
 		countryList=CountryDAO.getAllCountry();
+		languageList=LanguageDAO.getAllLanguage("active");
 		
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
 		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))
@@ -50,5 +54,14 @@ public class RegistrationAction extends ActionSupport{
 	{
 		return ServletActionContext.getServletContext();
 	}
+
+	public ArrayList<LanguageDTO> getLanguageList() {
+		return languageList;
+	}
+
+	public void setLanguageList(ArrayList<LanguageDTO> languageList) {
+		this.languageList = languageList;
+	}
+	
 
 }

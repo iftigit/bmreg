@@ -9,6 +9,7 @@ import oracle.jdbc.driver.OracleCallableStatement;
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
 
+import org.table.RecruitingAgencyDTO;
 import org.table.TechnicalTeamDTO;
 import org.table.UserDTO;
 import org.table.UserTmpDTO;
@@ -312,6 +313,39 @@ public class UserDAO {
 			 		return response;	           
 	}
 	
+	
+	public static boolean createNewUser(UserDTO user)
+	{
+		Connection conn = ConnectionManager.getConnection();
+	 	   String sql = " Insert into MST_USER(USERID,PASSWORD,USER_TYPE,DIVISION_ID,DISTRICT_ID,UPAZILLA_ID,UNION_ID, " +
+	 	   				" START_DATE,END_DATE) " +
+	 	   				" Values(?,?,?,?,?,?,?,to_date(?,'dd-MM-YYYY HH24:MI:SS'),to_date(?,'dd-MM-YYYY HH24:MI:SS'))";
+		   PreparedStatement stmt = null;
+		   boolean resp=false;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, user.getUserId());
+				stmt.setString(2, user.getPassword());
+				stmt.setString(3, user.getUserType());
+				stmt.setString(4, user.getDivisionId());
+				stmt.setString(5, user.getDistrictId());
+				stmt.setString(6, user.getUpazillaId());
+				stmt.setString(7, user.getUnionId());
+				stmt.setString(8, user.getFormDate());
+				stmt.setString(9, user.getToDate());
+				if(stmt.executeUpdate()==1)
+					resp=true;
+					
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return resp;
+
+	}
 
 	
 
