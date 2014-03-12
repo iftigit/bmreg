@@ -179,6 +179,9 @@
 	function validateStep1(){
        var isValid = true; 
 	   
+	   <s:if test="{loggedInUser=='DEMO_REG_OPERATOR'}">	   	
+	   	var regToken = $('#regToken').val();
+	   </s:if>
 	   var givenName = $('#givenName').val();
 	   var lastName = $('#lastName').val();	   
 	   var fatherName = $('#fatherName').val();
@@ -202,7 +205,16 @@
 	   var totalSon = $('#totalSon').val();
 	   var totalDaughter = $('#totalDaughter').val();
 	   var childYes=document.getElementById("childYes").checked;
-	   
+
+	   <s:if test="{loggedInUser=='DEMO_REG_OPERATOR'}">	   	
+	       if(regToken==""){
+	         isValid = false;
+	         $('#msg_regToken').html(alertImg+'Please Provide Reg Token'+postFix).show();
+	       }else{
+	         $('#msg_regToken').html('').hide();
+	       }
+	   </s:if>
+	   	   
        if(givenName=="" && lastName==""){
          isValid = false;
          $('#msg_seekerName').html(alertImg+'Please fill Given Name or Last Name'+postFix).show();
@@ -919,6 +931,18 @@ http://rishida.net/tools/conversion/
           			<tr>
                     	<td align="center" colspan="3">&nbsp;</td>
           			</tr>        
+          			<s:if test="{loggedInUser=='DEMO_REG_OPERATOR'}">
+          			<tr>
+                    	<td align="left">Reg Token <font color="red">*</font></td>
+                    	<td align="left">
+                    	  <input type="text" id="regToken" name="personalDTO.regToken" value="<s:property value='personalDTO.regToken' />" class="txtBox" tabindex="1">
+                      </td>
+                    	<td align="left">
+                    	<span id="msg_regToken"></span>&nbsp;
+                    		<font style="color:red"><s:label name="sMsg_regToken"></s:label></font>
+                    	</td>
+          			</tr>
+          			</s:if> 
           			<tr>
                     	<td align="left" width="20%" valign="top">Job-Seeker's Name <font color="red">*</font></td>
                     	<td align="left" width="50%" valign="top">

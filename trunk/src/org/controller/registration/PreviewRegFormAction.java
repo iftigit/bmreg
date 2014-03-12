@@ -20,6 +20,7 @@ import org.table.LanguageDTO;
 import org.table.NomineeDTO;
 import org.table.PersonalInfoDTO;
 import org.table.TrainingDTO;
+import org.table.UserDTO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -62,6 +63,7 @@ public class PreviewRegFormAction extends ActionSupport{
 	{
 		RegistrationDAO regDao=new RegistrationDAO();
 		ServletActionContext.getRequest().getSession().setAttribute("sessionObj_PersonalInfo", personalDTO);
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
 		
 		countryList=CountryDAO.getAllCountry();
 		String[] countryArr=countryPreferenceIds.split(",");
@@ -579,6 +581,12 @@ public class PreviewRegFormAction extends ActionSupport{
 		
 		//error=true;
 		//addFieldError( "sMsg_mailingAddress", " Correct Mailing Address." );
+		
+		if(regDao.isValidRegToken(loggedInUser.getUserId(),loggedInUser.getUserType(),personalDTO.getRegToken())==false)
+		{
+			addFieldError( "sMsg_regToken", " Not a valid Reg Token." );
+			error=true;
+		}
 		if(error==true){
 			ServletActionContext.getRequest().getSession().setAttribute("form_error", "form_error");
 			return;

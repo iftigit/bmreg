@@ -55,7 +55,7 @@
     <tr>
      <td width="15%" style="color:#7D2252;">Name</td>
      <td width="85%" colspan="3" style="padding-bottom: 15px;">
-     
+     <input type="hidden" name="personalDTO.regToken" value="<s:property value="personalDTO.regToken" />" />
      <div style="float:left;width: 250px;color: #4D4D4D;">Given Name<br/>
      	<font color='black'/><s:property value="personalDTO.empGivenName" /></font>
      	<input type="hidden" name="personalDTO.empGivenName" value="<s:property value="personalDTO.empGivenName" />" />

@@ -87,7 +87,7 @@ public String execute() throws Exception
 		{
 			return "blankForm";
 		}
-		else if(!loggedInUser.getAuthenticationKey().equalsIgnoreCase(submittedAuthKey) || !loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))
+		else if(!loggedInUser.getAuthenticationKey().equalsIgnoreCase(submittedAuthKey) || (!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR")) )
 		{
 			return "logout";
 		}
@@ -98,6 +98,15 @@ public String execute() throws Exception
 		
 		RegistrationDAO regDAO=new RegistrationDAO();
         String registrationId="";
+        
+        if(userType.equalsIgnoreCase("DEMO_REG_OPERATOR")){
+        	boolean regTokenValidate=regDAO.isValidRegToken(userId,userType, personalDTO.getRegToken());
+        	if(regTokenValidate==false)
+        	{
+        		addFieldError( "Err_RegSubmit", "Invalid Registartion Token.");        	
+            	return "input";
+        	}
+        }
         registrationId=RegistrationSingleton.generateRegistrationId(pAddress.getDistrictId(),personalDTO.getEmpGender());
         String response=regDAO.insertEmpRegistrationInfo(
         		 registrationId,
