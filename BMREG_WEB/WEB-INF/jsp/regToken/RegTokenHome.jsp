@@ -155,7 +155,15 @@ function calculateTotal()
     <table width="80%" align="center" border="0">
      	<tr>
      		<td width="15%" align="left">Select User</td>
-     		<td width="35%" align="left"><input type="text" name="regToken.assignedTo" id="assignedTo" value="<s:property value='regToken.assignedTo' />" style="border: 1px solid gray;width: 200px;" /></td>
+     		<td width="35%" align="left">
+     		
+     			<select name="regToken.assignedTo" id="assignedTo">
+     				<s:iterator value="userList" status="status">
+     					<option value='<s:property value="userId" />'><s:property value="userId" /></option>
+     				</s:iterator>	 
+     			</select>
+     		
+     		</td>
      		<td width="15%" align="left"></td>
      		<td width="35%" align="left"></td>
         </tr>
@@ -179,19 +187,20 @@ function calculateTotal()
         </tr>
         <tr>
      		<td align="left">Total Token</td>
-     		<td align="left"><input type="text" name="regToken.totalToken" id="totalToken" value="<s:property value='token.totalToken' />" style="border: 1px solid gray;width: 200px;" /></td>
+     		
+     		<td align="left"><input type="text" name="regToken.totalToken" id="totalToken" value="<s:property value='token.totalToken' />" style="border: 1px solid gray;width: 200px;" readonly="readonly" /></td>
      		<td align="left"></td>
      		<td align="left"></td>
         </tr>
     </table>
 <p style="padding-top: 40px;">     
-<input type="button" name="save" value="Crete New RA" style="width: 200px;height: 35px;"  onclick="createRegToken()"/>
+<input type="button" name="save" value="Crete New Token" style="width: 200px;height: 35px;"  onclick="createRegToken()"/>
 </p>
 </form>
 </div>
     
     <p style="padding-bottom: 20px;">
-    <a href="systemAdminHome.action">Go Home</a>
+    <a href="homePage.action">Go Home</a>
     </p>
 
 </div>

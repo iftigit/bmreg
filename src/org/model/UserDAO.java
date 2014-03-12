@@ -347,6 +347,36 @@ public class UserDAO {
 
 	}
 
-	
+	public static ArrayList<UserDTO> getUserList(String userType,String value)
+	{
+		ArrayList<UserDTO> userList=new ArrayList<UserDTO>();
+		UserDTO user=null;
+		
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="";
+		   
+		   if(userType.equalsIgnoreCase("DEMO_REG_OPERATOR"))
+			   sql = " Select * from MST_USER Where USER_TYPE='"+userType+"' and  DISTRICT_ID="+value;
+		   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					user=new UserDTO();
+					user.setUserId(r.getString("USERID"));
+					userList.add(user);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		
+		return userList;
+	}
 
 }

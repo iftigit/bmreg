@@ -29,6 +29,10 @@ public class CheckValidity extends ActionSupport{
 		{
 			return "regOperator";
 		}
+		else if(user!=null && (user.getUserType().equalsIgnoreCase("DEMO_REG_ADMIN")))	
+		{
+			return "demoRegAdmin";
+		}		
 		else if(user!=null && user.getUserType().equalsIgnoreCase("REG_VIEW_ADMIN"))	
 		{
 			return "regViewAdmin";
@@ -121,6 +125,10 @@ public class CheckValidity extends ActionSupport{
 					ArrayList<AddressDTO> abc=(ArrayList<AddressDTO>) getServletContext().getAttribute("OPERATOR_DISTRICT");
 					ServletActionContext.getRequest().getSession().setAttribute("CONTACT_INFO", userDao.getTechnicalTeam(user.getDistrictId()));
 					return "regOperator";
+				}
+				if(user.getUserType().equalsIgnoreCase("DEMO_REG_ADMIN"))	
+				{
+					return "demoRegAdmin";
 				}
 				else if(user.getUserType().equalsIgnoreCase("REG_VIEW_ADMIN"))	
 				{
