@@ -14,12 +14,15 @@ import org.model.AddressDAO;
 import org.model.CountryDAO;
 import org.model.DegreeDAO;
 import org.model.JobCategoryDAO;
+import org.model.RegistrationDAO;
+import org.model.RegistrationDAO;
 import org.model.RelationDAO;
 import org.table.AddressDTO;
 import org.table.CountryDTO;
 import org.table.DegreeDTO;
 import org.table.JobPreferenceDTO;
 import org.table.RelationDTO;
+import org.table.SettingDTO;
 
 public class StartupResources  extends HttpServlet {
 	
@@ -178,12 +181,17 @@ public class StartupResources  extends HttpServlet {
 			villageMap.put(Integer.valueOf(villageList.get(i).getVillageId()), villageList.get(i).getVillageName());			
 		}
 		
+		RegistrationDAO regDAO=new RegistrationDAO();
+		HashMap<String, SettingDTO> settingHash=regDAO.getParamSettings();
+		
 		config.getServletContext().setAttribute("ALL_DIVISTION_MAP", divisionMap);
 		config.getServletContext().setAttribute("ALL_DISTRICT_MAP", districtMap);
 		config.getServletContext().setAttribute("AL_UPAZILLA_THANA_MAP", upazillaOrThanaMap);
 		config.getServletContext().setAttribute("ALL_UNION_WARD_MAP", unionOrWardMap);
 		config.getServletContext().setAttribute("ALL_MAUZA_MOHOLLA_MAP", mauzaOrMohollaMap);
 		config.getServletContext().setAttribute("ALL_VILLAGE_MAP", villageMap);
+		config.getServletContext().setAttribute("ALL_SETTING_PARAM", settingHash);
+		
 		
 	
 	}

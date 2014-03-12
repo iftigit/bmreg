@@ -63,6 +63,7 @@ public class PersonalInfoDTO {
 	private String regDateTime;
 	
 	private String ipAddress;
+	private String regToken;
 	
 	public String getJobseekerNumber() {
 		return jobseekerNumber;
@@ -358,6 +359,12 @@ public class PersonalInfoDTO {
 	}
 	public void setOldBirthRegId(String oldBirthRegId) {
 		this.oldBirthRegId = oldBirthRegId;
+	}
+	public String getRegToken() {
+		return regToken;
+	}
+	public void setRegToken(String regToken) {
+		this.regToken = regToken;
 	}
 	
 	

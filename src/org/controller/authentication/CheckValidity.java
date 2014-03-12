@@ -25,7 +25,7 @@ public class CheckValidity extends ActionSupport{
 	{
 
 		user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
-		if(user!=null && user.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))	
+		if(user!=null && (user.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") || user.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR")))	
 		{
 			return "regOperator";
 		}
@@ -113,7 +113,7 @@ public class CheckValidity extends ActionSupport{
 			if(flag==true)
 			{
 				ServletActionContext.getRequest().getSession().setAttribute("loggedInUser", user);
-				if(user.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR"))	
+				if(user.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") || user.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR"))	
 				{
 //					ServletActionContext.getRequest().getSession().setAttribute("OPERATOR_DIVISION", addressDao.getDivision(Integer.parseInt(user.getDivisionId())));
 //					ServletActionContext.getRequest().getSession().setAttribute("OPERATOR_DISTRICT", addressDao.getOperatorDistrict(Integer.parseInt(user.getDistrictId())));

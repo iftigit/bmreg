@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import oracle.jdbc.driver.OracleCallableStatement;
 import oracle.sql.ARRAY;
@@ -18,6 +19,7 @@ import org.table.LanguageDTO;
 import org.table.LogDTO;
 import org.table.NomineeDTO;
 import org.table.PersonalInfoDTO;
+import org.table.SettingDTO;
 import org.table.TrainingDTO;
 
 import util.connection.ConnectionManager;
@@ -144,7 +146,7 @@ public class RegistrationDAO {
 					                                    "?,?,?,?,?,?,?,?,?,?, " +
 					                                    "?,?,?,?,?,?,?,?,?,?, " +
 					                                    "?,?,?,?,?,?,?,?,?,?, " +
-					                                    "?,?,?,?,?,?,?,?,?) }");
+					                                    "?,?,?,?,?,?,?,?,?,?) }");
 					 
 					 }else if(operationType.equalsIgnoreCase("update")){
 						 System.out.println("Procedure Update_RegInfo Begins");
@@ -275,10 +277,11 @@ public class RegistrationDAO {
 
 						stmt.setString(97, userType);
 						stmt.setString(98, userid);
+						stmt.setString(99, personalDTO.getRegToken());
 						
-						stmt.registerOutParameter(99, java.sql.Types.VARCHAR);
+						stmt.registerOutParameter(100, java.sql.Types.VARCHAR);
 						stmt.executeUpdate();
-						response = (stmt.getString(99)).trim();
+						response = (stmt.getString(100)).trim();
 						System.out.println("Response : " + response);
 						}
 					    catch (Exception e){e.printStackTrace();return response;}
@@ -675,6 +678,77 @@ public class RegistrationDAO {
 	 		return trainingList;
 	 }
 
+	 public boolean isValidRegToken(String userId,String userType,String regToken){
+		 boolean response=false;
+		 
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="";
+	   
+		 if(userType.equalsIgnoreCase("DEMO_REG_OPERATOR")){
+			 sql="Select count(*) total from DTL_REGISTRATION_TOKEN Where UserId='"+userId+"' and Token='"+regToken+"' and Status='A'";
+		 }
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+
+		   int count=0;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				if(r.next())
+				{
+
+					count=r.getInt("TOTAL");
+				}
+				if(count>0)
+					response=true;
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+
+	 		
+		 
+		 
+		 return response;
+	 }
+	 
+	 public HashMap<String,SettingDTO> getParamSettings(){
+		 
+		 Connection conn = ConnectionManager.getConnection();
+
+		 HashMap<String,SettingDTO> settingHash=new HashMap<String, SettingDTO>();
+		 String sql="Select * from MST_SETTING";
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   SettingDTO settingDTO;
+
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while(r.next())
+				{
+					settingDTO=new SettingDTO();
+					settingDTO.setParamName(r.getString("PARAM_NAME"));
+					settingDTO.setParamValue(r.getString("PARAM_VALUE"));
+					settingDTO.setExtraInfo(r.getString("EXTRA_INFO"));
+					settingHash.put(r.getString("PARAM_NAME"), settingDTO);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+
+	 		
+		 
+		 
+		 return settingHash;
+	 }	 
 	 /*
 	 public String updateEmpRegistrationInfo(PersonalInfoDTO personalDTO,AddressDTO addressDTO,String userId) 
 			{	     
