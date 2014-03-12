@@ -72,6 +72,9 @@
 		</result>
 		<result name="regOperator">
 			/WEB-INF/jsp/RegOperatorHome.jsp
+		</result>
+		<result name="demoRegAdmin">
+			/WEB-INF/jsp/DemoRegAdminHome.jsp
 		</result>		
 		<result name="regViewAdmin">
 			/WEB-INF/jsp/RegViewAdminHome.jsp
@@ -124,6 +127,8 @@
 	 <result name="regViewAdmin">/WEB-INF/jsp/RegViewAdminHome.jsp</result>
 	 <result name="a2iOperatorHome">/WEB-INF/jsp/A2IoperatorHome.jsp</result>
 	 <result name="editOperatorHome">/WEB-INF/jsp/EditOperatorHome.jsp</result>
+	 <result name="demoRegOperator">/WEB-INF/jsp/RegOperatorHome.jsp</result>
+	 <result name="demoRegAdmin">/WEB-INF/jsp/DemoRegAdminHome.jsp</result>
 	 <!-- 
 	 <result name="regLotViewAdmin">/WEB-INF/jsp/RegLotViewAdminHome.jsp</result>
 	 <result name="regLotMinistryAdmin">/WEB-INF/jsp/MinistryLotteryAdminHome.jsp</result>

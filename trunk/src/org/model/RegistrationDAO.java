@@ -685,7 +685,7 @@ public class RegistrationDAO {
 		 String sql="";
 	   
 		 if(userType.equalsIgnoreCase("DEMO_REG_OPERATOR")){
-			 sql="Select count(*) total from DTL_REGISTRATION_TOKEN Where UserId='"+userId+"' and Token='"+regToken+"' and Status='A'";
+			 sql="Select count(*) total from DTL_REGISTRATION_TOKEN Where UserId='"+userId+"' and lower(Token)=lower('"+regToken+"') and Status='A'";
 		 }
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
