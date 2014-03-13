@@ -15,6 +15,7 @@ public class RegTokenDTO {
 	private String recruitingAgencyName;
 	private String recruitingAgencyId;
 	private String insertedOn;
+	private String regToken;
 	
 	private String[] tokenList;
 
@@ -131,6 +132,15 @@ public class RegTokenDTO {
 	public void setTotalToken(int totalToken) {
 		this.totalToken = totalToken;
 	}
+
+	public String getRegToken() {
+		return regToken;
+	}
+
+	public void setRegToken(String regToken) {
+		this.regToken = regToken;
+	}
+	
 
 	
 }

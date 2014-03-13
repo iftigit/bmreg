@@ -179,7 +179,7 @@
 	function validateStep1(){
        var isValid = true; 
 	   
-	   <s:if test="{loggedInUser=='DEMO_REG_OPERATOR'}">	   	
+	   <s:if test="%{#session.loggedInUser.userType=='DEMO_REG_OPERATOR'}">	   	
 	   	var regToken = $('#regToken').val();
 	   </s:if>
 	   var givenName = $('#givenName').val();
@@ -206,7 +206,7 @@
 	   var totalDaughter = $('#totalDaughter').val();
 	   var childYes=document.getElementById("childYes").checked;
 
-	   <s:if test="{loggedInUser=='DEMO_REG_OPERATOR'}">	   	
+	   <s:if test="%{#session.loggedInUser.userType=='DEMO_REG_OPERATOR'}">	   	
 	       if(regToken==""){
 	         isValid = false;
 	         $('#msg_regToken').html(alertImg+'Please Provide Reg Token'+postFix).show();
@@ -926,12 +926,17 @@ http://rishida.net/tools/conversion/
             	</li>
   			</ul>
   			<div id="step-1">	
-            <h2 class="StepTitle">Step 1: Personal Information</h2>
+            <h2 class="StepTitle">Step 1: Personal Information</h2> 
             <table cellspacing="3" cellpadding="3" align="left" width="100%">
           			<tr>
-                    	<td align="center" colspan="3">&nbsp;</td>
+                    	<td align="center" colspan="3">&nbsp;
+                    	 
+                    	
+                    	</td>
           			</tr>        
-          			<s:if test="{loggedInUser=='DEMO_REG_OPERATOR'}">
+          			
+          			<s:if test="%{#session.loggedInUser.userType=='DEMO_REG_OPERATOR'}">
+          			
           			<tr>
                     	<td align="left">Reg Token <font color="red">*</font></td>
                     	<td align="left">
