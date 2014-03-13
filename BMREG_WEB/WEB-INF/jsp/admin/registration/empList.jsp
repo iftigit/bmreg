@@ -6,7 +6,7 @@
 <%@ page import="org.controller.registration.*" %>
 <%@ page import="java.util.ArrayList" %>
 
-<table width="80%" align="center" border="0" cellpadding="0" cellspacing="0" style="border: 1px solid grey;">
+<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0" style="border: 1px solid grey;">
 <tr>
 	<td>Jobseeker Id</td>
 	<td>Full Name</td>
@@ -15,14 +15,14 @@
 </tr>
 <s:iterator value="registrationList" id="registration" status="indx">
 <tr>
-	<td>
+	<td align="left">
 		<a href="editRegInfo">
 			<s:property value="jobseekerNumber" />
 		</a>
 	</td>
-	<td><s:property value="empFullName" /></td>
-	<td><s:property value="empFatherName" /></td>
-	<td><s:property value="empMotherName" /></td>
+	<td align="left"><s:property value="empFullName" /></td>
+	<td align="left"><s:property value="empFatherName" /></td>
+	<td align="left"><s:property value="empMotherName" /></td>
 </tr>
 </s:iterator>
 </table>
