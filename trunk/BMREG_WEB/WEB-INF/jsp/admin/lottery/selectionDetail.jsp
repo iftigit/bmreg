@@ -119,7 +119,7 @@ if(agentId=="none")
       	</td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="mobileNumber" /></td>
       	<td align="left" style="padding-left: 10px;" height="25">
-      	    <s:property value="pHouseholdNumber" />,<s:property value="pRoadNumber" /><br/>
+      	    HouseNo :<s:property value="pHouseholdNumber" />, RoadNo :<s:property value="pRoadNumber" /><br/>
       	    P.Code :<s:property value="pPostCode" />, PO:<s:property value="pPostOffice" />,Vill:<s:property value="pVillageName" />,<br/>
       		Mauza:<s:property value="pMauzaName" />,Union:<s:property value="pUnionName" />,Thana:<s:property value="pThanaName" />,<br/>
       		Dist:<s:property value="pDistrictName" />,Division:<s:property value="pDivisionName" />
