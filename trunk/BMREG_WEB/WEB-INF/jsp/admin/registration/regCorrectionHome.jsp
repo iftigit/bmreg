@@ -87,11 +87,13 @@ var loadUrl="searchJobSeeker.action?jobseekerNumber="+jobseekerNumber+"&passport
      		<td align="left">Name</td>
      		<td align="left"><input type="text" name="empFullName" id="empFullName" value="" style="border: 1px solid gray;" /></td>
      		<td align="left">Date of Birth</td>
-     		<td align="left"><input type="text" name=empBirthDate id="empBirthDate" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name=empBirthDate id="empBirthDate" value="" style="border: 1px solid gray;" />
+     		[dd-mm-yyyy]
+     		</td>
         </tr>
         <tr>
      		<td align="left">Mobile No.</td>
-     		<td align="left"><input type="text" name="empMobileNumber" id="empMobileNumber" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left"><input type="text" name="empMobileNumber" id="empMobileNumber" value="" style="border: 1px solid gray;" />	</td>
      		<td align="left"></td>
      		<td align="left"></td>
         </tr>
