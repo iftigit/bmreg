@@ -613,7 +613,18 @@
 		<action name="saveRegToken" class="org.controller.regToken.TokenManagement"  method="saveRegToken">
 			<result name="success">/WEB-INF/jsp/regToken/RegTokenHome.jsp</result>
 			<result name="input">/WEB-INF/jsp/regToken/RegTokenHome.jsp</result>
+			<result name="report" type="redirectAction">
+			    <param name="actionName">regTokenReportAction.action</param>		    
+			    <param name="tokenId">${tokenId}</param>
+   			</result>
 		</action>
+		<action name="regTokenReportAction" class="org.controller.regToken.RegTokenReportAction" >
+			<result type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">inputStream</param>
+			</result>		    
+		</action>
+		
 		
 		
 		

@@ -22,6 +22,7 @@ public class TokenManagement extends ActionSupport{
 	private String regFee;
 	private String msg;
 	private ArrayList<UserDTO> userList;
+	private String tokenId;
 	
 	public String regTokenHome()
 	{
@@ -43,9 +44,11 @@ public class TokenManagement extends ActionSupport{
 		String response=regTokenDAO.insertTokenInformation(regToken);
 		
 		regFee=((SettingDTO)paramList.get("DEMO_REG_FEE")).getParamValue();
-		if(response.equalsIgnoreCase("SUCCESS")){
+		if(!response.equalsIgnoreCase("-1")){
 			msg="Token Successfully Created";
 			regToken=null;
+			tokenId=response;
+			return "report";
 		}
 		else
 			msg="Error in Token Creation";
@@ -88,6 +91,14 @@ public class TokenManagement extends ActionSupport{
 
 	public void setUserList(ArrayList<UserDTO> userList) {
 		this.userList = userList;
+	}
+	
+	public String getTokenId() {
+		return tokenId;
+	}
+
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
 	}
 
 	public ServletContext getServletContext()

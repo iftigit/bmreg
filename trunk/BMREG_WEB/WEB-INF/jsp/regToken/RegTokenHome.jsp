@@ -157,7 +157,7 @@ function calculateTotal()
      		<td width="15%" align="left">Select User</td>
      		<td width="35%" align="left">
      		
-     			<select name="regToken.assignedTo" id="assignedTo">
+     			<select name="regToken.assignedTo" id="assignedTo" style="width:200px;border:1px solid grey;" >
      				<s:iterator value="userList" status="status">
      					<option value='<s:property value="userId" />'><s:property value="userId" /></option>
      				</s:iterator>	 
