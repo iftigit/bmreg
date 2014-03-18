@@ -159,7 +159,7 @@ public class LotteryDAO {
 		
 
 		Connection conn = ConnectionManager.getConnection();
-		String sql = "Select * from SELECTION_CRITERIA,AGENT_LICENCE  where SELECTION_CRITERIA.Agent_Id=AGENT_LICENCE.Agent_Id AND Selection_Id=?";
+		String sql = "Select * from SELECTION_CRITERIA,AGENT_LICENCE  where SELECTION_CRITERIA.Agent_Id=AGENT_LICENCE.LICENCE_NO AND Selection_Id=?";
 		PreparedStatement stmt = null;
 		ResultSet r = null;
 		SelectionParamDTO selection=null;
