@@ -318,8 +318,9 @@ public class LotteryDAO {
 		 					" Where Assign_Status='N' " +
 		 					" And per.JOBSEEKERID=addr.JOBSEEKERID " +
 		 					genderQueryString+" "+languageQueryString+" "+countryQueryString+
-		 					" " +jobPreQueryStr+" "+jobExpQueryStr+" "+experienceYearQuery +")";
+		 					" " +jobPreQueryStr+" "+experienceYearQuery +")";
 		 					//" " +jobPreQueryStr+" "+jobExpQueryStr+" "+experienceYearQuery +")";
+		 					
 		 System.out.println(filterQuery);
 		    try
 			  {
