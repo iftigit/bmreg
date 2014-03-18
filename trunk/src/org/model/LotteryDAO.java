@@ -300,7 +300,7 @@ public class LotteryDAO {
 			 jobExpQueryStr=jobExpQueryStr.substring(0, jobExpQueryStr.length()-3);
 			 experienceYearQuery=experienceYearQuery.substring(0, experienceYearQuery.length()-3);
 			 jobExpQueryStr=" And  ("+jobExpQueryStr+") ";
-			 tableJobExp=" ,EMP_EXPERIENCE jobExp ";
+			 //tableJobExp=" ,EMP_EXPERIENCE jobExp ";
 		 }
 		 if(totalYearExp>0){
 			 
