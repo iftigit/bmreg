@@ -109,7 +109,13 @@ if(document.getElementById("lotterySubJob_2_0")){
  
  if(l1==0)
   jobExp="";
- 
+  
+ var expYears=document.getElementById("yearOfExperience").value;
+ if(expYears>1 && jobExp=="")
+  {
+   alert("Please provide proper data for work experiences. Or remove year of experience.")
+   return;
+  }
  document.getElementById("jobExperience").value=jobExp;
  
  document.selectionForm.submit();
@@ -162,7 +168,7 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
      		<select style="width:300px;border:1px solid grey" name="selection.agentId" id="agentId">
      		    <option value='none'>Select Agency</option>
      		<s:iterator value="agentList" status="status">
-     			<option value='<s:property value="agentId" />'><s:property value="companyName" /></option>
+     			<option value='<s:property value="licenseNumber" />'><s:property value="companyName" /></option>
      		</s:iterator>
      		</select>
         </tr>
@@ -173,7 +179,8 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
         <tr>
      		<td align="left">Country Preference</td>
      		<td align="left">
-     			<select id="countryPreference" name="selection.countryPreference" multiple="multiple" class="txtBox">
+     			<select style="width:300px;border:1px solid grey"  id="countryPreference" name="selection.countryPreference" >
+     			            <option value="">Select Country</option>
 							<s:iterator value="countryList" id="countryList">
 							  <s:if test='%{#countryList.isSelected == "Y"}'>
 							   <option selected='selected' value="<s:property value="countryId" />"><s:property value="countryName" /></option>
@@ -293,7 +300,8 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
 </center>
 <script type="text/javascript">
 $(document).ready(function(){
-   $("#countryPreference").multiselect();
+   //$("#countryPreference").multiselect();
+
    $("#language").multiselect({
    		noneSelectedText: 'Select Language',
 		selectedText: '# language selected',
