@@ -27,7 +27,7 @@
       	<td align="center"  						 height="25" valign="top">
       	<a href="fetchSelectionDetail.action?selectionId=<s:property value='selectionId'/>">View</a>
       	</td>
-      	<td width="5%" align="center"  height="25">
+      	<td width="5%" align="center"  height="25" valign="top">
       		<a href="selectionReportAction.action?selectionId=<s:property value='selectionId'/>">
       			Download
       		</a>
