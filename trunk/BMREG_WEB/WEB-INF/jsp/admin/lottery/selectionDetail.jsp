@@ -68,23 +68,25 @@ if(agentId=="none")
 <br/>
 <div class="box" style="margin-top: 30px;width: 950px;text-align: center;">
     <h3>Selection Detail</h3>
+    
     <div style="padding-bottom: 30px;">
     <table width="100%" border="0" style="padding-left: 10px;">
     	<tr>
-    	 <td width="10%" align="left">Selection Id</td><td width="20%" align="left">: <s:property value="selection.selectionId" /></td>
-    	 <td width="10%" align="left">Agency </td><td width="20%" align="left" style="font-size: 12px; ">: <s:property value="selection.agentCompanyName" /></td>
-    	 <td width="10%" align="left">Work Order</td><td width="20%" align="left">: <s:property value="selection.workOrder" /></td>
+    	 <td width="10%" align="left" valign="top">Selection Id</td><td width="20%" align="left" valign="top">: <s:property value="selection.selectionId" /></td>
+    	 <td width="10%" align="left" valign="top">Agency </td><td width="20%" align="left" style="font-size: 12px; " valign="top">: <s:property value="selection.agentCompanyName" /></td>
+    	 <td width="10%" align="left" valign="top">Work Order</td><td width="20%" align="left" valign="top">: <s:property value="selection.workOrder" /></td>
     	</tr>
     	<tr>
-    	 <td align="left">Country</td><td align="left">: <s:property value="selection.countryPreference" /></td>
-    	 <td align="left">Gender </td><td align="left">: <s:property value="selection.gender" /></td>
-    	 <td align="left">Language</td><td align="left">: <s:property value="selection.languages" /></td>
+    	 <td align="left" valign="top">Country </td><td align="left" valign="top">: <s:property value="selection.countryPreference" /></td>
+    	 <td align="left"  valign="top">Gender </td><td align="left" valign="top">: <s:property value="selection.gender" /></td>
+    	 <td align="left" valign="top">Language</td><td align="left" valign="top">: <s:property value="selection.languages" /></td>
     	</tr>
     	<tr>
-    	 <td align="left">Job Preference</td><td align="left">: <s:property value="selection.selectionId" /></td>
-    	 <td align="left">Job Experience </td><td align="left">: <s:property value="" /></td>
-    	 <td align="left">Exp. Year</td><td align="left">: <s:property value="selection.yearOfExperience" /></td>
+    	 <td align="left" valign="top">Job Preference</td><td align="left" valign="top">: <s:property value="selection.jobPreferenceDesc" /></td>
+    	 <td align="left" valign="top">Job Experience </td><td align="left" valign="top">: <s:property value="selection.jobExperienceDesc" /></td>
+    	 <td align="left" valign="top">Exp. Year</td><td align="left" valign="top">: <s:property value="selection.yearOfExperience" /></td>
     	</tr>
+    	
     </table>
      
     <form action="saveJobseekerSelection" method="post">
