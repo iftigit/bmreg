@@ -71,8 +71,11 @@ public class LotteryManagement extends ActionSupport{
 	}
 	public String fetchSelectionDetail(){
 		LotteryDAO lotteryDAO=new LotteryDAO();
+		JobCategoryDAO jcDAO=new JobCategoryDAO();
 		jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
 		selection=lotteryDAO.getSelectionCriteria(selectionId);
+		selection.setJobExperienceDesc(jcDAO.getJobExperienceDescription(selection.getJobExperience()));
+		selection.setJobPreferenceDesc(jcDAO.getJobPreferenceDescription(selection.getJobPreference()));
 		return SUCCESS;
 	}
 	

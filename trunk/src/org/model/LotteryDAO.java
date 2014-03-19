@@ -76,7 +76,7 @@ public class LotteryDAO {
 					 " Village.VILLNAME M_VILLNAME,address.MPOST_OFFICE ,address.MPOST_CODE,address.MROAD_NUMBER,address.MHOUSEHOLD_NUMBER   " +
 					 " From " +
 					 " ( " +
-					 " Select personal.JOBSEEKERID,GIVEN_NAME,LAST_NAME,FATHER_NAME,TO_CHAR(BIRTH_DATE,'DD-MM-YYYY') BIRTH_DATE,GENDER,MARITAL_STATUS,MOBILE,SELECTED_YN, " +
+					 " Select personal.JOBSEEKERID,GIVEN_NAME,LAST_NAME,FATHER_NAME,MOTHER_NAME,TO_CHAR(BIRTH_DATE,'DD-MM-YYYY') BIRTH_DATE,GENDER,MARITAL_STATUS,MOBILE,SELECTED_YN, " +
 					 " Division.DIVISION_NAME P_DIVISION_NAME,District.DIST_NAME P_DIST_NAME,Thana.THANA_NAME P_THANA_NAME,Unions.UNIONNAME P_UNIONNAME,Mauza.MAUZANAME P_MAUZANAME, " +
 					 " Village.VILLNAME P_VILLNAME,address.PPOST_OFFICE ,address.PPOST_CODE,address.PROAD_NUMBER,address.PHOUSEHOLD_NUMBER " +
 					 " From SELECTION_LOG log,EMP_PERSONAL personal, EMP_ADDRESS address,Division,District,Thana,Unions,Mauza,Village " +
@@ -118,6 +118,7 @@ public class LotteryDAO {
 				emp.setGivenName(r.getString("GIVEN_NAME"));
 				emp.setLastName(r.getString("LAST_NAME"));
 				emp.setFatherName(r.getString("FATHER_NAME"));
+				emp.setMotherName(r.getString("MOTHER_NAME"));				
 				emp.setBirthDate(r.getString("BIRTH_DATE"));
 				emp.setGender(r.getString("GENDER"));
 				emp.setMaritalStatus(r.getString("MARITAL_STATUS"));
@@ -181,12 +182,14 @@ public class LotteryDAO {
 				selection.setAgentCompanyName(RADAO.getCompanyNameFromAgentId(r.getString("AGENT_ID")));
 				selection.setWorkOrder(r.getString("WORK_ORDER"));
 				selection.setGender(r.getString("GENDER"));
-				selection.setYearOfExperience(r.getString("EXPERIENCE_YEAR"));
+				selection.setYearOfExperience(r.getString("EXPERIENCE_YEAR")==null?"N/A":r.getString("EXPERIENCE_YEAR"));
 				selection.setSelectionDate(r.getString("SELECTION_DATE"));
 				selection.setExpireDate(r.getString("EXPIRE_DATE"));
 				selection.setStatus(r.getString("STATUS"));
 				selection.setLanguages(r.getString("LANGUAGE"));
-				
+				selection.setJobPreference(r.getString("JOB_PREFERNCE"));
+				selection.setJobExperience(r.getString("JOB_EXPERIENCE"));
+				selection.setCountryPreference(CountryDAO.getCountry(Integer.parseInt(r.getString("COUNTRY_PREFERENCE")==null?"0":r.getString("COUNTRY_PREFERENCE"))));
 				
 			}
 		} 

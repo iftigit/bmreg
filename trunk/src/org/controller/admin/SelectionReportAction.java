@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.util.ServletContextAware;
 import org.model.AddressDAO;
+import org.model.JobCategoryDAO;
 import org.model.LotteryDAO;
 import org.table.LotteryDTO;
 import org.table.SelectedEmpDTO;
@@ -85,11 +86,14 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		document.addHeader("Selection Report", "");
 		
 		
+		JobCategoryDAO jcDAO=new JobCategoryDAO();
 		LotteryDAO lotteryDAO=new LotteryDAO();
 		ArrayList<SelectedEmpDTO> jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
 		SelectionParamDTO selectionParam=lotteryDAO.getSelectionCriteria(selectionId);
 		
-
+		selectionParam.setJobPreferenceDesc(jcDAO.getJobPreferenceDescription(selectionParam.getJobPreference()));
+		selectionParam.setJobExperienceDesc(jcDAO.getJobExperienceDescription(selectionParam.getJobExperience()));
+		
 		PdfPTable ptable = null;
 		PdfPCell pcell=null;
 		
@@ -102,7 +106,9 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 			Font fontT = FontFactory.getFont("Helvetica", 9, Font.NORMAL,Color.BLACK);			
 			Font fontb = FontFactory.getFont("Helvetica", 10, Font.BOLD,Color.BLACK);
 			
-			eEvent.setDisplayValue(selectionParam.getAgentCompanyName()+"#"+selectionParam.getWorkOrder()+"#"+selectionParam.getSelectionId());
+			eEvent.setDisplayValue(selectionParam.getAgentCompanyName()+"#"+selectionParam.getWorkOrder()+
+					"#"+selectionParam.getSelectionId()+"#"+selectionParam.getJobPreferenceDesc()+"#"+selectionParam.getJobExperienceDesc()+"#"+
+					selectionParam.getLanguages()+"#"+selectionParam.getCountryPreference()+"#"+selectionParam.getGender()+"#"+selectionParam.getYearOfExperience()+"#");
 			
 			int counter=0;
 			for(int i=0;i<jobseekerList.size();i++)
@@ -112,10 +118,10 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 					PdfWriter.getInstance(document, baos).setPageEvent(eEvent);
 					document.open();
 
-					ptable = new PdfPTable(5);
+					ptable = new PdfPTable(6);
 					ptable.setHeaderRows(1);
 					ptable.setWidthPercentage(100);
-					ptable.setWidths(new float[]{8,17,25,25,25});
+					ptable.setWidths(new float[]{8,17,20,20,20,20});
 
 					pcell=new PdfPCell(new Paragraph("Sl. No.",fontb));
 					pcell.setMinimumHeight(25f);
@@ -143,6 +149,12 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					ptable.addCell(pcell);
+					
+					pcell=new PdfPCell(new Paragraph("Mother Name",fontb));
+					pcell.setMinimumHeight(25f);
+					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					ptable.addCell(pcell);
 								
 					pcell=new PdfPCell(new Paragraph("Contact Number",fontb));
 					pcell.setMinimumHeight(25f);
@@ -155,7 +167,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		
 				counter++;
 				ptable.setWidthPercentage(100);
-				ptable.setWidths(new float[]{8,17,25,25,25});
+				ptable.setWidths(new float[]{8,17,20,20,20,20});
 
 				
 				SelectedEmpDTO seekerDTO =(SelectedEmpDTO)jobseekerList.get(i);
@@ -174,7 +186,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				ptable.addCell(pcell);
 				
-				pcell = new PdfPCell(new Paragraph(seekerDTO.getGivenName(),fontT));
+				pcell = new PdfPCell(new Paragraph(seekerDTO.getGivenName()+" "+seekerDTO.getLastName(),fontT));
 				pcell.setMinimumHeight(20f);
 				pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -188,6 +200,12 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 				pcell.setPaddingLeft(5f);
 				ptable.addCell(pcell);
 				
+				pcell = new PdfPCell(new Paragraph(seekerDTO.getMotherName(),fontT));
+				pcell.setMinimumHeight(20f);
+				pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				pcell.setPaddingLeft(5f);
+				ptable.addCell(pcell);
 				
 				pcell = new PdfPCell(new Paragraph(seekerDTO.getMobileNumber(),fontT));
 				pcell.setMinimumHeight(20f);
@@ -423,7 +441,7 @@ class DCLotteryReportEvent extends PdfPageEventHelper
 			String[] valArr=dValue.split("#");
 			
 			
-			String header1="Company Name : "+valArr[0]+", Work Order :"+valArr[1]+", Selection Id :"+valArr[2];
+			String header1="Company Name : "+valArr[0]+", Work Order :"+valArr[1]+", Selection Id :"+valArr[2]+"\n"+"Job Preference : "+valArr[3]+". Job Experience :"+valArr[4]+"\n Language: "+valArr[5]+"Country :"+valArr[6]+"\n Gender :"+valArr[7]+", Exp. Years :"+valArr[8];
 			pcell = new PdfPCell();
 			pg = new Paragraph(header1,new Font(Font.TIMES_ROMAN,13,Font.BOLD));
 			pg.setAlignment(Element.ALIGN_LEFT);
@@ -434,9 +452,6 @@ class DCLotteryReportEvent extends PdfPageEventHelper
 			pcell.setHorizontalAlignment(Element.ALIGN_CENTER);		
 			pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);		
 			ptable.addCell(pcell);
-			
-			ptable.setSpacingBefore(40f);
-			ptable.setSpacingAfter(10f);
 			
 			
 			/*
