@@ -31,6 +31,7 @@ public class SelectedEmpDTO {
 	private String mHouseholdNumber;
 	private String mobileNumber;
 	private String selectedYN;
+	private String motherName;
 	
 	public String getJobseekerId() {
 		return jobseekerId;
@@ -205,6 +206,12 @@ public class SelectedEmpDTO {
 	}
 	public void setSelectedYN(String selectedYN) {
 		this.selectedYN = selectedYN;
+	}
+	public String getMotherName() {
+		return motherName;
+	}
+	public void setMotherName(String motherName) {
+		this.motherName = motherName;
 	}
 	
 }

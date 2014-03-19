@@ -171,7 +171,7 @@ public class RADAO {
 	{
 		
 	 	   Connection conn = ConnectionManager.getConnection();
-	 	   String sql="Select company_name from AGENT_LICENCE Where LICENCE_NUMBER=?";
+	 	   String sql="Select company_name from AGENT_LICENCE Where LICENCE_NO=?";
 	 	   
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;

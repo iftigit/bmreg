@@ -266,7 +266,7 @@ public class JobCategoryDAO {
 					
 					if(jobDescriptionStr.length()>0)
 						jobDescriptionStr=jobDescriptionStr.substring(0, jobDescriptionStr.length()-2);
-					jobDescriptionStr+=" "+i+1+". ";
+					jobDescriptionStr+=" "+(i+1)+". ";
 					String[] jobTypeArr=jobArr[i].split("#");
 					
 					for(int j=0;j<jobTypeArr.length;j++){

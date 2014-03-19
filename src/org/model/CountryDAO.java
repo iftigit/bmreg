@@ -44,7 +44,7 @@ public class CountryDAO {
 
 	}
 	
-	public String getCountry(int countryId)
+	public static String getCountry(int countryId)
 	{
 
 		
@@ -52,7 +52,6 @@ public class CountryDAO {
 		   String sql = "SELECT COUNTRY_ID,SHORT_NAME,Visibility FROM MST_COUNTRY Where COUNTRY_ID="+countryId;
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
-		   CountryDTO countryDto  = null;
 		   String countryName="";
 		   
 			try
