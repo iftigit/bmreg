@@ -14,7 +14,7 @@ import util.connection.ConnectionManager;
 
 public class JobCategoryDAO {
 	
-	
+	private static final Connection conn = ConnectionManager.getConnection();
 	public static ArrayList<JobCategoryDTO> getAllJob()
 	{
 		   ArrayList<JobCategoryDTO> jobList=new ArrayList<JobCategoryDTO>();
@@ -249,6 +249,96 @@ public class JobCategoryDAO {
 			return true;
 		else
 			return false;
+	}
+	
+	public String  getJobPreferenceDescription(String jobPreferenceStr)
+	{
+		 String sql="";
+		 String jobDescriptionStr="";
+		 if(jobPreferenceStr!=null){
+		 String[] jobArr=jobPreferenceStr.split("@");
+		 		   
+		   ResultSet r = null;
+		   PreparedStatement stmt = null;
+			try
+			{
+				for(int i=0;i<jobArr.length;i++){
+					
+					if(jobDescriptionStr.length()>0)
+						jobDescriptionStr=jobDescriptionStr.substring(0, jobDescriptionStr.length()-2);
+					jobDescriptionStr+=" "+i+1+". ";
+					String[] jobTypeArr=jobArr[i].split("#");
+					
+					for(int j=0;j<jobTypeArr.length;j++){
+						sql="Select JOB_TITLE FROM MST_JOBS Where job_id="+jobTypeArr[j]+" and level_no="+(j+1);
+						stmt = JobCategoryDAO.conn.prepareStatement(sql);
+						r = stmt.executeQuery();
+						if (r.next())
+						{
+							jobDescriptionStr+=r.getString("JOB_TITLE")+", ";
+						}
+					}
+				}
+				
+				
+			    
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();
+	 		//ConnectionManager.closeConnection(conn);
+	 		} catch (Exception e)
+				{e.printStackTrace();}stmt = null;//JobCategoryDAO.c = null;
+				}
+		 	}
+		 
+		 if(jobDescriptionStr.length()>0)
+				jobDescriptionStr=jobDescriptionStr.substring(0, jobDescriptionStr.length()-2);
+	 		return jobDescriptionStr;
+		
+	}
+	
+	public String  getJobExperienceDescription(String jobExperience)
+	{
+		 String sql="";
+		 String jobDescriptionStr="";
+		 if(jobExperience!=null && !jobExperience.equalsIgnoreCase("")){
+		 		   
+		   ResultSet r = null;
+		   PreparedStatement stmt = null;
+			try
+			{
+					String[] jobTypeArr=jobExperience.split("#");
+					
+					for(int j=0;j<jobTypeArr.length;j++){
+						if(j==2)
+							sql="Select JOB_TITLE FROM MST_JOBS Where job_id in ("+jobTypeArr[j]+") and level_no="+(j+1);
+						else
+							sql="Select JOB_TITLE FROM MST_JOBS Where job_id="+jobTypeArr[j]+" and level_no="+(j+1);
+						stmt = JobCategoryDAO.conn.prepareStatement(sql);
+						r = stmt.executeQuery();
+						if (r.next())
+						{
+							jobDescriptionStr+=r.getString("JOB_TITLE")+", ";
+						}
+					}
+				}
+			
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();
+	 		//ConnectionManager.closeConnection(conn);
+	 		} catch (Exception e)
+				{e.printStackTrace();}stmt = null;//JobCategoryDAO.c = null;
+				}
+		 	}
+		 
+		 if(jobDescriptionStr.length()>0)
+				jobDescriptionStr=jobDescriptionStr.substring(0, jobDescriptionStr.length()-2);
+	 		return jobDescriptionStr;
+		
+	}
+	public static void main(String args[]){		
+		JobCategoryDAO jcd=new JobCategoryDAO();
+		jcd.getJobPreferenceDescription("252#253#271@180#189#0@");
 	}
 
 

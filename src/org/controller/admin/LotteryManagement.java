@@ -3,6 +3,7 @@ package org.controller.admin;
 import java.util.ArrayList;
 
 import org.model.CountryDAO;
+import org.model.JobCategoryDAO;
 import org.model.LanguageDAO;
 import org.model.LotteryDAO;
 import org.model.RADAO;
@@ -58,6 +59,14 @@ public class LotteryManagement extends ActionSupport{
 	public String searchSelection(){
 		LotteryDAO lotteryDAO=new LotteryDAO();
 		selectionList=lotteryDAO.getSelectionList(agentId,workOrder);
+		
+		JobCategoryDAO jcDAO=new JobCategoryDAO();
+		for(int i=0;i<selectionList.size();i++){
+			SelectionParamDTO selection=selectionList.get(i);
+			selection.setJobPreferenceDesc(jcDAO.getJobPreferenceDescription(selection.getJobPreference()));	
+			selection.setJobExperienceDesc(jcDAO.getJobExperienceDescription(selection.getJobExperience()));
+			selectionList.set(i, selection);
+		}
 		return SUCCESS;
 	}
 	public String fetchSelectionDetail(){
