@@ -18,13 +18,13 @@
       </tr>
       <s:iterator value="selectionList" status="status">
         <tr>
-        <td align="left" style="padding-left: 10px;" height="25"><s:property value="%{#status.count}" /></td>
-      	<td align="left" style="padding-left: 10px;" height="25"><s:property value="workOrder" /></td>
-      	<td align="left" style="padding-left: 10px;" height="25"><s:property value="jobPrefererence" /></td>
-      	<td align="center" 							 height="25"><s:property value="gender" /></td>
-      	<td align="left" style="padding-left: 10px;" height="25"><s:property value="jobkExperience" /></td>
-      	<td align="center"                           height="25"><s:property value="status" /></td>
-      	<td align="center"  						 height="25">
+        <td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="%{#status.count}" /></td>
+      	<td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="workOrder" /></td>
+      	<td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="jobPreferenceDesc" /></td>
+      	<td align="center" 							 height="25" valign="top"><s:property value="gender" /></td>
+      	<td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="jobExperienceDesc" /></td>
+      	<td align="center"                           height="25" valign="top"><s:property value="status" /></td>
+      	<td align="center"  						 height="25" valign="top">
       	<a href="fetchSelectionDetail.action?selectionId=<s:property value='selectionId'/>">View</a>
       	</td>
       	<td width="5%" align="center"  height="25">

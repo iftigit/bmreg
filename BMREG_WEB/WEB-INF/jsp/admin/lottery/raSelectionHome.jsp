@@ -79,7 +79,7 @@ if(agentId=="none")
      		<select style="width:300px;border:1px solid grey" name="selection.agentId" id="agentId">
      		    <option value='none'>Select Agency</option>
      		<s:iterator value="agentList" status="status">
-     			<option value='<s:property value="agentId" />'><s:property value="companyName" /></option>
+     			<option value='<s:property value="licenseNumber" />'><s:property value="companyName" /></option>
      		</s:iterator>
      		</select>
         </tr>
