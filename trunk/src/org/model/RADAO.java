@@ -21,7 +21,7 @@ public class RADAO {
 	 	   if(agencyId.equalsIgnoreCase("all"))
 	 		   sql = "Select * from AGENT_LICENCE order by company_name";
 	 	   else
-	 		  sql = "Select * from AGENT_LICENCE Where AGENT_ID='"+agencyId+"'";
+	 		  sql = "Select * from AGENT_LICENCE Where LICENCE_NO='"+agencyId+"'";
 	 	   
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -171,7 +171,7 @@ public class RADAO {
 	{
 		
 	 	   Connection conn = ConnectionManager.getConnection();
-	 	   String sql="Select company_name from AGENT_LICENCE Where Agent_Id=?";
+	 	   String sql="Select company_name from AGENT_LICENCE Where LICENCE_NUMBER=?";
 	 	   
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;

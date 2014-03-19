@@ -24,7 +24,7 @@ public class LotteryDAO {
 		
 		ArrayList<SelectionParamDTO> selectionList=null;
 		Connection conn = ConnectionManager.getConnection();
-		String sql = "Select * from SELECTION_CRITERIA,AGENT_LICENCE Where SELECTION_CRITERIA.Agent_Id=AGENT_LICENCE.Agent_Id and  SELECTION_CRITERIA.Agent_Id=? and Work_Order like ?  order by Selection_Date desc";
+		String sql = "Select * from SELECTION_CRITERIA,AGENT_LICENCE Where SELECTION_CRITERIA.Agent_Id=AGENT_LICENCE.LICENCE_NO and  SELECTION_CRITERIA.Agent_Id=? and Work_Order like ?  order by Selection_Date desc";
 		PreparedStatement stmt = null;
 		ResultSet r = null;
 		try
@@ -52,6 +52,8 @@ public class LotteryDAO {
 				selection.setExpireDate(r.getString("EXPIRE_DATE"));
 				selection.setStatus(r.getString("STATUS"));
 				selection.setLanguages(r.getString("LANGUAGE"));
+				selection.setJobPreference(r.getString("JOB_PREFERNCE"));
+				selection.setJobExperience(r.getString("JOB_EXPERIENCE"));
 				
 				selectionList.add(selection);
 				count++;

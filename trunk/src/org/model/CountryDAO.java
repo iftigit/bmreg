@@ -43,5 +43,33 @@ public class CountryDAO {
 	 	return countryList;
 
 	}
+	
+	public String getCountry(int countryId)
+	{
+
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+		   String sql = "SELECT COUNTRY_ID,SHORT_NAME,Visibility FROM MST_COUNTRY Where COUNTRY_ID="+countryId;
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   CountryDTO countryDto  = null;
+		   String countryName="";
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				if (r.next())
+				{
+					countryName=r.getString("SHORT_NAME");
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return countryName;
+
+	}
 
 }
