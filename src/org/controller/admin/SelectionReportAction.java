@@ -186,7 +186,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				ptable.addCell(pcell);
 				
-				pcell = new PdfPCell(new Paragraph(seekerDTO.getGivenName()+" "+seekerDTO.getLastName(),fontT));
+				pcell = new PdfPCell(new Paragraph(seekerDTO.getGivenName(),fontT));
 				pcell.setMinimumHeight(20f);
 				pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);

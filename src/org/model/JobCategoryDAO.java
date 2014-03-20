@@ -275,7 +275,7 @@ public class JobCategoryDAO {
 						r = stmt.executeQuery();
 						if (r.next())
 						{
-							jobDescriptionStr+=r.getString("JOB_TITLE")+", ";
+							jobDescriptionStr+=r.getString("JOB_TITLE")==null?" ":r.getString("JOB_TITLE")+", ";
 						}
 					}
 				}
@@ -318,7 +318,7 @@ public class JobCategoryDAO {
 						r = stmt.executeQuery();
 						if (r.next())
 						{
-							jobDescriptionStr+=r.getString("JOB_TITLE")+", ";
+							jobDescriptionStr+=r.getString("JOB_TITLE")==null?" ":r.getString("JOB_TITLE")+", ";
 						}
 					}
 				}
