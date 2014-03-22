@@ -585,8 +585,13 @@
 		<action name="fetchSelectionDetail" class="org.controller.admin.LotteryManagement" method="fetchSelectionDetail">
 		    <result name="success">/WEB-INF/jsp/admin/lottery/selectionDetail.jsp</result>
 		</action>
-		<action name="saveJobseekerSelection" class="org.controller.admin.LotteryManagement" method="saveJobseekerSelection">
-		    <result name="success">/WEB-INF/jsp/admin/lottery/raSelectionHome.jsp</result>	
+		<action name="saveJobseekerSelection" class="org.controller.admin.LotteryManagement" method="saveJobseekerSelection">	
+		    <result name="success" type="redirectAction">
+			    <param name="actionName">fetchSelectionDetail.action</param>		    
+			    <param name="selectionId">${selectionId}</param>
+			    <param name="operationType">${operationType}</param>			    
+   			</result>	    
+			
 		</action>
 		<action name="selectionReportAction" class="org.controller.admin.SelectionReportAction" >
 			<result type="stream">
@@ -625,7 +630,19 @@
 			</result>		    
 		</action>
 		
+		<action name="validateRegToken" class="org.controller.registration.RegistrationAction"  method="validateRegToken">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
 		
+		<action name="selectionReportSetting" class="org.controller.admin.LotteryManagement"  method="selectionReportSetting">
+			<result name="success">/WEB-INF/jsp/admin/lottery/selectionReportSetting.jsp</result>
+		</action>
+		<action name="saveSelectionReportSetting" class="org.controller.admin.LotteryManagement"  method="saveSelectionReportSetting">
+			<result name="success">/WEB-INF/jsp/admin/lottery/selectionReportSetting.jsp</result>
+		</action>
 		
 		
 		

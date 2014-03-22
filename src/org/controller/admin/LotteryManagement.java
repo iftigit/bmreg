@@ -12,6 +12,7 @@ import org.table.LanguageDTO;
 import org.table.RecruitingAgencyDTO;
 import org.table.SelectedEmpDTO;
 import org.table.SelectionParamDTO;
+import org.table.SelectionReportFieldDTO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -27,9 +28,11 @@ public class LotteryManagement extends ActionSupport{
 	private String workOrder;
 	private ArrayList<SelectionParamDTO> selectionList;
 	private ArrayList<SelectedEmpDTO> jobseekerList;
+	private ArrayList<SelectionReportFieldDTO> fieldList;
 	private int selectionId;
 	String[] selectStatusList;
 	private String msg;
+	private String operationType;
 	
 	public String selectionHome()
 	{
@@ -76,6 +79,8 @@ public class LotteryManagement extends ActionSupport{
 		selection=lotteryDAO.getSelectionCriteria(selectionId);
 		selection.setJobExperienceDesc(jcDAO.getJobExperienceDescription(selection.getJobExperience()));
 		selection.setJobPreferenceDesc(jcDAO.getJobPreferenceDescription(selection.getJobPreference()));
+		if(operationType!=null && operationType.equalsIgnoreCase("save"))
+			msg="Successfully Saved.";
 		return SUCCESS;
 	}
 	
@@ -84,6 +89,18 @@ public class LotteryManagement extends ActionSupport{
 		boolean result=lotteryDAO.saveJobseekerSelection(selectionId,selectStatusList);
 		jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
 		agentList=RADAO.getRecruitingAgencyList("all");
+		operationType="save";		
+		return SUCCESS;
+	}
+	public String selectionReportSetting(){
+		LotteryDAO lotteryDAO=new LotteryDAO();
+		fieldList=lotteryDAO.getSettingReportFields();
+		return SUCCESS;
+	}
+	public String saveSelectionReportSetting(){
+		LotteryDAO lotteryDAO=new LotteryDAO();
+		boolean response=lotteryDAO.updateSelectionReportSettings(fieldList);
+		fieldList=lotteryDAO.getSettingReportFields();
 		return SUCCESS;
 	}
 
@@ -157,5 +174,18 @@ public class LotteryManagement extends ActionSupport{
 	}
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	public ArrayList<SelectionReportFieldDTO> getFieldList() {
+		return fieldList;
+	}
+	public void setFieldList(ArrayList<SelectionReportFieldDTO> fieldList) {
+		this.fieldList = fieldList;
+	}
+	public String getOperationType() {
+		return operationType;
+	}
+	public void setOperationType(String operationType) {
+		this.operationType = operationType;
 	}	
+	
 }

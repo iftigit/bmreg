@@ -22,6 +22,7 @@ import org.model.LotteryDAO;
 import org.table.LotteryDTO;
 import org.table.SelectedEmpDTO;
 import org.table.SelectionParamDTO;
+import org.table.SelectionReportFieldDTO;
 import org.table.UserDTO;
 
 import com.lowagie.text.Document;
@@ -90,13 +91,14 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		LotteryDAO lotteryDAO=new LotteryDAO();
 		ArrayList<SelectedEmpDTO> jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
 		SelectionParamDTO selectionParam=lotteryDAO.getSelectionCriteria(selectionId);
+		ArrayList<SelectionReportFieldDTO> fieldList=lotteryDAO.getSelectionReportFields();
 		
 		selectionParam.setJobPreferenceDesc(jcDAO.getJobPreferenceDescription(selectionParam.getJobPreference()));
 		selectionParam.setJobExperienceDesc(jcDAO.getJobExperienceDescription(selectionParam.getJobExperience()));
 		
 		PdfPTable ptable = null;
 		PdfPCell pcell=null;
-		
+		float[]  fieldWidthArrF=null;
 		try{
 			
 			DCLotteryReportEvent eEvent = new DCLotteryReportEvent(servlet);
@@ -118,10 +120,22 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 					PdfWriter.getInstance(document, baos).setPageEvent(eEvent);
 					document.open();
 
-					ptable = new PdfPTable(6);
+					ptable = new PdfPTable(fieldList.size()+1);
 					ptable.setHeaderRows(1);
 					ptable.setWidthPercentage(100);
-					ptable.setWidths(new float[]{8,17,20,20,20,20});
+					String fieldWidthStr="8,";
+					for(int f=0;f<fieldList.size();f++){
+						fieldWidthStr+=fieldList.get(f).getFieldWidth()+",";
+					}
+					fieldWidthStr=fieldWidthStr.substring(0, fieldWidthStr.length()-1);
+					
+					String[] fieldWidthArrS=fieldWidthStr.split(",");
+					fieldWidthArrF=new float[fieldWidthArrS.length];
+					for(int a=0;a<fieldWidthArrS.length;a++){
+						fieldWidthArrF[a]=Float.parseFloat(fieldWidthArrS[a]);
+					}
+					
+					ptable.setWidths(fieldWidthArrF);
 
 					pcell=new PdfPCell(new Paragraph("Sl. No.",fontb));
 					pcell.setMinimumHeight(25f);
@@ -129,6 +143,14 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
 					ptable.addCell(pcell);
 					
+					for(int f=0;f<fieldList.size();f++){
+						pcell=new PdfPCell(new Paragraph(fieldList.get(f).getFieldCaption(),fontb));
+						pcell.setMinimumHeight(25f);
+						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						ptable.addCell(pcell);
+					}
+					/*
 					pcell=new PdfPCell(new Paragraph("Jobseeker Id",fontb));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -141,9 +163,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					ptable.addCell(pcell);
-					
-					
-					
+															
 					pcell=new PdfPCell(new Paragraph("Father Name",fontb));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -161,24 +181,42 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					ptable.addCell(pcell);
+					*/
 					counter=0;
 				
 				}
 		
 				counter++;
 				ptable.setWidthPercentage(100);
-				ptable.setWidths(new float[]{8,17,20,20,20,20});
+				ptable.setWidths(fieldWidthArrF);
 
 				
 				SelectedEmpDTO seekerDTO =(SelectedEmpDTO)jobseekerList.get(i);
 				
-								
+				
 				pcell = new PdfPCell(new Paragraph(String.valueOf(counter),fontT));
 				pcell.setMinimumHeight(20f);
 				pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				
+				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);				
 				ptable.addCell(pcell);
+
+				for(int f=0;f<fieldList.size();f++){
+					pcell = new PdfPCell(new Paragraph( seekerDTO.getDesireFieldValue(fieldList.get(f).getFieldName()),fontT));
+					pcell.setMinimumHeight(20f);
+					if(fieldList.get(f).getAlignment().equalsIgnoreCase("LEFT"))
+						pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					else if(fieldList.get(f).getAlignment().equalsIgnoreCase("RIGHT"))
+						pcell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					else if(fieldList.get(f).getAlignment().equalsIgnoreCase("CENTER"))
+						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					else
+						pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					
+					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					ptable.addCell(pcell);
+				}
+
+				/*				
 				
 				pcell = new PdfPCell(new Paragraph(seekerDTO.getJobseekerId(),fontT));
 				pcell.setMinimumHeight(20f);
@@ -213,6 +251,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				pcell.setPaddingLeft(5f);
 				ptable.addCell(pcell);
+				*/
 				
 //				eEvent.setDisplayValue(selectedList.get(i).getUnionName());	
 				//eEvent.setDisplayValue(selectedList.get(i).getUpazillaName()+"#seperator#"+selectedList.get(i).getUnionName()+"#seperator#"+selectedList.get(i).getTotalQuota());
