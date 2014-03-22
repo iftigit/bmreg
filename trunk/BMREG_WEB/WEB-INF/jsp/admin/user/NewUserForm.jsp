@@ -157,7 +157,7 @@ function createNewUser()
      		<td align="left">
      			<select tabindex="19"  id="userType" name="userType" style="border: 1px solid gray;width:250px;">
 			        <option value="" selected="selected">--Select UserType--</option>
-			     	<option value="SYSTEM_ADMIN">DEMO_REG_ADMIN</option>
+			     	<option value="DEMO_REG_ADMIN">DEMO_REG_ADMIN</option>
 			     	<option value="DEMO_REG_OPERATOR">DEMO_REG_OPERATOR</option>
 			     	<option value="UISC_REG_OPERATOR">UISC_REG_OPERATOR</option>
 			     	<option value="A2I_OPERATOR">A2I_OPERATOR</option>
