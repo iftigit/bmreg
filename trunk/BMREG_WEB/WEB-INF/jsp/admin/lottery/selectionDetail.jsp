@@ -90,6 +90,8 @@ if(agentId=="none")
     </table>
      
     <form action="saveJobseekerSelection" method="post">
+    <br/>
+    <center><font style="font-size: 15px;color: maroon;font-weight: bold;"><s:property value="msg"/></font> </center>
     <table width="98%" align="center" border="0" cellpadding="2" cellspacing="0" style="border: 1px solid grey;">     
      <tr bgcolor="#F1F1F1">
      

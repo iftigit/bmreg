@@ -846,7 +846,37 @@
       return pattern.test(emailAddress);
     } 
 		
-		
+	function calculateHeightinCM(){
+	  var heightFeet=document.getElementById("heightFeet").value;
+      var heightInches=document.getElementById("heightInches").value;
+      
+      if(heightFeet=="") heightFeet=0;
+      if(heightInches=="") heightInches=0;
+      
+      var totalInches=parseFloat(heightFeet*12,10)+parseFloat(heightInches,10);
+      var hightCm=parseFloat(totalInches*2.54,10);      
+	  
+	  document.getElementById("hightCm").value= hightCm;   
+	  
+	}
+
+function validateRegToken(regToken)
+{
+   var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader.gif' border='0' /></center>";
+   
+    var loadUrl="validateRegToken.action?regToken="+regToken;
+			jQuery("#msg_regToken")  
+				.html(ajax_load)  
+				.load(loadUrl, {},function(responseText){  
+					if(responseText=="error")
+					{
+					 alert("Invalid Registration Token");					 				
+					}
+									   
+				});
+   jQuery("#msg_regToken").html("");					
+}
+
 </script>  
 </head>
 <!-- 
@@ -940,7 +970,8 @@ http://rishida.net/tools/conversion/
           			<tr>
                     	<td align="left">Reg Token <font color="red">*</font></td>
                     	<td align="left">
-                    	  <input type="text" id="regToken" name="personalDTO.regToken" value="<s:property value='personalDTO.regToken' />" class="txtBox" tabindex="1">
+                    	  <input type="text" id="regToken" name="personalDTO.regToken" value="<s:property value='personalDTO.regToken' />" class="txtBox" tabindex="1" onblur="validateRegToken(this.value)">
+                    	  
                       </td>
                     	<td align="left">
                     	<span id="msg_regToken"></span>&nbsp;
@@ -1154,10 +1185,11 @@ http://rishida.net/tools/conversion/
           			<tr>
                     	<td align="left">Height<font color="red">*</font></td>
                     	<td align="left">
-                    	  <input type="text" id="heightFeet" tabindex="19" name="personalDTO.empHeightFeet" value="<s:property value='personalDTO.empHeightFeet' />" class="txtBox" style="width: 70px;" maxlength="2"> Feet
+                    	  <input type="text" id="heightFeet" tabindex="19" name="personalDTO.empHeightFeet" value="<s:property value='personalDTO.empHeightFeet' />" class="txtBox" style="width: 70px;" maxlength="2" onkeyup="calculateHeightinCM()"> Feet
                     	  &nbsp;&nbsp;
-                    	  <input type="text" id="heightInches" tabindex="20" name="personalDTO.empHeightInches" value="<s:property value='personalDTO.empHeightInches' />" class="txtBox" style="width: 70px;" maxlength="2"> Inches
-                    	  
+                    	  <input type="text" id="heightInches" tabindex="20" name="personalDTO.empHeightInches" value="<s:property value='personalDTO.empHeightInches' />" class="txtBox" style="width: 70px;" maxlength="2" onkeyup="calculateHeightinCM()"> Inches                    	  
+	                   	  <b>or</b>                    	  
+                    	  <input type="text" id="hightCm" tabindex="20" readonly="readonly"  value="<s:property value='personalDTO.empHeightCM' />" class="txtBox" style="width: 50px;background-color: pink;" maxlength="2"> CM
                       </td>
                     	<td align="left"><span id="msg_height"></span>&nbsp;
                     	<font style="color:red"><s:label name="sMsg_height"></s:label></font>
