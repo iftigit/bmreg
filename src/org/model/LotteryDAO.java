@@ -160,55 +160,55 @@ public class LotteryDAO {
 					if(mailingAddress.length()>0)
 						mailingAddress+=","+r.getString("MHOUSEHOLD_NUMBER");
 					else
-						mailingAddress=r.getString("MHOUSEHOLD_NUMBER");
+						mailingAddress=r.getString("MHOUSEHOLD_NUMBER")==null?"":r.getString("MHOUSEHOLD_NUMBER");
 				}
 				if(r.getString("MPOST_OFFICE")!=null && !r.getString("MPOST_OFFICE").equalsIgnoreCase("")){
 					if(mailingAddress.length()>0)
 						mailingAddress+=", PO:"+r.getString("MPOST_OFFICE");
 					else
-						mailingAddress="PO:"+r.getString("MPOST_OFFICE");
+						mailingAddress="PO:"+r.getString("MPOST_OFFICE")==null?"":r.getString("MPOST_OFFICE");
 				}
 				if(r.getString("MPOST_CODE")!=null && !r.getString("MPOST_CODE").equalsIgnoreCase("")){
 					if(mailingAddress.length()>0)
 						mailingAddress+=", PCODE:"+r.getString("MPOST_CODE");
 					else
-						mailingAddress="PCODE:"+r.getString("MPOST_CODE");
+						mailingAddress="PCODE:"+r.getString("MPOST_CODE")==null?"":r.getString("MPOST_CODE");
 				}
 				if(r.getString("M_VILLNAME")!=null && !r.getString("M_VILLNAME").equalsIgnoreCase("")){
 					if(mailingAddress.length()>0)
 						mailingAddress+=", Vill:"+r.getString("M_VILLNAME");
 					else
-						mailingAddress="Vill:"+r.getString("M_VILLNAME");
+						mailingAddress="Vill:"+r.getString("M_VILLNAME")==null?"":r.getString("M_VILLNAME");
 				}
 				if(r.getString("M_MAUZANAME")!=null && !r.getString("M_MAUZANAME").equalsIgnoreCase("")){
 					if(mailingAddress.length()>0)
 						mailingAddress+=", Mauza:"+r.getString("M_MAUZANAME");
 					else
-						mailingAddress="Mauza:"+r.getString("M_MAUZANAME");
+						mailingAddress="Mauza:"+r.getString("M_MAUZANAME")==null?"":r.getString("M_MAUZANAME");
 				}
 				if(r.getString("M_UNIONNAME")!=null && !r.getString("M_UNIONNAME").equalsIgnoreCase("")){
 					if(mailingAddress.length()>0)
 						mailingAddress+=", Union:"+r.getString("M_UNIONNAME");
 					else
-						mailingAddress="Union:"+r.getString("M_UNIONNAME");
+						mailingAddress="Union:"+r.getString("M_UNIONNAME")==null?"":r.getString("M_UNIONNAME");
 				}
 				if(r.getString("M_THANA_NAME")!=null && !r.getString("M_THANA_NAME").equalsIgnoreCase("")){
 					if(mailingAddress.length()>0)
 						mailingAddress+=", Thana:"+r.getString("M_THANA_NAME");
 					else
-						mailingAddress="Thana:"+r.getString("M_THANA_NAME");
+						mailingAddress="Thana:"+r.getString("M_THANA_NAME")==null?"":r.getString("M_THANA_NAME");
 				}
 				if(r.getString("M_DIST_NAME")!=null && !r.getString("M_DIST_NAME").equalsIgnoreCase("")){
 					if(mailingAddress.length()>0)
 						mailingAddress+=", Dist:"+r.getString("M_DIST_NAME");
 					else
-						mailingAddress="Dist:"+r.getString("M_DIST_NAME");
+						mailingAddress="Dist:"+r.getString("M_DIST_NAME")==null?"":r.getString("M_DIST_NAME");
 				}
 				if(r.getString("M_DIVISION_NAME")!=null && !r.getString("M_DIVISION_NAME").equalsIgnoreCase("")){
 					if(mailingAddress.length()>0)
 						mailingAddress+=", Div:"+r.getString("M_DIVISION_NAME");
 					else
-						mailingAddress="Div:"+r.getString("M_DIVISION_NAME");
+						mailingAddress="Div:"+r.getString("M_DIVISION_NAME")==null?"":r.getString("M_DIVISION_NAME");
 				}
 				
 				
