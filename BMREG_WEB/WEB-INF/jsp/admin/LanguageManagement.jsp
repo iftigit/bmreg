@@ -102,7 +102,13 @@ if(document.getElementById("selectAll").checked==true)
       	<td width="10%" align="left" style="padding-left: 10px;" height="25">Edit</td>
       </tr>
       <s:iterator value="languageList" id="country" status="indx">
-        <tr>
+       	<s:if test="#indx.even == true">
+       	  <tr bgcolor="#eeeeee"> 
+     	</s:if>
+     	<s:if test="abc.indx.odd == true">
+       	  <tr>
+        </s:if>
+
         <td align="center" height="25"><s:property value="%{#indx.count}" /></td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="language"  /></td>
       	<td align="center" height="25">
