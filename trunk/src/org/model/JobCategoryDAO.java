@@ -77,7 +77,8 @@ public class JobCategoryDAO {
 	 	   if(level==99)
 	 		  sql = "Select * from MST_JOBS where VISIBILITY=1 order by job_title";
 	 	   else
-	 		  sql = "Select * from MST_JOBS Where level_no="+level+" and VISIBILITY=1 order by job_title";
+	 		    sql = "Select * from MST_JOBS Where level_no="+level+" order by job_title";
+	 		  //sql = "Select * from MST_JOBS Where level_no="+level+" and VISIBILITY=1 order by job_title";
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   JobPreferenceDTO jobDto  = null;
