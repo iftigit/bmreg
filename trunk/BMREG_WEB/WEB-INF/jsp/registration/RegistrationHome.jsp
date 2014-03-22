@@ -108,6 +108,10 @@
 		$(".msgBox").css("display", "none");
 	};	
 	function validateSteps(step){
+		step=4;
+	$('#wizard').smartWizard('setError',{stepnum:step,iserror:false});
+	return true;
+	
 		  var isStepValid = true;
       	// validate step 1
       if(step == 1){
@@ -1894,12 +1898,12 @@ http://rishida.net/tools/conversion/
 								<tbody>
 									
 									<tr bgcolor="#F2F7E3">
-										<td align="center" width="20%">
-											Training Name<font color="red">*</font>
-										</td>
 										<td align="center"  width="15%">
 											Institute/Training<br/>
 											Center Name<font color="red">*</font>
+										</td>
+										<td align="center" width="20%">
+											Training Name<font color="red">*</font>
 										</td>
 										<td align="center"  width="15%">
 											Duration<font color="red">*</font>
@@ -1916,13 +1920,13 @@ http://rishida.net/tools/conversion/
 
 										<td align="center"
 											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
-											id="train_column1">
-											<table width="100%" align="center" id="trainingNameTable"></table>
+											id="train_column2">
+											<table width="100%" id="trainingFromTable" style="margin: 0px;"></table>
 										</td>
 										<td align="center"
 											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
-											id="train_column2">
-											<table width="100%" id="trainingFromTable" style="margin: 0px;"></table>
+											id="train_column1">
+											<table width="100%" align="center" id="trainingNameTable"></table>
 										</td>
 										<td align="center"
 											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
