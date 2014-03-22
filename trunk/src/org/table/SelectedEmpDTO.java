@@ -8,6 +8,11 @@ public class SelectedEmpDTO {
 	private String fatherName;
 	private String birthDate;
 	private String gender;
+	private String nationalId;
+	private String passportNo;
+	private String heightFeetInches;
+	private String heightCm;
+	private String weight;
 	private String maritalStatus;
 	private String pDivisionName;
 	private String pDistrictName;
@@ -32,6 +37,8 @@ public class SelectedEmpDTO {
 	private String mobileNumber;
 	private String selectedYN;
 	private String motherName;
+	private String mailingAddress;
+	private String presentAddress;
 	
 	public String getJobseekerId() {
 		return jobseekerId;
@@ -212,6 +219,78 @@ public class SelectedEmpDTO {
 	}
 	public void setMotherName(String motherName) {
 		this.motherName = motherName;
+	}
+	public String getNationalId() {
+		return nationalId;
+	}
+	public void setNationalId(String nationalId) {
+		this.nationalId = nationalId;
+	}
+	public String getPassportNo() {
+		return passportNo;
+	}
+	public void setPassportNo(String passportNo) {
+		this.passportNo = passportNo;
+	}
+	public String getHeightFeetInches() {
+		return heightFeetInches;
+	}
+	public void setHeightFeetInches(String heightFeetInches) {
+		this.heightFeetInches = heightFeetInches;
+	}
+	public String getHeightCm() {
+		return heightCm;
+	}
+	public void setHeightCm(String heightCm) {
+		this.heightCm = heightCm;
+	}
+	public String getWeight() {
+		return weight;
+	}
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+	
+	public String getMailingAddress() {
+		return mailingAddress;
+	}
+	public void setMailingAddress(String mailingAddress) {
+		this.mailingAddress = mailingAddress;
+	}
+	public String getPresentAddress() {
+		return presentAddress;
+	}
+	public void setPresentAddress(String presentAddress) {
+		this.presentAddress = presentAddress;
+	}
+	public String getDesireFieldValue(String fieldName){
+		
+		if(fieldName.equalsIgnoreCase("JOBSEEKERID"))
+			return getJobseekerId();
+		else if(fieldName.equalsIgnoreCase("JOBSEEKER_NAME"))
+			return getGivenName()+" "+getLastName();
+		else if(fieldName.equalsIgnoreCase("FATHER_NAME"))
+			return getFatherName();
+		else if(fieldName.equalsIgnoreCase("MOTHER_NAME"))
+			return getMotherName();
+		else if(fieldName.equalsIgnoreCase("MOBILE"))
+			return getMobileNumber();
+		else if(fieldName.equalsIgnoreCase("NATIONALID"))
+			return getNationalId();
+		else if(fieldName.equalsIgnoreCase("PASSPORTNO"))
+			return getPassportNo();
+		else if(fieldName.equalsIgnoreCase("HEIGHT_FEET_INCHES"))
+			return getHeightFeetInches();
+		else if(fieldName.equalsIgnoreCase("HEIGHT_CM"))
+			return getHeightCm();
+		else if(fieldName.equalsIgnoreCase("WEIGHT"))
+			return getWeight();
+		else if(fieldName.equalsIgnoreCase("GENDER"))
+			return getGender();
+		else if(fieldName.equalsIgnoreCase("ADDRESS"))
+			return getMailingAddress();
+		
+		return null;
 	}
 	
 }

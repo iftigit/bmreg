@@ -748,7 +748,33 @@ public class RegistrationDAO {
 		 
 		 
 		 return settingHash;
-	 }	 
+	 }	
+	 
+	 public String getRandomPassword()
+	 {
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = "  Select TOKEN_GENERATOR('UULLNN') PASSWORD from dual"; 
+		     
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   String password="";
+
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				if (r.next())
+				{
+					password=r.getString("PASSWORD");
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return password;
+	 }
 	 /*
 	 public String updateEmpRegistrationInfo(PersonalInfoDTO personalDTO,AddressDTO addressDTO,String userId) 
 			{	     

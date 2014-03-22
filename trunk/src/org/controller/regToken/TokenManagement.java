@@ -40,7 +40,7 @@ public class TokenManagement extends ActionSupport{
 		RegTokenDAO regTokenDAO=new RegTokenDAO();
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
 		regToken.setCreatedBy(loggedInUser.getUserId());
-		regToken.setAssignedTo("demo1");
+//		regToken.setAssignedTo("demo1");
 		String response=regTokenDAO.insertTokenInformation(regToken);
 		
 		regFee=((SettingDTO)paramList.get("DEMO_REG_FEE")).getParamValue();

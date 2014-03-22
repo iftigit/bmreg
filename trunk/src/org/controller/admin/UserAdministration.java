@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 import org.model.MasterDataManagement;
 import org.model.NewPaawordDAO;
+import org.model.RegistrationDAO;
 import org.model.UserDAO;
 import org.table.UserDTO;
 import org.table.UserTmpDTO;
@@ -54,6 +55,8 @@ public class UserAdministration extends ActionSupport{
 		return SUCCESS;
 	}
 	public String newUserForm(){
+		RegistrationDAO regDAO=new RegistrationDAO();
+		password=regDAO.getRandomPassword();
 		return SUCCESS;
 	}
 	public String createNewUser(){

@@ -12,6 +12,7 @@ import org.table.LotteryDTO;
 import org.table.LotteryStatusDTO;
 import org.table.SelectedEmpDTO;
 import org.table.SelectionParamDTO;
+import org.table.SelectionReportFieldDTO;
 
 import oracle.jdbc.driver.OracleCallableStatement;
 
@@ -76,7 +77,7 @@ public class LotteryDAO {
 					 " Village.VILLNAME M_VILLNAME,address.MPOST_OFFICE ,address.MPOST_CODE,address.MROAD_NUMBER,address.MHOUSEHOLD_NUMBER   " +
 					 " From " +
 					 " ( " +
-					 " Select personal.JOBSEEKERID,upper(GIVEN_NAME||' '||LAST_NAME) GIVEN_NAME,upper(FATHER_NAME)FATHER_NAME,upper(MOTHER_NAME)MOTHER_NAME,TO_CHAR(BIRTH_DATE,'DD-MM-YYYY') BIRTH_DATE,GENDER,MARITAL_STATUS,MOBILE,SELECTED_YN, " +
+					 " Select personal.JOBSEEKERID,upper(GIVEN_NAME) GIVEN_NAME,upper(LAST_NAME) LAST_NAME,upper(FATHER_NAME)FATHER_NAME,upper(MOTHER_NAME)MOTHER_NAME,TO_CHAR(BIRTH_DATE,'DD-MM-YYYY') BIRTH_DATE,GENDER,MARITAL_STATUS,MOBILE,NATIONALID,PASSPORTNO,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,SELECTED_YN, " +
 					 " Division.DIVISION_NAME P_DIVISION_NAME,District.DIST_NAME P_DIST_NAME,Thana.THANA_NAME P_THANA_NAME,Unions.UNIONNAME P_UNIONNAME,Mauza.MAUZANAME P_MAUZANAME, " +
 					 " Village.VILLNAME P_VILLNAME,address.PPOST_OFFICE ,address.PPOST_CODE,address.PROAD_NUMBER,address.PHOUSEHOLD_NUMBER " +
 					 " From SELECTION_LOG log,EMP_PERSONAL personal, EMP_ADDRESS address,Division,District,Thana,Unions,Mauza,Village " +
@@ -116,7 +117,7 @@ public class LotteryDAO {
 				emp=new SelectedEmpDTO();
 				emp.setJobseekerId(r.getString("JOBSEEKERID"));
 				emp.setGivenName(r.getString("GIVEN_NAME"));
-				//emp.setLastName(r.getString("LAST_NAME"));
+				emp.setLastName(r.getString("LAST_NAME"));
 				emp.setFatherName(r.getString("FATHER_NAME"));
 				emp.setMotherName(r.getString("MOTHER_NAME"));				
 				emp.setBirthDate(r.getString("BIRTH_DATE"));
@@ -146,6 +147,73 @@ public class LotteryDAO {
 				emp.setmRoadNumber(r.getString("MROAD_NUMBER"));
 				emp.setmHouseholdNumber(r.getString("MHOUSEHOLD_NUMBER"));
 				
+				emp.setNationalId(r.getString("NATIONALID"));
+				emp.setPassportNo(r.getString("PASSPORTNO"));
+				emp.setHeightFeetInches(r.getString("HEIGHT_FEET")+"-"+r.getString("HEIGHT_INCHES"));
+				emp.setHeightCm(r.getString("HEIGHT_CM"));
+				emp.setWeight(r.getString("WEIGHT_KG"));
+
+				String mailingAddress="";
+				if(r.getString("MHOUSEHOLD_NUMBER")!=null && !r.getString("MHOUSEHOLD_NUMBER").equalsIgnoreCase(""))
+					mailingAddress=r.getString("MHOUSEHOLD_NUMBER");
+				if(r.getString("MROAD_NUMBER")!=null && !r.getString("MROAD_NUMBER").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=","+r.getString("MHOUSEHOLD_NUMBER");
+					else
+						mailingAddress=r.getString("MHOUSEHOLD_NUMBER");
+				}
+				if(r.getString("MPOST_OFFICE")!=null && !r.getString("MPOST_OFFICE").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=", PO:"+r.getString("MPOST_OFFICE");
+					else
+						mailingAddress="PO:"+r.getString("MPOST_OFFICE");
+				}
+				if(r.getString("MPOST_CODE")!=null && !r.getString("MPOST_CODE").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=", PCODE:"+r.getString("MPOST_CODE");
+					else
+						mailingAddress="PCODE:"+r.getString("MPOST_CODE");
+				}
+				if(r.getString("M_VILLNAME")!=null && !r.getString("M_VILLNAME").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=", Vill:"+r.getString("M_VILLNAME");
+					else
+						mailingAddress="Vill:"+r.getString("M_VILLNAME");
+				}
+				if(r.getString("M_MAUZANAME")!=null && !r.getString("M_MAUZANAME").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=", Mauza:"+r.getString("M_MAUZANAME");
+					else
+						mailingAddress="Mauza:"+r.getString("M_MAUZANAME");
+				}
+				if(r.getString("M_UNIONNAME")!=null && !r.getString("M_UNIONNAME").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=", Union:"+r.getString("M_UNIONNAME");
+					else
+						mailingAddress="Union:"+r.getString("M_UNIONNAME");
+				}
+				if(r.getString("M_THANA_NAME")!=null && !r.getString("M_THANA_NAME").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=", Thana:"+r.getString("M_THANA_NAME");
+					else
+						mailingAddress="Thana:"+r.getString("M_THANA_NAME");
+				}
+				if(r.getString("M_DIST_NAME")!=null && !r.getString("M_DIST_NAME").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=", Dist:"+r.getString("M_DIST_NAME");
+					else
+						mailingAddress="Dist:"+r.getString("M_DIST_NAME");
+				}
+				if(r.getString("M_DIVISION_NAME")!=null && !r.getString("M_DIVISION_NAME").equalsIgnoreCase("")){
+					if(mailingAddress.length()>0)
+						mailingAddress+=", Div:"+r.getString("M_DIVISION_NAME");
+					else
+						mailingAddress="Div:"+r.getString("M_DIVISION_NAME");
+				}
+				
+				
+				emp.setMailingAddress(mailingAddress);
+								
 				jobseekerList.add(emp);
 				count++;
 				
@@ -157,6 +225,41 @@ public class LotteryDAO {
  		
 		
 		return jobseekerList;
+	}
+    public ArrayList<SelectionReportFieldDTO> getSelectionReportFields(){
+		
+		SelectionReportFieldDTO fieldDTO;
+		ArrayList<SelectionReportFieldDTO> fieldList=new ArrayList<SelectionReportFieldDTO>();
+		Connection conn = ConnectionManager.getConnection();
+		String sql = "Select * from SELECTION_REPORT_FIELDS Where Visibility_YN='Y' Order by View_Order";
+		PreparedStatement stmt = null;
+		ResultSet r = null;
+		
+		try
+		{
+			stmt = conn.prepareStatement(sql);			
+			r = stmt.executeQuery();			
+			while (r.next())
+			{
+				
+				fieldDTO=new SelectionReportFieldDTO();
+				
+				fieldDTO.setFieldName(r.getString("FIELD_NAME"));
+				fieldDTO.setViewOrder(r.getInt("VIEW_ORDER"));
+				fieldDTO.setVisibilityYN(r.getString("VISIBILITY_YN"));
+				fieldDTO.setFieldWidth(r.getInt("FIELD_WIDTH"));
+				fieldDTO.setFieldCaption(r.getString("FIELD_CAPTION"));
+				fieldDTO.setAlignment(r.getString("ALIGNMENT"));
+					
+				fieldList.add(fieldDTO);
+			}
+		} 
+		catch (Exception e){e.printStackTrace();}
+ 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+			{e.printStackTrace();}stmt = null;conn = null;}
+ 		
+		
+		return fieldList;
 	}
 	public SelectionParamDTO getSelectionCriteria(int selectionId){
 		
@@ -201,6 +304,7 @@ public class LotteryDAO {
 		
 		return selection;
 	}
+	
 	public boolean saveJobseekerSelection(int selectionId,String[] jobseekerList)
 	{
 		   	
@@ -907,6 +1011,69 @@ public class LotteryDAO {
 		return response;
 	}
 	
+	public ArrayList<SelectionReportFieldDTO> getSettingReportFields()
+	{
+		   	
+			ArrayList<SelectionReportFieldDTO> fieldList=new ArrayList<SelectionReportFieldDTO>();
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   
+	 	   String sql=" Select * from SELECTION_REPORT_FIELDS order by View_Order";
+	 	   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   SelectionReportFieldDTO fieldDTO=new SelectionReportFieldDTO();
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					fieldDTO=new SelectionReportFieldDTO();
+					fieldDTO.setFieldName(r.getString("FIELD_NAME"));
+					fieldDTO.setViewOrder(r.getInt("VIEW_ORDER"));
+					fieldDTO.setVisibilityYN(r.getString("VISIBILITY_YN"));
+					fieldDTO.setFieldWidth(r.getInt("FIELD_WIDTH"));
+					fieldDTO.setFieldCaption(r.getString("FIELD_CAPTION"));
+					fieldDTO.setAlignment(r.getString("ALIGNMENT"));
+					
+					fieldList.add(fieldDTO);
+				}
+			
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return fieldList;
 
+	}
+	
+	public boolean updateSelectionReportSettings(ArrayList<SelectionReportFieldDTO> fieldList)
+	{
+		   	
+		   
+	 	   Connection conn = ConnectionManager.getConnection();	 	  
+		   String sql="";
+		   Statement stmt=null;
+		   boolean resp=false;
+			try
+			{
+				conn.setAutoCommit(false);
+				stmt = conn.createStatement();
+				for(int i=0;i<fieldList.size();i++){
+					sql = "Update SELECTION_REPORT_FIELDS Set View_Order="+fieldList.get(i).getViewOrder()+",Visibility_YN='"+fieldList.get(i).getVisibilityYN()+"',Field_Width="+fieldList.get(i).getFieldWidth()+",Field_Caption='"+fieldList.get(i).getFieldCaption()+"',Alignment='"+fieldList.get(i).getAlignment()+"' Where Field_Name='"+fieldList.get(i).getFieldName()+"'";
+					stmt.addBatch(sql);
+				}
+				int b[]=stmt.executeBatch();
+				conn.commit();
+				resp=true;
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return resp;
+
+	}
 
 }
