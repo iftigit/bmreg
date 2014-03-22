@@ -40,16 +40,15 @@ function fetchRA(raId)
 }
 function searchRA(){
 
-var agentId=document.getElementById("agentId").value;
 var agentName=document.getElementById("agentName").value;
 var agentLicense=document.getElementById("agentLicense").value;
 
-if(agentId=="" && agentName=="" && agentLicense==""){
+if(agentName=="" && agentLicense==""){
  alert("Please provide search value");
  return;
  }
 
-var loadUrl="searchRaList.action?agentId="+agentId+"&agentName="+agentName+"&agentLicense="+agentLicense;
+var loadUrl="searchRaList.action?agentName="+agentName+"&agentLicense="+agentLicense;
 			jQuery("#agencyDiv")  
 				.html(ajax_load)  
 				.load(loadUrl, {},function(responseText){  
@@ -80,8 +79,7 @@ var loadUrl="searchRaList.action?agentId="+agentId+"&agentName="+agentName+"&age
 <br/>
 <div class="box" style="margin-top: 50px;width: 900px;text-align: center;">
     <h3>Search Recruiting Agency</h3>
-    <div style="padding-bottom: 30px;">
-    Agent Id : <input type="text" name="agentId" id="agentId"  style="border: 1px solid gray;" />  
+    <div style="padding-bottom: 30px;">  
     Agent Name : <input type="text" name="agentName" id="agentName"   style="border: 1px solid gray;"/>
     License No : <input type="text" name="agentLicense" id="agentLicense"   style="border: 1px solid gray;"/><br/>
     <br/>

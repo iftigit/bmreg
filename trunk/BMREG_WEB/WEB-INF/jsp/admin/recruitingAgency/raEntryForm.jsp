@@ -50,7 +50,6 @@ if(fromYear=="" || toYear=="")
 
 function createNewRA()
 {
-  var agentId=$.trim(document.getElementById("agentId").value);
   var companyName=$.trim(document.getElementById("companyName").value);
   var address=$.trim(document.getElementById("address").value);
   var phone=$.trim(document.getElementById("phone").value);
@@ -62,11 +61,7 @@ function createNewRA()
   var contactPerson=$.trim(document.getElementById("contactPerson").value);
   var designation=$.trim(document.getElementById("designation").value);
   
-  if(agentId==""){
-   	alert("Please provide Agent Id.");
-   	return;
-   }
-  else if(companyName==""){
+  if(companyName==""){
    	alert("Please provide Company Name.");
    	return;
    }
@@ -144,10 +139,10 @@ function createNewRA()
     <form action="createNewRa.action" method="post" id="raForm" name="raForm">
     <table width="80%" align="center" border="0">
      	<tr>
-     		<td width="15%" align="left">Agent Id</td>
-     		<td width="35%" align="left"><input type="text" name="rAgent.agentId" id="agentId" value="<s:property value='rAgent.agentId' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td width="15%" align="left">File Reference</td>
      		<td width="35%" align="left"><input type="text" name="rAgent.agentFileRef" id="agentFileRef" value="<s:property value='rAgent.agentFileRef' />" style="border: 1px solid gray;width: 200px;" /></td>
+     		<td width="15%" align="left"></td>
+     		<td width="35%" align="left"></td>
         </tr>
         <tr>
      		<td align="left">Company Name</td>

@@ -8,8 +8,7 @@
      <tr bgcolor="#F1F1F1">
      
         <td width="5%" align="center" style="padding-left: 10px;" height="25">SL</td>
-      	<td width="10%" align="left" style="padding-left: 10px;" height="25">Agent Id</td>
-      	<td width="25%" align="left" style="padding-left: 10px;" height="25">Company Name</td>
+      	<td width="35%" align="left" style="padding-left: 10px;" height="25">Company Name</td>
       	<td width="10%" align="left" style="padding-left: 10px;" height="25">License No</td>
       	<td width="10%" align="left" style="padding-left: 10px;" height="25">Company Type</td>
       	<td width="20%" align="left" style="padding-left: 10px;" height="25">CoE</td>
@@ -19,7 +18,6 @@
       <s:iterator value="agentList" status="status">
         <tr>
         <td align="left" style="padding-left: 10px;" height="25"><s:property value="%{#status.count}" /></td>
-      	<td align="left" style="padding-left: 10px;" height="25"><s:property value="agentId" /></td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="companyName" /></td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="licenseNumber" /></td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="companyType" /></td>
