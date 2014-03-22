@@ -29,7 +29,7 @@ public class ConnectionManager {
 	    			{
 	    				Context initContext = new InitialContext();
 	    				Context envContext = (Context) initContext.lookup("java:/comp/env");
-	    				ds = (DataSource) envContext.lookup("jdbc/reg2g");
+	    				ds = (DataSource) envContext.lookup("jdbc/dbreg");
 	    			}
 	    			conn = ds.getConnection();
     			} 

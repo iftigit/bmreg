@@ -150,38 +150,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						ptable.addCell(pcell);
 					}
-					/*
-					pcell=new PdfPCell(new Paragraph("Jobseeker Id",fontb));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable.addCell(pcell);
 					
-					
-					pcell=new PdfPCell(new Paragraph("Jobseeker Name",fontb));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable.addCell(pcell);
-															
-					pcell=new PdfPCell(new Paragraph("Father Name",fontb));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable.addCell(pcell);
-					
-					pcell=new PdfPCell(new Paragraph("Mother Name",fontb));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable.addCell(pcell);
-								
-					pcell=new PdfPCell(new Paragraph("Contact Number",fontb));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable.addCell(pcell);
-					*/
 					counter=0;
 				
 				}
@@ -216,55 +185,6 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 					ptable.addCell(pcell);
 				}
 
-				/*				
-				
-				pcell = new PdfPCell(new Paragraph(seekerDTO.getJobseekerId(),fontT));
-				pcell.setMinimumHeight(20f);
-				pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				ptable.addCell(pcell);
-				
-				pcell = new PdfPCell(new Paragraph(seekerDTO.getGivenName(),fontT));
-				pcell.setMinimumHeight(20f);
-				pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				pcell.setPaddingLeft(5f);
-				ptable.addCell(pcell);
-				
-				pcell = new PdfPCell(new Paragraph(seekerDTO.getFatherName(),fontT));
-				pcell.setMinimumHeight(20f);
-				pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				pcell.setPaddingLeft(5f);
-				ptable.addCell(pcell);
-				
-				pcell = new PdfPCell(new Paragraph(seekerDTO.getMotherName(),fontT));
-				pcell.setMinimumHeight(20f);
-				pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				pcell.setPaddingLeft(5f);
-				ptable.addCell(pcell);
-				
-				pcell = new PdfPCell(new Paragraph(seekerDTO.getMobileNumber(),fontT));
-				pcell.setMinimumHeight(20f);
-				pcell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				pcell.setPaddingLeft(5f);
-				ptable.addCell(pcell);
-				*/
-				
-//				eEvent.setDisplayValue(selectedList.get(i).getUnionName());	
-				//eEvent.setDisplayValue(selectedList.get(i).getUpazillaName()+"#seperator#"+selectedList.get(i).getUnionName()+"#seperator#"+selectedList.get(i).getTotalQuota());
-				
-				
-				//preUnion=selectedList.get(i).getUnionId();
-				//preUnionName=selectedList.get(i).getUnionName();
-				
-		//		document.add(ptable);
-//				document.newPage();
-				
-							
-				
 			}
 			
 			document.add(ptable);
