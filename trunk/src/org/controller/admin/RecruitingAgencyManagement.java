@@ -32,7 +32,7 @@ public class RecruitingAgencyManagement extends ActionSupport{
 		return SUCCESS;	
 	}
 	public String searchRaList(){
-		agentList=RADAO.searchRecruitingAgency(agentId,agentName,agentLicense);
+		agentList=RADAO.searchRecruitingAgency(agentName,agentLicense);
 		return SUCCESS;
 	}
 	public String createNewRa()
@@ -50,7 +50,7 @@ public class RecruitingAgencyManagement extends ActionSupport{
     		ex.printStackTrace();
     		msg="Incorrect format of License date.";
     	}
-		if(msg.equalsIgnoreCase("")){
+		if(msg==null || msg.equalsIgnoreCase("")){
 			boolean response=RADAO.createNewRA(rAgent);
 			if(response==true){			
 				msg="Successfully Created new Recruting Agency";

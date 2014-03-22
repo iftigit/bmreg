@@ -34,7 +34,6 @@ public class RADAO {
 				while (r.next())
 				{
 					raDTO=new RecruitingAgencyDTO();
-					raDTO.setAgentId(r.getString("AGENT_ID"));
 					raDTO.setAgentFileRef(r.getString("AGENT_FILE_REF"));
 					raDTO.setCompanyName(r.getString("COMPANY_NAME"));
 					raDTO.setAddress(r.getString("ADDRESS"));
@@ -67,13 +66,13 @@ public class RADAO {
 
 	}
 	
-	public static ArrayList<RecruitingAgencyDTO> searchRecruitingAgency(String agencyId,String agencyName,String agencyLicense)
+	public static ArrayList<RecruitingAgencyDTO> searchRecruitingAgency(String agencyName,String agencyLicense)
 	{
 		ArrayList<RecruitingAgencyDTO> agencyList=new ArrayList<RecruitingAgencyDTO>();
 		   if(agencyName.equalsIgnoreCase(""))
 			   agencyName="notassigned";
 	 	   Connection conn = ConnectionManager.getConnection();
-	 	   String sql="Select * from AGENT_LICENCE Where AGENT_ID='"+agencyId+"' or lower(COMPANY_NAME) like lower('%"+agencyName+"%') or lower(LICENCE_NO) like lower('%"+agencyLicense+"%')";
+	 	   String sql="Select * from AGENT_LICENCE Where  lower(COMPANY_NAME) like lower('%"+agencyName+"%') or lower(LICENCE_NO) like lower('%"+agencyLicense+"%')";
 	 	   
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -86,7 +85,6 @@ public class RADAO {
 				while (r.next())
 				{
 					raDTO=new RecruitingAgencyDTO();
-					raDTO.setAgentId(r.getString("AGENT_ID"));
 					raDTO.setAgentFileRef(r.getString("AGENT_FILE_REF"));
 					raDTO.setCompanyName(r.getString("COMPANY_NAME"));
 					raDTO.setAddress(r.getString("ADDRESS"));
@@ -122,10 +120,10 @@ public class RADAO {
 	public static boolean createNewRA(RecruitingAgencyDTO rAgent)
 	{
 		Connection conn = ConnectionManager.getConnection();
-	 	   String sql = " Insert into AGENT_LICENCE(AGENT_ID,AGENT_FILE_REF,COMPANY_NAME,ADDRESS,PHONE,EMAIL,FAX,LICENCE_NO, " +
+	 	   String sql = " Insert into AGENT_LICENCE(AGENT_FILE_REF,COMPANY_NAME,ADDRESS,PHONE,EMAIL,FAX,LICENCE_NO, " +
 	 	   		        " SPACE,STATUS,COMPANY_TYPE,LICENSEDATE,LICENSE_VALID_UPTO,MINISTRY_REFERENCE,CONTACT_PERSON,DESIGNATION, " +
 	 	   		        " COMMENTS,BRANCH,TRAINING_CENTER,CEONAME,CEOCONTACTNO)  " +
-	 	   		        " Values(?,?,?,?,?,?,?,?,?,?," +
+	 	   		        " Values(?,?,?,?,?,?,?,?,?," +
 	 	   		        "        ?,to_date(?,'dd-MM-YYYY'),to_date(?,'dd-MM-YYYY'),?,?,?,?,?,?,?," +
 	 	   		        "        ?)";
 		   PreparedStatement stmt = null;
@@ -134,27 +132,26 @@ public class RADAO {
 			try
 			{
 				stmt = conn.prepareStatement(sql);
-				stmt.setString(1, rAgent.getAgentId());
-				stmt.setString(2, rAgent.getAgentFileRef());
-				stmt.setString(3, rAgent.getCompanyName());
-				stmt.setString(4, rAgent.getAddress());
-				stmt.setString(5, rAgent.getPhone());
-				stmt.setString(6, rAgent.getEmailAddress());
-				stmt.setString(7, rAgent.getFax());
-				stmt.setString(8, rAgent.getLicenseNumber());
-				stmt.setString(9, rAgent.getSpace());
-				stmt.setString(10, rAgent.getStatus());
-				stmt.setString(11, rAgent.getCompanyType());
-				stmt.setString(12, rAgent.getLicenseDate());
-				stmt.setString(13, rAgent.getLicenseValidTill());
-				stmt.setString(14, rAgent.getMinistryRef());
-				stmt.setString(15, rAgent.getContactPerson());
-				stmt.setString(16, rAgent.getDesignation());
-				stmt.setString(17, rAgent.getComments());
-				stmt.setString(18, rAgent.getBranch());
-				stmt.setString(19, rAgent.getTrainingCenter());
-				stmt.setString(20, rAgent.getCeoName());
-				stmt.setString(21, rAgent.getCeoContactInfo());
+				stmt.setString(1, rAgent.getAgentFileRef());
+				stmt.setString(2, rAgent.getCompanyName());
+				stmt.setString(3, rAgent.getAddress());
+				stmt.setString(4, rAgent.getPhone());
+				stmt.setString(5, rAgent.getEmailAddress());
+				stmt.setString(6, rAgent.getFax());
+				stmt.setString(7, rAgent.getLicenseNumber());
+				stmt.setString(8, rAgent.getSpace());
+				stmt.setString(9, rAgent.getStatus());
+				stmt.setString(10, rAgent.getCompanyType());
+				stmt.setString(11, rAgent.getLicenseDate());
+				stmt.setString(12, rAgent.getLicenseValidTill());
+				stmt.setString(13, rAgent.getMinistryRef());
+				stmt.setString(14, rAgent.getContactPerson());
+				stmt.setString(15, rAgent.getDesignation());
+				stmt.setString(16, rAgent.getComments());
+				stmt.setString(17, rAgent.getBranch());
+				stmt.setString(18, rAgent.getTrainingCenter());
+				stmt.setString(19, rAgent.getCeoName());
+				stmt.setString(20, rAgent.getCeoContactInfo());
 				if(stmt.executeUpdate()==1)
 					resp=true;
 					
