@@ -103,7 +103,6 @@ if(agentId=="none")
       	<td width="5%" align="center" style="padding-left: 10px;" height="25">Selected?</td>
       </tr>
       <s:iterator value="jobseekerList" status="indx" id="js">
-        <tr>
        <s:if test='%{#js.selectedYN == "Y"}'>  
             	<tr bgcolor="#F4FFF4"> 
        </s:if>
