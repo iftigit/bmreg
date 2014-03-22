@@ -1905,7 +1905,8 @@ http://rishida.net/tools/conversion/
 											Duration<font color="red">*</font>
 										</td>
 									    <td align="center"  width="30%">
-											Description<font color="red">*</font>
+											Description/ Certificate No
+											<font color="red">*</font>
 										</td>
 										<td align="center" >&nbsp;
 										</td>
@@ -2874,6 +2875,17 @@ function deletePreferredJob(id)
 {
  document.getElementById("jobP"+id).style.display="none";
 }
+var ttcId=new Array();
+var ttcName=new Array();
+function getTtcDiv()
+{
+ 	<s:iterator value="%{#application.ALL_TTC}" id="TtcList" status="stat">
+ 		ttcId[<s:property value="%{#stat.count}" />-1]='<s:property value='ttcId' />';
+		ttcName[<s:property value="%{#stat.count}" />-1]='<s:property value='ttcName' />';	 
+	</s:iterator>
+ 
+}
+getTtcDiv();
 
 function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType)
 {

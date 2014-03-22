@@ -15,6 +15,14 @@
 				<param name="root">districtList</param>
 			</result>
 		</action>
+		<action name="JSONfindTrade" class="org.json.Json" method="getTrade">
+			<result type="json" name="input">
+                            
+			</result>
+			<result type="json">
+				<param name="root">tradeList</param>
+			</result>
+		</action>		
 		<action name="JSONfindUpazillaOrThana" class="org.json.Json" method="getUpazillaOrThana">
 			<result type="json" name="input">
                             

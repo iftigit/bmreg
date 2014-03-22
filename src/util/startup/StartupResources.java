@@ -17,12 +17,14 @@ import org.model.JobCategoryDAO;
 import org.model.RegistrationDAO;
 import org.model.RegistrationDAO;
 import org.model.RelationDAO;
+import org.model.TtcDAO;
 import org.table.AddressDTO;
 import org.table.CountryDTO;
 import org.table.DegreeDTO;
 import org.table.JobPreferenceDTO;
 import org.table.RelationDTO;
 import org.table.SettingDTO;
+import org.table.TtcDTO;
 
 public class StartupResources  extends HttpServlet {
 	
@@ -100,6 +102,19 @@ public class StartupResources  extends HttpServlet {
 		
 		config.getServletContext().setAttribute("ALL_DEGREE_MAP", degreeMap);
 
+		ArrayList<TtcDTO> TTCList=new ArrayList<TtcDTO>();
+		TTCList=TtcDAO.getAllTtc();
+		HashMap<Integer, String>  ttcMap = new HashMap<Integer, String>();
+				
+		config.getServletContext().setAttribute("ALL_TTC", TTCList);
+		
+		for(int i=0;i<TTCList.size();i++)
+		{
+			ttcMap.put(TTCList.get(i).getTtcId(), TTCList.get(i).getTtcName());
+			
+		}
+		
+		config.getServletContext().setAttribute("ALL_TTC_MAP", ttcMap);
 		
 		ArrayList<JobPreferenceDTO> jobCategoryList=new ArrayList<JobPreferenceDTO>();
 		jobCategoryList=JobCategoryDAO.getAllJob(1);

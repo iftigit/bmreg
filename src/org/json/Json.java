@@ -9,6 +9,8 @@ import javax.servlet.ServletContext;
 
 import org.apache.struts2.ServletActionContext;
 import org.model.AddressDAO;
+import org.model.TtcDAO;
+import org.table.TtcDTO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -24,9 +26,11 @@ public class Json extends ActionSupport
 	private String unionOrWardId;
 	private String mauzaOrMohollaId;
 	private String villageId;
+	private String TTC;
 	
 	private Map<String, ArrayList<String>> divisionList;
 	private Map<String, ArrayList<String>> districtList;
+	private Map<String, ArrayList<String>> tradeList;
 	private Map<String, ArrayList<String>> upazillaOrThanaList;
 	private Map<String, ArrayList<String>> unionOrWardList;
 	private Map<String, ArrayList<String>> mauzaOrMohollaList;
@@ -45,6 +49,23 @@ public class Json extends ActionSupport
 		}
 		else
 			districtList.put("districtList", dlist);
+		
+			
+	}
+	public String getTrade()
+	{
+		tradeList = new HashMap<String, ArrayList<String>>();
+		ArrayList<String> tList=(ArrayList<String>) getServletContext().getAttribute("TRADE_BY_TTC_"+TTC);
+		if(tList==null)
+		{
+			TtcDAO addDAO = new TtcDAO();
+			tList = addDAO.getTrade(TTC);
+			tradeList.put("tradeList", tList);
+			getServletContext().setAttribute("TRADE_BY_TTC_"+TTC,tList);
+		}
+		else
+			tradeList.put("tradeList", tList);
+		return SUCCESS;
 		
 			
 	}
@@ -316,5 +337,21 @@ public class Json extends ActionSupport
 	public ServletContext getServletContext()
 	{
 		return ServletActionContext.getServletContext();
+	}
+
+
+	public String getTTC() {
+		return TTC;
+	}
+
+
+	public void setTTC(String ttc) {
+		TTC = ttc;
+	}
+	public Map<String, ArrayList<String>> getTradeList() {
+		return tradeList;
+	}
+	public void setTradeList(Map<String, ArrayList<String>> tradeList) {
+		this.tradeList = tradeList;
 	}
 }
