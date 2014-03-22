@@ -93,14 +93,14 @@ function createNewUser()
 <center>
 <br/>
 <div class="box" style="margin-top: 30px;width: 900px;text-align: center;">
-    <h3>RA Entry Form</h3>
+    <h3>New User Entry Form</h3>
     <div style="padding-bottom: 30px;">
     <form action="createNewRa.action" method="post" id="raForm" name="raForm">
     <table width="80%" align="center" border="0">
      	<tr>
      		<td width="15%" align="left">User Id</td>
      		<td width="35%" align="left"><input type="text" name="userId" id="userId" value="<s:property value='userId' />" style="border: 1px solid gray;width: 245px;"/></td>
-     		<td width="15%" align="left">Passport</td>
+     		<td width="15%" align="left">Password</td>
      		<td width="35%" align="left"><input type="text" name="password" id="password" value="<s:property value='password' />" style="border: 1px solid gray;width: 245px;background-color: pink;" readonly="readonly" /></td>
         </tr>
         <tr>
