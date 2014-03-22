@@ -99,9 +99,9 @@ function createNewUser()
     <table width="80%" align="center" border="0">
      	<tr>
      		<td width="15%" align="left">User Id</td>
-     		<td width="35%" align="left"><input type="text" name="userId" id="userId" value="<s:property value='rAgent.agentId' />" style="border: 1px solid gray;width: 245px;"/></td>
+     		<td width="35%" align="left"><input type="text" name="userId" id="userId" value="<s:property value='userId' />" style="border: 1px solid gray;width: 245px;"/></td>
      		<td width="15%" align="left">Passport</td>
-     		<td width="35%" align="left"><input type="text" name="password" id="password" value="<s:property value='rAgent.agentFileRef' />" style="border: 1px solid gray;width: 245px;" /></td>
+     		<td width="35%" align="left"><input type="text" name="password" id="password" value="<s:property value='password' />" style="border: 1px solid gray;width: 245px;background-color: pink;" readonly="readonly" /></td>
         </tr>
         <tr>
      		<td align="left">Division</td>
@@ -158,7 +158,7 @@ function createNewUser()
      			<select tabindex="19"  id="userType" name="userType" style="border: 1px solid gray;width:250px;">
 			        <option value="" selected="selected">--Select UserType--</option>
 			     	<option value="SYSTEM_ADMIN">DEMO_REG_ADMIN</option>
-			     	<option value="SYSTEM_ADMIN">DEMO_REG_OPERATOR</option>
+			     	<option value="DEMO_REG_OPERATOR">DEMO_REG_OPERATOR</option>
 			     	<option value="UISC_REG_OPERATOR">UISC_REG_OPERATOR</option>
 			     	<option value="A2I_OPERATOR">A2I_OPERATOR</option>
 			     	<option value="SYSTEM_ADMIN">SYSTEM_ADMIN</option>

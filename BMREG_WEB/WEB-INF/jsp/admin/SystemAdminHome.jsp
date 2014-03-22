@@ -88,6 +88,11 @@
     </tr>
     <tr>
      <td style="text-align: center">
+     	<a href="selectionReportSetting.action">Lottery Report Settings</a>
+     </td>
+    </tr>
+    <tr>
+     <td style="text-align: center">
      	<a href="selectionHome.action">Lottery Home</a>
      </td>
     </tr>
