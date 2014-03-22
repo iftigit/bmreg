@@ -57,6 +57,7 @@ function createNewUser()
 				.html(ajax_load)  
 				.load(loadUrl, {userId:userId,password:password,userType:userType,division:division,district:district,upazila:upazila,union:union,startDate:startDate,endDate:endDate},function(responseText){  
 					jQuery("#msgDiv").html(responseText);
+					alert(responseText);
 					if(responseText.indexOf("Successfully")>=0)
 					{
 					  /*document.getElementById("userId").value="";
