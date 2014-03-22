@@ -59,7 +59,7 @@ function createNewUser()
 					jQuery("#msgDiv").html(responseText);
 					if(responseText.indexOf("Successfully")>=0)
 					{
-					  document.getElementById("userId").value="";
+					  /*document.getElementById("userId").value="";
 					  document.getElementById("password").value="";
 					  document.getElementById("startDate").value="";
 					  document.getElementById("endDate").value="";
@@ -68,7 +68,9 @@ function createNewUser()
 					  document.getElementById("PERMANENT_DIV").value="";
 					  document.getElementById("PERMANENT_DIST").value="";
 					  document.getElementById("PERMANENT_UPAZILLA_OR_THANA").value="";
-					  document.getElementById("PERMANENT_UNION_OR_WARD").value="";					  
+					  document.getElementById("PERMANENT_UNION_OR_WARD").value="";	
+					  */
+					  window.location="newUserForm.action";				  
 					}
 									   
 				});
