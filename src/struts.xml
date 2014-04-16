@@ -566,38 +566,49 @@
 		
 		<action name="selectionHome" class="org.controller.admin.LotteryManagement" method="selectionHome">
 			<result name="success">/WEB-INF/jsp/admin/lottery/selectionHome.jsp</result>
+			<result name="logout" type="redirectAction">logout.action</result>
 		</action>
 		
 		<action name="jobseekerSelection" class="org.controller.admin.LotteryManagement" method="jobseekerSelection">
-			<result name="success">/WEB-INF/jsp/admin/lottery/selectionHome.jsp</result>
-			<result name="report" type="redirectAction">
+			<result name="selectionHome">/WEB-INF/jsp/admin/lottery/selectionHome.jsp</result>
+			<result name="success" type="redirectAction">
 			    <param name="actionName">selectionReportAction.action</param>		    
 			    <param name="selectionId">${selectionId}</param>
    			</result>	    
-			
+			<result name="logout" type="redirectAction">logout.action</result>
 		</action>
 		<action name="raLotteryHome" class="org.controller.admin.LotteryManagement" method="raLotteryHome">
 			<result name="success">/WEB-INF/jsp/admin/lottery/raSelectionHome.jsp</result>
+			<result name="logout" type="redirectAction">logout.action</result>  
 		</action>
 		<action name="searchSelection" class="org.controller.admin.LotteryManagement" method="searchSelection">
 			<result name="success">/WEB-INF/jsp/admin/lottery/raSelectionSearchResult.jsp</result>
+			<result name="logout" type="redirectAction">logout.action</result>
 		</action>
 		<action name="fetchSelectionDetail" class="org.controller.admin.LotteryManagement" method="fetchSelectionDetail">
 		    <result name="success">/WEB-INF/jsp/admin/lottery/selectionDetail.jsp</result>
+		    <result name="logout" type="redirectAction">logout.action</result>
 		</action>
 		<action name="saveJobseekerSelection" class="org.controller.admin.LotteryManagement" method="saveJobseekerSelection">	
 		    <result name="success" type="redirectAction">
 			    <param name="actionName">fetchSelectionDetail.action</param>		    
 			    <param name="selectionId">${selectionId}</param>
 			    <param name="operationType">${operationType}</param>			    
-   			</result>	    
+   			</result>	
+   			<result name="logout" type="redirectAction">
+				logout.action
+		    </result>    
 			
 		</action>
 		<action name="selectionReportAction" class="org.controller.admin.SelectionReportAction" >
 			<result type="stream">
 				<param name="contentType">application/pdf</param>
 				<param name="inputName">inputStream</param>
-			</result>		    
+			</result>	
+			<result name="logout" type="redirectAction">
+				logout.action
+		    </result>	
+			    
 		</action>
 		<action name="newUserForm" class="org.controller.admin.UserAdministration"  method="newUserForm">
 			<result name="success">/WEB-INF/jsp/admin/user/NewUserForm.jsp</result>
