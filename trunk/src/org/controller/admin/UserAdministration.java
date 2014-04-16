@@ -87,6 +87,8 @@ public class UserAdministration extends ActionSupport{
           }
         catch(Exception e) {e.printStackTrace();}
         
+        RegistrationDAO regDAO=new RegistrationDAO();
+        password=regDAO.getRandomPassword();
 		return null;	
 	}
 

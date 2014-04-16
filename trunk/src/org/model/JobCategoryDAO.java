@@ -14,7 +14,7 @@ import util.connection.ConnectionManager;
 
 public class JobCategoryDAO {
 	
-	private static final Connection conn = ConnectionManager.getConnection();
+	
 	public static ArrayList<JobCategoryDTO> getAllJob()
 	{
 		   ArrayList<JobCategoryDTO> jobList=new ArrayList<JobCategoryDTO>();
@@ -252,8 +252,9 @@ public class JobCategoryDAO {
 			return false;
 	}
 	
-	public String  getJobPreferenceDescription(String jobPreferenceStr)
+	public String  getJobPreferenceDescription(Connection conn, String jobPreferenceStr)
 	{
+
 		 String sql="";
 		 String jobDescriptionStr="";
 		 if(jobPreferenceStr!=null){
@@ -272,11 +273,14 @@ public class JobCategoryDAO {
 					
 					for(int j=0;j<jobTypeArr.length;j++){
 						sql="Select JOB_TITLE FROM MST_JOBS Where job_id="+jobTypeArr[j]+" and level_no="+(j+1);
-						stmt = JobCategoryDAO.conn.prepareStatement(sql);
-						r = stmt.executeQuery();
-						if (r.next())
-						{
-							jobDescriptionStr+=r.getString("JOB_TITLE")==null?" ":r.getString("JOB_TITLE")+", ";
+						//System.out.println("SQL-1:"+sql);
+						if(jobTypeArr[j]!=null && !jobTypeArr[j].equalsIgnoreCase("")){							
+							stmt = conn.prepareStatement(sql);
+							r = stmt.executeQuery();
+							while (r.next())
+							{
+								jobDescriptionStr+=r.getString("JOB_TITLE")==null?" ":r.getString("JOB_TITLE")+", ";
+							}
 						}
 					}
 				}
@@ -286,9 +290,9 @@ public class JobCategoryDAO {
 			} 
 			catch (Exception e){e.printStackTrace();}
 	 		finally{try{stmt.close();
-	 		//ConnectionManager.closeConnection(conn);
+	 		
 	 		} catch (Exception e)
-				{e.printStackTrace();}stmt = null;//JobCategoryDAO.c = null;
+				{e.printStackTrace();}stmt = null;conn=null;
 				}
 		 	}
 		 
@@ -298,7 +302,7 @@ public class JobCategoryDAO {
 		
 	}
 	
-	public String  getJobExperienceDescription(String jobExperience)
+	public String  getJobExperienceDescription(Connection conn,String jobExperience)
 	{
 		 String sql="";
 		 String jobDescriptionStr="";
@@ -315,20 +319,26 @@ public class JobCategoryDAO {
 							sql="Select JOB_TITLE FROM MST_JOBS Where job_id in ("+jobTypeArr[j]+") and level_no="+(j+1);
 						else
 							sql="Select JOB_TITLE FROM MST_JOBS Where job_id="+jobTypeArr[j]+" and level_no="+(j+1);
-						stmt = JobCategoryDAO.conn.prepareStatement(sql);
-						r = stmt.executeQuery();
-						if (r.next())
-						{
-							jobDescriptionStr+=r.getString("JOB_TITLE")==null?" ":r.getString("JOB_TITLE")+", ";
+						
+						//System.out.println("SQL-2:"+sql);
+						if(jobTypeArr[j]!=null && !jobTypeArr[j].equalsIgnoreCase("")){
+							
+							stmt = conn.prepareStatement(sql);
+							r = stmt.executeQuery();
+							while (r.next())
+							{								
+								jobDescriptionStr+=r.getString("JOB_TITLE")==null?" ":r.getString("JOB_TITLE")+", ";
+							}
+							
 						}
 					}
 				}
 			
 			catch (Exception e){e.printStackTrace();}
 	 		finally{try{stmt.close();
-	 		//ConnectionManager.closeConnection(conn);
+	 		
 	 		} catch (Exception e)
-				{e.printStackTrace();}stmt = null;//JobCategoryDAO.c = null;
+				{e.printStackTrace();}stmt = null;conn=null;
 				}
 		 	}
 		 
@@ -339,7 +349,7 @@ public class JobCategoryDAO {
 	}
 	public static void main(String args[]){		
 		JobCategoryDAO jcd=new JobCategoryDAO();
-		jcd.getJobPreferenceDescription("252#253#271@180#189#0@");
+		//jcd.getJobPreferenceDescription("252#253#271@180#189#0@");
 	}
 
 

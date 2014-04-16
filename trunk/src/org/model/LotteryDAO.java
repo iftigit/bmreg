@@ -25,7 +25,7 @@ public class LotteryDAO {
 		
 		ArrayList<SelectionParamDTO> selectionList=null;
 		Connection conn = ConnectionManager.getConnection();
-		String sql = "Select * from SELECTION_CRITERIA,AGENT_LICENCE Where SELECTION_CRITERIA.Agent_Id=AGENT_LICENCE.LICENCE_NO and  SELECTION_CRITERIA.Agent_Id=? and Work_Order like ?  order by Selection_Date desc";
+		String sql = "Select SELECTION_CRITERIA.*,AGENT_LICENCE.*,to_char(SELECTION_DATE,'DD-MM-YYYYY HH24:MI') SELECTION_DATE_M from SELECTION_CRITERIA,AGENT_LICENCE Where SELECTION_CRITERIA.Agent_Id=AGENT_LICENCE.LICENCE_NO and  SELECTION_CRITERIA.Agent_Id=? and Work_Order like ?  order by Selection_Date desc";
 		PreparedStatement stmt = null;
 		ResultSet r = null;
 		try
@@ -49,7 +49,7 @@ public class LotteryDAO {
 				selection.setWorkOrder(r.getString("WORK_ORDER"));
 				selection.setGender(r.getString("GENDER"));
 				selection.setYearOfExperience(r.getString("EXPERIENCE_YEAR"));
-				selection.setSelectionDate(r.getString("SELECTION_DATE"));
+				selection.setSelectionDate(r.getString("SELECTION_DATE_M"));
 				selection.setExpireDate(r.getString("EXPIRE_DATE"));
 				selection.setStatus(r.getString("STATUS"));
 				selection.setLanguages(r.getString("LANGUAGE"));
@@ -313,6 +313,7 @@ public class LotteryDAO {
 	 	  
 	 	  String sql = "Update SELECTION_LOG Set SELECTED_YN='N' where Selection_Id=?";
 		   PreparedStatement stmt = null;
+		   boolean response=false;
 		   
 			try
 			{
@@ -327,13 +328,43 @@ public class LotteryDAO {
 				}
 				int b[]=stmt1.executeBatch();
 				conn.commit();
+				response=true;
 			} 
 			catch (Exception e){e.printStackTrace();}
 	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
 				{e.printStackTrace();}stmt = null;conn = null;}
 	 		
-	 	return false;
+	 	return response;
 
+	}
+	public boolean finalSubmitJobseekerSelection(int selectionId)
+	{
+		Connection conn = ConnectionManager.getConnection();
+		 OracleCallableStatement stmt=null;
+		 int responseCode=0;
+		 try
+		  {
+		
+			System.out.println("Procedure finalSubmitJSSelection Begins");
+			 stmt = (OracleCallableStatement) conn.prepareCall(
+					 	  "{ call finalSubmitJSSelection(?,?) }");
+			 
+
+		 		stmt.setInt(1,  selectionId);
+				stmt.registerOutParameter(2, java.sql.Types.NUMERIC);
+				stmt.executeUpdate();
+				responseCode = stmt.getInt(2);
+				System.out.println("Response : " + responseCode);
+				}
+			    catch (Exception e){e.printStackTrace();}
+		 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+					{e.printStackTrace();}stmt = null;conn = null;}
+	 	
+		 		if(responseCode==-1)
+		 			return true;
+		 		else
+		 			return false;
+	
 	}
 	public static synchronized int jobseekerSelection(SelectionParamDTO selection)
 	{

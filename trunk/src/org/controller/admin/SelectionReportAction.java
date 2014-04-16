@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ import org.table.SelectedEmpDTO;
 import org.table.SelectionParamDTO;
 import org.table.SelectionReportFieldDTO;
 import org.table.UserDTO;
+
+import util.connection.ConnectionManager;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -48,7 +51,7 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 	private static final long serialVersionUID = 9203852155056386824L;
 	private InputStream inputStream;
 	AddressDAO addressDAO=new AddressDAO();
-	private int selectionId;
+	private String selectionId;
 	
 	public String execute() throws Exception
 	{	
@@ -60,20 +63,11 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		ServletOutputStream out = response.getOutputStream();		
 		Document document = new Document(PageSize.A4.rotate());
 
-		/*
-		String districtName=addressDAO.getDistrictNameFromId(Integer.parseInt(loggedInUser.getDistrictId()));
-				LotteryDAO lotteryDAO=new LotteryDAO();
-		
-
-		if(!loggedInUser.getUserType().equalsIgnoreCase("LOTTERY_DC_ADMIN"))
+		if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
 		{
 			return "logout";
 		}
-		else if(loggedInUser.getAccessRight()==0)
-		{
-			return "timeOver";	
-		}
-		*/
+		
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd__HH-mm-ss",Locale.getDefault());
 		Calendar cal = Calendar.getInstance();
@@ -89,12 +83,15 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		
 		JobCategoryDAO jcDAO=new JobCategoryDAO();
 		LotteryDAO lotteryDAO=new LotteryDAO();
-		ArrayList<SelectedEmpDTO> jobseekerList=lotteryDAO.getSelectionDetail(selectionId);
-		SelectionParamDTO selectionParam=lotteryDAO.getSelectionCriteria(selectionId);
+		ArrayList<SelectedEmpDTO> jobseekerList=lotteryDAO.getSelectionDetail(Integer.parseInt(selectionId));
+		SelectionParamDTO selectionParam=lotteryDAO.getSelectionCriteria(Integer.parseInt(selectionId));
 		ArrayList<SelectionReportFieldDTO> fieldList=lotteryDAO.getSelectionReportFields();
 		
-		selectionParam.setJobPreferenceDesc(jcDAO.getJobPreferenceDescription(selectionParam.getJobPreference()));
-		selectionParam.setJobExperienceDesc(jcDAO.getJobExperienceDescription(selectionParam.getJobExperience()));
+		Connection conn = ConnectionManager.getConnection();
+		selectionParam.setJobPreferenceDesc(jcDAO.getJobPreferenceDescription(conn,selectionParam.getJobPreference()));
+		selectionParam.setJobExperienceDesc(jcDAO.getJobExperienceDescription(conn,selectionParam.getJobExperience()));
+		ConnectionManager.closeConnection(conn);
+		
 		
 		PdfPTable ptable = null;
 		PdfPCell pcell=null;
@@ -223,13 +220,15 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		this.inputStream = inputStream;
 	}
 
-	public int getSelectionId() {
+	public String getSelectionId() {
 		return selectionId;
 	}
 
-	public void setSelectionId(int selectionId) {
+	public void setSelectionId(String selectionId) {
 		this.selectionId = selectionId;
 	}
+
+	
 	
 
 }
@@ -400,7 +399,7 @@ class DCLotteryReportEvent extends PdfPageEventHelper
 			String[] valArr=dValue.split("#");
 			
 			
-			String header1="Company Name : "+valArr[0]+", Work Order :"+valArr[1]+", Selection Id :"+valArr[2]+"\n"+"Job Preference : "+valArr[3]+". Job Experience :"+valArr[4]+"\n Language: "+valArr[5]+"Country :"+valArr[6]+"\n Gender :"+valArr[7]+", Exp. Years :"+valArr[8];
+			String header1="Company Name : "+valArr[0]+", Demand Note :"+valArr[1]+", Selection Id :"+valArr[2]+"\n"+"Job Preference : "+valArr[3]+". Job Experience :"+valArr[4]+"\n Language: "+valArr[5]+", Country :"+valArr[6]+"\n Gender :"+valArr[7]+", Exp. Years :"+valArr[8];
 			pcell = new PdfPCell();
 			pg = new Paragraph(header1,new Font(Font.TIMES_ROMAN,13,Font.BOLD));
 			pg.setAlignment(Element.ALIGN_LEFT);
