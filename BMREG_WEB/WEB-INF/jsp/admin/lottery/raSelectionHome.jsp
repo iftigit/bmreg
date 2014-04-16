@@ -84,7 +84,7 @@ if(agentId=="none")
      		</select>
         </tr>
         <tr>
-     		<td align="left">Work Order</td>
+     		<td align="left">Demand Note</td>
      		<td align="left"><input type="text" name="selection.workOrder" id="workOrder" value="" style="border: 1px solid gray;width: 300px;" /></td>
         </tr>        
         

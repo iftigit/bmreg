@@ -74,7 +74,7 @@ if(agentId=="none")
     	<tr>
     	 <td width="10%" align="left" valign="top">Selection Id</td><td width="20%" align="left" valign="top">: <s:property value="selection.selectionId" /></td>
     	 <td width="10%" align="left" valign="top">Agency </td><td width="20%" align="left" style="font-size: 12px; " valign="top">: <s:property value="selection.agentCompanyName" /></td>
-    	 <td width="10%" align="left" valign="top">Work Order</td><td width="20%" align="left" valign="top">: <s:property value="selection.workOrder" /></td>
+    	 <td width="10%" align="left" valign="top">Demand Note</td><td width="20%" align="left" valign="top">: <s:property value="selection.workOrder" /></td>
     	</tr>
     	<tr>
     	 <td align="left" valign="top">Country </td><td align="left" valign="top">: <s:property value="selection.countryPreference" /></td>
@@ -89,7 +89,7 @@ if(agentId=="none")
     	
     </table>
      
-    <form action="saveJobseekerSelection" method="post">
+    <form action="saveJobseekerSelection" method="post" id="selectionForm" name="selectionForm">
     <br/>
     <center><font style="font-size: 15px;color: maroon;font-weight: bold;"><s:property value="msg"/></font> </center>
     <table width="98%" align="center" border="0" cellpadding="2" cellspacing="0" style="border: 1px solid grey;">     
@@ -100,7 +100,9 @@ if(agentId=="none")
       	<td width="20%" align="left" style="padding-left: 10px;" height="25">Name</td>
       	<td width="15%" align="left" style="padding-left: 10px;" height="25">Mobile</td>
       	<td width="35%" align="left" style="padding-left: 10px;" height="25">Address</td>
-      	<td width="5%" align="center" style="padding-left: 10px;" height="25">Selected?</td>
+	       <s:if test='selection.status == "OPEN"'>  
+	            	<td width="5%" align="center" style="padding-left: 10px;" height="25">Selected?</td> 
+	       </s:if>
       </tr>
       <s:iterator value="jobseekerList" status="indx" id="js">
        <s:if test='%{#js.selectedYN == "Y"}'>  
@@ -127,7 +129,8 @@ if(agentId=="none")
       		Mauza:<s:property value="pMauzaName" />,Union:<s:property value="pUnionName" />,Thana:<s:property value="pThanaName" />,<br/>
       		Dist:<s:property value="pDistrictName" />,Division:<s:property value="pDivisionName" />
       	</td>
-      	<td align="center" style="padding-left: 10px;" height="25">
+      	<s:if test='selection.status == "OPEN"'>  
+	       <td align="center" style="padding-left: 10px;" height="25">
       		<s:if test='%{#js.selectedYN == "Y"}'>
       		 	<input type="checkbox" checked="checked" name="selectStatusList" value="<s:property value='jobseekerId' />"/>
       		</s:if>
@@ -135,16 +138,22 @@ if(agentId=="none")
       			<input type="checkbox" name="selectStatusList" value="<s:property value='jobseekerId' />"/>
       		</s:if>
       	  
-      	</td>
+      	   </td> 
+	    </s:if>
+      	
+      	
         </tr> 
       </s:iterator>           
 </table>
 
-    
+    <s:if test='selection.status == "OPEN"'>
 	<p style="padding-top: 40px;">
 	    <input type="hidden" name="selectionId" id="selectionId" value="<s:property value='selectionId' />" />     
-		<input type="submit" name="search" value="Save" style="width: 150px;height: 35px;"  />
+		<input type="button" name="search" value="Save" style="width: 150px;height: 35px;" onclick="setSubmitType('save')"  />
+		<input type="button" name="search" value="Submit Selection(Final)" style="width:220px;height: 35px;color:red;"  onclick="setSubmitType('finalSubmit')"/>
+		<input type="hidden" id="operationType" name="operationType" value="" />
 	</p>
+	</s:if>
 	</form>
 </div>
 <div id="searchResult"></div>
@@ -156,6 +165,13 @@ if(agentId=="none")
 </div>
 <p id="msgDiv"></p>
 </center>
+
+<script type="text/javascript">
+ function setSubmitType(submitType){
+  document.getElementById("operationType").value=submitType;
+  document.selectionForm.submit();
+ }
+</script>
 
 </body>
 

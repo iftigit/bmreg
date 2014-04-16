@@ -8,21 +8,23 @@
      <tr bgcolor="#F1F1F1">
      
         <td width="5%" align="left" style="padding-left: 10px;" height="25">SL</td>
-      	<td width="10%" align="left" style="padding-left: 10px;" height="25">Work Order</td>
+      	<td width="10%" align="left" style="padding-left: 10px;" height="25">Demand Note</td>
       	<td width="10%" align="left" style="padding-left: 10px;" height="25">Job Preference</td>
       	<td width="10%" align="center" height="25">Gender</td>
-      	<td width="15%" align="left" style="padding-left: 10px;" height="25">Job Exp.</td>
+      	<td width="10%" align="left" style="padding-left: 10px;" height="25">Job Exp.</td>
+      	<td width="5%" align="center"  height="25">Date</td>
       	<td width="5%" align="center"  height="25">Status</td>
       	<td width="5%" align="center"  height="25">View</td>
       	<td width="5%" align="center"  height="25">Download</td>
       </tr>
       <s:iterator value="selectionList" status="status">
         <tr>
-        <td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="%{#status.count}" /></td>
+        <td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="%{#status.count}" />(<s:property value="selectionId" />)</td>
       	<td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="workOrder" /></td>
       	<td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="jobPreferenceDesc" /></td>
       	<td align="center" 							 height="25" valign="top"><s:property value="gender" /></td>
       	<td align="left" style="padding-left: 10px;" height="25" valign="top"><s:property value="jobExperienceDesc" /></td>
+      	<td align="center"                           height="25" valign="top"><s:property value="selectionDate" /></td>
       	<td align="center"                           height="25" valign="top"><s:property value="status" /></td>
       	<td align="center"  						 height="25" valign="top">
       	<a href="fetchSelectionDetail.action?selectionId=<s:property value='selectionId'/>">View</a>

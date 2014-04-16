@@ -56,7 +56,7 @@ var sugestedTotal=parseInt(document.getElementById("suggestedTotal").value,10)
   return;
  }
  else if(document.getElementById("workOrder").value==""){
-  alert("Please provide work order number.");
+  alert("Please provide Demand Note number.");
   return;
  }
  else if(sugestedTotal<=0){
@@ -116,6 +116,10 @@ if(document.getElementById("lotterySubJob_2_0")){
    alert("Please provide proper data for work experiences. Or remove year of experience.")
    return;
   }
+ else if(jobExp!="" && (expYears=="" || expYears<0)){
+   alert("Please provide year of experience. Or remove experience information.")
+   return;
+ } 
  document.getElementById("jobExperience").value=jobExp;
  
  document.selectionForm.submit();
@@ -173,7 +177,7 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
      		</select>
         </tr>
         <tr>
-     		<td align="left">Work Order</td>
+     		<td align="left">Demand Note</td>
      		<td align="left"><input type="text" name="selection.workOrder" id="workOrder" value="" style="border: 1px solid gray;width: 300px;" /></td>
         </tr>        
         <tr>
