@@ -1,19 +1,10 @@
 package org.controller.admin;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
-import org.model.MasterDataManagement;
-import org.model.NewPaawordDAO;
 import org.model.RegistrationDAO;
 import org.model.UserDAO;
 import org.table.UserDTO;
@@ -36,6 +27,8 @@ public class UserAdministration extends ActionSupport{
 	private String union;
 	private String startDate;
 	private String endDate;
+	private String userName;
+	private String designation;
 	
 	public String checkRequestedUserList()
 	{
@@ -71,6 +64,8 @@ public class UserAdministration extends ActionSupport{
 		user.setUpazillaId(upazila);
 		user.setFormDate(startDate);
 		user.setToDate(endDate);
+		user.setUserName(userName);
+		user.setDesignation(designation);
 		
 		HttpServletResponse response = ServletActionContext.getResponse();
 		String msg="";
@@ -164,6 +159,18 @@ public class UserAdministration extends ActionSupport{
 	}
 	public void setUnion(String union) {
 		this.union = union;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getDesignation() {
+		return designation;
+	}
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 	
 

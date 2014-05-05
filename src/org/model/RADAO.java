@@ -19,9 +19,9 @@ public class RADAO {
 	 	   Connection conn = ConnectionManager.getConnection();
 	 	   String sql="";
 	 	   if(agencyId.equalsIgnoreCase("all"))
-	 		   sql = "Select * from AGENT_LICENCE order by company_name";
+	 		   sql = "Select AGENT_LICENCE.*,to_char(LICENSEDATE,'dd-MM-YYYY') LICENSEDATE_EXT1,to_char(LICENSE_VALID_UPTO,'dd-MM-YYYY') LICENSE_VALID_UPTO_EXT1 from AGENT_LICENCE order by company_name";
 	 	   else
-	 		  sql = "Select * from AGENT_LICENCE Where LICENCE_NO='"+agencyId+"'";
+	 		  sql = "Select AGENT_LICENCE.*,to_char(LICENSEDATE,'dd-MM-YYYY') LICENSEDATE_EXT1,to_char(LICENSE_VALID_UPTO,'dd-MM-YYYY') LICENSE_VALID_UPTO_EXT1 from AGENT_LICENCE Where LICENCE_NO='"+agencyId+"'";
 	 	   
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -44,8 +44,8 @@ public class RADAO {
 					raDTO.setSpace(r.getString("SPACE"));
 					raDTO.setStatus(r.getString("STATUS"));
 					raDTO.setCompanyType(r.getString("COMPANY_TYPE"));
-					raDTO.setLicenseDate(r.getString("LICENSEDATE"));
-					raDTO.setLicenseValidTill(r.getString("LICENSE_VALID_UPTO"));
+					raDTO.setLicenseDate(r.getString("LICENSEDATE_EXT1"));
+					raDTO.setLicenseValidTill(r.getString("LICENSE_VALID_UPTO_EXT1"));
 					raDTO.setMinistryRef(r.getString("MINISTRY_REFERENCE"));
 					raDTO.setContactPerson(r.getString("CONTACT_PERSON"));
 					raDTO.setDesignation(r.getString("DESIGNATION"));

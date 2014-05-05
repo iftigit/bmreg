@@ -13,6 +13,8 @@ public class UserDTO {
 	private String districtId;
 	private String upazillaId;
 	private String unionId;
+	private String userName;
+	private String designation;
 	
 	private String authenticationKey;
 	
@@ -112,6 +114,19 @@ public class UserDTO {
 	}
 	public void setToDate(String toDate) {
 		this.toDate = toDate;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getDesignation() {
+		return designation;
+	}
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 	
 	

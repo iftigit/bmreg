@@ -1,16 +1,23 @@
 package org.controller.regToken;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 
 import org.apache.struts2.ServletActionContext;
+import org.model.JobCategoryDAO;
+import org.model.LotteryDAO;
 import org.model.RegTokenDAO;
 import org.model.UserDAO;
 import org.table.RegTokenDTO;
+import org.table.SelectionParamDTO;
 import org.table.SettingDTO;
 import org.table.UserDTO;
+import org.table.UserTmpDTO;
+
+import util.connection.ConnectionManager;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -23,6 +30,11 @@ public class TokenManagement extends ActionSupport{
 	private String msg;
 	private ArrayList<UserDTO> userList;
 	private String tokenId;
+	private String demoUserId;
+	ArrayList<RegTokenDTO> tokenList=new ArrayList<RegTokenDTO>();
+	private String tokenListString;
+	private String fromDate;
+	private String toDate;
 	
 	public String regTokenHome()
 	{
@@ -52,6 +64,36 @@ public class TokenManagement extends ActionSupport{
 		}
 		else
 			msg="Error in Token Creation";
+		return SUCCESS;
+	}
+	
+	public String tokenHistoryHome(){
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		userList=UserDAO.getDemoUserList(loggedInUser.getUserId());
+		return SUCCESS;
+	}
+	
+	public String searchTokenHistory(){
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(!loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_ADMIN"))
+		{
+			return "logout";
+		}
+		RegTokenDAO regTokenDAO=new RegTokenDAO();
+		tokenList=regTokenDAO.getTokenList(demoUserId,0,fromDate,toDate);
+		
+		return SUCCESS;
+	}
+	public String tokenPrintPreview(){
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(!loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_ADMIN"))
+		{
+			return "logout";
+		}
+		RegTokenDAO regTokenDAO=new RegTokenDAO();
+		tokenList=regTokenDAO.getTokenList(demoUserId,Integer.parseInt(tokenId),null,null);
+		
+		tokenListString=tokenList.get(0).getTokenListString();
 		return SUCCESS;
 	}
 	
@@ -100,9 +142,50 @@ public class TokenManagement extends ActionSupport{
 	public void setTokenId(String tokenId) {
 		this.tokenId = tokenId;
 	}
+	
+	public String getDemoUserId() {
+		return demoUserId;
+	}
+
+	public void setDemoUserId(String demoUserId) {
+		this.demoUserId = demoUserId;
+	}
+	
+	public ArrayList<RegTokenDTO> getTokenList() {
+		return tokenList;
+	}
+
+	public void setTokenList(ArrayList<RegTokenDTO> tokenList) {
+		this.tokenList = tokenList;
+	}
 
 	public ServletContext getServletContext()
 	{
 		return ServletActionContext.getServletContext();
 	}
+
+	public String getTokenListString() {
+		return tokenListString;
+	}
+
+	public void setTokenListString(String tokenListString) {
+		this.tokenListString = tokenListString;
+	}
+
+	public String getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
+	}
+	
 }
