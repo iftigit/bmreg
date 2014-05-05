@@ -20,7 +20,39 @@
  <link type="text/css" rel="Stylesheet" href="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jquery.validity.css" />
         <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jQuery.validity.js"></script>
  
+<script type="text/javascript">
+var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.gif' border='0' /></center>";
+function changePassword(){
 
+    var oldPassword=$("#oldPassword").val();
+    var newPassword=$("#newPassword").val();
+    var confirmNewPassword=$("#confirmNewPassword").val();
+    
+    if(oldPassword==""){
+    alert("Provide Old Password");return; }
+    else if(newPassword==""){
+    alert("Provide New Password");return; }
+    else if(confirmNewPassword==""){
+    alert("Provide confirm New Password");return; }
+    else if(newPassword!=confirmNewPassword){
+    alert("New Password and Confirm New Password must be equal.");return; }
+    
+	var loadUrl="changePassword.action?oldPassword="+oldPassword+"&newPassword="+newPassword+"&confirmNewPassword="+confirmNewPassword;
+			jQuery("#msgDiv")  
+				.html(ajax_load)  
+				.load(loadUrl, {},function(responseText){  
+					jQuery("#msgDiv").html(responseText);
+					alert(responseText);
+					if(responseText=="Password Successfully Updated.")
+					{
+					 $("#oldPassword").val("");
+    				 $("#newPassword").val("");
+    				 $("#confirmNewPassword").val("");    
+					}
+									   
+				});
+}
+</script>
   
 </head>
 <body style="margin: 0px;">
@@ -40,37 +72,44 @@
 <center>
 <br/>
 <div class="box" style="margin-top: 100px;width: 700px;text-align: center;">
-    <h3>Technical Contact Information</h3>
+    <h3>User Password Change</h3>
     
     
     <table width="80%" border="1" cellspacing="0" cellpadding="0" class="infoTable" style="border: 1px solid grey;"  align="center" >
-    
-    <tr style="background-color: #CCCCCC;">
-     <td style="text-align: left;padding-left: 10px;font-weight: bold;" width="50%">
-     	Contact Name
-     </td>
-     <td style="text-align: left;padding-left: 10px;font-weight: bold;" width="50%">
-     	Mobile Number
-     </td>
-    </tr>
-    <s:iterator value="%{#session.CONTACT_INFO}">
     <tr>
      <td style="text-align: left;padding-left: 10px;" width="50%">
-     	<s:property value="contactName"/> 
+     	Old Password 
      </td>
      <td style="text-align: left;padding-left: 10px;" width="50%">
-     	<s:property value="mobileNo"/> 
+     	 <input type="text" id="oldPassword" maxlength="10" style="width: 150px;border: 1px solid grey;" />
      </td>
     </tr>
-    </s:iterator>
+    <tr>
+     <td style="text-align: left;padding-left: 10px;" width="50%">
+     	New Password 
+     </td>
+     <td style="text-align: left;padding-left: 10px;" width="50%">
+     	 <input type="text" name="newPassword" id="newPassword" maxlength="10" style="width: 150px;border: 1px solid grey;" />
+     </td>
+    </tr>
+    <tr>
+     <td style="text-align: left;padding-left: 10px;" width="50%">
+     	Confirm New Password 
+     </td>
+     <td style="text-align: left;padding-left: 10px;" width="50%">
+     	 <input type="text" name="confirmNewPassword" id="confirmNewPassword" maxlength="10" style="width: 150px;border: 1px solid grey;" />
+     </td>
+    </tr>
     </table>
-
+    <center>
+    <input type="button" value="Change Password" onclick="changePassword()" />
+    </center>
 <br/>     
 </div>
     <br/>
-    <a href="regOperatorHome.action">Reg. Operator Home</a>
+    <a href="homePage.action">Go Home</a>
     <br/>
-<p style="height: 30px"></p>
+<p style="height: 30px" id="msgDiv"></p>
 </center>
 
 </body>

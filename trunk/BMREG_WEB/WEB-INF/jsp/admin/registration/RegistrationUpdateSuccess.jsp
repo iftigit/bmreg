@@ -8,7 +8,7 @@
 <head>
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
-<title>G2G Job Seeker Registration Form</title>
+<title>Job Seeker Registration Form</title>
  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />	
 
  <link type="text/css" rel="Stylesheet" href="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jquery.validity.css" />

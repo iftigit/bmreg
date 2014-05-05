@@ -1,19 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<html>
 <%@ page import="org.apache.struts2.ServletActionContext" %>
 <%@ page import="org.controller.registration.*" %>
 <%@ page import="java.util.ArrayList" %>
-<head>
-
-
-<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-<meta content="utf-8" http-equiv="encoding">
-<title>BMET</title>
- <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />	
- <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/prototype-1.6.0.2.js"></script>	
- <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
+<script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/numeric.js"></script>
  
@@ -22,39 +13,18 @@
  
   <script type="text/javascript" src="/BMREG_WEB/resources/js/address.js"></script>
   <script type="text/javascript" src="/BMREG_WEB/resources/js/regValidation.js"></script>
-  <script type="text/javascript">
-
+<script type="text/javascript">
 var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.gif' border='0' /></center>";
 
-function updateYearInfo()
-{
-
-var fromYear=document.getElementById("fromYear").value;
-var toYear=document.getElementById("toYear").value;
-if(fromYear=="" || toYear=="")
-{
- 	jQuery("#msgDiv").html("<font color='red'>Please provide correct data.</font>");
- 	return;
-} 
-
-
- var loadUrl="savePassingYearInfo.action?fromYear="+fromYear+"&toYear="+toYear;
-			jQuery("#msgDiv")  
-				.html(ajax_load)  
-				.load(loadUrl, {},function(responseText){  
-					jQuery("#msgDiv").html(responseText);
-									   
-				});
-				
-}
-
-function createNewRA()
+function updateRA()
 {
   var companyName=$.trim(document.getElementById("companyName").value);
   var address=$.trim(document.getElementById("address").value);
   var phone=$.trim(document.getElementById("phone").value);
   var licenseNumber=$.trim(document.getElementById("licenseNumber").value);
   var status=$.trim(document.getElementById("status").value);
+  var statusComments=$.trim(document.getElementById("statusComments").value);  
+  var pastStatus=$.trim(document.getElementById("pastStatus").value);
   var companyType=$.trim(document.getElementById("companyType").value);
   var licenseDate=$.trim(document.getElementById("licenseDate").value);
   var licenseValidTill=$.trim(document.getElementById("licenseValidTill").value);
@@ -111,32 +81,41 @@ function createNewRA()
    	alert("Please provide Designation.");
    	return;
    }
-   document.raForm.submit();
+   
+  var companyName=$.trim(document.getElementById("companyName").value);
+  var address=$.trim(document.getElementById("address").value);
+  var phone=$.trim(document.getElementById("phone").value);
+  var licenseNumber=$.trim(document.getElementById("licenseNumber").value);
+  var status=$.trim(document.getElementById("status").value);
+  var statusComments=$.trim(document.getElementById("statusComments").value);  
+  var pastStatus=$.trim(document.getElementById("pastStatus").value);
+  var companyType=$.trim(document.getElementById("companyType").value);
+  var licenseDate=$.trim(document.getElementById("licenseDate").value);
+  var licenseValidTill=$.trim(document.getElementById("licenseValidTill").value);
+  var contactPerson=$.trim(document.getElementById("contactPerson").value);
+  var designation=$.trim(document.getElementById("designation").value);
+  
+    var loadUrl="updateRa.action";
+			jQuery("#msgDiv")  
+				.html(ajax_load)  
+				.load(loadUrl, {companyName:companyName,address:address,phone:phone,licenseNumber:licenseNumber,status:status,
+				statusComments:statusComments,pastStatus:pastStatus,companyType:companyType,licenseDate:licenseDate,
+				licenseValidTill:licenseValidTill,contactPerson:contactPerson,designation:designation},function(responseText){  
+					jQuery("#"+divId).html(responseText);
+									   
+				});
+   
    
   
 }
 </script>
-</head>
-<body style="margin: 0px;">
 
-<div style="width: 100%;height: 100px;border-bottom: 1px solid #006219;">
+
 <center>
-<div style="width: 1000px;height: 100px;border-right: 1px solid #006219;border-left: 1px solid #006219;">
-	<div style="float: left; margin-top: 20px;width: 100px;">
-	 <img src="/BMREG_WEB/resources/images/bagladesh_logo.gif" width="60" height="60" />
-	</div>
-	<div style="float: left;margin-left: 30px;color: black;margin-top: 15px;text-align: left;">
-	 	<div style="font-size: 27px;font-weight: bold;">Bureau of Manpower, Employment & Training (BMET)</div>
-	</div>
-</div>
-</center>
-</div>
-<center>
-<br/>
-<div class="box" style="margin-top: 30px;width: 900px;text-align: center;">
-    <h3>RA Entry Form</h3>
+<div class="box" style="margin-top: 30px;width: 880px;text-align: center;" id="">
+    <h3>RA UPdate Form</h3>
     <div style="padding-bottom: 30px;">
-    <form action="createNewRa.action" method="post" id="raForm" name="raForm">
+    <form action="" method="post" id="raForm" name="raForm">
     <table width="80%" align="center" border="0">
      	<tr>
      		<td width="15%" align="left">File Reference</td>
@@ -160,13 +139,33 @@ function createNewRA()
      		<td align="left">Fax</td>
      		<td align="left"><input type="text" name="rAgent.fax" id="fax" value="<s:property value='rAgent.fax' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">License No</td>
-     		<td align="left"><input type="text" name="rAgent.licenseNumber" id="licenseNumber" value="<s:property value='rAgent.licenseNumber' />" style="border: 1px solid gray;width: 200px;" /></td>
+     		<td align="left">
+     			<input type="hidden" name="rAgent.licenseNumber" id="licenseNumber" value="<s:property value='rAgent.licenseNumber' />" style="border: 1px solid gray;width: 200px;" />
+     			<font style="color: blue;font-weight: bold;"><s:property value='rAgent.licenseNumber' /></font>
+     		</td>
         </tr>
         <tr>
      		<td align="left">Space</td>
      		<td align="left"><input type="text" name="rAgent.space" id="space" value="<s:property value='rAgent.space' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">Status</td>
-     		<td align="left"><input type="text" name="rAgent.status" id="status" value="<s:property value='rAgent.status' />" style="border: 1px solid gray;width: 200px;" /></td>
+     		<td align="left">
+     			<select name="rAgent.status" id="status" style="border: 1px solid gray;width: 200px;">
+     				<option  value="none">Select Status</option>
+     				<option  value="j"  <s:if test='%{rAgent.status=="j"}'>selected="selected"</s:if>>j</option>
+     				<option  value="SA" <s:if test='%{rAgent.status=="SA"}'>selected="selected"</s:if>>SA</option>
+     				<option  value="L"  <s:if test='%{rAgent.status=="L"}'>selected="selected"</s:if>>L</option>
+     				<option  value="S"  <s:if test='%{rAgent.status=="S"}'>selected="selected"</s:if>>S</option>
+     			</select>     			
+     			<input type="hidden" name="rAgent.pastStatus" value="<s:property value='rAgent.status' />"/>
+     		</td>
+        </tr>
+        <tr>
+        	<td align="left" valign="top">Status Change Reason</td>
+        	<td align="left" valign="top">
+        		<textarea id="statusComments" name="rAgent.statusComments" rows="4" cols="25" style="border: 1px solid grey;"></textarea>
+        	</td>
+        	<td></td>
+        	<td></td>
         </tr>
         <tr>
      		<td align="left">Company Type</td>
@@ -210,24 +209,10 @@ function createNewRA()
         </tr>
     </table>
 <p style="padding-top: 40px;">     
-<input type="button" name="save" value="Crete New RA" style="width: 200px;height: 35px;"  onclick="createNewRA()"/>
+<input type="button" name="save" value="Crete New RA" style="width: 200px;height: 35px;"  onclick="updateRA()"/>
 </p>
+<div id="msgDiv"></div>
 </form>
 </div>
-    
-    <p style="padding-bottom: 20px;">
-    <a href="systemAdminHome.action">Go Home</a>
-    </p>
-
 </div>
-<p id="msgDiv"></p>
 </center>
-<script type="text/javascript">
-<s:if test='msg != null'>
-  alert("<s:property value='msg' />");  
-</s:if>
-
-</script>
-</body>
-
-</html>

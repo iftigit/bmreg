@@ -112,7 +112,7 @@ if(agentId=="none")
 	       	<s:if test="#indx.even == true">
 	        	<tr bgcolor="#eeeeee">
 	      	</s:if>
-	      	<s:if test="abc.indx.odd == true">
+	      	<s:if test="#indx.odd == true">
 	        	<tr>
 	       </s:if>
        </s:if>

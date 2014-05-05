@@ -47,7 +47,7 @@ if(fromYear=="" || toYear=="")
 				});
 				
 }
-function validate()
+function validate(type)
 {
 var sugestedTotal=parseInt(document.getElementById("suggestedTotal").value,10)
 
@@ -122,12 +122,28 @@ if(document.getElementById("lotterySubJob_2_0")){
  } 
  document.getElementById("jobExperience").value=jobExp;
  
+ if(type=="searchCount")
+ {
+  fetchTotalExistingJobseekerCount(expYears,jobExp,jobPreference);
+  return;
+ }
  document.selectionForm.submit();
  
 }
 
 function setSuggestedTotal(total){
 document.getElementById("suggestedTotal").value=parseInt(total*3,10);
+}
+
+function setAgency(licenseNo){
+
+ $('#agentId option').each(function(){
+      if(this.value==licenseNo)
+       {        
+        $("select#agentId").find("option#"+licenseNo).attr("selected", true);        
+       }
+    });
+    
 }
 </script>
  <style type="text/css">
@@ -167,12 +183,18 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
     <form action="jobseekerSelection" method="post" id="selectionForm" name="selectionForm">
     <table width="100%" align="center" border="0" style="padding-left: 10px;">
      	<tr>
-     		<td width="20%" align="left">Recruiting Agency</td>
+     		<td width="20%" align="left">License No</td>
      		<td width="80%" align="left">
+     		  <input type="text" id="licenseNo" value="" style="border: 1px solid gray;width: 300px;" onblur="setAgency(this.value)" />
+     		</td>
+        </tr>
+     	<tr>
+     		<td align="left">Recruiting Agency</td>
+     		<td align="left">
      		<select style="width:300px;border:1px solid grey" name="selection.agentId" id="agentId">
      		    <option value='none'>Select Agency</option>
      		<s:iterator value="agentList" status="status">
-     			<option value='<s:property value="licenseNumber" />'><s:property value="companyName" /></option>
+     			<option id='<s:property value="licenseNumber" />' value='<s:property value="licenseNumber" />'><s:property value="companyName" />&nbsp;&nbsp;[<s:property value="licenseNumber" />]</option>
      		</s:iterator>
      		</select>
         </tr>
@@ -183,7 +205,7 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
         <tr>
      		<td align="left">Country Preference</td>
      		<td align="left">
-     			<select style="width:300px;border:1px solid grey"  id="countryPreference" name="selection.countryPreference" >
+     			<select style="width:300px;border:1px solid grey"  id="countryPreference" name="selection.countryPreference">
      			            <option value="">Select Country</option>
 							<s:iterator value="countryList" id="countryList">
 							  <s:if test='%{#countryList.isSelected == "Y"}'>
@@ -215,15 +237,10 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
 				</select>
      		</td>
         </tr>
+
         <tr>
-     		<td align="left" style="vertical-align: top;">Job Preference</td>
-     		<td align="left">
-     		<div id="jobPreferenceDiv"></div>
-                    	   <br/><br/>
-                    	   <input name='abc' type='button' value='Add more(if needed)' onclick='addJobPreferenceDiv()' width='42' height='9' tabindex='299' />
-                    	   <div id="msg_expJobPreference" style="clear: both"></div>
-                    	   <input type="hidden" id="jobPreference" name="selection.jobPreference" value="" />
-     		</td>
+     		<td align="left">Years of Experience</td>
+     		<td align="left"><input type="text" name="selection.yearOfExperience" id="yearOfExperience" value="" style="border: 1px solid gray;" /></td>
         </tr> 
         <tr>
      		<td align="left" style="vertical-align: top;">Work Experience</td>
@@ -273,22 +290,51 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
 							<input type="hidden" id="jobExperience" name="selection.jobExperience" />
      		</td>
         </tr>
+        
         <tr>
-     		<td align="left">Years of Experience</td>
-     		<td align="left"><input type="text" name="selection.yearOfExperience" id="yearOfExperience" value="" style="border: 1px solid gray;" /></td>
+     		<td align="left" style="vertical-align: top;">Job Preference</td>
+     		<td align="left" bgcolor="#F2F7E3" style="border: 1px solid #d1dcaf;">
+     		<div style="float: left;padding-left: 5px;width:170px;">Job Category</div>
+     		<div style="float: left;padding-left: 5px;width:170px;">Sub Category</div>
+     		<div style="float: left;padding-left: 5px;width:170px;">Sub-Sub Category</div>
+     		<div id="jobPreferenceDiv"></div>
+                    	   <br/><br/>
+                    	   <input name='abc' type='button' value='Add more(if needed)' onclick='addJobPreferenceDiv()' width='42' height='9' tabindex='299' />
+                    	   <div id="msg_expJobPreference" style="clear: both"></div>
+                    	   <input type="hidden" id="jobPreference" name="selection.jobPreference" value="" />
+     		</td>
         </tr> 
+        
         <tr>
      		<td align="left">Total Emp. Required</td>
      		<td align="left"><input type="text" name="selection.workOrderTotal" id="workOrderTotal" value="" style="border: 1px solid gray;" onkeyup="setSuggestedTotal(this.value)" /></td>
         </tr>
-         <tr>
+        <tr>
      		<td align="left">Total Emp. Suggested</td>
      		<td align="left"><input type="text" name="selection.suggestedTotal" id="suggestedTotal" value="" style="border: 1px solid gray;"  /></td>
         </tr>
+        <tr>
+     		<td align="left">Report Type</td>
+     		<td align="left">
+     		<input type="radio" name="selection.reportType" id="pdf" value="pdf" checked="checked" /> PDF
+     		&nbsp;&nbsp;&nbsp;&nbsp;
+     		<input type="radio" name="selection.reportType" id="csv" value="csv" /> CSV
+     		</td>
+        </tr>
+        <tr>
+     		<td align="left">Total Jobseeker<br/>(in Database)
+     		<input type="button" onclick="validate('searchCount')" value='Search' />
+     		</td>
+     		<td align="left" id="expCount" style="margin-left: 10px;float: left;color: blue;font-size: 15px;font-weight: bold;">
+     		</td>
+        </tr>
+        													
+        
+        
     </table>
     
 	<p style="padding-top: 40px;">     
-	<input type="button" name="search" value="Search" style="width: 200px;height: 35px;"  onclick="validate()"/>
+	<input type="button" name="doSelection" value="Do Selection" style="width: 200px;height: 35px;"  onclick="validate('lottery')"/>
 	</p>
 	
 </form>
@@ -343,10 +389,27 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
 					});
 				
 				}
+				
 
 			});
 }
 
+function fetchTotalExistingJobseekerCount(expYears,jobExp,jobPreference)
+{
+var gender=$('input:radio[name="selection.gender"]:checked').val();
+var countryPrefernce=document.getElementById("countryPreference").value;
+
+
+  var ajax_url="<img src='/BMREG_WEB/resources/images/ajax-loader.gif' alt='Loading ....' />"; 
+  var url="/BMREG_WEB/fetchJobseekerCount.action?etc="+new Date().getTime();
+		
+			$("#expCount") 
+			.html(ajax_url)  
+			.load(url, {cExpYears: expYears,cJobExp: jobExp,cJobPreference:jobPreference,cGender:gender,cCountryPrefernce:countryPrefernce},function(responseText){  
+				if(responseText!="")
+					$("#expCount").innerHTML= responseText;
+			});
+}
 function getJobPreferenceDiv(jobPreferenceCounter)
 {
   
