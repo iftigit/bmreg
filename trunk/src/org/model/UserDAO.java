@@ -318,8 +318,8 @@ public class UserDAO {
 	{
 		Connection conn = ConnectionManager.getConnection();
 	 	   String sql = " Insert into MST_USER(USERID,PASSWORD,USER_TYPE,DIVISION_ID,DISTRICT_ID,UPAZILLA_ID,UNION_ID, " +
-	 	   				" START_DATE,END_DATE) " +
-	 	   				" Values(?,?,?,?,?,?,?,to_date(?,'dd-MM-YYYY HH24:MI:SS'),to_date(?,'dd-MM-YYYY HH24:MI:SS'))";
+	 	   				" START_DATE,END_DATE,FULL_NAME,DESIGNATION) " +
+	 	   				" Values(?,?,?,?,?,?,?,to_date(?,'dd-MM-YYYY HH24:MI:SS'),to_date(?,'dd-MM-YYYY HH24:MI:SS'),?,?)";
 		   PreparedStatement stmt = null;
 		   boolean resp=false;
 		   
@@ -335,6 +335,9 @@ public class UserDAO {
 				stmt.setString(7, user.getUnionId());
 				stmt.setString(8, user.getFormDate());
 				stmt.setString(9, user.getToDate());
+				stmt.setString(10, user.getUserName());
+				stmt.setString(11, user.getDesignation());
+				
 				if(stmt.executeUpdate()==1)
 					resp=true;
 					
@@ -379,4 +382,62 @@ public class UserDAO {
 		return userList;
 	}
 
+	public static boolean updatePassword(String userId,String newPassword)
+	{
+		Connection conn = ConnectionManager.getConnection();
+		String sql=" Update MST_USER  set PASSWORD=?  Where USERID=?";
+		int response=0;
+		PreparedStatement stmt = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+
+				stmt.setString(1,newPassword);
+				stmt.setString(2,userId);
+				
+				response = stmt.executeUpdate();
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+
+		 	if(response==1)
+		 		return true;
+		 	else
+		 		return false;
+	}
+	
+	public static ArrayList<UserDTO> getDemoUserList(String usreId)
+	{
+		ArrayList<UserDTO> userList=new ArrayList<UserDTO>();
+		UserDTO user=null;
+		
+		 Connection conn = ConnectionManager.getConnection();
+ 	     String sql = " Select * from MST_USER where district_id in (Select district_id from MST_USER where userid='"+usreId+"') and USER_TYPE='DEMO_REG_OPERATOR'";
+		   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					user=new UserDTO();
+					
+					user.setUserId(r.getString("USERID"));
+					userList.add(user);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		
+		return userList;
+	}
+	
+	
 }

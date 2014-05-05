@@ -68,6 +68,31 @@ public class LotteryDAO {
 		
 		return selectionList;
 	}
+	
+public int getTotalJobseeker(SelectionParamDTO selection){
+		Connection conn = ConnectionManager.getConnection();
+		
+		int total=0;
+		String filterQuery="Select count(JOBSEEKERID) TOTAL from ("+getFilterQuery(selection)+")tQuery";
+		PreparedStatement stmt = null;
+		ResultSet r = null;
+		try
+		{
+			stmt = conn.prepareStatement(filterQuery);
+			r = stmt.executeQuery();
+			
+
+			if (r.next())
+				total=r.getInt("TOTAL");
+		} 
+		catch (Exception e){e.printStackTrace();}
+ 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+			{e.printStackTrace();}stmt = null;conn = null;}
+ 		
+		
+		return total;
+	}
+
 	public ArrayList<SelectedEmpDTO> getSelectionDetail(int selectionId){
 		
 		ArrayList<SelectedEmpDTO> jobseekerList=null;
@@ -77,7 +102,7 @@ public class LotteryDAO {
 					 " Village.VILLNAME M_VILLNAME,address.MPOST_OFFICE ,address.MPOST_CODE,address.MROAD_NUMBER,address.MHOUSEHOLD_NUMBER   " +
 					 " From " +
 					 " ( " +
-					 " Select personal.JOBSEEKERID,upper(GIVEN_NAME) GIVEN_NAME,upper(LAST_NAME) LAST_NAME,upper(FATHER_NAME)FATHER_NAME,upper(MOTHER_NAME)MOTHER_NAME,TO_CHAR(BIRTH_DATE,'DD-MM-YYYY') BIRTH_DATE,GENDER,MARITAL_STATUS,MOBILE,NATIONALID,PASSPORTNO,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,SELECTED_YN, " +
+					 " Select personal.JOBSEEKERID,upper(GIVEN_NAME) GIVEN_NAME,upper(LAST_NAME) LAST_NAME,upper(FATHER_NAME)FATHER_NAME,upper(MOTHER_NAME)MOTHER_NAME,TO_CHAR(BIRTH_DATE,'DD-MM-YYYY') BIRTH_DATE,round(MONTHS_BETWEEN(sysdate,birth_date)/12,1)||' Yrs' Age,GENDER,MARITAL_STATUS,MOBILE,NATIONALID,PASSPORTNO,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,SELECTED_YN, " +
 					 " Division.DIVISION_NAME P_DIVISION_NAME,District.DIST_NAME P_DIST_NAME,Thana.THANA_NAME P_THANA_NAME,Unions.UNIONNAME P_UNIONNAME,Mauza.MAUZANAME P_MAUZANAME, " +
 					 " Village.VILLNAME P_VILLNAME,address.PPOST_OFFICE ,address.PPOST_CODE,address.PROAD_NUMBER,address.PHOUSEHOLD_NUMBER " +
 					 " From SELECTION_LOG log,EMP_PERSONAL personal, EMP_ADDRESS address,Division,District,Thana,Unions,Mauza,Village " +
@@ -152,6 +177,9 @@ public class LotteryDAO {
 				emp.setHeightFeetInches(r.getString("HEIGHT_FEET")+"-"+r.getString("HEIGHT_INCHES"));
 				emp.setHeightCm(r.getString("HEIGHT_CM"));
 				emp.setWeight(r.getString("WEIGHT_KG"));
+				
+				emp.setDistrict(r.getString("P_DIST_NAME"));
+				emp.setAge(r.getString("AGE"));
 
 				String mailingAddress="";
 				if(r.getString("MHOUSEHOLD_NUMBER")!=null && !r.getString("MHOUSEHOLD_NUMBER").equalsIgnoreCase(""))
@@ -366,11 +394,47 @@ public class LotteryDAO {
 		 			return false;
 	
 	}
-	public static synchronized int jobseekerSelection(SelectionParamDTO selection)
+	public synchronized int jobseekerSelection(SelectionParamDTO selection)
 	{
 		 int responseCode=0;
 		 Connection conn = ConnectionManager.getConnection();
 		 OracleCallableStatement stmt=null;
+	
+		 String filterQuery=getFilterQuery(selection);
+		 					
+		 System.out.println(filterQuery);
+		    try
+			  {
+			
+				System.out.println("Procedure jobseekerSelection Begins");
+				 stmt = (OracleCallableStatement) conn.prepareCall(
+						 	  "{ call jobseekerSelection(?,?,?,?,?,?,?,?,?,?,?,?) }");
+				 
+
+			 		stmt.setString(1,  filterQuery);
+				    stmt.setString(2, selection.getAgentId());
+				    stmt.setString(3, selection.getWorkOrder());
+				    stmt.setString(4, selection.getCountryPreference());
+				    stmt.setString(5, selection.getGender());
+				    stmt.setString(6, selection.getLanguages());
+				    stmt.setString(7, selection.getJobPreference());
+				    stmt.setString(8, selection.getJobExperience());
+				    stmt.setString(9, selection.getYearOfExperience());
+			 		stmt.setInt(10,  Integer.parseInt(selection.getWorkOrderTotal()));
+			 		stmt.setInt(11,  Integer.parseInt(selection.getSuggestedTotal()));
+					stmt.registerOutParameter(12, java.sql.Types.NUMERIC);
+					stmt.executeUpdate();
+					responseCode = stmt.getInt(12);
+					System.out.println("Response : " + responseCode);
+					}
+				    catch (Exception e){e.printStackTrace();}
+			 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+						{e.printStackTrace();}stmt = null;conn = null;}
+		 	
+			 		return responseCode;
+	}
+	
+	public String getFilterQuery(SelectionParamDTO selection){
 		 String[] jobPrefArr=selection.getJobPreference().split("@");
 		 String   jobPreQueryStr="";
 		 String   selectValStr="";
@@ -421,18 +485,45 @@ public class LotteryDAO {
 		 if(!selection.getJobExperience().equalsIgnoreCase("") && jobExpArr.length>0 && Integer.parseInt(jobExpArr[0].split("#")[0])>0){
 			 for(int i=0;i<jobExpArr.length;i++){
 				 String[] jobExpInd=jobExpArr[i].split("#");
-				 if(jobExpInd.length>2){
+				 if(jobExpInd.length>2 && !jobExpInd[2].equalsIgnoreCase("0")){
 					 String[] subSubJobExp=jobExpInd[2].split(",");
+					 String s1="";
+					 String s2="";
 					 for(int j=0;j<subSubJobExp.length;j++){
-						 selectValStr=jobExpInd[0]+","+jobExpInd[1]+","+subSubJobExp[j];
-						 jobExpQueryStr+=" (jobExp.JOB_CATEGORY,jobExp.SUB_JOB_CATEGORY,jobExp.SUB_SUB_JOB_CATEGORY) in (select "+selectValStr+" from dual) or";
-						 experienceYearQuery+=" (experience.JOB_CATEGORY,experience.SUB_JOB_CATEGORY,experience.SUB_SUB_JOB_CATEGORY) in (select "+selectValStr+" from dual) or";
+						 
+						 if(jobExpInd[1].equalsIgnoreCase("0") || jobExpInd[1].equalsIgnoreCase("")){
+							 s1=" (jobExp.JOB_CATEGORY)";
+							 s2=" (experience.JOB_CATEGORY)";
+							 selectValStr=jobExpInd[0];
+						 }
+						 else{
+							 s1=" (jobExp.JOB_CATEGORY,jobExp.SUB_JOB_CATEGORY,jobExp.SUB_SUB_JOB_CATEGORY)";
+							 s2=" (experience.JOB_CATEGORY,experience.SUB_JOB_CATEGORY,experience.SUB_SUB_JOB_CATEGORY)";
+							 
+							 selectValStr=jobExpInd[0]+","+jobExpInd[1]+","+subSubJobExp[j];
+						 }
+					     
+						 jobExpQueryStr+=s1+"  in (select "+selectValStr+" from dual) or";
+						 experienceYearQuery+=s2+"  in (select "+selectValStr+" from dual) or";
 					 }
 				 }
 				 else{
-					 selectValStr=jobExpInd[0]+","+jobExpInd[1];
-					 jobExpQueryStr+=" (jobExp.JOB_CATEGORY,jobExp.SUB_JOB_CATEGORY,jobExp.SUB_SUB_JOB_CATEGORY) in (select "+selectValStr+" from dual) or";
-					 experienceYearQuery+=" (experience.JOB_CATEGORY,experience.SUB_JOB_CATEGORY,experience.SUB_SUB_JOB_CATEGORY) in (select "+selectValStr+" from dual) or";
+					 String s1="";
+					 String s2="";
+					 
+					 if(jobExpInd[1].equalsIgnoreCase("0") || jobExpInd[1].equalsIgnoreCase("")){
+						 s1=" (jobExp.JOB_CATEGORY)";
+						 s2=" (experience.JOB_CATEGORY)";
+						 selectValStr=jobExpInd[0];
+					 }
+					 else{
+						 s1=" (jobExp.JOB_CATEGORY,jobExp.SUB_JOB_CATEGORY)";
+						 s2=" (experience.JOB_CATEGORY,experience.SUB_JOB_CATEGORY)";
+						 selectValStr=jobExpInd[0]+","+jobExpInd[1];
+					 }
+					 
+					 jobExpQueryStr+=s1+"  in (select "+selectValStr+" from dual) or";
+					 experienceYearQuery+=s2+" in (select "+selectValStr+" from dual) or";
 				 }
 			 }
 		 }
@@ -461,37 +552,8 @@ public class LotteryDAO {
 		 					genderQueryString+" "+languageQueryString+" "+countryQueryString+
 		 					" " +jobPreQueryStr+" "+experienceYearQuery +")";
 		 					//" " +jobPreQueryStr+" "+jobExpQueryStr+" "+experienceYearQuery +")";
-		 					
-		 System.out.println(filterQuery);
-		    try
-			  {
-			
-				System.out.println("Procedure jobseekerSelection Begins");
-				 stmt = (OracleCallableStatement) conn.prepareCall(
-						 	  "{ call jobseekerSelection(?,?,?,?,?,?,?,?,?,?,?,?) }");
-				 
-
-			 		stmt.setString(1,  filterQuery);
-				    stmt.setString(2, selection.getAgentId());
-				    stmt.setString(3, selection.getWorkOrder());
-				    stmt.setString(4, selection.getCountryPreference());
-				    stmt.setString(5, selection.getGender());
-				    stmt.setString(6, selection.getLanguages());
-				    stmt.setString(7, selection.getJobPreference());
-				    stmt.setString(8, selection.getJobExperience());
-				    stmt.setString(9, selection.getYearOfExperience());
-			 		stmt.setInt(10,  Integer.parseInt(selection.getWorkOrderTotal()));
-			 		stmt.setInt(11,  Integer.parseInt(selection.getSuggestedTotal()));
-					stmt.registerOutParameter(12, java.sql.Types.NUMERIC);
-					stmt.executeUpdate();
-					responseCode = stmt.getInt(12);
-					System.out.println("Response : " + responseCode);
-					}
-				    catch (Exception e){e.printStackTrace();}
-			 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
-						{e.printStackTrace();}stmt = null;conn = null;}
-		 	
-			 		return responseCode;
+		
+		 return filterQuery;
 	}
 	
 	public int getTotalRegisteredJobseeker(String districtId)

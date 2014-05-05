@@ -39,6 +39,8 @@ public class SelectedEmpDTO {
 	private String motherName;
 	private String mailingAddress;
 	private String presentAddress;
+	private String district;
+	private String age;
 	
 	public String getJobseekerId() {
 		return jobseekerId;
@@ -262,6 +264,18 @@ public class SelectedEmpDTO {
 	}
 	public void setPresentAddress(String presentAddress) {
 		this.presentAddress = presentAddress;
+	}	
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	public String getAge() {
+		return age;
+	}
+	public void setAge(String age) {
+		this.age = age;
 	}
 	public String getDesireFieldValue(String fieldName){
 		
@@ -289,6 +303,10 @@ public class SelectedEmpDTO {
 			return getGender();
 		else if(fieldName.equalsIgnoreCase("ADDRESS"))
 			return getMailingAddress();
+		else if(fieldName.equalsIgnoreCase("DISTRICT"))
+			return getDistrict();
+		else if(fieldName.equalsIgnoreCase("AGE"))
+			return getAge();
 		
 		return null;
 	}

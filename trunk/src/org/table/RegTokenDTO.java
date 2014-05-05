@@ -17,6 +17,8 @@ public class RegTokenDTO {
 	private String insertedOn;
 	private String regToken;
 	
+	private String tokenListString;
+	
 	private String[] tokenList;
 
 	public int getTokenId() {
@@ -139,6 +141,14 @@ public class RegTokenDTO {
 
 	public void setRegToken(String regToken) {
 		this.regToken = regToken;
+	}
+
+	public String getTokenListString() {
+		return tokenListString;
+	}
+
+	public void setTokenListString(String tokenListString) {
+		this.tokenListString = tokenListString;
 	}
 	
 

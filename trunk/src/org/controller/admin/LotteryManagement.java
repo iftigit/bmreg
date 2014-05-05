@@ -3,6 +3,8 @@ package org.controller.admin;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts2.ServletActionContext;
 import org.model.CountryDAO;
 import org.model.JobCategoryDAO;
@@ -38,8 +40,15 @@ public class LotteryManagement extends ActionSupport{
 	String[] selectStatusList;
 	private String msg;
 	private String operationType;
+	private String reportType;
+
+	private String cExpYears;
+	private String cJobExp;
+	private String cJobPreference;
+	private String cGender;
+	private String cCountryPrefernce;
 	
-	
+		
 	public String selectionHome()
 	{
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
@@ -62,7 +71,8 @@ public class LotteryManagement extends ActionSupport{
 			return "logout";
 		}
 
-		int responseCode=LotteryDAO.jobseekerSelection(selection);
+		LotteryDAO lotteryDAO=new LotteryDAO();
+		int responseCode=lotteryDAO.jobseekerSelection(selection);
 		if(responseCode==-11 || responseCode==0){
 			msg="No Jobseeker found for the selected criteria.";
 			agentList=RADAO.getRecruitingAgencyList("all");
@@ -105,6 +115,33 @@ public class LotteryManagement extends ActionSupport{
 			ConnectionManager.closeConnection(conn);
 		}
 		return SUCCESS;
+	}
+	
+	public String fetchJobseekerCount()
+	{
+		HttpServletResponse response = ServletActionContext.getResponse();
+		LotteryDAO lotteryDAO=new LotteryDAO();
+		
+		SelectionParamDTO selection=new SelectionParamDTO();
+		
+		selection.setYearOfExperience(cExpYears);
+		selection.setJobExperience(cJobExp);
+		selection.setJobPreference(cJobPreference);
+		selection.setGender(cGender);
+		selection.setCountryPreference(cCountryPrefernce);
+		
+		
+		int total=lotteryDAO.getTotalJobseeker(selection);
+		
+		try{
+        	response.setContentType("text/html");
+        	response.setHeader("Cache-Control", "no-cache");
+        	response.getWriter().write(String.valueOf(total));
+        	response.flushBuffer();
+          }
+        catch(Exception e) {e.printStackTrace();}
+        
+		return null;
 	}
 	public String fetchSelectionDetail(){
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
@@ -257,6 +294,43 @@ public class LotteryManagement extends ActionSupport{
 	}
 	public void setOperationType(String operationType) {
 		this.operationType = operationType;
-	}	
+	}
+	public String getReportType() {
+		return reportType;
+	}
+	public void setReportType(String reportType) {
+		this.reportType = reportType;
+	}
+	public String getcExpYears() {
+		return cExpYears;
+	}
+	public void setcExpYears(String cExpYears) {
+		this.cExpYears = cExpYears;
+	}
+	public String getcJobExp() {
+		return cJobExp;
+	}
+	public void setcJobExp(String cJobExp) {
+		this.cJobExp = cJobExp;
+	}
+	public String getcJobPreference() {
+		return cJobPreference;
+	}
+	public void setcJobPreference(String cJobPreference) {
+		this.cJobPreference = cJobPreference;
+	}
+	public String getcGender() {
+		return cGender;
+	}
+	public void setcGender(String cGender) {
+		this.cGender = cGender;
+	}
+	public String getcCountryPrefernce() {
+		return cCountryPrefernce;
+	}
+	public void setcCountryPrefernce(String cCountryPrefernce) {
+		this.cCountryPrefernce = cCountryPrefernce;
+	}
+	
 	
 }

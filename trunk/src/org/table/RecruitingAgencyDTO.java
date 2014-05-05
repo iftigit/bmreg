@@ -12,6 +12,7 @@ public class RecruitingAgencyDTO {
 	private String licenseNumber;
 	private String space;
 	private String status;
+	private String pastStatus;
 	private String companyType;
 	private String licenseDate;
 	private String licenseValidTill;
@@ -164,6 +165,12 @@ public class RecruitingAgencyDTO {
 	}
 	public void setCeoSignature(byte[] ceoSignature) {
 		this.ceoSignature = ceoSignature;
+	}
+	public String getPastStatus() {
+		return pastStatus;
+	}
+	public void setPastStatus(String pastStatus) {
+		this.pastStatus = pastStatus;
 	}
 	
 	

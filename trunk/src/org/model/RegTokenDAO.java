@@ -111,5 +111,58 @@ public class RegTokenDAO {
 		return token;
 	}
   
+  public ArrayList<RegTokenDTO> getTokenList(String userId,int tokenId,String fromDate,String toDate){
+		
+	  	RegTokenDTO token=null;
+		Connection conn = ConnectionManager.getConnection();
+		String sql="";
+		
+		if(tokenId==0){
+		
+			if(fromDate!=null && toDate!=null && !fromDate.equalsIgnoreCase("") && !toDate.equalsIgnoreCase("")){
+				sql = " SELECT token_id, tab_to_string(CAST(COLLECT(token||'('||status||')') AS t_varchar2_tab))  " +
+			     " AS tokens,to_char(created_on,'dd-MM-YYYY')created_on_e FROM   DTL_REGISTRATION_TOKEN where userid='"+userId+"' " + 
+			     " and to_date(TO_char (created_on, 'dd-MM-YYYY'),'dd-MM-YYYY')  >=to_date('"+fromDate+"','dd-MM-YYYY') and to_date(TO_char (created_on, 'dd-MM-YYYY'),'dd-MM-YYYY') <=to_date('"+toDate+"','dd-MM-YYYY') "+ 
+			     " GROUP BY token_id,to_char(created_on,'dd-MM-YYYY') order by token_id desc";
+			}
+			else{
+			sql = " SELECT token_id, tab_to_string(CAST(COLLECT(token||'('||status||')') AS t_varchar2_tab))  " +
+				     " AS tokens,to_char(created_on,'dd-MM-YYYY')created_on_e FROM   DTL_REGISTRATION_TOKEN where userid='"+userId+"' " +
+				     " GROUP BY token_id,to_char(created_on,'dd-MM-YYYY') order by token_id desc";
+			}
+		}
+		else
+			  sql = " SELECT token_id, tab_to_string(CAST(COLLECT(token||'('||status||')') AS t_varchar2_tab))  " +
+		            " AS tokens,to_char(created_on,'dd-MM-YYYY')created_on_e FROM   DTL_REGISTRATION_TOKEN where userid='"+userId+"'  and token_Id='"+tokenId+"'" +
+		            " GROUP BY token_id,to_char(created_on,'dd-MM-YYYY') order by token_id desc";
+			
+		ArrayList<RegTokenDTO> tokenList=new ArrayList<RegTokenDTO>();
+		PreparedStatement stmt = null;
+		ResultSet r = null;
+		try
+		{
+			stmt = conn.prepareStatement(sql);
+			r = stmt.executeQuery();
+			while (r.next())
+			{
+				token=new RegTokenDTO();
+												
+				token.setTokenId(r.getInt("token_id"));
+				token.setInsertedOn(r.getString("created_on_e"));
+				token.setTokenListString(r.getString("tokens"));
+
+				tokenList.add(token);
+				
+			}
+		} 
+		catch (Exception e){e.printStackTrace();}
+		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+			{e.printStackTrace();}stmt = null;conn = null;}
+		
+		
+		return tokenList;
+	}
+
+  
 	
 }

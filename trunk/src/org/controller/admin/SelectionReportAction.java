@@ -2,8 +2,13 @@ package org.controller.admin;
 
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,6 +20,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.util.ServletContextAware;
 import org.model.AddressDAO;
@@ -28,6 +34,7 @@ import org.table.UserDTO;
 
 import util.connection.ConnectionManager;
 
+import com.csvreader.CsvWriter;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.ExceptionConverter;
@@ -52,35 +59,22 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 	private InputStream inputStream;
 	AddressDAO addressDAO=new AddressDAO();
 	private String selectionId;
+	private String reportType;
 	
 	public String execute() throws Exception
 	{	
-		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
-		
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");		
 		HttpServletResponse response = ServletActionContext.getResponse();
 		
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ServletOutputStream out = response.getOutputStream();		
-		Document document = new Document(PageSize.A4.rotate());
-
 		if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
 		{
 			return "logout";
 		}
-		
-		
+				
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd__HH-mm-ss",Locale.getDefault());
 		Calendar cal = Calendar.getInstance();
-		
-		
-		String fileName="Selection_Report_"+selectionId+"_"+dateFormat.format(cal.getTime()).toUpperCase()+".pdf";
-		
-		document.setMargins(40, 40, 20, 20);
-		
-		
-		document.addHeader("Selection Report", "");
-		
-		
+		String fileName="Selection_Report_"+selectionId+"_"+dateFormat.format(cal.getTime()).toUpperCase()+"."+reportType;
+
 		JobCategoryDAO jcDAO=new JobCategoryDAO();
 		LotteryDAO lotteryDAO=new LotteryDAO();
 		ArrayList<SelectedEmpDTO> jobseekerList=lotteryDAO.getSelectionDetail(Integer.parseInt(selectionId));
@@ -91,6 +85,14 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		selectionParam.setJobPreferenceDesc(jcDAO.getJobPreferenceDescription(conn,selectionParam.getJobPreference()));
 		selectionParam.setJobExperienceDesc(jcDAO.getJobExperienceDescription(conn,selectionParam.getJobExperience()));
 		ConnectionManager.closeConnection(conn);
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ServletOutputStream out = response.getOutputStream();		
+		
+		if(reportType.equalsIgnoreCase("pdf")){
+		Document document = new Document(PageSize.A4.rotate());
+		document.setMargins(40, 40, 20, 20);
+		document.addHeader("Selection Report", "");
 		
 		
 		PdfPTable ptable = null;
@@ -184,17 +186,89 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 
 			}
 			
-			document.add(ptable);
-		document.close();
-		
+		document.add(ptable);
+		document.close();		
 		response.setHeader("Content-Disposition", "attachment;filename="+fileName);
 		out.write(baos.toByteArray());
 		out.flush();
 
 	
 	}catch(Exception e){e.printStackTrace();}
+	} //End of PDF If
+		else if(reportType.equalsIgnoreCase("csv")){
+							
+			try {
+				// use FileWriter constructor that specifies open for appending
+				//CsvWriter csvOutput = new CsvWriter(new FileWriter(outputFile, true), ',');
+				CsvWriter csvOutput = new CsvWriter(baos, ',',Charset.forName("ISO-8859-1"));
+				
+				
+				csvOutput.write("Agency Name");
+				csvOutput.write(selectionParam.getAgentCompanyName());				
+				csvOutput.write("Demand Letter");
+				csvOutput.write(selectionParam.getWorkOrder());				
+				csvOutput.write("Selection Id");
+				csvOutput.write(String.valueOf(selectionParam.getSelectionId()));
+				csvOutput.endRecord();
+				
+				csvOutput.write("Job Preference");
+				csvOutput.write(selectionParam.getJobPreferenceDesc());				
+				csvOutput.write("Job Experience");
+				csvOutput.write(selectionParam.getJobExperienceDesc());				
+				csvOutput.write("Language");
+				csvOutput.write(selectionParam.getLanguages());
+				csvOutput.endRecord();
+				
+				csvOutput.write("Country Preference");
+				csvOutput.write(selectionParam.getCountryPreference());				
+				csvOutput.write("Gender");
+				csvOutput.write(selectionParam.getGender());				
+				csvOutput.write("Years of Experience");
+				csvOutput.write(selectionParam.getYearOfExperience());
+				csvOutput.endRecord();
+				
+					csvOutput.write("Sl. No.");
+					for(int f=0;f<fieldList.size();f++){
+						csvOutput.write(fieldList.get(f).getFieldCaption());
+					}
+					
+					csvOutput.endRecord();
+				
+				// write out a few records
+				int counter=1;
+				for(int i=0;i<jobseekerList.size();i++)
+				{
+					SelectedEmpDTO seekerDTO =(SelectedEmpDTO)jobseekerList.get(i);
+					
+					csvOutput.write(String.valueOf(counter));
+					for(int f=0;f<fieldList.size();f++){						
+						csvOutput.write(seekerDTO.getDesireFieldValue(fieldList.get(f).getFieldName()));
+					}
+					counter++;
+					
+					csvOutput.endRecord();
+				}
+				
+				csvOutput.close();
+				
+				
+				response.setHeader("Content-Disposition", "attachment;filename="+fileName);
+				response.setContentType("application/csv");
+				out.write(baos.toByteArray());
+				out.flush();
 
-    return null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+			
+	       
+	        
+		} //End of CSV Else if
+    
+		return null;
 	}
 	
 	
@@ -226,6 +300,14 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 
 	public void setSelectionId(String selectionId) {
 		this.selectionId = selectionId;
+	}
+
+	public String getReportType() {
+		return reportType;
+	}
+
+	public void setReportType(String reportType) {
+		this.reportType = reportType;
 	}
 
 	
