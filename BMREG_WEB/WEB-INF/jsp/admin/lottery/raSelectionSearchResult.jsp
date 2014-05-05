@@ -30,8 +30,12 @@
       	<a href="fetchSelectionDetail.action?selectionId=<s:property value='selectionId'/>">View</a>
       	</td>
       	<td width="5%" align="center"  height="25" valign="top">
-      		<a href="selectionReportAction.action?selectionId=<s:property value='selectionId'/>">
-      			Download
+      		<a href="selectionReportAction.action?selectionId=<s:property value='selectionId'/>&reportType=pdf" style="text-decoration: none;">
+      			<img src="/BMREG_WEB/resources/images/pdf.png" />
+      		</a>
+      		&nbsp;&nbsp;
+      		<a href="selectionReportAction.action?selectionId=<s:property value='selectionId'/>&reportType=csv" style="text-decoration: none;">
+      			<img src="/BMREG_WEB/resources/images/csv.png" />
       		</a>
       	</td>   	
         </tr> 

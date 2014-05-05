@@ -28,12 +28,18 @@ var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.g
 
 function fetchRA(raId)
 {
-
+var divId="";
+if(raId=="all"){
+ divId="agencyDiv";
+}
+else
+ divId="singleAgencyDiv";
+ 
  var loadUrl="fetchRaList.action?raId="+raId;
-			jQuery("#agencyDiv")  
+			jQuery("#"+divId)  
 				.html(ajax_load)  
 				.load(loadUrl, {},function(responseText){  
-					jQuery("#agencyDiv").html(responseText);
+					jQuery("#"+divId).html(responseText);
 									   
 				});
 				
@@ -61,7 +67,8 @@ function fetchRA(raId)
 <div class="box" style="margin-top: 50px;width: 900px;text-align: center;">
     <h3>Recruiting Agency List</h3>
 
-	<div id="agencyDiv"></div>    
+    <div id="singleAgencyDiv" style="clear: both;"></div>
+	<div id="agencyDiv" style="clear: both;"></div>    
 
 <br/>     
 

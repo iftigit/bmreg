@@ -37,6 +37,8 @@ function createNewUser()
   var union=$.trim(document.getElementById("PERMANENT_UNION_OR_WARD").value);
   var startDate=$.trim(document.getElementById("startDate").value);
   var endDate=$.trim(document.getElementById("endDate").value);
+  var userName=$.trim(document.getElementById("userName").value);
+  var designation=$.trim(document.getElementById("designation").value);
   
   
   if(userId==""){
@@ -55,7 +57,7 @@ function createNewUser()
    var loadUrl="createNewUser.action";
 			jQuery("#msgDiv")  
 				.html(ajax_load)  
-				.load(loadUrl, {userId:userId,password:password,userType:userType,division:division,district:district,upazila:upazila,union:union,startDate:startDate,endDate:endDate},function(responseText){  
+				.load(loadUrl, {userId:userId,password:password,userType:userType,division:division,district:district,upazila:upazila,union:union,startDate:startDate,endDate:endDate,userName:userName,designation:designation},function(responseText){  
 					jQuery("#msgDiv").html(responseText);
 					alert(responseText);
 					if(responseText.indexOf("Successfully")>=0)
@@ -98,7 +100,7 @@ function createNewUser()
 <div class="box" style="margin-top: 30px;width: 900px;text-align: center;">
     <h3>New User Entry Form</h3>
     <div style="padding-bottom: 30px;">
-    <form action="createNewRa.action" method="post" id="raForm" name="raForm">
+    <form action="" method="post" id="raForm" name="raForm">
     <table width="80%" align="center" border="0">
      	<tr>
      		<td width="15%" align="left">User Id</td>
@@ -168,8 +170,19 @@ function createNewUser()
 			     	
 			    </select>
      		</td>
+     		<td align="left">User Name</td>
+     		<td align="left">
+     		<input type="text" name="userName" id="userName"  value="<s:property value='userName' />" style="border: 1px solid gray;width: 245px;"/>
+     		</td>
+        </tr>
+        <tr>
+     		<td align="left">Designation</td>
+     		<td align="left">
+     			<input type="text" name="designation" id="designation"  value="<s:property value='designation' />" style="border: 1px solid gray;width: 245px;"/>
+     		</td>
      		<td align="left"></td>
      		<td align="left">
+     		
      		</td>
         </tr>
         
