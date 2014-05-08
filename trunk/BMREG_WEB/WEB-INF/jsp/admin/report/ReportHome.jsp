@@ -40,85 +40,23 @@
 <center>
 <br/>
 <div class="box" style="margin-top: 100px;width: 500px;text-align: center;">
-    <h3>Activities</h3>
+    <h3>Available Reports</h3>
     
 <form id="loginForm" name="loginForm" method="post" action="checkValidity.action">    
     <table width="100%" border="0" cellspacing="1" class="infoTable">
     
     
  	<tr>
-     <td style="text-align: center">
-     	<a href="addressEntryHome.action">Address Management</a>
+     <td style="text-align: left">
+     	<a href="demoRegistrationInfo.action">Date-wise Registration Info (for DEMO Office)</a>
      </td>
     </tr>
     <tr>
-     <td style="text-align: center">
+     <td style="text-align: left">
      	<a href="userAdministrationHome.action">User Management(Approval)</a>
      </td>
     </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="newUserForm.action">Create New User</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	Drop down List Management<br/>
-     	<a href="jobCategoryManagement.action">Job Category</a> |
-     	<a href="countryManagement.action">Country</a> |
-     	<a href="degreeNameManagement.action">Educational Qualifications</a> |
-     	<a href="passingYearManagement.action">Passing Year</a>
-     	<br/>
-     	<a href="languageManagement.action">Language</a>
-     	
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	RA Management<br/>
-     	<a href="raEntryHome.action">Create New RA</a> |
-     	<a href="raListHome.action">RA List</a> |
-     	<a href="raSearchHome.action">Search RA</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="regCorrectionHome.action">Registration Correction</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="selectionReportSetting.action">Lottery Report Settings</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="selectionHome.action">Lottery Home</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="raLotteryHome.action">RA Lottery Home</a>
-     </td>
-    </tr> 
-    <tr>
-     <td style="text-align: center">
-     	<a href="reportHome.action">Report Home</a>
-     </td>
-    </tr>    
-    <tr>
-     <td style="text-align: center">
-     	<a href="logout.action">Logout</a>
-     </td>
-    </tr>
-    
-     <tr>
-     <td style="text-align: center" height="20px;">
-     
-     </td>
-    </tr>
-
-    </table>
+   </table>
 </form>    
     
   

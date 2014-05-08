@@ -18,10 +18,14 @@ var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.g
 
 function updateRA()
 {
+ var agentFileRef=$.trim(document.getElementById("agentFileRef").value);
   var companyName=$.trim(document.getElementById("companyName").value);
   var address=$.trim(document.getElementById("address").value);
-  var phone=$.trim(document.getElementById("phone").value);
-  var licenseNumber=$.trim(document.getElementById("licenseNumber").value);
+  var phone=$.trim(document.getElementById("phone").value);  
+  var emailAddress=$.trim(document.getElementById("emailAddress").value);
+  var licenseNumber=$.trim(document.getElementById("licenseNumber").value);  
+  var fax=$.trim(document.getElementById("fax").value);
+  var space=$.trim(document.getElementById("space").value);  
   var status=$.trim(document.getElementById("status").value);
   var statusComments=$.trim(document.getElementById("statusComments").value);  
   var pastStatus=$.trim(document.getElementById("pastStatus").value);
@@ -29,7 +33,14 @@ function updateRA()
   var licenseDate=$.trim(document.getElementById("licenseDate").value);
   var licenseValidTill=$.trim(document.getElementById("licenseValidTill").value);
   var contactPerson=$.trim(document.getElementById("contactPerson").value);
-  var designation=$.trim(document.getElementById("designation").value);
+  var designation=$.trim(document.getElementById("designation").value);  
+  var ministryRef=$.trim(document.getElementById("ministryRef").value);
+  var comments=$.trim(document.getElementById("comments").value);
+  var branch=$.trim(document.getElementById("branch").value);
+  var trainingCenter=$.trim(document.getElementById("trainingCenter").value);
+  var ceoName=$.trim(document.getElementById("ceoName").value);
+  var ceoContactInfo=$.trim(document.getElementById("ceoContactInfo").value);  
+  
   
   if(companyName==""){
    	alert("Please provide Company Name.");
@@ -82,31 +93,26 @@ function updateRA()
    	return;
    }
    
-  var companyName=$.trim(document.getElementById("companyName").value);
-  var address=$.trim(document.getElementById("address").value);
-  var phone=$.trim(document.getElementById("phone").value);
-  var licenseNumber=$.trim(document.getElementById("licenseNumber").value);
-  var status=$.trim(document.getElementById("status").value);
-  var statusComments=$.trim(document.getElementById("statusComments").value);  
-  var pastStatus=$.trim(document.getElementById("pastStatus").value);
-  var companyType=$.trim(document.getElementById("companyType").value);
-  var licenseDate=$.trim(document.getElementById("licenseDate").value);
-  var licenseValidTill=$.trim(document.getElementById("licenseValidTill").value);
-  var contactPerson=$.trim(document.getElementById("contactPerson").value);
-  var designation=$.trim(document.getElementById("designation").value);
+   
   
     var loadUrl="updateRa.action";
 			jQuery("#msgDiv")  
 				.html(ajax_load)  
-				.load(loadUrl, {companyName:companyName,address:address,phone:phone,licenseNumber:licenseNumber,status:status,
-				statusComments:statusComments,pastStatus:pastStatus,companyType:companyType,licenseDate:licenseDate,
-				licenseValidTill:licenseValidTill,contactPerson:contactPerson,designation:designation},function(responseText){  
-					jQuery("#"+divId).html(responseText);
+				.load(loadUrl, {agentFileRef:agentFileRef,companyName:companyName,address:address,phone:phone,emailAddress:emailAddress,licenseNumber:licenseNumber,
+  fax:fax,space:space,status:status,statusComments:statusComments,pastStatus:pastStatus,companyType:companyType,licenseDate:licenseDate,
+  licenseValidTill:licenseValidTill,contactPerson:contactPerson,designation:designation,ministryRef:ministryRef,comments:comments,
+  branch:branch,trainingCenter:trainingCenter,ceoName:ceoName,ceoContactInfo:ceoContactInfo
+  },function(responseText){  
+					
+					if(responseText=="Successfully Update RA Information.")
+							jQuery("#singleAgencyDiv").html(responseText);
+					else
+					   		jQuery("#msgDiv").html(responseText);
 									   
 				});
    
    
-  
+
 }
 </script>
 
@@ -156,7 +162,7 @@ function updateRA()
      				<option  value="L"  <s:if test='%{rAgent.status=="L"}'>selected="selected"</s:if>>L</option>
      				<option  value="S"  <s:if test='%{rAgent.status=="S"}'>selected="selected"</s:if>>S</option>
      			</select>     			
-     			<input type="hidden" name="rAgent.pastStatus" value="<s:property value='rAgent.status' />"/>
+     			<input type="hidden" name="rAgent.pastStatus" id="pastStatus" value="<s:property value='rAgent.status' />"/>
      		</td>
         </tr>
         <tr>
@@ -209,7 +215,7 @@ function updateRA()
         </tr>
     </table>
 <p style="padding-top: 40px;">     
-<input type="button" name="save" value="Crete New RA" style="width: 200px;height: 35px;"  onclick="updateRA()"/>
+<input type="button" name="save" value="Update RA Info" style="width: 200px;height: 35px;"  onclick="updateRA()"/>
 </p>
 <div id="msgDiv"></div>
 </form>
