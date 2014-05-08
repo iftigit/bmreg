@@ -26,6 +26,7 @@ public class RecruitingAgencyDTO {
 	private String ceoContactInfo;
 	private byte[] ceoPhoto;
 	private byte[] ceoSignature;
+	private String statusComments;
 	public String getAgentFileRef() {
 		return agentFileRef;
 	}
@@ -172,6 +173,13 @@ public class RecruitingAgencyDTO {
 	public void setPastStatus(String pastStatus) {
 		this.pastStatus = pastStatus;
 	}
+	public String getStatusComments() {
+		return statusComments;
+	}
+	public void setStatusComments(String statusComments) {
+		this.statusComments = statusComments;
+	}
+	
 	
 	
 }

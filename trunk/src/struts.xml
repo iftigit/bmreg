@@ -514,6 +514,13 @@
 				<param name="inputName">inputStream</param>
 			</result>
 		</action>
+		<action name="updateRa" class="org.controller.admin.JobCategoryManagement" method="updateRa">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
 		
 		<action name="getJobEditPanel" class="org.controller.admin.JobCategoryManagement" method="getJobEditPanel">
 			<result name="success">/WEB-INF/jsp/admin/JobCategoryPanel.jsp</result>
@@ -687,6 +694,23 @@
 				<param name="contentType">text/html</param>
 				<param name="inputName">inputStream</param>
 			</result>
+		</action>
+		
+		<action name="reportHome">
+			<result name="success">/WEB-INF/jsp/admin/report/ReportHome.jsp</result>
+		</action>
+		<action name="demoRegistrationInfo" class="org.controller.report.Report"  method="demoRegistrationInfo">
+			<result name="success">/WEB-INF/jsp/admin/report/DemoRegistrationInfo.jsp</result>
+		</action>
+		
+		<action name="demoRegistrationReport" class="org.controller.report.DemoRegistrationReport">
+			<result type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">inputStream</param>
+			</result>	
+			<result name="logout" type="redirectAction">
+				logout.action
+		    </result>				    
 		</action>
 		
 		
