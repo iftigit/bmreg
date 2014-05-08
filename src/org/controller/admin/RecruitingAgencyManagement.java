@@ -27,10 +27,14 @@ public class RecruitingAgencyManagement extends ActionSupport{
 	private RecruitingAgencyDTO rAgent;
 	private String msg;
 	
+	private String agentFileRef;
 	private String companyName;
 	private String address;
 	private String phone;
+	private String emailAddress;
 	private String licenseNumber;
+	private String fax;
+	private String space;
 	private String status;
 	private String statusComments;
 	private String pastStatus;
@@ -39,7 +43,13 @@ public class RecruitingAgencyManagement extends ActionSupport{
 	private String licenseValidTill;
 	private String contactPerson;
 	private String designation;
-				
+	private String ministryRef;
+	private String comments;
+	private String branch;
+	private String trainingCenter;
+	private String ceoName;
+	private String ceoContactInfo;
+	  			
 	
 	public String fetchRaList()
 	{
@@ -61,6 +71,62 @@ public class RecruitingAgencyManagement extends ActionSupport{
 	}
 	public String createNewRa()
 	{
+		
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	    	Date licenseDate = sdf.parse(rAgent.getLicenseDate());
+	    	Date llisenseValidUpto = sdf.parse(rAgent.getLicenseValidTill());
+	
+	
+	    	if(licenseDate.compareTo(llisenseValidUpto)>0){
+	    		msg="License date cannot be greater than the valid upto date.";
+	    	}
+		}catch(ParseException ex){
+    		ex.printStackTrace();
+    		msg="Incorrect format of License date.";
+    	}
+		
+		if(msg==null || msg.equalsIgnoreCase("")){
+			boolean response=RADAO.createNewRA(rAgent);
+			if(response==true){			
+				msg="Successfully Created new Recruting Agency";
+				rAgent=null;
+			}
+			else
+				msg="Problem in creating new Recruting Agency";
+		}
+		return SUCCESS;
+	}
+	public String updateRa()
+	{
+		rAgent=new RecruitingAgencyDTO();
+		
+		rAgent.setAgentFileRef(agentFileRef);
+		rAgent.setCompanyName(companyName);
+		rAgent.setAddress(address);
+		rAgent.setPhone(phone);
+		rAgent.setEmailAddress(emailAddress);
+		rAgent.setLicenseNumber(licenseNumber);
+		rAgent.setFax(fax);
+		rAgent.setSpace(space);
+		rAgent.setStatus(status);
+		rAgent.setStatusComments(statusComments);
+		rAgent.setPastStatus(pastStatus);
+		rAgent.setPastStatus(pastStatus);
+		rAgent.setCompanyType(companyType);
+		rAgent.setLicenseDate(licenseDate);
+		rAgent.setLicenseValidTill(licenseValidTill);
+		rAgent.setContactPerson(contactPerson);
+		rAgent.setDesignation(designation);
+		rAgent.setMinistryRef(ministryRef);
+		rAgent.setComments(comments);
+		rAgent.setBranch(branch);
+		rAgent.setTrainingCenter(trainingCenter);
+		rAgent.setCeoName(ceoName);
+		rAgent.setCeoContactInfo(ceoContactInfo);
+								
+		HttpServletResponse response = ServletActionContext.getResponse();
+		boolean resp=false;
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 	    	Date licenseDate = sdf.parse(rAgent.getLicenseDate());
@@ -75,20 +141,14 @@ public class RecruitingAgencyManagement extends ActionSupport{
     		msg="Incorrect format of License date.";
     	}
 		if(msg==null || msg.equalsIgnoreCase("")){
-			boolean response=RADAO.createNewRA(rAgent);
-			if(response==true){			
-				msg="Successfully Created new Recruting Agency";
+			resp=RADAO.updateRA(rAgent);
+			if(resp==true){			
+				msg="Successfully Update RA Information.";
 				rAgent=null;
 			}
 			else
-				msg="Problem in creating new Recruting Agency";
-		}
-		return SUCCESS;
-	}
-	public String updateRa()
-	{
-		HttpServletResponse response = ServletActionContext.getResponse();
-		String msg="Error in Add Operation.";
+				msg="Problem in Updating RA Info.";
+		}		
 		
 		try{
         	response.setContentType("text/html");
@@ -213,6 +273,66 @@ public class RecruitingAgencyManagement extends ActionSupport{
 	}
 	public void setDesignation(String designation) {
 		this.designation = designation;
+	}
+	public String getAgentFileRef() {
+		return agentFileRef;
+	}
+	public void setAgentFileRef(String agentFileRef) {
+		this.agentFileRef = agentFileRef;
+	}
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+	public String getFax() {
+		return fax;
+	}
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+	public String getSpace() {
+		return space;
+	}
+	public void setSpace(String space) {
+		this.space = space;
+	}
+	public String getMinistryRef() {
+		return ministryRef;
+	}
+	public void setMinistryRef(String ministryRef) {
+		this.ministryRef = ministryRef;
+	}
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	public String getBranch() {
+		return branch;
+	}
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+	public String getTrainingCenter() {
+		return trainingCenter;
+	}
+	public void setTrainingCenter(String trainingCenter) {
+		this.trainingCenter = trainingCenter;
+	}
+	public String getCeoName() {
+		return ceoName;
+	}
+	public void setCeoName(String ceoName) {
+		this.ceoName = ceoName;
+	}
+	public String getCeoContactInfo() {
+		return ceoContactInfo;
+	}
+	public void setCeoContactInfo(String ceoContactInfo) {
+		this.ceoContactInfo = ceoContactInfo;
 	}
 	
 }

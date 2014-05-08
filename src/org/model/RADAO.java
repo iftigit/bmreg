@@ -164,6 +164,50 @@ public class RADAO {
 
 	}
 	
+	public static boolean updateRA(RecruitingAgencyDTO rAgent)
+	{
+		Connection conn = ConnectionManager.getConnection();
+ 	    String sql = " Update  AGENT_LICENCE set AGENT_FILE_REF=?,COMPANY_NAME=?,ADDRESS=?,PHONE=?,EMAIL=?,FAX=?," +
+	 	                " SPACE=?,STATUS=?,COMPANY_TYPE=?,LICENSEDATE=to_date(?,'dd-MM-YYYY'),LICENSE_VALID_UPTO=to_date(?,'dd-MM-YYYY')," +
+	 	                " MINISTRY_REFERENCE=?,CONTACT_PERSON=?,DESIGNATION=?,COMMENTS=?,BRANCH=?,TRAINING_CENTER=?,CEONAME=?,CEOCONTACTNO=?,STATUS_COMMENTS=? Where LICENCE_NO=?";
+		PreparedStatement stmt = null;
+		boolean resp=false;
+		   
+		try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, rAgent.getAgentFileRef());
+				stmt.setString(2, rAgent.getCompanyName());
+				stmt.setString(3, rAgent.getAddress());
+				stmt.setString(4, rAgent.getPhone());
+				stmt.setString(5, rAgent.getEmailAddress());
+				stmt.setString(6, rAgent.getFax());
+				stmt.setString(7, rAgent.getSpace());
+				stmt.setString(8, rAgent.getStatus());
+				stmt.setString(9, rAgent.getCompanyType());
+				stmt.setString(10, rAgent.getLicenseDate());
+				stmt.setString(11, rAgent.getLicenseValidTill());
+				stmt.setString(12, rAgent.getMinistryRef());
+				stmt.setString(13, rAgent.getContactPerson());
+				stmt.setString(14, rAgent.getDesignation());
+				stmt.setString(15, rAgent.getComments());
+				stmt.setString(16, rAgent.getBranch());
+				stmt.setString(17, rAgent.getTrainingCenter());
+				stmt.setString(18, rAgent.getCeoName());
+				stmt.setString(19, rAgent.getCeoContactInfo());
+				stmt.setString(20, rAgent.getStatusComments());
+				stmt.setString(21, rAgent.getLicenseNumber());
+				if(stmt.executeUpdate()==1)
+					resp=true;
+					
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return resp;
+
+	}
 	public static String getCompanyNameFromAgentId(String agencyId)
 	{
 		
