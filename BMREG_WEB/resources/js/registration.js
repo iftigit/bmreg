@@ -6,7 +6,7 @@ cntL[0] = 0;
 var cntT = new Array(1);
 cntT[0] = 0;
 var cnt1 = new Array(1);
-cnt1[0] = 0;
+cnt1[0] = 100;
 var table1;
 var eduTab = 100;
 var lanTab = 201;
@@ -349,7 +349,7 @@ function defaultLanguageLoad() {
 	// document.getElementById("languageNumber").value=cnt[row];
 	return cntL[row];
 }
-function defaultTrainingLoad1() {
+function defaultTrainingLoad() {
 	row = 0;
 	var elementTrainingName = document.createElement("input");
 	elementTrainingName.id = "trainingName" + cntT[row];
@@ -453,7 +453,7 @@ function defaultTrainingLoad1() {
 	// document.getElementById("languageNumber").value=cnt[row];
 	return cntT[row];
 }
-function addMoreTraining1() {
+function addMoreTraining() {
 	row = 0;
 	var elementTrainingName = document.createElement("input");
 	elementTrainingName.id = "trainingName" + cntT[row];
@@ -559,7 +559,7 @@ function addMoreTraining1() {
 var selectTrainingName;
 var elementTrainingName;
 var toId;
-function defaultTrainingLoad() {
+function defaultTrainingLoad1() {
 	row = 0;
 	var elementTrainingFrom = document.createElement("input");
 	elementTrainingFrom.id = "trainingFrom" + cnt1[row];
@@ -645,11 +645,11 @@ function defaultTrainingLoad() {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingDuration" + elementDelete.value).style.display = "none";
+			document.getElementById("selectTrainingDuration" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingDesc" + elementDelete.value).style.display = "none";
 			document.getElementById("train_delete" + elementDelete.value).style.display = "none";
-			document.getElementById("train_column1" + elementDelete.value).style.display = "none";
-			document.getElementById("train_column2" + elementDelete.value).style.display = "none";
-			document.getElementById("train_column3" + elementDelete.value).style.display = "none";
-			document.getElementById("train_column4" + elementDelete.value).style.display = "none";
+			//document.getElementById("train_column4" + elementDelete.value).style.display = "none";
 			return false;
 		}, true);
 		selectTrainingFrom.addEventListener("change", function () {
@@ -711,7 +711,7 @@ function defaultTrainingLoad() {
 
 
 //  alert(document.getElementById("trainingName0"));
-	table2 = document.getElementById("trainingFromTable");
+	table2 = document.getElementById("trainingFromTable1");
 	table2.style.border = "0px";
 	newRow = table2.insertRow(table2.rows.length);
 	newRow.style.border = "0px";
@@ -720,7 +720,7 @@ function defaultTrainingLoad() {
 	newCell.appendChild(elementTrainingFrom);
 	newCell.appendChild(selectTrainingFrom);
 	newRow.id = "train_column2" + cnt1[row];
-	table1 = document.getElementById("trainingNameTable");
+	table1 = document.getElementById("trainingNameTable1");
 	table1.style.border = "0px";
 	newRow = table1.insertRow(table1.rows.length);
 	newRow.style.border = "0px";
@@ -729,7 +729,7 @@ function defaultTrainingLoad() {
 	newCell.appendChild(elementTrainingName);
 	newCell.appendChild(selectTrainingName);
 	newRow.id = "train_column1" + cnt1[row];
-	table3 = document.getElementById("trainingDurationTable");
+	table3 = document.getElementById("trainingDurationTable1");
 	table3.style.border = "0px";
 	newRow = table3.insertRow(table3.rows.length);
 	newRow.style.border = "0px";
@@ -740,7 +740,7 @@ function defaultTrainingLoad() {
 	newCell.style.border = "0px";
 	newCell.appendChild(elementTrainingDuration);
 	newRow.id = "train_column3" + cnt1[row];
-	table4 = document.getElementById("trainingDescTable");
+	table4 = document.getElementById("trainingDescTable1");
 	table4.style.border = "0px";
 	newRow = table4.insertRow(table4.rows.length);
 	newRow.style.border = "0px";
@@ -748,7 +748,7 @@ function defaultTrainingLoad() {
 	newCell.style.border = "0px";
 	newCell.appendChild(elementTrainingDesc);
 	newRow.id = "train_column4" + cnt1[row];
-	table5 = document.getElementById("deleteTrainingTable");
+	table5 = document.getElementById("deleteTrainingTable1");
 	table5.style.border = "0px";
 	newRow = table5.insertRow(table5.rows.length);
 	newRow.style.border = "0px";
@@ -775,7 +775,7 @@ function fetchTradeSuccess(originalRequest) {
 		document.getElementById(toId).appendChild(option);
 	}
 }
-function addMoreTraining() {
+function addMoreTraining1() {
 	row = 0;
 	var elementTrainingFrom = document.createElement("input");
 	elementTrainingFrom.id = "trainingFrom" + cnt1[row];
@@ -928,7 +928,7 @@ function addMoreTraining() {
 
 
 //  alert(document.getElementById("trainingName0"));
-	table2 = document.getElementById("trainingFromTable");
+	table2 = document.getElementById("trainingFromTable1");
 	table2.style.border = "0px";
 	newRow = table2.insertRow(table2.rows.length);
 	newRow.style.border = "0px";
@@ -937,7 +937,7 @@ function addMoreTraining() {
 	newCell.appendChild(elementTrainingFrom);
 	newCell.appendChild(selectTrainingFrom);
 	newRow.id = "train_column2" + cnt1[row];
-	table1 = document.getElementById("trainingNameTable");
+	table1 = document.getElementById("trainingNameTable1");
 	table1.style.border = "0px";
 	newRow = table1.insertRow(table1.rows.length);
 	newRow.style.border = "0px";
@@ -946,7 +946,7 @@ function addMoreTraining() {
 	newCell.appendChild(elementTrainingName);
 	newCell.appendChild(selectTrainingName);
 	newRow.id = "train_column1" + cnt1[row];
-	table3 = document.getElementById("trainingDurationTable");
+	table3 = document.getElementById("trainingDurationTable1");
 	table3.style.border = "0px";
 	newRow = table3.insertRow(table3.rows.length);
 	newRow.style.border = "0px";
@@ -957,7 +957,7 @@ function addMoreTraining() {
 	newCell.style.border = "0px";
 	newCell.appendChild(elementTrainingDuration);
 	newRow.id = "train_column3" + cnt1[row];
-	table4 = document.getElementById("trainingDescTable");
+	table4 = document.getElementById("trainingDescTable1");
 	table4.style.border = "0px";
 	newRow = table4.insertRow(table4.rows.length);
 	newRow.style.border = "0px";
@@ -965,7 +965,7 @@ function addMoreTraining() {
 	newCell.style.border = "0px";
 	newCell.appendChild(elementTrainingDesc);
 	newRow.id = "train_column4" + cnt1[row];
-	table5 = document.getElementById("deleteTrainingTable");
+	table5 = document.getElementById("deleteTrainingTable1");
 	table5.style.border = "0px";
 	newRow = table5.insertRow(table5.rows.length);
 	newRow.style.border = "0px";

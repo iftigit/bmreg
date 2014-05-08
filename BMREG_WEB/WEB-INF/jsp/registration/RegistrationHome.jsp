@@ -108,6 +108,7 @@
 		$(".msgBox").css("display", "none");
 	};	
 	function validateSteps(step){
+	//return true;
 		  var isStepValid = true;
       	// validate step 1
       if(step == 1){
@@ -1958,6 +1959,83 @@ http://rishida.net/tools/conversion/
                     	
                     	
           			</tr>
+
+
+          			
+          			
+          			<tr><td colspan="2">Have you any training from TTC? <input type="radio" name="yn" id="yn1" value="yes"> Yes <input type="radio" name="yn" id="yn2" value="no" checked="checked"> No</td></tr>
+					
+          			<tr id="ttctraining" style="display:none">
+                    	<td align="left" valign="top">Training from TTC</td>
+                    	<td align="left" colspan="2" valign="top">
+                    	   <table align="center" border="0" cellpadding="3" cellspacing="0"
+								width="100%" style="border: 1px solid #d1dcaf;">
+								<tbody>
+									
+									<tr bgcolor="#F2F7E3">
+										<td align="center" width="20%">
+											Training Name<font color="red">*</font>
+										</td>
+										<td align="center"  width="15%">
+											Institute/Training<br/>
+											Center Name<font color="red">*</font>
+										</td>
+										<td align="center"  width="15%">
+											Duration<font color="red">*</font>
+										</td>
+									    <td align="center"  width="30%">
+											Description<font color="red">*</font>
+										</td>
+										<td align="center" >&nbsp;
+										</td>
+									</tr>
+
+									<tr bgcolor="#FAFCF3">
+
+										<td align="center"
+											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
+											id="train_column1">
+											<table width="100%" align="center" id="trainingNameTable1"></table>
+										</td>
+										<td align="center"
+											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
+											id="train_column2">
+											<table width="100%" id="trainingFromTable1" style="margin: 0px;"></table>
+										</td>
+										<td align="center"
+											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
+											id="train_column3">
+											<table width="100%" id="trainingDurationTable1" style="margin: 0px;"></table>
+										</td>
+										<td align="center"
+											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
+											id="train_column4">
+											<table width="100%" id="trainingDescTable1" style="margin: 0px;"></table>
+										</td>
+										
+										<td align="center" valign="top" style="vertical-align: top;padding-top:0px; "
+											id="train_column5">
+												<table width="100%" id="deleteTrainingTable1" style="margin: 0px;"></table>
+										</td>
+									</tr>
+
+									<tr>
+										<td colspan="5" align="center">
+											<input name="val" type="button" value="Add more(if needed)"
+												onclick="addMoreTraining1()" width="42" height="9" tabindex="500" />
+												
+										</td>
+								   </tr>
+								   
+								</tbody>
+							</table>
+							<input type="hidden" id="trainingHidden" name="trainings" value="" />
+							<span id="msg_training"></span>&nbsp;
+							<font style="color:red"><s:label name="sMsg_training"></s:label></font>
+                        </td>
+          			</tr>
+          			
+
           			<tr>
                  	   		<td colspan="3" height="80">&nbsp;</td>
                 	</tr>
@@ -2922,7 +3000,12 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
  else{%>
  <script type="text/javascript">
 $(document).ready(function(){
+	var yn1 = document.getElementById('yn1');
+	var yn2 = document.getElementById('yn2');
+	yn1.onclick = handler;
+    yn2.onclick = handler;
     defaultTrainingLoad();
+    defaultTrainingLoad1();
 	defaultLanguageLoad();
 	defaultLocalExpLoad();
 	defaultAbroadExpLoad();
@@ -2934,6 +3017,13 @@ $(document).ready(function(){
     document.getElementById("passingYear").disabled='true';
 	
 });
+function handler() 
+{
+    if(document.getElementById('yn1').checked)
+    	document.getElementById('ttctraining').style.display = "";
+    else
+    	document.getElementById('ttctraining').style.display = "none";
+}
 function controlDegree(degree)
 {
   if(degree==7)
