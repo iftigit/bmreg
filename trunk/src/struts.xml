@@ -712,9 +712,65 @@
 				logout.action
 		    </result>				    
 		</action>
+		<action name="ttcEntryHome">
+			<result name="success">/WEB-INF/jsp/admin/ttc/TtcEntryForm.jsp</result>
+		</action>
+		<action name="tradeEntryHome">
+			<result name="success">/WEB-INF/jsp/admin/ttc/TradeEntryForm.jsp</result>
+		</action>
+		 
+		<action name="ttcListHome">
+			<result name="success">/WEB-INF/jsp/admin/ttc/TtcListHome.jsp</result>
+		</action>
+		<action name="createNewTtc" class="org.controller.admin.TtcManagement" method="createNewTtc">
+			<result name="success">/WEB-INF/jsp/admin/ttc/TtcEntryForm.jsp</result>
+			<result name="input">/WEB-INF/jsp/admin/ttc/TtcEntryForm.jsp</result>
+		</action>
+		<action name="fetchTtcList" class="org.controller.admin.TtcManagement" method="fetchTtcList">
+			<result name="ttcList">/WEB-INF/jsp/admin/ttc/TtcList.jsp</result>
+			<result name="singleTtc">/WEB-INF/jsp/admin/ttc/TtcDetail.jsp</result>
+		</action>
+		<action name="updateTtc" class="org.controller.admin.TtcManagement" method="updateTtc">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<action name="tradeListHome">
+			<result name="success">/WEB-INF/jsp/admin/ttc/TradeListHome.jsp</result>
+		</action>		
+		<action name="createNewTrade" class="org.controller.admin.TtcManagement" method="createNewTrade">
+			<result name="success">/WEB-INF/jsp/admin/ttc/TradeEntryForm.jsp</result>
+			<result name="input">/WEB-INF/jsp/admin/ttc/TradeEntryForm.jsp</result>
+		</action>
+		<action name="fetchTradeList" class="org.controller.admin.TtcManagement" method="fetchTradeList">
+			<result name="tradeList">/WEB-INF/jsp/admin/ttc/TradeList.jsp</result>
+			<result name="singleTrade">/WEB-INF/jsp/admin/ttc/TradeDetail.jsp</result>
+		</action>
+		<action name="updateTrade" class="org.controller.admin.TtcManagement" method="updateTrade">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>	
+		<action name="ttcTradeMapHome" class="org.controller.admin.TtcManagement" method="ttcTradeMapHome">
+			<result name="success">/WEB-INF/jsp/admin/ttc/TtcTradeMapHome.jsp</result>
+		</action>
+		<action name="fetchTradeListForTTC" class="org.controller.admin.TtcManagement" method="fetchTradeListForTTC">			
+			<result name="success">/WEB-INF/jsp/admin/ttc/TtcTradeMapDetail.jsp</result>
+		</action>
+		<action name="updateTradeListForTTC" class="org.controller.admin.TtcManagement" method="updateTradeListForTTC">			
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
 		
 		
 		
+		
+							
 		<action name="contextHandler" class="org.controller.admin.ContextHandler" >
 			<result type="stream">
 				<param name="contentType">text/xml</param>

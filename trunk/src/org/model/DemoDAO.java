@@ -55,12 +55,16 @@ public class DemoDAO {
 	public HashMap<Integer,ArrayList<DemoDTO>> getDemoWiseTotalRegAmount(String fromDate,String toDate,String demoId)
 	 {
 		   Connection conn = ConnectionManager.getConnection();
-		   String sql = "  Select MAX(MST_DEMO.DEMO_ID) DEMO_ID,MAX(MST_DEMO.DEMO_NAME) DEMO_NAME,PAYMENT_DATE,COUNT(EMP_REG_PAYMENT.JOBSEEKERID) total_reg,SUM(PAYMENT_AMOUNT) total_amount from EMP_REG_PAYMENT,EMP_REG_LOG,MST_USER,MST_DEMO " +
-		   				"  Where Payment_Date>=to_date('11-11-2011','dd-MM-YYYY') and Payment_Date<=to_date('11-11-2014','dd-MM-YYYY') and Payment_Method='Token' " +
+		   String sql = "  Select MAX(MST_DEMO.DEMO_ID) DEMO_ID,MAX(MST_DEMO.DEMO_NAME) DEMO_NAME,to_char(PAYMENT_DATE,'dd-MM-YYYY') PAYMENT_DATE,COUNT(EMP_REG_PAYMENT.JOBSEEKERID) total_reg,SUM(PAYMENT_AMOUNT) total_amount from EMP_REG_PAYMENT,EMP_REG_LOG,MST_USER,MST_DEMO " +
+		   				"  Where Payment_Date>=to_date('"+fromDate+"','dd-MM-YYYY') and Payment_Date<=to_date('"+toDate+"','dd-MM-YYYY') and Payment_Method='Token' " +
 		   				"  And EMP_REG_PAYMENT.JOBSEEKERID=EMP_REG_LOG.JOBSEEKERID " +
 		   				"  And EMP_REG_LOG.REG_BY=MST_USER.USERID " +
-		   				"  And MST_DEMO.DEMO_ID=MST_USER.DEMO_ID " +
-		   				"  GROUP BY PAYMENT_DATE ORDER BY DEMO_NAME"; 
+		   				"  And MST_DEMO.DEMO_ID=MST_USER.DEMO_ID ";
+		   if(!demoId.equalsIgnoreCase("-9"))
+			   sql+=" And MST_DEMO.DEMO_ID="+demoId;
+		   
+		   	   sql+=" GROUP BY to_char(PAYMENT_DATE,'dd-MM-YYYY') ORDER BY DEMO_NAME";
+		   	   
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -126,13 +130,18 @@ public class DemoDAO {
 	public HashMap<Integer,ArrayList<DemoDTO>> getDemoUserWiseTotalRegAmount(String fromDate,String toDate,String demoId)
 	 {
 		   Connection conn = ConnectionManager.getConnection();
-		   String sql = "   Select MAX(MST_DEMO.DEMO_ID) DEMO_ID,MAX(MST_DEMO.DEMO_NAME) DEMO_NAME,MAX(MST_USER.FULL_NAME) FULL_NAME, MAX(MST_USER.DESIGNATION) DESIGNATION,PAYMENT_DATE,COUNT(EMP_REG_PAYMENT.JOBSEEKERID) total_reg,SUM(PAYMENT_AMOUNT) total_amount " +
+		   String sql = "   Select MAX(MST_DEMO.DEMO_ID) DEMO_ID,MAX(MST_DEMO.DEMO_NAME) DEMO_NAME,MAX(MST_USER.FULL_NAME) FULL_NAME, MAX(MST_USER.DESIGNATION) DESIGNATION,to_char(PAYMENT_DATE,'dd-MM-YYYY') PAYMENT_DATE,COUNT(EMP_REG_PAYMENT.JOBSEEKERID) total_reg,SUM(PAYMENT_AMOUNT) total_amount " +
 		   				"   from EMP_REG_PAYMENT,EMP_REG_LOG,MST_USER,MST_DEMO " +
-		   				"   Where Payment_Date>=to_date('11-11-2011','dd-MM-YYYY') and Payment_Date<=to_date('11-11-2014','dd-MM-YYYY') and Payment_Method='Token' " +
+		   				"   Where Payment_Date>=to_date('"+fromDate+"','dd-MM-YYYY') and Payment_Date<=to_date('"+toDate+"','dd-MM-YYYY') and Payment_Method='Token' " +
 		   				"   And EMP_REG_PAYMENT.JOBSEEKERID=EMP_REG_LOG.JOBSEEKERID " +
 		   				"   And EMP_REG_LOG.REG_BY=MST_USER.USERID " +
-		   				"   And MST_DEMO.DEMO_ID=MST_USER.DEMO_ID " +
-		   				"   GROUP BY PAYMENT_DATE,EMP_REG_LOG.REG_BY ORDER BY DEMO_NAME"; 
+		   				"   And MST_DEMO.DEMO_ID=MST_USER.DEMO_ID ";
+		   
+		   if(!demoId.equalsIgnoreCase("-9"))
+			   sql+=" And MST_DEMO.DEMO_ID="+demoId;
+		   
+		   	   sql+="   GROUP BY to_char(PAYMENT_DATE,'dd-MM-YYYY'),EMP_REG_LOG.REG_BY ORDER BY DEMO_NAME";
+		   				 
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -203,11 +212,18 @@ public class DemoDAO {
 	public HashMap<Integer,ArrayList<DemoDTO>> getPayOrderList(String fromDate,String toDate,String demoId)
 	 {
 		   Connection conn = ConnectionManager.getConnection();
-		   String sql = "  Select mst_demo.demo_id,mst_demo.demo_name,inserted_on,pay_order_number,pay_order_bank,total_amount from MST_REGISTRATION_TOKEN,MST_USER,MST_DEMO " +
-		   		   		"  Where inserted_on>=to_date('11-11-2011','dd-MM-YYYY') and inserted_on<=to_date('11-11-2014','dd-MM-YYYY') " +
+		   String sql = "  Select mst_demo.demo_id,mst_demo.demo_name,to_char(inserted_on,'dd-MM-YYYY') inserted_on,pay_order_number,pay_order_bank,total_amount from MST_REGISTRATION_TOKEN,MST_USER,MST_DEMO " +
+		   		   		"  Where inserted_on>=to_date('"+fromDate+"','dd-MM-YYYY') and inserted_on<=to_date('"+toDate+"','dd-MM-YYYY') " +
 		   		   		"  AND MST_REGISTRATION_TOKEN.ASSIGNED_TO=MST_USER.USERID " +
-		   		   		"  AND MST_USER.DEMO_ID=MST_DEMO.DEMO_ID " +
-		   		   		"  order by inserted_on,mst_demo.demo_id ";
+		   		   		"  AND MST_USER.DEMO_ID=MST_DEMO.DEMO_ID ";
+		   
+		   if(!demoId.equalsIgnoreCase("-9"))
+			   sql+=" And MST_DEMO.DEMO_ID="+demoId;
+		   
+		   	   sql+="  order by inserted_on,mst_demo.demo_id ";
+		   				 
+		   
+		   		   		
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;

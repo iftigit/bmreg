@@ -4,6 +4,11 @@ public class TtcDTO {
 	
 	private int ttcId;
 	private String ttcName;
+	private String ttcPrincipal;
+	private String address;
+	private String phone;
+	private String emailAddress;
+	
 	private String interviewDate;
 	
 	public int getTtcId() {
@@ -23,6 +28,30 @@ public class TtcDTO {
 	}
 	public void setInterviewDate(String interviewDate) {
 		this.interviewDate = interviewDate;
+	}
+	public String getTtcPrincipal() {
+		return ttcPrincipal;
+	}
+	public void setTtcPrincipal(String ttcPrincipal) {
+		this.ttcPrincipal = ttcPrincipal;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 	
 	
