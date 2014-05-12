@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="BMREG"
+  name="BMET2013"
   id="myeclipse.1374898796486"
   context-root="/BMREG_WEB"
   j2ee-spec="5.0"
-  archive="BMREG.war">
+  archive="BMET2013.war">
   <attributes>
     <attribute name="webrootdir" value="BMREG_WEB" />
   </attributes>
