@@ -6,6 +6,7 @@ public class TtcTradeDTO {
 	private int Id;
 	private String ttcName;
 	private String interviewDate;
+	private String tradeName;
 	
 	public int getTtcId() {
 		return ttcId;
@@ -30,6 +31,12 @@ public class TtcTradeDTO {
 	}
 	public void setId(int id) {
 		Id = id;
+	}
+	public String getTradeName() {
+		return tradeName;
+	}
+	public void setTradeName(String tradeName) {
+		this.tradeName = tradeName;
 	}
 	
 	
