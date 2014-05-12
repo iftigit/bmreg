@@ -1,8 +1,4 @@
-
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.DateFormat"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.util.Calendar"%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
@@ -30,29 +26,30 @@
 
 var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.gif' border='0' /></center>";
 
-function fetchReport()
+function createNewTtc()
 {
-
-var fromDate=document.getElementById("fromDate").value;
-var toDate=document.getElementById("toDate").value;
-var demoId=document.getElementById("demoId").value;
-
-if(fromDate=="" || toDate=="")
-{
- 	jQuery("#msgDiv").html("<font color='red'>Please provide both From and To Date.</font>");
- 	return;
-} 
-else if(demoId=="")
-{
-    jQuery("#msgDiv").html("<font color='red'>Please select a valid DEMO.</font>");
- 	return;
+  var ttcName=$.trim(document.getElementById("ttcName").value);
+  var ttcPrincipal=$.trim(document.getElementById("ttcPrincipal").value);
+  var address=$.trim(document.getElementById("address").value);
+  var phone=$.trim(document.getElementById("phone").value);
+  var emailAddress=$.trim(document.getElementById("emailAddress").value);
+  
+  if(ttcName==""){
+   	alert("Please provide TTC Name.");
+   	return;
+   }
+  else if(ttcPrincipal==""){
+   	alert("Please provide TTC Principal Name.");
+   	return;
+   }
+   else if(address==""){
+   	alert("Please provide Address.");
+   	return;
+   }   
+   document.ttcForm.submit();
+   
+  
 }
-
-document.demoReport.submit();
-				
-}
-
-
 </script>
 </head>
 <body style="margin: 0px;">
@@ -71,49 +68,34 @@ document.demoReport.submit();
 </div>
 <center>
 <br/>
-<%
-Calendar cal = Calendar.getInstance();
-System.out.println("Today : " + cal.getTime());
-// Subtract 15 days from the calendar
-cal.add(Calendar.DATE, -15);
-
-DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-String toDate = df.format(new Date());
-String fromDate = df.format(cal.getTime());        
-%>
 <div class="box" style="margin-top: 30px;width: 900px;text-align: center;">
-    <h3>Registration Information (for DEMO Office)</h3>
+    <h3>TTC Entry Form</h3>
     <div style="padding-bottom: 30px;">
-    <form action="demoRegistrationReport.action" method="post" id="demoReport" name="demoReport">
+    <form action="createNewTtc.action" method="post" id="ttcForm" name="ttcForm">
     <table width="80%" align="center" border="0">
      	<tr>
-     		<td width="25%" align="left">From Date</td>
-     		<td width="75%" align="left"><input type="text" name="fromDate" id="fromDate" value="<%=fromDate%>" style="border: 1px solid gray;width: 150px;" maxlength="10" />
-     		<font style="font-size: 12px;color: maroon;">[DD-MM-YYYY]</font>
-     		</td>
+     		<td width="30%" align="left">TTC Name</td>
+     		<td width="70%" align="left"><input type="text" name="ttc.ttcName" id="ttcName" value="<s:property value='ttc.ttcName' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
         <tr>
-     		<td align="left">To Date</td>
-     		<td align="left"><input type="text" name="toDate" id="toDate" value="<%=toDate%>" style="border: 1px solid gray;width: 150px;" maxlength="10" />
-     		<font style="font-size: 12px;color: maroon;">[DD-MM-YYYY]</font>
-     		</td>
+     		<td align="left">Principal Name</td>
+     		<td align="left"><input type="text" name="ttc.ttcPrincipal" id="ttcPrincipal" value="<s:property value='ttc.ttcPrincipal' />" style="border: 1px solid gray;width: 200px;" /></td>
         </tr>
         <tr>
-     		<td align="left">DEMO Office</td>
-     		<td align="left">
-     			<select style="border:1px solid grey;width:300px;" name="demoId" id="demoId">
-     			 <option value="">Select DEMO</option>     			 
-     			 <s:iterator value="demoList">
-     			  <option value="<s:property value="demoId" />"><s:property value="demoName" /> [<s:property value="demoDistrictName" />]</option>
-     			 </s:iterator>
-     			 <option value="-9">All DEMO</option>
-     			</select>
-     		</td>
+     		<td align="left">Address</td>
+     		<td align="left"><textarea name="ttc.address" id="address" style="border: 1px solid gray;" cols="22" ><s:property value='ttc.address' /></textarea></td>
+        </tr>              
+        <tr>
+     		<td align="left">Phone</td>
+     		<td align="left"><input type="text" name="ttc.phone" id="phone" value="<s:property value='ttc.phone' />" style="border: 1px solid gray;width: 200px;width: 200px;" /></td>
         </tr>
+        <tr>
+     		<td align="left">Email</td>
+     		<td align="left"><input type="text" name="ttc.emailAddress" id="emailAddress" value="<s:property value='ttc.emailAddress' />" style="border: 1px solid gray;width: 200px;width: 200px;" /></td>        
+        </tr>            
     </table>
-
 <p style="padding-top: 40px;">     
-<input type="button" name="generateReport" value="Generate Report" style="width: 200px;height: 35px;"  onclick="fetchReport()"/>
+<input type="button" name="save" value="Crete New TTC" style="width: 200px;height: 35px;"  onclick="createNewTtc()"/>
 </p>
 </form>
 </div>
@@ -125,8 +107,12 @@ String fromDate = df.format(cal.getTime());
 </div>
 <p id="msgDiv"></p>
 </center>
+<script type="text/javascript">
+<s:if test='msg != null'>
+  alert("<s:property value='msg' />");  
+</s:if>
 
+</script>
 </body>
 
 </html>
-

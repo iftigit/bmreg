@@ -83,6 +83,16 @@
     </tr>
     <tr>
      <td style="text-align: center">
+     	TTC Management<br/>
+     	<a href="ttcEntryHome.action">New TTC</a> |
+     	<a href="ttcListHome.action">TTC List</a> |
+     	<a href="tradeEntryHome.action">New Trade</a> |
+     	<a href="tradeListHome.action">Trade List</a> |
+     	<a href="ttcTradeMapHome.action">TTC-Trade Map</a>
+     </td>
+    </tr>
+    <tr>
+     <td style="text-align: center">
      	<a href="regCorrectionHome.action">Registration Correction</a>
      </td>
     </tr>
