@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.util.ServletContextAware;
 import org.model.DemoDAO;
+import org.model.RegistrationDAO;
+import org.model.SettingsDAO;
 import org.table.DemoDTO;
 import org.table.UserDTO;
 
@@ -39,16 +41,15 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class DemoRegistrationReport extends ActionSupport implements ServletContextAware{
-	
-	private static final long serialVersionUID = 9203852155056386824L;
+public class OpenUserRegReport extends ActionSupport implements ServletContextAware{
+
+	private static final long serialVersionUID = 1L;
 	private InputStream inputStream;
 	private String fromDate;
 	private String toDate;
-	private String demoId;
+	private String userId;
 	private String reportMsg;
-	
-	
+
 	public String execute() throws Exception
 	{	
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");		
@@ -61,269 +62,136 @@ public class DemoRegistrationReport extends ActionSupport implements ServletCont
 				
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd__HH-mm-ss",Locale.getDefault());
 		Calendar cal = Calendar.getInstance();
-		String fileName="RegistrationReport_DEMO_"+demoId+"_"+dateFormat.format(cal.getTime()).toUpperCase()+".pdf";
+		String fileName="OpenUserReport_"+userId+"_"+dateFormat.format(cal.getTime()).toUpperCase()+".pdf";
 
-		DemoDAO demoDAO=new DemoDAO();
-		ArrayList<DemoDTO> demoList= demoDAO.getDemoList();
-		HashMap<Integer,ArrayList<DemoDTO>> demoTotalList= demoDAO.getDemoWiseTotalRegAmount(fromDate, toDate, demoId);
+		RegistrationDAO regDAO=new RegistrationDAO();
+		ArrayList<UserDTO> userList=regDAO.userWiseRegCountList(fromDate,toDate,userId);
 		
-		if(demoTotalList==null || demoTotalList.size()==0){
+		if(userList==null || userList.size()==0){
 			reportMsg="No data found for the selected criteria.";
 			return "error";
 		}
-		HashMap<Integer,ArrayList<DemoDTO>> demoUserWiseTotalList= demoDAO.getDemoUserWiseTotalRegAmount(fromDate, toDate, demoId);
-		HashMap<Integer,ArrayList<DemoDTO>> payOrderList= demoDAO.getPayOrderList(fromDate, toDate, demoId);
+		int registrationFee=SettingsDAO.getRegistrationFeeAmount();
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ServletOutputStream out = response.getOutputStream();		
 		
 		Document document = new Document(PageSize.A4);
 		document.setMargins(40, 40, 20, 20);
-		document.addHeader("DEMO-Wise Registration Report", "");
+		document.addHeader("Open User Registration Report", "");
 		
-		
-		PdfPTable ptable1 = null;
-		PdfPTable ptable2 = null;
-		PdfPTable ptable3 = null;
+		PdfPTable ptable = null;
+		PdfPCell pcell=null;
 		try{
 			
-			DemoRegistrationReportEvent eEvent = new DemoRegistrationReportEvent(servlet);
+			OpenUserRegReportEvent eEvent = new OpenUserRegReportEvent(servlet);
 			
 			Font font1 = new Font(Font.COURIER, 8, Font.BOLD); 
 			font1.setColor(new Color(0x92, 0x90, 0x83));
 			Font fontt = FontFactory.getFont("Helvetica", 8, Font.NORMAL,Color.BLACK);			
 			Font fontb = FontFactory.getFont("Helvetica", 8, Font.BOLD,Color.BLACK);
 			
-			
-			
-			PdfPCell pcell=null;
-			
-			for(int i=0;i<demoList.size();i++)
+			UserDTO user=null;
+			String preUserId="";
+			for(int i=0;i<userList.size();i++)
 			{
-					
-				
-				eEvent.setDisplayValue(demoList.get(i).getDemoName()+"#"+fromDate+"#"+toDate+"#");
+				user=userList.get(i);								
+				eEvent.setDisplayValue(userList.get(i).getUserName()+"#"+fromDate+"#"+toDate+"#");
 				if(i==0){	
 					PdfWriter.getInstance(document, baos).setPageEvent(eEvent);
 					document.open();
 					}				
-		
-				
-				ArrayList<DemoDTO> demoTotalArr=demoTotalList.get(demoList.get(i).getDemoId());
-				
-				if(demoTotalArr!=null){
-				for(int i1=0;i1<demoTotalArr.size();i1++){
-					if(i1==0){	
-						ptable1 = new PdfPTable(3);
-						ptable1.setHeaderRows(1);
-						ptable1.setWidthPercentage(100);
-						ptable1.setWidths(new float[]{20,30,50});
 						
-						pcell=new PdfPCell(new Paragraph("Date",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
-						ptable1.addCell(pcell);
-						
-						pcell=new PdfPCell(new Paragraph("Total Registration",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable1.addCell(pcell);
-						
-						pcell=new PdfPCell(new Paragraph("Amount(BDT)",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable1.addCell(pcell);
-						
-						}				
-					pcell=new PdfPCell(new Paragraph(demoTotalArr.get(i1).getPaymentDate(),fontt));
+				if(preUserId.equalsIgnoreCase(user.getUserId())){
+					
+					pcell=new PdfPCell(new Paragraph(user.getRegDate(),fontt));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
-					ptable1.addCell(pcell);
+					ptable.addCell(pcell);
 					
-					pcell=new PdfPCell(new Paragraph(demoTotalArr.get(i1).getTotalRegistration()+"",fontt));
+					pcell=new PdfPCell(new Paragraph(String.valueOf(user.getToalReg()),fontt));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable1.addCell(pcell);
+					ptable.addCell(pcell);
 					
-					pcell=new PdfPCell(new Paragraph(demoTotalArr.get(i1).getTotalAmount()+"",fontt));
+					pcell=new PdfPCell(new Paragraph(String.valueOf(user.getToalReg()*registrationFee),fontt));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable1.addCell(pcell);
-					
+					ptable.addCell(pcell);
 				}
-				ptable1.setSpacingAfter(20f);
-				document.add(ptable1);
-				}
-				
-				
-				
-				ArrayList<DemoDTO> demoUserWiseTotalArr=demoUserWiseTotalList.get(demoList.get(i).getDemoId());
-				
-				if(demoUserWiseTotalArr!=null){
-				for(int i1=0;i1<demoUserWiseTotalArr.size();i1++){
-					if(i1==0){	
-						ptable2 = new PdfPTable(5);
-						ptable2.setHeaderRows(1);
-						ptable2.setWidthPercentage(100);
-						ptable2.setWidths(new float[]{10,20,20,20,30});
-						
-						pcell=new PdfPCell(new Paragraph("Date",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
-						ptable2.addCell(pcell);
-						
-						pcell=new PdfPCell(new Paragraph("User",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable2.addCell(pcell);
-						
-						pcell=new PdfPCell(new Paragraph("Designation",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable2.addCell(pcell);
-						
-						pcell=new PdfPCell(new Paragraph("Registration Total",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable2.addCell(pcell);
-						
-						pcell=new PdfPCell(new Paragraph("Total Amount(BDT)",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable2.addCell(pcell);						
-						}				
+				else{
+						if(i!=0){
+							ptable.setSpacingAfter(20f);
+							document.add(ptable);
+							if(i<userList.size()-1){
+								eEvent.setDisplayValue(userList.get(i+1).getUserName()+"#"+fromDate+"#"+toDate+"#");
+								document.newPage();
+							}					
+						}
+					ptable = new PdfPTable(3);
+					ptable.setHeaderRows(1);
+					ptable.setWidthPercentage(100);
+					ptable.setWidths(new float[]{20,30,50});
 					
-					pcell=new PdfPCell(new Paragraph(demoUserWiseTotalArr.get(i1).getPaymentDate(),fontt));
+					pcell=new PdfPCell(new Paragraph("Date",fontb));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
-					ptable2.addCell(pcell);
+					ptable.addCell(pcell);
 					
+					pcell=new PdfPCell(new Paragraph("Total Registration",fontb));
+					pcell.setMinimumHeight(25f);
+					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					ptable.addCell(pcell);
+					
+					pcell=new PdfPCell(new Paragraph("Amount(BDT)",fontb));
+					pcell.setMinimumHeight(25f);
+					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					ptable.addCell(pcell);
 
-					pcell=new PdfPCell(new Paragraph(demoUserWiseTotalArr.get(i1).getUserFullName()+"",fontt));
+					pcell=new PdfPCell(new Paragraph(user.getRegDate(),fontt));
+					pcell.setMinimumHeight(25f);
+					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
+					ptable.addCell(pcell);
+					
+					pcell=new PdfPCell(new Paragraph(String.valueOf(user.getToalReg()),fontt));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable2.addCell(pcell);
+					ptable.addCell(pcell);
 					
-					pcell=new PdfPCell(new Paragraph(demoUserWiseTotalArr.get(i1).getUserDesignation()+"",fontt));
+					pcell=new PdfPCell(new Paragraph(String.valueOf(user.getToalReg()*200),fontt));
 					pcell.setMinimumHeight(25f);
 					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable2.addCell(pcell);
-					
-					pcell=new PdfPCell(new Paragraph(demoUserWiseTotalArr.get(i1).getTotalRegistration()+"",fontt));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable2.addCell(pcell);
-					
-					pcell=new PdfPCell(new Paragraph(demoUserWiseTotalArr.get(i1).getTotalAmount()+"",fontt));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable2.addCell(pcell);
-					
+					ptable.addCell(pcell);
+				}
+				preUserId=user.getUserId();
+				
+				
 			}
-				ptable2.setSpacingAfter(20f);
-				document.add(ptable2);
-				}
-				
-				ArrayList<DemoDTO> payOrderListArr=payOrderList.get(demoList.get(i).getDemoId());
-				
-				if(payOrderListArr!=null){
-				for(int i1=0;i1<payOrderListArr.size();i1++){
-					if(i1==0){	
-						ptable3 = new PdfPTable(4);
-						ptable3.setHeaderRows(1);
-						ptable3.setWidthPercentage(100);
-						ptable3.setWidths(new float[]{10,20,30,40});
-						
-						pcell=new PdfPCell(new Paragraph("Date",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
-						ptable3.addCell(pcell);
-						
-						pcell=new PdfPCell(new Paragraph("Payorder No",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable3.addCell(pcell);
-						
-						pcell=new PdfPCell(new Paragraph("Bank Name",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable3.addCell(pcell);
-												
-						pcell=new PdfPCell(new Paragraph("Total Amount(BDT)",fontb));
-						pcell.setMinimumHeight(25f);
-						pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-						ptable3.addCell(pcell);						
-						}				
-					
-					pcell=new PdfPCell(new Paragraph(payOrderListArr.get(i1).getPaymentDate(),fontt));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);			
-					ptable3.addCell(pcell);
-					
-
-					pcell=new PdfPCell(new Paragraph(payOrderListArr.get(i1).getPayorderNo(),fontt));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable3.addCell(pcell);
-					
-					pcell=new PdfPCell(new Paragraph(payOrderListArr.get(i1).getPayorderBank(),fontt));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable3.addCell(pcell);
-					
-					pcell=new PdfPCell(new Paragraph(payOrderListArr.get(i1).getTotalAmount()+"",fontt));
-					pcell.setMinimumHeight(25f);
-					pcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					pcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					ptable3.addCell(pcell);
-					
+			if(userList!=null && userList.size()>0){
+				eEvent.setDisplayValue(userList.get(userList.size()-1).getUserName()+"#"+fromDate+"#"+toDate+"#");
+				document.newPage();
+				document.add(ptable);
 			}
-				}
-				
-				document.add(ptable3);
-				
-				if(i<demoList.size()-1){
-					eEvent.setDisplayValue(demoList.get(i+1).getDemoName()+"#"+fromDate+"#"+toDate+"#");
-					document.newPage();
-				}
-					
-
+			document.close();		
+			response.setHeader("Content-Disposition", "attachment;filename="+fileName);
+			out.write(baos.toByteArray());
+			out.flush();
 			
-			}	
-		document.close();		
-		response.setHeader("Content-Disposition", "attachment;filename="+fileName);
-		out.write(baos.toByteArray());
-		out.flush();
-
-	
-	}catch(Exception e){e.printStackTrace();
-	reportMsg="Error during report genration. Please contact system administrator.";
-	return "error";
-	}
-    
+		}
+		catch(Exception e){e.printStackTrace();
+		reportMsg="Error during report genration. Please contact system administrator.";
+		return "error";
+		}
+		
 		return null;
 	}
 	
@@ -332,24 +200,11 @@ public class DemoRegistrationReport extends ActionSupport implements ServletCont
 		return reportMsg;
 	}
 
+
 	public void setReportMsg(String reportMsg) {
 		this.reportMsg = reportMsg;
 	}
 
-
-	private ServletContext servlet;
-	
-	public ServletContext getServlet() {
-		return servlet;
-	}
-
-	public void setServlet(ServletContext servlet) {
-		this.servlet = servlet;
-	}
-
-	public void setServletContext(ServletContext servlet) {
-		this.servlet = servlet;
-	}
 
 	public InputStream getInputStream() {
 		return inputStream;
@@ -375,20 +230,32 @@ public class DemoRegistrationReport extends ActionSupport implements ServletCont
 		this.toDate = toDate;
 	}
 
-	public String getDemoId() {
-		return demoId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setDemoId(String demoId) {
-		this.demoId = demoId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	
-	
 
+	private ServletContext servlet;
+	
+	public ServletContext getServlet() {
+		return servlet;
+	}
+
+	public void setServlet(ServletContext servlet) {
+		this.servlet = servlet;
+	}
+
+	public void setServletContext(ServletContext servlet) {
+		this.servlet = servlet;
+	}
 }
 
-class DemoRegistrationReportEvent extends PdfPageEventHelper
+
+class OpenUserRegReportEvent extends PdfPageEventHelper
 {
 	protected ServletContext servlet =null;
 	protected PdfTemplate total;
@@ -402,7 +269,7 @@ class DemoRegistrationReportEvent extends PdfPageEventHelper
 	{
 		this.header = header;
 	}	
-	public DemoRegistrationReportEvent(ServletContext servlet) {
+	public OpenUserRegReportEvent(ServletContext servlet) {
 		
 		this.servlet = servlet;
 		

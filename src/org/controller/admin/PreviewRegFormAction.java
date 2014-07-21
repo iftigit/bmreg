@@ -63,7 +63,7 @@ public class PreviewRegFormAction extends ActionSupport{
 		RegistrationDAO regDao=new RegistrationDAO();
 		ServletActionContext.getRequest().getSession().setAttribute("sessionObj_PersonalInfo", personalDTO);
 		
-		countryList=CountryDAO.getAllCountry();
+		countryList=CountryDAO.getAllCountry(0);
 		String[] countryArr=countryPreferenceIds.split(",");
 		ArrayList<CountryDTO> tmpCountryList=new ArrayList<CountryDTO>();
 		for(int i=0;i<countryList.size();i++)

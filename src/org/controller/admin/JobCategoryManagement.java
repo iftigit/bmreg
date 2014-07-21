@@ -2,6 +2,8 @@
 package org.controller.admin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 import org.model.JobCategoryDAO;
@@ -30,6 +32,11 @@ public class JobCategoryManagement extends ActionSupport{
 	private int jobTypeId;
 	private int visibility;
 	
+	private int pJobCategoryId;
+	private int pJobSubCategoryId;
+	private int pJobSubSubCategoryId;
+	
+	
 	private JobPreferenceDTO jobDTO;
 	
 	private ArrayList<JobPreferenceDTO> mainJobList=new ArrayList<JobPreferenceDTO>();
@@ -39,7 +46,7 @@ public class JobCategoryManagement extends ActionSupport{
 	public String execute()
 	{
 		jobList=JobCategoryDAO.getAllJob();
-		mainJobList=JobCategoryDAO.getAllJob(1);
+		mainJobList=JobCategoryDAO.getAllJob(1,1);
 		return SUCCESS;	
 	}
 	public String saveJobStatus()
@@ -49,8 +56,15 @@ public class JobCategoryManagement extends ActionSupport{
 		
 		boolean resp=JobCategoryDAO.updateJobStatus(jobId, visibility);
 		
-		if(resp==true)
+		if(resp==true){
 			msg="Successfully Updated";
+
+			ArrayList<JobPreferenceDTO> activeJobCategoryList=new ArrayList<JobPreferenceDTO>();
+			activeJobCategoryList=JobCategoryDAO.getAllJob(1,1);
+			ServletActionContext.getServletContext().setAttribute("ACTIVE_JOB_MAIN_CATEGORY", activeJobCategoryList);
+			
+
+		}
 		
 		try{
         	response.setContentType("text/html");
@@ -92,15 +106,53 @@ public class JobCategoryManagement extends ActionSupport{
 	
 	public String getJobEditPanel()
 	{		
-		mainJobList=JobCategoryDAO.getAllJob(1);
-		subJobList=JobCategoryDAO.getSubJobs(categoryId,2);
-		subSubJobList=JobCategoryDAO.getSubJobs(subCategoryId,3);
+		mainJobList=JobCategoryDAO.getAllJob(1,0);
+		subJobList=JobCategoryDAO.getSubJobs(categoryId,2,0);
+		subSubJobList=JobCategoryDAO.getSubJobs(subCategoryId,3,0);
 		jobDTO=new JobPreferenceDTO();
 		jobDTO.setCategoryId(categoryId);
 		jobDTO.setSubCategoryId(subCategoryId);
 		jobDTO.setSubSubCategoryId(subSubCategoryId);
         
 		return SUCCESS;								
+	}
+	public String editJobCategoryMapping(){
+		HttpServletResponse response = ServletActionContext.getResponse();
+		String msg="";
+		
+		if(categoryId!=pJobCategoryId)
+			msg="You are not allowed to change Main Job Category during edit operation.";
+		else{
+		String deleteQuery="delete JOBS_MAPPING where (parent_id,child_id) in (("+pJobCategoryId+","+pJobSubCategoryId+") , ("+pJobSubCategoryId+","+pJobSubSubCategoryId+"))";
+		
+		String insert1="";
+		String insert2="";
+
+		if(subCategoryId!=-99)
+			insert1="INTO JOBS_MAPPING values ("+categoryId+","+subCategoryId+")";
+		if(subSubCategoryId!=-99)
+			insert2="INTO JOBS_MAPPING values ("+subCategoryId+","+subSubCategoryId+")";
+		
+		String insertQuery="INSERT ALL   "+insert1+"  "+insert2+" SELECT * FROM dual";
+		
+
+		boolean resp=MasterDataManagement.editJobMapping(deleteQuery, insertQuery);
+		if(resp==true)
+			msg="Information successfully updated.";
+		else
+			msg="Error during update operation.";
+		}
+		
+		try{
+        	response.setContentType("text/html");
+        	response.setHeader("Cache-Control", "no-cache");
+        	response.getWriter().write(msg);
+        	response.flushBuffer();
+          }
+        catch(Exception e) {e.printStackTrace();}
+        
+		return null;
+
 	}
 	
 	public ArrayList<JobCategoryDTO> getJobList() {
@@ -218,6 +270,24 @@ public class JobCategoryManagement extends ActionSupport{
 	}
 	public void setJobDTO(JobPreferenceDTO jobDTO) {
 		this.jobDTO = jobDTO;
+	}
+	public int getpJobCategoryId() {
+		return pJobCategoryId;
+	}
+	public void setpJobCategoryId(int pJobCategoryId) {
+		this.pJobCategoryId = pJobCategoryId;
+	}
+	public int getpJobSubCategoryId() {
+		return pJobSubCategoryId;
+	}
+	public void setpJobSubCategoryId(int pJobSubCategoryId) {
+		this.pJobSubCategoryId = pJobSubCategoryId;
+	}
+	public int getpJobSubSubCategoryId() {
+		return pJobSubSubCategoryId;
+	}
+	public void setpJobSubSubCategoryId(int pJobSubSubCategoryId) {
+		this.pJobSubSubCategoryId = pJobSubSubCategoryId;
 	}
 	
 	

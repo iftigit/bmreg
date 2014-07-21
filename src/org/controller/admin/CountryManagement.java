@@ -23,7 +23,7 @@ public class CountryManagement extends ActionSupport{
 	
 	public String execute()
 	{
-		countryList=CountryDAO.getAllCountry();
+		countryList=CountryDAO.getAllCountry(0);
 		return SUCCESS;	
 	}
 	
@@ -54,7 +54,7 @@ public class CountryManagement extends ActionSupport{
 	public String updateCountryList(){
 			
 		boolean resp=MasterDataManagement.updateCountryBatch(cList);
-		countryList=CountryDAO.getAllCountry();
+		countryList=CountryDAO.getAllCountry(0);
 		return SUCCESS;
 		
 	}

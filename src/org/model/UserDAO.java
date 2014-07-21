@@ -25,7 +25,7 @@ public class UserDAO {
 		
 		 Connection conn = ConnectionManager.getConnection();
 		   String sql = " Select MST_USER.*,case when sysdate >= start_date then 'yes' else 'no' end S_DATE,case when sysdate <= end_date then 'yes' else 'no' end E_DATE " +
-		   		        " from MST_USER Where userid=? and password=?";
+		   		        " from MST_USER Where userid=? and password=? ";
 		   
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -51,6 +51,7 @@ public class UserDAO {
 					user.setDistrictId(r.getString("DISTRICT_ID"));
 					user.setUpazillaId(r.getString("UPAZILLA_ID"));
 					user.setUnionId(r.getString("UNION_ID"));
+					user.setLoginStatus(r.getInt("LOGIN_STATUS"));
 					
 					String startDate=r.getString("S_DATE");
 					String endDate=r.getString("E_DATE");
@@ -164,6 +165,38 @@ public class UserDAO {
 			return false;
 	}
 	
+	public boolean updateLoginStatus(String userId,int loginStatus)
+	{
+		
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="";
+		 
+		 if(userId.equalsIgnoreCase("allUser"))
+			 sql = " Update MST_USER Set LOGIN_STATUS=?";
+		 else  
+			 sql = " Update MST_USER Set LOGIN_STATUS=? WHERE USERID=? ";
+		   int operation=0;
+		   PreparedStatement stmt = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				
+			    stmt.setInt(1, loginStatus);
+			    if(!userId.equalsIgnoreCase("allUser"))
+			    	stmt.setString(2, userId);
+			    
+			    operation=stmt.executeUpdate();
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		if(operation==1)
+			return true;
+		else
+			return false;
+	}
+
 	public ArrayList<TechnicalTeamDTO> getTechnicalTeam(String districtId)
 	{
 		ArrayList<TechnicalTeamDTO> teamList=new ArrayList<TechnicalTeamDTO>();
@@ -439,5 +472,64 @@ public class UserDAO {
 		return userList;
 	}
 	
+	public ArrayList<UserDTO> getUserListByRoleName(String roleId)
+	{
+		ArrayList<UserDTO> userList=new ArrayList<UserDTO>();
+		UserDTO user=null;
+		
+		 Connection conn = ConnectionManager.getConnection();
+		   String sql = " Select * from mst_user where user_type='"+roleId+"'";
+		   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					user=new UserDTO();
+					
+					user.setUserId(r.getString("USERID"));
+					user.setUserName(r.getString("FULL_NAME"));
+					user.setDesignation(r.getString("DESIGNATION"));
+					
+					userList.add(user);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		
+		return userList;
+	}
+	
+	public static int checkUserIdAvailability(String usreId)
+	{
+		 int count=0;
+		 Connection conn = ConnectionManager.getConnection();
+		   String sql = " Select count(userid) total from mst_user where userid='"+usreId+"'";
+		   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				
+				r = stmt.executeQuery();
+				if (r.next())
+				{
+					count=r.getInt("total");
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		
+		return count;
+	}
 	
 }

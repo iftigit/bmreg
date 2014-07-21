@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.table.CountryDTO;
@@ -68,7 +69,7 @@ public class JobCategoryDAO {
 
 	}
 	
-	public static ArrayList<JobPreferenceDTO> getAllJob(int level)
+	public static ArrayList<JobPreferenceDTO> getAllJob(int level, int searchType)  //0 -> Search All, 1 -> Search only active
 	{
 		   ArrayList<JobPreferenceDTO> jobList=new ArrayList<JobPreferenceDTO>();
 		
@@ -77,8 +78,13 @@ public class JobCategoryDAO {
 	 	   if(level==99)
 	 		  sql = "Select * from MST_JOBS where VISIBILITY=1 order by job_title";
 	 	   else
-	 		    sql = "Select * from MST_JOBS Where level_no="+level+" order by job_title";
-	 		  //sql = "Select * from MST_JOBS Where level_no="+level+" and VISIBILITY=1 order by job_title";
+	 	   {
+	 		   if(searchType==1)
+	 			  sql = "Select * from MST_JOBS Where level_no="+level+" and VISIBILITY=1 order by job_title";
+	 		   else
+	 			   sql = "Select * from MST_JOBS Where level_no="+level+" order by job_title";
+	 		  
+	 	   }
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   JobPreferenceDTO jobDto  = null;
@@ -103,13 +109,19 @@ public class JobCategoryDAO {
 
 	}
 	
-	public static ArrayList<JobPreferenceDTO> getSubJobs(int patentJobId,int level)
+	public static ArrayList<JobPreferenceDTO> getSubJobs(int patentJobId,int level,int searchType) //0 -> Search All, 1 -> Search only active
 	{
 		   ArrayList<JobPreferenceDTO> jobList=new ArrayList<JobPreferenceDTO>();
 		
 	 	   Connection conn = ConnectionManager.getConnection();
 	 	   //String sql = "Select * from MST_JOBS where job_Id in (Select child_id from JOBS_MAPPING where Parent_Id="+patentJobId+") and Level_No="+level+" Order by Job_Title";
-	 	  String sql = "Select * from MST_JOBS where  Level_No="+level+" Order by Job_Title";
+	 	   String sql="";
+	 	   
+	 	  if(searchType==1)
+	 		  sql="Select * from MST_JOBS where  Level_No="+level+" and VISIBILITY=1  Order by Job_Title";
+ 		   else
+ 			  sql="Select * from MST_JOBS where  Level_No="+level+" Order by Job_Title";
+	 	  
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   JobPreferenceDTO jobDto  = null;
@@ -134,12 +146,20 @@ public class JobCategoryDAO {
 
 	}
 
-	public String getJobCagegorySelectBox(int parentJobId,int level,int componentIndex,String selectType)
+	public String getJobCagegorySelectBox(int parentJobId,int level,int componentIndex,String selectType,int allOrActive) //0 -> All, 1 -> active only
 	{
 		
 	 	   Connection conn = ConnectionManager.getConnection();
-		   String sql = " Select * from mst_jobs where job_id in(select child_id from JOBS_MAPPING where parent_id="+parentJobId+")   " +
-		   		        " and level_no="+level+"  order by job_title";
+		   String sql = " Select * from mst_jobs where job_id in(select child_id from JOBS_MAPPING where parent_id="+parentJobId+" " +
+//		   		" union "+
+//                " select job_id from mst_jobs where job_id not in (select child_id from jobs_mapping) and level_no!=1 "+   
+                " )   " +
+		   		" and level_no="+level;
+
+		   if(allOrActive==1)
+			   sql+=" and VISIBILITY=1 ";
+		   
+		   sql+="order by job_title";
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   String selectTxt="&nbsp;";
@@ -246,8 +266,9 @@ public class JobCategoryDAO {
 	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
 				{e.printStackTrace();}stmt = null;conn = null;}
 		
-		if(operation>=1)
+		if(operation>=1){
 			return true;
+		}
 		else
 			return false;
 	}

@@ -65,7 +65,7 @@ public class PreviewRegFormAction extends ActionSupport{
 		ServletActionContext.getRequest().getSession().setAttribute("sessionObj_PersonalInfo", personalDTO);
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
 		
-		countryList=CountryDAO.getAllCountry();
+		countryList=CountryDAO.getAllCountry(1);
 		String[] countryArr=countryPreferenceIds.split(",");
 		ArrayList<CountryDTO> tmpCountryList=new ArrayList<CountryDTO>();
 		for(int i=0;i<countryList.size();i++)
@@ -262,7 +262,7 @@ public class PreviewRegFormAction extends ActionSupport{
 		
 		allRows = this.languages;
 		System.out.println("Language String:"+allRows);
-		if(!allRows.equals(""))
+		if(!allRows.trim().equals(""))
 		{
 			String[] allLanguages=allRows.split("99ifti99");
 			for(int i=0;i<allLanguages.length;i++)
@@ -282,13 +282,13 @@ public class PreviewRegFormAction extends ActionSupport{
 		
 		
 		allRows = this.trainings;
-		System.out.println("Training String:"+allRows);
-		if(!allRows.equals(""))
+		System.out.println("Training String :"+allRows);
+		if(!allRows.trim().equals(""))
 		{
 			String[] allTraining=allRows.split("99ifti99");
 			for(int i=0;i<allTraining.length;i++)
 			{
-				String[] tempTrain=new String[3];
+				String[] tempTrain=new String[4];
 				String hold=allTraining[i];
 				TrainingDTO trainDTO=new TrainingDTO();
 				tempTrain=hold.split("88khayer88");
@@ -582,10 +582,12 @@ public class PreviewRegFormAction extends ActionSupport{
 		//error=true;
 		//addFieldError( "sMsg_mailingAddress", " Correct Mailing Address." );
 		
-		if(regDao.isValidRegToken(loggedInUser.getUserId(),loggedInUser.getUserType(),personalDTO.getRegToken())==false)
-		{
-			addFieldError( "sMsg_regToken", " Not a valid Reg Token." );
-			error=true;
+		if(loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR")){
+			if(regDao.isValidRegToken(loggedInUser.getUserId(),loggedInUser.getUserType(),personalDTO.getRegToken())==false)
+			{
+				addFieldError( "sMsg_regToken", " Not a valid Reg Token." );
+				error=true;
+			}
 		}
 		if(error==true){
 			ServletActionContext.getRequest().getSession().setAttribute("form_error", "form_error");

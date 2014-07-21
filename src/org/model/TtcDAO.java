@@ -116,6 +116,37 @@ public class TtcDAO {
 
 	}
 	
+	public static ArrayList<String> getTradeStringList(String tradeId)
+	{
+		   ArrayList<String> tradeList=new ArrayList<String>();
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql="";
+	 	   if(tradeId.equalsIgnoreCase("all"))
+	 		   sql = "Select * from MST_TRADE";
+	 	   else
+	 		  sql = "Select * from MST_TRADE where id="+tradeId;
+	 	   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					 tradeList.add(r.getString("ID"));
+					 tradeList.add(r.getString("TRADE_NAME"));
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return tradeList;
+
+	}
+	
 	public ArrayList<String> getTradeForTTC(String ttcId)
 	{
 		ArrayList<String> tradeList=new ArrayList<String>();

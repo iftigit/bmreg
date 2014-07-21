@@ -12,12 +12,17 @@ import util.connection.ConnectionManager;
 
 public class CountryDAO {
 	
-	public static ArrayList<CountryDTO> getAllCountry()
+	public static ArrayList<CountryDTO> getAllCountry(int allOrActive)
 	{
 		ArrayList<CountryDTO> countryList=new ArrayList<CountryDTO>();
 		
 	 	   Connection conn = ConnectionManager.getConnection();
-		   String sql = "SELECT COUNTRY_ID,SHORT_NAME,Visibility FROM MST_COUNTRY ORDER BY SHORT_NAME";
+	 	   String sql="";
+	 	   if(allOrActive==0)
+		     sql = "SELECT COUNTRY_ID,SHORT_NAME,Visibility FROM MST_COUNTRY ORDER BY SHORT_NAME";
+	 	   else
+	 		  sql = "SELECT COUNTRY_ID,SHORT_NAME,Visibility FROM MST_COUNTRY where Visibility=1 ORDER BY SHORT_NAME";
+	 	   
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
 		   CountryDTO countryDto  = null;

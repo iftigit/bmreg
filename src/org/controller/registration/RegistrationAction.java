@@ -28,8 +28,8 @@ public class RegistrationAction extends ActionSupport{
 	{
 		//this.rc= PassPhrase.getNext();
 		//countryList=(ArrayList<CountryDTO>)getServletContext().getAttribute("ALL_COUNTRY");
-		countryList=CountryDAO.getAllCountry();
-		languageList=LanguageDAO.getAllLanguage("active");
+		countryList=CountryDAO.getAllCountry(1);
+		languageList=LanguageDAO.getAllLanguage(1);
 		
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
 		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR"))

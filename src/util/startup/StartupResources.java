@@ -18,6 +18,7 @@ import org.model.RegistrationDAO;
 import org.model.RegistrationDAO;
 import org.model.RelationDAO;
 import org.model.TtcDAO;
+import org.model.UserDAO;
 import org.table.AddressDTO;
 import org.table.CountryDTO;
 import org.table.DegreeDTO;
@@ -42,8 +43,12 @@ public class StartupResources  extends HttpServlet {
 	{	
 		super.init(config);
 		
+		UserDAO userDao=new UserDAO();
+		
 		ArrayList<CountryDTO> countryList=new ArrayList<CountryDTO>();
-		countryList=CountryDAO.getAllCountry();
+		ArrayList<CountryDTO> activeCountryList=new ArrayList<CountryDTO>();
+		countryList=CountryDAO.getAllCountry(0);
+		activeCountryList=CountryDAO.getAllCountry(1);
 		
 		ArrayList<RelationDTO> relationList=new ArrayList<RelationDTO>();
 		relationList=RelationDAO.getAllRelation();
@@ -79,6 +84,7 @@ public class StartupResources  extends HttpServlet {
 		
 		
 		config.getServletContext().setAttribute("ALL_COUNTRY", countryList);
+		config.getServletContext().setAttribute("ACTIVE_COUNTRY", activeCountryList);
 		config.getServletContext().setAttribute("ALL_RELATION", relationList);
 		config.getServletContext().setAttribute("ALL_DEGREE", degreeList);
 		
@@ -117,10 +123,13 @@ public class StartupResources  extends HttpServlet {
 		config.getServletContext().setAttribute("ALL_TTC_MAP", ttcMap);
 		
 		ArrayList<JobPreferenceDTO> jobCategoryList=new ArrayList<JobPreferenceDTO>();
-		jobCategoryList=JobCategoryDAO.getAllJob(1);
+		ArrayList<JobPreferenceDTO> activeJobCategoryList=new ArrayList<JobPreferenceDTO>();
+		jobCategoryList=JobCategoryDAO.getAllJob(1,0);
+		activeJobCategoryList=JobCategoryDAO.getAllJob(1,1);
 		HashMap<Integer, String>  jobCategoryMap = new HashMap<Integer, String>();
 				
 		config.getServletContext().setAttribute("ALL_JOB_MAIN_CATEGORY", jobCategoryList);
+		config.getServletContext().setAttribute("ACTIVE_JOB_MAIN_CATEGORY", activeJobCategoryList);
 		
 		for(int i=0;i<jobCategoryList.size();i++)
 		{
@@ -132,11 +141,16 @@ public class StartupResources  extends HttpServlet {
 		
 		
 		ArrayList<JobPreferenceDTO> jobSubCategoryList=new ArrayList<JobPreferenceDTO>();
-		jobSubCategoryList=JobCategoryDAO.getAllJob(2);
+		ArrayList<JobPreferenceDTO> activeJobSubCategoryList=new ArrayList<JobPreferenceDTO>();
+		
+		jobSubCategoryList=JobCategoryDAO.getAllJob(2,0);
+		activeJobSubCategoryList=JobCategoryDAO.getAllJob(2,1);
+		
 		HashMap<Integer, String>  jobSubCategoryMap = new HashMap<Integer, String>();
 		
 		
 		config.getServletContext().setAttribute("ALL_JOB_SUB_CATEGORY", jobSubCategoryMap);
+		config.getServletContext().setAttribute("ACTIVE_JOB_SUB_CATEGORY", activeJobSubCategoryList);
 		
 		for(int i=0;i<jobSubCategoryList.size();i++)
 		{
@@ -149,11 +163,15 @@ public class StartupResources  extends HttpServlet {
 
 	
 		ArrayList<JobPreferenceDTO> allJobList=new ArrayList<JobPreferenceDTO>();
-		allJobList=JobCategoryDAO.getAllJob(99);
+		ArrayList<JobPreferenceDTO> activeJobList=new ArrayList<JobPreferenceDTO>();
+		
+		allJobList=JobCategoryDAO.getAllJob(99,0);
+		activeJobList=JobCategoryDAO.getAllJob(99,1);
 		HashMap<Integer, String>  allJobMap = new HashMap<Integer, String>();
 		
 		
 		config.getServletContext().setAttribute("ALL_JOB", allJobList);
+		config.getServletContext().setAttribute("ACTIVE_JOB", activeJobList);
 		
 		for(int i=0;i<allJobList.size();i++)
 		{
@@ -208,6 +226,7 @@ public class StartupResources  extends HttpServlet {
 		config.getServletContext().setAttribute("ALL_SETTING_PARAM", settingHash);
 		
 		
+		userDao.updateLoginStatus("allUser", 0);
 	
 	}
 
