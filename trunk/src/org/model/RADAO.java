@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.table.CountryDTO;
+import org.table.RaProvidedSelectedDTO;
 import org.table.RecruitingAgencyDTO;
 
 import util.connection.ConnectionManager;
@@ -69,10 +70,17 @@ public class RADAO {
 	public static ArrayList<RecruitingAgencyDTO> searchRecruitingAgency(String agencyName,String agencyLicense)
 	{
 		ArrayList<RecruitingAgencyDTO> agencyList=new ArrayList<RecruitingAgencyDTO>();
-		   if(agencyName.equalsIgnoreCase(""))
-			   agencyName="notassigned";
+//		   if(agencyName.equalsIgnoreCase(""))
+//			   agencyName="notassigned";
 	 	   Connection conn = ConnectionManager.getConnection();
-	 	   String sql="Select * from AGENT_LICENCE Where  lower(COMPANY_NAME) like lower('%"+agencyName+"%') or lower(LICENCE_NO) like lower('%"+agencyLicense+"%')";
+	 	   String sql="";
+	 	   
+	 	   if(!agencyName.trim().equalsIgnoreCase("") && agencyLicense.trim().equalsIgnoreCase(""))
+	 		   sql="Select * from AGENT_LICENCE Where  lower(COMPANY_NAME) like lower('%"+agencyName+"%') ";
+	 	   else if(agencyName.trim().equalsIgnoreCase("") && !agencyLicense.trim().equalsIgnoreCase(""))
+	 		   sql="Select * from AGENT_LICENCE Where  lower(LICENCE_NO) like lower('%"+agencyLicense+"%')";
+	 	  else if(!agencyName.trim().equalsIgnoreCase("") && !agencyLicense.trim().equalsIgnoreCase(""))
+	 		   sql="Select * from AGENT_LICENCE Where  lower(COMPANY_NAME) like lower('%"+agencyName+"%') or lower(LICENCE_NO) like lower('%"+agencyLicense+"%')";
 	 	   
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -234,5 +242,45 @@ public class RADAO {
 	 		
 	 	return companyName;
 
+	}
+	
+	public ArrayList<RaProvidedSelectedDTO> getRaProvidedSelectionList(String fromDate,String toDate,String agentId){
+		   ArrayList<RaProvidedSelectedDTO> psList=new ArrayList<RaProvidedSelectedDTO>();
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql=" Select SELECTION_ID,AGENT_ID,COMPANY_NAME,WO_TOTAL,PROVIDED_TOTAL,fncGetSelectCount(SELECTION_ID) SELECTED_TOTAL,TO_CHAR(SELECTION_DATE,'DD-MM-YYYY') SELECTION_DATE_N " +
+	 	   	  	      " from SELECTION_CRITERIA,AGENT_LICENCE Where Selection_Date>=to_date('"+fromDate+"','DD-MM-YYYY') and Selection_Date<=to_date('"+toDate+"','DD-MM-YYYY') " +
+	 	   	  	      " AND AGENT_LICENCE.LICENCE_NO=SELECTION_CRITERIA.AGENT_ID " +
+	 	   	  	      " ORDER BY SELECTION_DATE";
+	 	   
+	 	   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   RaProvidedSelectedDTO psDTO  = null;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					psDTO=new RaProvidedSelectedDTO();
+					psDTO.setSelectionId(r.getInt("SELECTION_ID"));
+					psDTO.setAgentId(r.getString("AGENT_ID"));
+					psDTO.setCompanyName(r.getString("COMPANY_NAME"));
+					psDTO.setWorkOrderTotal(r.getInt("WO_TOTAL"));
+					psDTO.setProvidedTotal(r.getInt("PROVIDED_TOTAL"));
+					psDTO.setSelectedTotal(r.getInt("SELECTED_TOTAL"));
+					psDTO.setProvidedDate(r.getString("SELECTION_DATE_N"));
+					
+					psList.add(psDTO);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return psList;
+
+	 	  
 	}
 }

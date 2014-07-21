@@ -3,10 +3,12 @@ package org.controller.authentication;
 import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.model.AddressDAO;
 import org.model.LotteryDAO;
+import org.model.RegistrationDAO;
 import org.model.UserDAO;
 import org.table.AddressDTO;
 import org.table.UserDTO;
@@ -96,6 +98,10 @@ public class CheckValidity extends ActionSupport{
 			addActionMessage("Invalid Userid or Password.");
 			return INPUT;
 		}
+		else if(user!=null & user.getLoginStatus()==1){
+			addActionMessage("User is already login from another session. Please close that session at first.");
+			return INPUT;
+		}
 		else
 		{
 				
@@ -117,6 +123,8 @@ public class CheckValidity extends ActionSupport{
 			if(flag==true)
 			{
 				ServletActionContext.getRequest().getSession().setAttribute("loggedInUser", user);
+				userDao.updateLoginStatus(user.getUserId(), 1);
+				user.setLoginStatus(1);
 				if(user.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") || user.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR"))	
 				{
 //					ServletActionContext.getRequest().getSession().setAttribute("OPERATOR_DIVISION", addressDao.getDivision(Integer.parseInt(user.getDivisionId())));
@@ -192,6 +200,29 @@ public class CheckValidity extends ActionSupport{
 				return INPUT;
 			}
 		}
+	}
+	
+	public String checkUserIdAvailability(){
+		HttpServletResponse response = ServletActionContext.getResponse();
+		String msg="";
+		int count=UserDAO.checkUserIdAvailability(userId);
+		
+		if(count==0)
+			msg="available";
+		else
+			msg="notAvailable";
+		
+		try{
+        	response.setContentType("text/html");
+        	response.setHeader("Cache-Control", "no-cache");
+        	response.getWriter().write(msg);
+        	response.flushBuffer();
+          }
+        catch(Exception e) {e.printStackTrace();}
+        
+        RegistrationDAO regDAO=new RegistrationDAO();
+        password=regDAO.getRandomPassword();
+		return null;	
 	}
 
 	public ServletContext getServletContext()

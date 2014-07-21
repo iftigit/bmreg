@@ -54,6 +54,12 @@ public class UserAdministration extends ActionSupport{
 	}
 	public String createNewUser(){
 		
+		int count=UserDAO.checkUserIdAvailability(userId);
+		String msg="";
+		HttpServletResponse response = ServletActionContext.getResponse();
+		
+		if(count==0){
+
 		UserDTO user=new UserDTO();
 		user.setUserId(userId);
 		user.setPassword(password);
@@ -66,13 +72,16 @@ public class UserAdministration extends ActionSupport{
 		user.setToDate(endDate);
 		user.setUserName(userName);
 		user.setDesignation(designation);
+				
 		
-		HttpServletResponse response = ServletActionContext.getResponse();
-		String msg="";
 		boolean resp=UserDAO.createNewUser(user);
 		
 		if(resp==true)
 			msg="Successfully Created New User.";
+		}
+		else{
+			msg="Duplicate userid found.Please use a different userid.";
+		}
 		
 		try{
         	response.setContentType("text/html");

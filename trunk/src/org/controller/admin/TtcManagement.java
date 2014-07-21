@@ -3,6 +3,7 @@ package org.controller.admin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -77,6 +78,19 @@ public class TtcManagement extends ActionSupport{
 			if(response==true){			
 				msg="Successfully Created new TTC";
 				ttc=null;
+				
+				ArrayList<TtcDTO> TTCList=new ArrayList<TtcDTO>();
+				TTCList=TtcDAO.getAllTtc();
+				HashMap<Integer, String>  ttcMap = new HashMap<Integer, String>();						
+				ServletActionContext.getServletContext().setAttribute("ALL_TTC", TTCList);
+				
+				for(int i=0;i<TTCList.size();i++)
+				{
+					ttcMap.put(TTCList.get(i).getTtcId(), TTCList.get(i).getTtcName());
+					
+				}
+				ServletActionContext.getServletContext().setAttribute("ALL_TTC_MAP", ttcMap);
+				
 			}
 			else
 				msg="Problem in creating new TTC";
@@ -102,6 +116,18 @@ public class TtcManagement extends ActionSupport{
 			if(resp==true){			
 				msg="Successfully Update TTC Information.";
 				ttc=null;
+				
+				ArrayList<TtcDTO> TTCList=new ArrayList<TtcDTO>();
+				TTCList=TtcDAO.getAllTtc();
+				HashMap<Integer, String>  ttcMap = new HashMap<Integer, String>();						
+				ServletActionContext.getServletContext().setAttribute("ALL_TTC", TTCList);
+				
+				for(int i=0;i<TTCList.size();i++)
+				{
+					ttcMap.put(TTCList.get(i).getTtcId(), TTCList.get(i).getTtcName());
+					
+				}
+				ServletActionContext.getServletContext().setAttribute("ALL_TTC_MAP", ttcMap);
 			}
 			else
 				msg="Problem in Updating TTC Info.";

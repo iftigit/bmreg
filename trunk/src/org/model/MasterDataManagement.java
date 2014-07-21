@@ -12,6 +12,7 @@ import org.table.DegreeDTO;
 import org.table.PassingYearDTO;
 
 import util.connection.ConnectionManager;
+import util.connection.TransactionManager;
 
 public class MasterDataManagement {
 	
@@ -247,6 +248,35 @@ public class MasterDataManagement {
 			return true;
 		else
 			return false;
+	}
+	
+	public static boolean editJobMapping(String deleteQuery,String insertQuery)
+	{
+		TransactionManager transactionManager=new TransactionManager();
+		Connection conn = transactionManager.getConnection();
+		PreparedStatement stmt = null;
+		boolean response=false;
+		try
+			{
+				stmt = conn.prepareStatement(deleteQuery);
+				stmt.executeUpdate();
+				stmt = conn.prepareStatement(insertQuery);
+				stmt.executeUpdate();
+					
+				transactionManager.commit();
+				response=true;
+			} 
+			catch (Exception e){e.printStackTrace();
+			try {
+				transactionManager.rollback();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+	}
+		finally{try{stmt.close();transactionManager.close();} catch (Exception e)
+		{e.printStackTrace();}stmt = null;conn = null;}
+		
+		return response;
 	}
 	
 }

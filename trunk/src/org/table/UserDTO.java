@@ -16,6 +16,9 @@ public class UserDTO {
 	private String userName;
 	private String designation;
 	
+	private int toalReg;
+	private String regDate;
+	
 	private String authenticationKey;
 	
 	private int isActive;
@@ -24,6 +27,8 @@ public class UserDTO {
 	
 	private String formDate;
 	private String toDate;
+	
+	private int loginStatus;
 	
 	public String getUserId() {
 		return userId;
@@ -128,6 +133,23 @@ public class UserDTO {
 	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
-	
+	public int getToalReg() {
+		return toalReg;
+	}
+	public void setToalReg(int toalReg) {
+		this.toalReg = toalReg;
+	}
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+	public int getLoginStatus() {
+		return loginStatus;
+	}
+	public void setLoginStatus(int loginStatus) {
+		this.loginStatus = loginStatus;
+	}
 	
 }

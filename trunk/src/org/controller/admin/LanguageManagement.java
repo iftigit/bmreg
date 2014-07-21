@@ -21,7 +21,7 @@ public class LanguageManagement extends ActionSupport{
 	
 	public String execute()
 	{
-		languageList=LanguageDAO.getAllLanguage("all");
+		languageList=LanguageDAO.getAllLanguage(0);
 		return SUCCESS;	
 	}
 	
@@ -52,7 +52,7 @@ public class LanguageManagement extends ActionSupport{
 	public String updateLanguageList(){
 			
 		boolean resp=LanguageDAO.updateLanaugeBatch(lList);
-		languageList=LanguageDAO.getAllLanguage("all");
+		languageList=LanguageDAO.getAllLanguage(0);
 		return SUCCESS;
 		
 	}

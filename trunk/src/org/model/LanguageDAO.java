@@ -13,13 +13,13 @@ import util.connection.ConnectionManager;
 
 public class LanguageDAO {
 
-	public static ArrayList<LanguageDTO> getAllLanguage(String slectionType)
+	public static ArrayList<LanguageDTO> getAllLanguage(int allOrActive)
 	{
 		ArrayList<LanguageDTO> languageList=new ArrayList<LanguageDTO>();
 		
 	 	   Connection conn = ConnectionManager.getConnection();
 	 	   String sql="";
-	 	   if(slectionType.equalsIgnoreCase("all"))
+	 	   if(allOrActive==0)
 		      sql = "Select * from MST_LANGUAGE Order by Language_Name";
 	 	   else 
 	 		  sql = "Select * from MST_LANGUAGE Where VISIBILITY=1 Order by Language_Name"; 

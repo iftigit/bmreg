@@ -59,7 +59,7 @@ public class Json extends ActionSupport
 		if(tList==null)
 		{
 			TtcDAO addDAO = new TtcDAO();
-			tList = addDAO.getTrade(TTC);
+			tList = addDAO.getTradeStringList(TTC);
 			tradeList.put("tradeList", tList);
 			getServletContext().setAttribute("TRADE_BY_TTC_"+TTC,tList);
 		}

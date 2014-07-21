@@ -21,6 +21,7 @@ import org.table.NomineeDTO;
 import org.table.PersonalInfoDTO;
 import org.table.SettingDTO;
 import org.table.TrainingDTO;
+import org.table.UserDTO;
 
 import util.connection.ConnectionManager;
 
@@ -151,7 +152,8 @@ public class RegistrationDAO {
 					 }else if(operationType.equalsIgnoreCase("update")){
 						 System.out.println("Procedure Update_RegInfo Begins");
 						 stmt = (OracleCallableStatement) conn.prepareCall(
-								 	  "{ call Update_RegistrationInfo(?,?,?,?,?,?,?,?,?,?," +
+								 	  "{ call Update_RegistrationInfo(" +
+								 	                        "?,?,?,?,?,?,?,?,?,?," +
 						                                    "?,?,?,?,?,?,?,?,?,?, " +
 						                                    "?,?,?,?,?,?,?,?,?,?, " +
 						                                    "?,?,?,?,?,?,?,?,?,?, " +
@@ -277,11 +279,18 @@ public class RegistrationDAO {
 
 						stmt.setString(97, userType);
 						stmt.setString(98, userid);
-						stmt.setString(99, personalDTO.getRegToken());
+						if(operationType.equalsIgnoreCase("new")){
+							stmt.setString(99, personalDTO.getRegToken());
+							stmt.registerOutParameter(100, java.sql.Types.VARCHAR);
+						}
+						else
+							stmt.registerOutParameter(99, java.sql.Types.VARCHAR);
 						
-						stmt.registerOutParameter(100, java.sql.Types.VARCHAR);
 						stmt.executeUpdate();
-						response = (stmt.getString(100)).trim();
+						if(operationType.equalsIgnoreCase("new"))
+							response = (stmt.getString(100)).trim();
+						else
+							response = (stmt.getString(99)).trim();
 						System.out.println("Response : " + response);
 						}
 					    catch (Exception e){e.printStackTrace();return response;}
@@ -532,7 +541,7 @@ public class RegistrationDAO {
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
-		   ArrayList<ExperienceDTO> expList=null;
+		   ArrayList<ExperienceDTO> expList=new ArrayList<ExperienceDTO>();
 		   ExperienceDTO expInfo  = null;
 
 		   
@@ -646,7 +655,7 @@ public class RegistrationDAO {
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
-		   ArrayList<TrainingDTO> trainingList=null;
+		   ArrayList<TrainingDTO> trainingList=new ArrayList<TrainingDTO>();
 		   TrainingDTO trainingInfo  = null;
 
 		   
@@ -1452,5 +1461,59 @@ public class RegistrationDAO {
 		 return jobSeekerList;
 	 }
 	 
+	 public ArrayList<UserDTO> userWiseRegCountList(String fromDate,String toDate,String userId){
+		 ArrayList<UserDTO> userList=null;
+		 
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="";
+		 
+		 if(userId.equalsIgnoreCase("all")){
+			 sql =	" Select to_char(reg_date,'DD-MM-YYYY') REG_DATE,USERID,COUNT(JOBSEEKERID) TOTAL,max(FULL_NAME) FULL_NAME,max(DESIGNATION) DESIGNATION from EMP_REG_LOG,MST_USER Where " +
+		 		    " EMP_REG_LOG.REG_BY=MST_USER.USERID AND MST_USER.USER_TYPE='OPEN_REG_OPERATOR' " +
+		 		    " AND REG_DATE>=TO_DATE('"+fromDate+"','DD-MM-YYYY') AND REG_DATE<=TO_DATE('"+toDate+"','DD-MM-YYYY') " +
+		 		    " GROUP BY to_char(reg_date,'DD-MM-YYYY'),USERID ORDER BY USERID";
+		 	}
+		 else{
+			 sql= " Select to_char(reg_date,'DD-MM-YYYY') REG_DATE,USERID,COUNT(JOBSEEKERID) TOTAL,max(FULL_NAME) FULL_NAME,max(DESIGNATION) DESIGNATION from EMP_REG_LOG,MST_USER Where " +
+	 		      " EMP_REG_LOG.REG_BY=MST_USER.USERID AND MST_USER.USER_TYPE='OPEN_REG_OPERATOR' " +
+	 		      " AND REG_DATE>=TO_DATE('"+fromDate+"','DD-MM-YYYY') AND REG_DATE<=TO_DATE('"+toDate+"','DD-MM-YYYY') " +
+	 		      " AND MST_USER.USERID='"+userId+"'"+
+	 		      " GROUP BY to_char(reg_date,'DD-MM-YYYY'),USERID ORDER BY USERID";
+		 }
+		 
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   UserDTO userDTO=null;
+
+		   int count=0;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while(r.next())
+				{
+					if(count==0)
+						userList=new ArrayList<UserDTO>();
+					
+					userDTO=new UserDTO();
+					userDTO.setRegDate(r.getString("REG_DATE"));
+					userDTO.setUserId(r.getString("USERID"));
+					userDTO.setUserName(r.getString("FULL_NAME"));
+					userDTO.setToalReg(r.getInt("TOTAL"));
+					userDTO.setDesignation(r.getString("DESIGNATION"));
+					userList.add(userDTO);
+					count++;
+					
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 				 		 
+		 return userList;
+	 }
+	 	 
 
 }

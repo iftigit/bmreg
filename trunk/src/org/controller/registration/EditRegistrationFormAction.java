@@ -69,7 +69,7 @@ public class EditRegistrationFormAction extends ActionSupport{
 		HashMap<Integer, String>  jobSubCategoryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_SUB_CATEGORY_MAP");
 		HashMap<Integer, String>  allJobMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_MAP");
 		
-		countryList=CountryDAO.getAllCountry();
+		countryList=CountryDAO.getAllCountry(0);
 
 		allRows = this.localExperience;
 		System.out.println("Local Experience String:"+allRows);		

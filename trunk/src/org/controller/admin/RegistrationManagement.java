@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 import org.model.CountryDAO;
+import org.model.LanguageDAO;
 import org.model.RegistrationDAO;
 import org.omg.CORBA.Request;
 import org.table.AddressDTO;
@@ -41,7 +42,8 @@ public class RegistrationManagement extends ActionSupport{
 	ArrayList<ExperienceDTO> abroadExperienceList=new ArrayList<ExperienceDTO>();
 	ArrayList<ExperienceDTO> experienceList=new ArrayList<ExperienceDTO>();
 	ArrayList<JobPreferenceDTO> jobPreferenceList=new ArrayList<JobPreferenceDTO>();
-	ArrayList<LanguageDTO> languageList=new ArrayList<LanguageDTO>();
+	ArrayList<LanguageDTO> allLanguageList=new ArrayList<LanguageDTO>();
+	ArrayList<LanguageDTO> empLanguageList=new ArrayList<LanguageDTO>();
 	ArrayList<TrainingDTO> trainingList=new ArrayList<TrainingDTO>();
 	private ArrayList<CountryDTO> countryList=new ArrayList<CountryDTO>();
 	
@@ -71,12 +73,18 @@ public class RegistrationManagement extends ActionSupport{
 	public String getRegInfo(){
 	
 		RegistrationDAO regDAO=new RegistrationDAO();
-		personalDTO=regDAO.getPersonalInformation("BLM1300090620N");
-		nomineeDTO=regDAO.getNomineeInformation("BLM1300090620N");
-		educationDTO=regDAO.getEducationInformation("BLM1300090620N");
-		localExperienceList=regDAO.getExperienceList("BLM1300090620N", "1");
-		abroadExperienceList=regDAO.getExperienceList("BLM1300090620N", "2");
-		countryList=CountryDAO.getAllCountry();
+		personalDTO=regDAO.getPersonalInformation(jobseekerNumber);
+		nomineeDTO=regDAO.getNomineeInformation(jobseekerNumber);
+		educationDTO=regDAO.getEducationInformation(jobseekerNumber);
+		localExperienceList=regDAO.getExperienceList(jobseekerNumber, "1");
+		abroadExperienceList=regDAO.getExperienceList(jobseekerNumber, "2");
+		
+		jobPreferenceList=regDAO.getJobPreferenceList(jobseekerNumber);
+		
+		empLanguageList=regDAO.getLanguageList(jobseekerNumber);
+		trainingList=regDAO.getTrainingList(jobseekerNumber);
+		
+		countryList=CountryDAO.getAllCountry(0);
 		ArrayList<CountryDTO> tmpCountryList=new ArrayList<CountryDTO>();
 		String[] countryArr=personalDTO.getCountryPreferenceStr().split("\\|", -1);
 		for(int i=0;i<countryList.size();i++)
@@ -94,13 +102,11 @@ public class RegistrationManagement extends ActionSupport{
 		}
 		countryList=tmpCountryList;
 		
-		jobPreferenceList=regDAO.getJobPreferenceList("BLM1300090620N");
+		allLanguageList=LanguageDAO.getAllLanguage(0);
 		
-		languageList=regDAO.getLanguageList("BLM1300090620N");
-		trainingList=regDAO.getTrainingList("BLM1300090620N");
 		
 			
-		PersonalInfoDTO addressInfo=regDAO.getAddressInfo("BLM1300090620N");
+		PersonalInfoDTO addressInfo=regDAO.getAddressInfo(jobseekerNumber);
 		pAddress=addressInfo.getPermanentAddress();
 		mAddress=addressInfo.getMailingAddress();
 //		personalDTO.setPermanentAddress(pAddress);
@@ -287,13 +293,7 @@ public class RegistrationManagement extends ActionSupport{
 	}
 	public void setJobPreferenceList(ArrayList<JobPreferenceDTO> jobPreferenceList) {
 		this.jobPreferenceList = jobPreferenceList;
-	}
-	public ArrayList<LanguageDTO> getLanguageList() {
-		return languageList;
-	}
-	public void setLanguageList(ArrayList<LanguageDTO> languageList) {
-		this.languageList = languageList;
-	}
+	}	
 	public ArrayList<TrainingDTO> getTrainingList() {
 		return trainingList;
 	}
@@ -305,6 +305,18 @@ public class RegistrationManagement extends ActionSupport{
 	}
 	public void setCountryList(ArrayList<CountryDTO> countryList) {
 		this.countryList = countryList;
+	}
+	public ArrayList<LanguageDTO> getAllLanguageList() {
+		return allLanguageList;
+	}
+	public void setAllLanguageList(ArrayList<LanguageDTO> allLanguageList) {
+		this.allLanguageList = allLanguageList;
+	}
+	public ArrayList<LanguageDTO> getEmpLanguageList() {
+		return empLanguageList;
+	}
+	public void setEmpLanguageList(ArrayList<LanguageDTO> empLanguageList) {
+		this.empLanguageList = empLanguageList;
 	}
 	
 	

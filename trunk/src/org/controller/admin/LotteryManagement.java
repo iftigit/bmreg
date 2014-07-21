@@ -47,6 +47,7 @@ public class LotteryManagement extends ActionSupport{
 	private String cJobPreference;
 	private String cGender;
 	private String cCountryPrefernce;
+	private String cLanguage;
 	
 		
 	public String selectionHome()
@@ -59,8 +60,8 @@ public class LotteryManagement extends ActionSupport{
 		
 
 		agentList=RADAO.getRecruitingAgencyList("all");
-		countryList=CountryDAO.getAllCountry();
-		languageList=LanguageDAO.getAllLanguage("all");
+		countryList=CountryDAO.getAllCountry(0);
+		languageList=LanguageDAO.getAllLanguage(0);
 		return SUCCESS;	
 	}
 	public String jobseekerSelection(){
@@ -76,11 +77,13 @@ public class LotteryManagement extends ActionSupport{
 		if(responseCode==-11 || responseCode==0){
 			msg="No Jobseeker found for the selected criteria.";
 			agentList=RADAO.getRecruitingAgencyList("all");
-			countryList=CountryDAO.getAllCountry();
-			languageList=LanguageDAO.getAllLanguage("all");
+			countryList=CountryDAO.getAllCountry(0);
+			languageList=LanguageDAO.getAllLanguage(0);
+			
 			return "selectionHome";
 		}
 		selectionId=String.valueOf(responseCode);
+		reportType=selection.getReportType();
 		return SUCCESS;
 	}
 	public String raLotteryHome(){
@@ -129,6 +132,7 @@ public class LotteryManagement extends ActionSupport{
 		selection.setJobPreference(cJobPreference);
 		selection.setGender(cGender);
 		selection.setCountryPreference(cCountryPrefernce);
+		selection.setLanguages(cLanguage.equalsIgnoreCase("null")?null:cLanguage);
 		
 		
 		int total=lotteryDAO.getTotalJobseeker(selection);
@@ -330,6 +334,12 @@ public class LotteryManagement extends ActionSupport{
 	}
 	public void setcCountryPrefernce(String cCountryPrefernce) {
 		this.cCountryPrefernce = cCountryPrefernce;
+	}
+	public String getcLanguage() {
+		return cLanguage;
+	}
+	public void setcLanguage(String cLanguage) {
+		this.cLanguage = cLanguage;
 	}
 	
 	

@@ -18,13 +18,15 @@ public class FetchSubJob extends ActionSupport implements ServletContextAware{
 	private int jobLevel;
 	private int componentIndex;
 	private String selectType;
+	private String allOrActive;
+	
 	public String execute()
 	{
 		String res="";
 		
 		HttpServletResponse response = ServletActionContext.getResponse();
 		JobCategoryDAO jcDao=new JobCategoryDAO();
-		res=jcDao.getJobCagegorySelectBox(parentJobId,jobLevel,componentIndex,selectType);
+		res=jcDao.getJobCagegorySelectBox(parentJobId,jobLevel,componentIndex,selectType,Integer.parseInt(allOrActive));
 		
 		
 		try{
@@ -77,5 +79,14 @@ public class FetchSubJob extends ActionSupport implements ServletContextAware{
 		// TODO Auto-generated method stub
 		
 	}
+
+	public String getAllOrActive() {
+		return allOrActive;
+	}
+
+	public void setAllOrActive(String allOrActive) {
+		this.allOrActive = allOrActive;
+	}
+	
 
 }

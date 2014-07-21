@@ -140,7 +140,7 @@ public String execute() throws Exception
 public void validate()
 {
 	RegistrationDAO regDao=new RegistrationDAO();
-	countryList=CountryDAO.getAllCountry();
+	countryList=CountryDAO.getAllCountry(1);
 	
 	HashMap<Integer, String>  countryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_COUNTRY_MAP");
 	HashMap<Integer, String>  jobMainCategoryMap=(HashMap<Integer, String>) getServletContext().getAttribute("ALL_JOB_MAIN_CATEGORY_MAP");
