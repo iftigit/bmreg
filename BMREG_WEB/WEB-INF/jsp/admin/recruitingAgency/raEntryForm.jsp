@@ -1,4 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
@@ -6,8 +9,6 @@
 <%@ page import="org.controller.registration.*" %>
 <%@ page import="java.util.ArrayList" %>
 <head>
-
-
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
 <title>BMET</title>
@@ -77,6 +78,10 @@ function createNewRA()
    	alert("Please provide License Number.");
    	return;
    }
+   else if(licenseNumber.match(' ')){
+           alert("Spaces are not allowed in License Number");
+           return;
+        }
    else if(status==""){
    	alert("Please provide status.");
    	return;
@@ -116,6 +121,15 @@ function createNewRA()
   
 }
 </script>
+<%
+Calendar cal = Calendar.getInstance();
+System.out.println("Today : " + cal.getTime());
+// Subtract 15 days from the calendar
+cal.add(Calendar.DATE, -15);
+
+DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+String todayDate = df.format(new Date());        
+%>
 </head>
 <body style="margin: 0px;">
 
@@ -166,7 +180,14 @@ function createNewRA()
      		<td align="left">Space</td>
      		<td align="left"><input type="text" name="rAgent.space" id="space" value="<s:property value='rAgent.space' />" style="border: 1px solid gray;width: 200px;" /></td>
      		<td align="left">Status</td>
-     		<td align="left"><input type="text" name="rAgent.status" id="status" value="<s:property value='rAgent.status' />" style="border: 1px solid gray;width: 200px;" /></td>
+     		<td align="left">
+     			<select name="rAgent.status" id="status" style="border: 1px solid gray;width: 200px;">
+     				<option  value="none">Select Status</option>
+     				<option  value="L"  <s:if test='%{rAgent.status=="L"}'>selected="selected"</s:if>>Licensed</option>
+     				<option  value="S"  <s:if test='%{rAgent.status=="S"}'>selected="selected"</s:if>>Stop</option>
+     			</select>     		
+     			
+			</td>
         </tr>
         <tr>
      		<td align="left">Company Type</td>
@@ -226,7 +247,12 @@ function createNewRA()
 <s:if test='msg != null'>
   alert("<s:property value='msg' />");  
 </s:if>
-
+</script>
+<script type="text/javascript">
+if(document.getElementById("licenseDate").value=="")
+ document.getElementById("licenseDate").value="<%=todayDate%>";
+if(document.getElementById("licenseValidTill").value=="")
+ document.getElementById("licenseValidTill").value="<%=todayDate%>";
 </script>
 </body>
 

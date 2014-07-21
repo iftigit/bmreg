@@ -93,7 +93,7 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
 		
 			$("#"+waitingDiv) 
 			.html(ajax_url)  
-			.load(url, {parentJobId: parentJobId,jobLevel: level,componentIndex:componentIndex,selectType:selectType},function(responseText){  
+			.load(url, {parentJobId: parentJobId,jobLevel: level,componentIndex:componentIndex,selectType:selectType,allOrActive:0},function(responseText){  
 				if(responseText!="")
 				$("#"+waitingDiv).innerHTML= responseText;
 			});
@@ -104,6 +104,45 @@ function loadEditPanel(mainJobId,subJobId,subSubJobId)
 			jQuery("#addEditPanel")  
 				.html(ajax_load)  
 				.load(loadUrl,{categoryId: mainJobId,subCategoryId: subJobId,subSubCategoryId: subSubJobId},function(responseText){  
+					jQuery("#addEditPanel").html(responseText);
+					setTimeout(function(){window.location.hash = 'listTopAnchor';}, 500);
+				});
+}
+function editJobCategoryMapping()
+{
+var categoryId="-99";
+var subCategoryId="-99";
+var subSubCategoryId="-99";
+var pJobCategoryId="-99";
+var pJobSubCategoryId="-99";
+var pJobSubSubCategoryId="-99";
+
+
+if($("#categoryId"))
+ 	categoryId=$("#categoryId").val();
+if($("#subCategoryId"))
+ 	subCategoryId=$("#subCategoryId").val();
+if($("#subSubCategoryId"))
+ 	subSubCategoryId=$("#subSubCategoryId").val();
+if($("#pJobCategoryId"))
+ 	pJobCategoryId=$("#pJobCategoryId").val();
+if($("#pJobSubCategoryId"))
+ 	pJobSubCategoryId=$("#pJobSubCategoryId").val();
+if($("#pJobSubSubCategoryId"))
+ 	pJobSubSubCategoryId=$("#pJobSubSubCategoryId").val();
+ 
+ if(typeof categoryId === 'undefined' || categoryId=="") categoryId="-99";
+ if(typeof subCategoryId === 'undefined'  || subCategoryId=="") subCategoryId="-99";
+ if(typeof subSubCategoryId === 'undefined'  || subSubCategoryId=="") subSubCategoryId="-99";
+ if(typeof pJobCategoryId === 'undefined'  || pJobCategoryId=="") pJobCategoryId="-99";
+ if(typeof pJobSubCategoryId === 'undefined'  || pJobSubCategoryId=="") pJobSubCategoryId="-99";
+ if(typeof pJobSubSubCategoryId === 'undefined'  || pJobSubSubCategoryId=="") pJobSubSubCategoryId="-99";
+	
+	var loadUrl="editJobCategoryMapping.action";
+			jQuery("#addEditPanel")  
+				.html(ajax_load)  
+				.load(loadUrl,{ categoryId:categoryId,subCategoryId:subCategoryId,subSubCategoryId:subSubCategoryId,
+								pJobCategoryId: pJobCategoryId,pJobSubCategoryId: pJobSubCategoryId,pJobSubSubCategoryId: pJobSubSubCategoryId},function(responseText){  
 					jQuery("#addEditPanel").html(responseText);
 				});
 }
@@ -153,7 +192,8 @@ function loadEditPanel(mainJobId,subJobId,subSubJobId)
       		</tr>
       </table>
 
-    </div><br/>
+    </div>
+    <a name="listTopAnchor"></a><br/>
     <div style="padding-bottom: 10px;padding-left: 10px;" id="addEditPanel">
       <table width="98%" style="border: 1px dotted green;">
             <tr>
@@ -285,7 +325,7 @@ function loadEditPanel(mainJobId,subJobId,subSubJobId)
       	
       	<td align="center" style="padding-left: 10px;" height="25">
       	
-      	<a href="javascript:void(0)" onclick="loadEditPanel('<s:property value="categoryId" />','<s:property value="subCategoryId" />','<s:property value="subSubCategoryId" />')">
+      	<a href="#listTopAnchor" onclick="loadEditPanel('<s:property value="categoryId" />','<s:property value="subCategoryId" />','<s:property value="subSubCategoryId" />')">
 	      	<img id="edit<s:property value="#indx.count" />" src='/BMREG_WEB/resources/images/edit.png' border='0' height="18" width="18" />
   		</a>    	
       	</td>

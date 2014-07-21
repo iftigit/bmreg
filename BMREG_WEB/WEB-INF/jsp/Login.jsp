@@ -1,4 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
 <head>
 <title>BMET Reg. System - Login Required</title>
@@ -89,6 +90,10 @@ Log In
 <td width="100%" align="center">
 <h2>Login Required
 </h2>
+<br/>
+<s:if test="hasActionMessages()">
+      <s:actionmessage/>
+</s:if>
 </td>
 </tr>
 </table>
@@ -104,7 +109,8 @@ Log In
 <td background="/BMREG_WEB/resources/images/b-boxleft.gif" align="right"><img src="/BMREG_WEB/resources/images/b-blank.gif" height="16" width="16" alt=""></td>
 <td valign="top" align="left">
 <table width="500" cellspacing="0" cellpadding="5" border="0">
-<tr><td valign="middle" height="29" class="boxtop"><h4>Login Required</h4></td></tr>
+<tr><td valign="middle" height="29" class="boxtop"><h4>Login Required</h4>
+</td></tr>
 <tr><td valign="top" height="270" class="boxback">
 <table cellpadding="10" cellspacing="0" border="0">
 <tr>

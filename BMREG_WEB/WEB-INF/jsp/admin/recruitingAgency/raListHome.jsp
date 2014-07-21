@@ -12,7 +12,6 @@
 <meta content="utf-8" http-equiv="encoding">
 <title>BMET</title>
  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />	
- <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/prototype-1.6.0.2.js"></script>	
   <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/numeric.js"></script>
@@ -28,7 +27,8 @@ var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.g
 
 function fetchRA(raId)
 {
-var divId="";
+
+var divId=""; 
 if(raId=="all"){
  divId="agencyDiv";
 }
@@ -39,10 +39,9 @@ else
 			jQuery("#"+divId)  
 				.html(ajax_load)  
 				.load(loadUrl, {},function(responseText){  
-					jQuery("#"+divId).html(responseText);
-									   
+					jQuery("#"+divId).html(responseText);	
 				});
-				
+setTimeout(function(){window.location.hash = 'listTopAnchor';}, 1000);				
 }
 
 </script>
@@ -64,9 +63,10 @@ else
 <form method="post" action="approveNewUserAndSendSms.action">
 <center>
 <br/>
+<a name="listTopAnchor"></a>
 <div class="box" style="margin-top: 50px;width: 900px;text-align: center;">
     <h3>Recruiting Agency List</h3>
-
+	
     <div id="singleAgencyDiv" style="clear: both;"></div>
 	<div id="agencyDiv" style="clear: both;"></div>    
 
@@ -74,7 +74,8 @@ else
 
 </div>
     <br/>
-    <a href="systemAdminHome.action">Go Home</a>
+    <a href="systemAdminHome.action">Go Home</a> 
+    
     <br/>
 <p style="height: 30px"></p>
 </center>

@@ -1,4 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
@@ -131,6 +134,12 @@ function calculateTotal()
  document.getElementById("totalToken").value=totalToken;
 }
 </script>
+<%
+Calendar cal = Calendar.getInstance();
+
+DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+String todayDate = df.format(new Date());
+%>
 </head>
 <body style="margin: 0px;">
 
@@ -190,7 +199,7 @@ function calculateTotal()
      		
      		<td align="left"><input type="text" name="regToken.totalToken" id="totalToken" value="<s:property value='token.totalToken' />" style="border: 1px solid gray;width: 200px;" readonly="readonly" /></td>
      		<td align="left"></td>
-     		<td align="left"></td>
+     		<td align="left"> </td>
         </tr>
     </table>
 <p style="padding-top: 40px;">     
@@ -211,6 +220,9 @@ function calculateTotal()
   alert("<s:property value='msg' />");  
 </s:if>
 
+if(document.getElementById("payOrderDate").value==""){
+document.getElementById("payOrderDate").value="<%=todayDate%>";
+}
 </script>
 </body>
 

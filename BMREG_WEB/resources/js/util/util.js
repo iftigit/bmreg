@@ -109,3 +109,4 @@ function calculateAge(ageField,dobField)
 	
 	document.getElementById(ageField).value=ageCount(bDate);
 }
+

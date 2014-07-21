@@ -22,7 +22,7 @@
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="companyType" /></td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="ceoName" /></td>
       	<td align="center" style="padding-left: 10px;" height="25">
-      		<a onclick="fetchRA('<s:property value="licenseNumber" />')" href="javascript:void">View</a>
+      		<a onclick="fetchRA('<s:property value="licenseNumber" />')" href="#listTopAnchor">View</a>
       	</td>      	
         </tr> 
       </s:iterator>           

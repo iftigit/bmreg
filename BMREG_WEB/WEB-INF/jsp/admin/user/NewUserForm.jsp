@@ -1,4 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
@@ -6,7 +9,16 @@
 <%@ page import="org.controller.registration.*" %>
 <%@ page import="java.util.ArrayList" %>
 <head>
+<%
+Calendar cal = Calendar.getInstance();
+System.out.println("Today : " + cal.getTime());
+// Subtract 15 days from the calendar
+cal.add(Calendar.DATE, +30);
 
+DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+String fromDate = df.format(new Date());
+String toDate = df.format(cal.getTime());        
+%>
 
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
@@ -61,23 +73,34 @@ function createNewUser()
 					jQuery("#msgDiv").html(responseText);
 					alert(responseText);
 					if(responseText.indexOf("Successfully")>=0)
-					{
-					  /*document.getElementById("userId").value="";
-					  document.getElementById("password").value="";
-					  document.getElementById("startDate").value="";
-					  document.getElementById("endDate").value="";
-					  
-					  document.getElementById("userType").value="";
-					  document.getElementById("PERMANENT_DIV").value="";
-					  document.getElementById("PERMANENT_DIST").value="";
-					  document.getElementById("PERMANENT_UPAZILLA_OR_THANA").value="";
-					  document.getElementById("PERMANENT_UNION_OR_WARD").value="";	
-					  */
+					{					  
 					  window.location="newUserForm.action";				  
 					}
+					
 									   
 				});
   
+}
+function validateUserId(userId)
+{
+   
+    var loadUrl="checkUserIdAvailability.action?userId="+userId;
+			jQuery("#msgDiv")  
+				.html(ajax_load)  
+				.load(loadUrl, {},function(responseText){  
+					if(responseText=="available")
+					{
+					  jQuery("#msgDiv").html("<font color='green' style='font-weight:bold;'>Userid is available.</font>"); 					  
+					}
+					else{
+					  jQuery("#msgDiv").html("<font color='red' style='font-weight:bold;'>Userid is not available.</font>");
+					  document.getElementById("userId").value="";
+					}
+					
+					
+									   
+				});
+   					
 }
 </script>
 </head>
@@ -97,6 +120,7 @@ function createNewUser()
 </div>
 <center>
 <br/>
+<p id="msgDiv" style="height: 20px;"></p>
 <div class="box" style="margin-top: 30px;width: 900px;text-align: center;">
     <h3>New User Entry Form</h3>
     <div style="padding-bottom: 30px;">
@@ -104,7 +128,7 @@ function createNewUser()
     <table width="80%" align="center" border="0">
      	<tr>
      		<td width="15%" align="left">User Id</td>
-     		<td width="35%" align="left"><input type="text" name="userId" id="userId" value="<s:property value='userId' />" style="border: 1px solid gray;width: 245px;"/></td>
+     		<td width="35%" align="left"><input type="text" name="userId" id="userId" value="<s:property value='userId' />" style="border: 1px solid gray;width: 245px;" onblur="validateUserId(this.value)" /></td>
      		<td width="15%" align="left">Password</td>
      		<td width="35%" align="left"><input type="text" name="password" id="password" value="<s:property value='password' />" style="border: 1px solid gray;width: 245px;background-color: pink;" readonly="readonly" /></td>
         </tr>
@@ -166,8 +190,8 @@ function createNewUser()
 			     	<option value="DEMO_REG_OPERATOR">DEMO_REG_OPERATOR</option>
 			     	<option value="UISC_REG_OPERATOR">UISC_REG_OPERATOR</option>
 			     	<option value="A2I_OPERATOR">A2I_OPERATOR</option>
+			     	<option value="OPEN_REG_OPERATOR">OPEN_REG_OPERATOR</option>
 			     	<option value="SYSTEM_ADMIN">SYSTEM_ADMIN</option>
-			     	
 			    </select>
      		</td>
      		<td align="left">User Name</td>
@@ -198,7 +222,13 @@ function createNewUser()
     </p>
 
 </div>
-<p id="msgDiv"></p>
+
+<script type="text/javascript">
+if(document.getElementById("startDate").value=="")
+ document.getElementById("startDate").value="<%=fromDate%>";
+if(document.getElementById("endDate").value=="")
+ document.getElementById("endDate").value="<%=toDate%>";
+</script>
 </center>
 </body>
 

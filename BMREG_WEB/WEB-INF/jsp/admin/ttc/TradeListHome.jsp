@@ -40,7 +40,7 @@ else
 				.html(ajax_load)  
 				.load(loadUrl, {},function(responseText){  
 					jQuery("#"+divId).html(responseText);
-									   
+					setTimeout(function(){window.location.hash = 'listTopAnchor';}, 500);   
 				});
 				
 }
@@ -66,7 +66,7 @@ else
 <br/>
 <div class="box" style="margin-top: 50px;width: 900px;text-align: center;">
     <h3>Trade List</h3>
-
+	<a name="listTopAnchor"></a>
     <div id="singleTradeDiv" style="clear: both;"></div>
 	<div id="tradeDiv" style="clear: both;"></div>    
 

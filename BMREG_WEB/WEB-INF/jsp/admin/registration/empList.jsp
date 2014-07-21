@@ -16,7 +16,7 @@
 <s:iterator value="registrationList" id="registration" status="indx">
 <tr>
 	<td align="left">
-		<a href="editRegInfo">
+		<a href="editRegInfo?jobseekerNumber=<s:property value="jobseekerNumber" />">
 			<s:property value="jobseekerNumber" />
 		</a>
 	</td>

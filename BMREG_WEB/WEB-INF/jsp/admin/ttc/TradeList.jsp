@@ -16,7 +16,7 @@
         <td align="left" style="padding-left: 10px;" height="25"><s:property value="%{#status.count}" /></td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="tradeName" /></td>
       	<td align="center" style="padding-left: 10px;" height="25">
-      		<a onclick="fetchTrade('<s:property value="id" />')" href="javascript:void">View</a>
+      		<a onclick="fetchTrade('<s:property value="id" />')" href="#listTopAnchor">View</a>
       	</td>      	
         </tr> 
       </s:iterator>           

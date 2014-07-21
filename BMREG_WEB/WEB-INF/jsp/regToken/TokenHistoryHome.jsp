@@ -1,4 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
@@ -47,6 +50,12 @@ if(demoUserId=="none")
 }
 
 </script>
+<%
+Calendar cal = Calendar.getInstance();
+
+DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+String todayDate = df.format(new Date());
+%>
 </head>
 <body style="margin: 0px;">
 
@@ -91,7 +100,7 @@ if(demoUserId=="none")
         <tr>
      		<td align="left">To Date</td>
      		<td align="left"> 
-     		 <input type="text" name="toDate" id="toDate"" style="width: 200px;border: 1px solid grey;" />
+     		 <input type="text" name="toDate" id="toDate" style="width: 200px;border: 1px solid grey;" />
      		 [<font color='maroon' style="font-size: 12px;">DD-MM-YYYY</font>]
      		</td> 
         </tr>
@@ -105,8 +114,8 @@ if(demoUserId=="none")
 </div>
 <div id="searchResult"></div>
     
-    <p style="padding-bottom: 20px;">
-    	<a href="systemAdminHome.action">Go Home</a>
+    <p style="padding-bottom: 20px;"> 
+    	<a href=homePage.action>Go Home</a>
     </p>
 
 </div>
@@ -115,8 +124,13 @@ if(demoUserId=="none")
 <script type="text/javascript">
 $(document).ready(function(){
 	
-});
- 
+}); 
+ if(document.getElementById("fromDate").value==""){
+document.getElementById("fromDate").value="<%=todayDate%>";
+}
+ if(document.getElementById("toDate").value==""){
+document.getElementById("toDate").value="<%=todayDate%>";
+}
 </script>
 </body>
 

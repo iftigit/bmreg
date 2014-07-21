@@ -53,15 +53,24 @@
     </tr>
     <tr>
      <td style="text-align: left">
-     	<a href="userAdministrationHome.action">User Management(Approval)</a>
+     	<a href="openUserRegReportHome.action">Open User Registration Report</a>
+     </td>
+    </tr>
+    <tr>
+     <td style="text-align: left">
+     	<a href="raSummeryReportHome.action">Recruiting Agency Summary Report</a>
      </td>
     </tr>
    </table>
 </form>    
-    
   
 </div>
 <p style="height: 30px"></p>
+
+  <p style="padding-bottom: 20px;">
+   	<a href="systemAdminHome.action">Go Home</a>
+  </p>
+
 </center>
 <script type="text/javascript">
 $('input').attr('autocomplete','off');   

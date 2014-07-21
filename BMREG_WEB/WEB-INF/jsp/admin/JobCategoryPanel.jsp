@@ -14,7 +14,7 @@
       		<tr>
       			<td width="8%" style="text-align: left;" height="30">Main Job</td>
       			<td width="22%">
-      				<select style="border: 1px solid gray;width: 200px;" onchange="fetchJobCategory(this.value,2,0,'subJobDiv1','jobManagement')">
+      				<select id="categoryId" style="border: 1px solid gray;width: 200px;" onchange="fetchJobCategory(this.value,2,0,'subJobDiv1','jobManagement')">
       				<option value="-99">Select Main Job</option>
       				<s:iterator value="mainJobList" id="mainJob">
       				 <option value="<s:property value="jobId" />" <s:if test="#mainJob.jobId == jobDTO.categoryId">selected='selected'</s:if> ><s:property value="jobTitle" /></option>
@@ -23,7 +23,7 @@
       			</td>
       			<td width="6%" style="text-align: left;">Sub Job</td>
       			<td width="22%" id="subJobDiv1">
-      				<select style="border: 1px solid gray;width: 200px;" onchange="fetchJobCategory(this.value,3,0,'subJobDiv2','jobManagement')">
+      				<select id="subCategoryId" style="border: 1px solid gray;width: 200px;" onchange="fetchJobCategory(this.value,3,0,'subJobDiv2','jobManagement')">
       					<option value="-99">Select Sub Job</option>      					
       					<s:iterator value="subJobList" id="subJob">
       				 		<option value="<s:property value="jobId" />" <s:if test="#subJob.jobId == jobDTO.subCategoryId">selected='selected'</s:if> ><s:property value="jobTitle" /></option>
@@ -32,13 +32,19 @@
       			</td>
       			<td width="10%" style="text-align: left;">Sub-sub Job</td>
       			<td width="22%" id="subJobDiv2">
-      				<select style="border: 1px solid gray;width: 200px;">
+      				<select id="subSubCategoryId" style="border: 1px solid gray;width: 200px;">
       					<option value="-99">Select Sub-Sub Job</option>      					
       					<s:iterator value="subSubJobList" id="subSubJobId">
       				 		<option value="<s:property value="jobId" />" <s:if test="#subSubJobId.jobId == jobDTO.subSubCategoryId">selected='selected'</s:if> ><s:property value="jobTitle" /></option>
       					</s:iterator>
       				</select>
       			</td> 
-      			<td width="10%" style="text-align: center;"><input type="button" value="Update"  name="editJob" /></td>
+      			<td width="10%" style="text-align: center;">
+      					<input type="button" value="Update"  name="editJob" onclick="editJobCategoryMapping()" />
+      					<input type="hidden" name="pJobCategoryId" id="pJobCategoryId" value="<s:property value="jobDTO.categoryId" />" />
+      					<input type="hidden" name="pJobSubCategoryId" id="pJobSubCategoryId" value="<s:property value="jobDTO.subCategoryId" />" />
+      					<input type="hidden" name="pJobSubSubCategoryId" id="pJobSubSubCategoryId" value="<s:property value="jobDTO.subSubCategoryId" />" />
+      					
+      			</td>
       		</tr>
       </table>

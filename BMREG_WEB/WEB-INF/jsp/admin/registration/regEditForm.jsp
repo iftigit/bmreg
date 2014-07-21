@@ -34,6 +34,14 @@
   <script type="text/javascript" src="/BMREG_WEB/resources/js/registration.js"></script>
   
   <script type="text/javascript">
+   var totalLanguageString="";
+    
+    <s:iterator value="allLanguageList" id="languageList" status="stat">
+		totalLanguageString+="<s:property value='language' />"+"#";		 
+	</s:iterator>
+	if(totalLanguageString.length>0)
+		totalLanguageString=totalLanguageString.substring(0,totalLanguageString.length-1);
+		
     $(document).ready(function(){
     	// Smart Wizard     	
   		$('#wizard').smartWizard({transitionEffect:'slideleft',onLeaveStep:leaveAStepCallback,onFinish:onFinishCallback,enableFinishButton:false});
@@ -2824,7 +2832,7 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
 		
 			$("#"+waitingDiv) 
 			.html(ajax_url)  
-			.load(url, {parentJobId: parentJobId,jobLevel: level,componentIndex:componentIndex,selectType:selectType},function(responseText){  
+			.load(url, {parentJobId: parentJobId,jobLevel: level,componentIndex:componentIndex,selectType:selectType,allOrActive:0},function(responseText){  
 				if(responseText!="")
 				$("#"+waitingDiv).innerHTML= responseText;
 				

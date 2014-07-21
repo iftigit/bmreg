@@ -860,7 +860,10 @@
 	  document.getElementById("hightCm").value= hightCm;   
 	  
 	}
-
+function disabler(event) {
+    event.preventDefault();
+    return false;
+}
 function validateRegToken(regToken)
 {
    var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader.gif' border='0' /></center>";
@@ -871,9 +874,18 @@ function validateRegToken(regToken)
 				.load(loadUrl, {},function(responseText){  
 					if(responseText=="error")
 					{
-					 alert("Invalid Registration Token");					 				
+					 alert("Invalid Registration Token");
+					 document.getElementById("regToken").value="";
+				     $(".buttonNext").addClass("buttonDisabled"); 
+					}
+					else{
+					if($(".buttonNext").hasClass('buttonDisabled')){
+                       $(".buttonNext").removeClass("buttonDisabled");
+                      }
+					
 					}
 					jQuery("#msg_regToken").html("");
+					
 									   
 				});
    					
@@ -2027,11 +2039,13 @@ http://rishida.net/tools/conversion/
 										</td>
 								   </tr>
 								   
-								</tbody>
-							</table>
+								</tbody> 
+							</table> 
+							<!--  
 							<input type="hidden" id="trainingHidden" name="trainings" value="" />
 							<span id="msg_training"></span>&nbsp;
 							<font style="color:red"><s:label name="sMsg_training"></s:label></font>
+							-->
                         </td>
           			</tr>
           			
@@ -2321,7 +2335,7 @@ function defaultLocalExpLoad()
 	elementJobCat.onchange=function(){fetchJobCategory(this.value,2,tmpIndex,'localExpJobSubCat'+tmpIndex,'localJobCategory')};
 	elementJobCat.options[0] = new Option("Select","");
 	
-	<s:iterator value="%{#application.ALL_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
+	<s:iterator value="%{#application.ACTIVE_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
 		elementJobCat.options[ <s:property value="#stat.count" />] = new Option("<s:property value='jobTitle' />","<s:property value='jobId' />"); 
 	</s:iterator>
 	
@@ -2463,7 +2477,7 @@ function addMoreLocalExpLoad()
 	elementJobCat.onchange=function(){fetchJobCategory(this.value,2,tmpIndex,'localExpJobSubCat'+tmpIndex,'localJobCategory')};
 	elementJobCat.options[0] = new Option("Select","");
 	
-	<s:iterator value="%{#application.ALL_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
+	<s:iterator value="%{#application.ACTIVE_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
 		elementJobCat.options[ <s:property value="#stat.count" />] = new Option("<s:property value='jobTitle' />","<s:property value='jobId' />"); 
 	</s:iterator>
 	
@@ -2618,7 +2632,7 @@ function defaultAbroadExpLoad()
 	elementJobCat.onchange=function(){fetchJobCategory(this.value,2,tmpIndex,'abroadExpJobSubCat'+tmpIndex,'abroadJobCategory')};
 	elementJobCat.options[0] = new Option("Select","");
 	
-	<s:iterator value="%{#application.ALL_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
+	<s:iterator value="%{#application.ACTIVE_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
 		elementJobCat.options[ <s:property value="#stat.count" />] = new Option("<s:property value='jobTitle' />","<s:property value='jobId' />"); 
 	</s:iterator>
 	
@@ -2783,7 +2797,7 @@ function addMoreAbroadExpLoad()
 	var tmpIndex=cntAX[row];
 	elementJobCat.onchange=function(){fetchJobCategory(this.value,2,tmpIndex,'abroadExpJobSubCat'+tmpIndex,'abroadJobCategory')};	
 	elementJobCat.options[0] = new Option("Select","");
-	<s:iterator value="%{#application.ALL_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
+	<s:iterator value="%{#application.ACTIVE_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
 		elementJobCat.options[ <s:property value="#stat.count" />] = new Option("<s:property value='jobTitle' />","<s:property value='jobId' />"); 
 	</s:iterator>
 	elementJobCat.style.width = '120px';
@@ -2929,7 +2943,7 @@ function getJobPreferenceDiv(jobPreferenceCounter)
                             "<div id='leftDiv"+jobPreferenceCounter+"1' style='float:left;width:170px;'>"+
                                "<select name='mainJob_"+jobPreferenceCounter+"' id='mainJob_"+jobPreferenceCounter+"' style='width:150px;border:1px solid grey;' onchange=\"fetchJobCategory(this.value,2,"+jobPreferenceCounter+",'leftDiv"+jobPreferenceCounter+"2','jobPreferenceJobCategory')\">";
      	jobPreferenceStr+="<option value=''>Select</option>";
-	<s:iterator value="%{#application.ALL_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
+	<s:iterator value="%{#application.ACTIVE_JOB_MAIN_CATEGORY}" id="jobCatList" status="stat">
 		jobPreferenceStr+="<option value='"+<s:property value='jobId' />+"'><s:property value='jobTitle' /></option>";		 
 	</s:iterator>
                                  
@@ -2980,7 +2994,7 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
 		
 			$("#"+waitingDiv) 
 			.html(ajax_url)  
-			.load(url, {parentJobId: parentJobId,jobLevel: level,componentIndex:componentIndex,selectType:selectType},function(responseText){  
+			.load(url, {parentJobId: parentJobId,jobLevel: level,componentIndex:componentIndex,selectType:selectType,allOrActive:1},function(responseText){  
 				if(responseText!="")
 				$("#"+waitingDiv).innerHTML= responseText;
 				

@@ -397,7 +397,7 @@ setTimeout(function(){
 setLanguageTyped();
 function setLanguageTyped()
 {
-<%ArrayList<LanguageDTO> language_list=(ArrayList<LanguageDTO>) request.getAttribute("languageList"); 
+<%ArrayList<LanguageDTO> language_list=(ArrayList<LanguageDTO>) request.getAttribute("empLanguageList"); 
 if(language_list.size()>=1)
  {
  for(int j=0;j<language_list.size();j++)

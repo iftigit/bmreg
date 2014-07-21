@@ -43,92 +43,81 @@
     <h3>Activities</h3>
     
 <form id="loginForm" name="loginForm" method="post" action="checkValidity.action">    
-    <table width="100%" border="0" cellspacing="1" class="infoTable">
-    
-    
- 	<tr>
-     <td style="text-align: center">
-     	<a href="addressEntryHome.action">Address Management</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="userAdministrationHome.action">User Management(Approval)</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="newUserForm.action">Create New User</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	Drop down List Management<br/>
-     	<a href="jobCategoryManagement.action">Job Category</a> |
-     	<a href="countryManagement.action">Country</a> |
-     	<a href="degreeNameManagement.action">Educational Qualifications</a> |
-     	<a href="passingYearManagement.action">Passing Year</a>
-     	<br/>
-     	<a href="languageManagement.action">Language</a>
-     	
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	RA Management<br/>
-     	<a href="raEntryHome.action">Create New RA</a> |
-     	<a href="raListHome.action">RA List</a> |
-     	<a href="raSearchHome.action">Search RA</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	TTC Management<br/>
-     	<a href="ttcEntryHome.action">New TTC</a> |
-     	<a href="ttcListHome.action">TTC List</a> |
-     	<a href="tradeEntryHome.action">New Trade</a> |
-     	<a href="tradeListHome.action">Trade List</a> |
-     	<a href="ttcTradeMapHome.action">TTC-Trade Map</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="regCorrectionHome.action">Registration Correction</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="selectionReportSetting.action">Lottery Report Settings</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="selectionHome.action">Lottery Home</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="raLotteryHome.action">RA Lottery Home</a>
-     </td>
-    </tr> 
-    <tr>
-     <td style="text-align: center">
-     	<a href="reportHome.action">Report Home</a>
-     </td>
-    </tr>    
-    <tr>
-     <td style="text-align: center">
-     	<a href="logout.action">Logout</a>
-     </td>
-    </tr>
-    
-     <tr>
-     <td style="text-align: center" height="20px;">
-     
-     </td>
-    </tr>
 
-    </table>
+<table width="100%" border="0" cellspacing="1" class="infoTable">
+	<tr>
+    	 <td style="text-align: left;padding-left: 10px;vertical-align: top;padding-top: 10px;" width="40%">
+     		Address
+     	 </td>
+     	 <td style="text-align: left;padding-left: 5px;vertical-align: top;" width="60%">
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="addressEntryHome.action">Address Management</a>
+     	 </td>
+    </tr>
+    <tr>
+    	 <td style="text-align: left;padding-left: 10px;vertical-align: top;padding-top: 10px;">
+     		User Management
+     	 </td>
+     	 <td style="text-align: left;padding-left: 5px;vertical-align: top;padding-top: 10px;">
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="userAdministrationHome.action">User Approval</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="newUserForm.action">Create New User</a>
+     	 </td>
+    </tr>
+    <tr>
+    	 <td style="text-align: left;padding-left: 10px;vertical-align: top;padding-top: 10px;">
+     		Drop down List Management
+     	 </td>
+     	 <td style="text-align: left;padding-left: 5px;vertical-align: top;padding-top: 10px;">
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="jobCategoryManagement.action">Job Category</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="countryManagement.action">Country</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="degreeNameManagement.action">Educational Qualifications</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="passingYearManagement.action">Passing Year</a> <br/>
+	     	<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="languageManagement.action">Language</a>
+     	 </td>
+    </tr>
+    <tr>
+    	 <td style="text-align: left;padding-left: 10px;vertical-align: top;padding-top: 10px;">
+     		RA Management
+     	 </td>
+     	 <td style="text-align: left;padding-left: 5px;vertical-align: top;padding-top: 10px;">
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="raEntryHome.action">Create New RA</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="raListHome.action">RA List</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="raSearchHome.action">Search RA</a>
+     	 </td>
+    </tr>
+   <tr>
+    	 <td style="text-align: left;padding-left: 10px;vertical-align: top;padding-top: 10px;">
+     		TTC Management
+     	 </td>
+     	 <td style="text-align: left;padding-left: 5px;vertical-align: top;padding-top: 10px;">
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="ttcEntryHome.action">New TTC</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="ttcListHome.action">TTC List</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="tradeEntryHome.action">New Trade</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="tradeListHome.action">Trade List</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="ttcTradeMapHome.action">TTC-Trade Map</a>
+     	 </td>
+    </tr>
+    <tr>
+    	 <td style="text-align: left;padding-left: 10px;vertical-align: top;padding-top: 10px;">
+     		Lottery Management
+     	 </td>
+     	 <td style="text-align: left;padding-left: 5px;vertical-align: top;padding-top: 10px;">
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="selectionReportSetting.action">Lottery Report Settings</a><br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="selectionHome.action">Lottery Home</a><br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="raLotteryHome.action">RA Lottery Home</a><br/>
+     	 </td>
+    </tr>
+    <tr>
+    	 <td style="text-align: left;padding-left: 10px;vertical-align: top;padding-top: 10px;">
+     		Others
+     	 </td>
+     	 <td style="text-align: left;padding-left: 5px;vertical-align: top;padding-top: 10px;">
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="regCorrectionHome.action">Registration Correction</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="reportHome.action">Report Home</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="passwordChangeHome.action">Change Password</a> <br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="logout.action">Logout</a>
+     	 </td>
+    </tr>
+</table>
 </form>    
     
   
@@ -138,6 +127,7 @@
 <script type="text/javascript">
 $('input').attr('autocomplete','off');   
 </script>
+<script type="text/javascript" src="/BMREG_WEB/resources/js/util/browserCloseDetect.js"></script>
 </body>
 
 </html>
