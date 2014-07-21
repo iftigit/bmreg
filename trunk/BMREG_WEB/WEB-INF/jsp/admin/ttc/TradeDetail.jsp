@@ -32,8 +32,10 @@ var tradeId=$.trim(document.getElementById("tradeId").value);
 				.load(loadUrl, {tradeId:tradeId,tradeName:tradeName
 				},function(responseText){  
 					
-					if(responseText=="Successfully Update Trade Information.")
+					if(responseText=="Successfully Update Trade Information."){
 							jQuery("#singleTradeDiv").html(responseText);
+							fetchTrade('all');
+							}
 					else
 					   		jQuery("#msgDiv").html(responseText);
 									   

@@ -4,14 +4,6 @@
 <%@ page import="org.apache.struts2.ServletActionContext" %>
 <%@ page import="org.controller.registration.*" %>
 <%@ page import="java.util.ArrayList" %>
-<script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
-<script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
-<script type="text/javascript" src="/BMREG_WEB/resources/js/util/numeric.js"></script>
- 
- <link type="text/css" rel="Stylesheet" href="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jquery.validity.css" />
-        <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jQuery.validity.js"></script>
- 
-  <script type="text/javascript" src="/BMREG_WEB/resources/js/address.js"></script>
   <script type="text/javascript" src="/BMREG_WEB/resources/js/regValidation.js"></script>
 <script type="text/javascript">
 var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.gif' border='0' /></center>";
@@ -157,10 +149,12 @@ function updateRA()
      		<td align="left">
      			<select name="rAgent.status" id="status" style="border: 1px solid gray;width: 200px;">
      				<option  value="none">Select Status</option>
+     				<!--
      				<option  value="j"  <s:if test='%{rAgent.status=="j"}'>selected="selected"</s:if>>j</option>
-     				<option  value="SA" <s:if test='%{rAgent.status=="SA"}'>selected="selected"</s:if>>SA</option>
-     				<option  value="L"  <s:if test='%{rAgent.status=="L"}'>selected="selected"</s:if>>L</option>
-     				<option  value="S"  <s:if test='%{rAgent.status=="S"}'>selected="selected"</s:if>>S</option>
+     				<option  value="SA" <s:if test='%{rAgent.status=="SA"}'>selected="selected"</s:if>>Suspend</option>
+     				 -->
+     				<option  value="L"  <s:if test='%{rAgent.status=="L"}'>selected="selected"</s:if>>Licensed</option>
+     				<option  value="S"  <s:if test='%{rAgent.status=="S"}'>selected="selected"</s:if>>Stop</option>
      			</select>     			
      			<input type="hidden" name="rAgent.pastStatus" id="pastStatus" value="<s:property value='rAgent.status' />"/>
      		</td>

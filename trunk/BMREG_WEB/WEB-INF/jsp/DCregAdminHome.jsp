@@ -51,6 +51,11 @@
      </td>
     </tr>
     
+    <tr>
+     <td style="text-align: center">
+     	<a href="passwordChangeHome.action">Change Password</a>
+     </td>
+    </tr>
     
      <tr>
      <td style="text-align: center">

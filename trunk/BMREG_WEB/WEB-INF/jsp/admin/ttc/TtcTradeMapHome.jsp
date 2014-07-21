@@ -55,7 +55,7 @@ function updateMapping()
     if(document.getElementById("isActive"+i).checked==true) 
   		tradeListStr+=document.getElementById("trade"+i).value+"#";
  }
- alert(tradeListStr);
+
  var loadUrl="updateTradeListForTTC.action";
 			jQuery("#msgDiv")  
 				.html(ajax_load)  

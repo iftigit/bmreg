@@ -15,7 +15,7 @@
       	<td width="27%" align="left" style="padding-left: 2px;" height="25">Main Job</td>
       	<td width="27%" align="left" style="padding-left: 2px;" height="25">Sub Job</td>
       	<td width="27%" align="left" style="padding-left: 2px;" height="25">Sub-Sub Job</td>
-      	<td width="14%" align="center" style="padding-left: 2px;" height="25">Delete</td>
+      	<td width="14%" align="center" style="padding-left: 2px;" height="25">Edit</td>
       </tr>
       <s:iterator value="jobList" status="indx">
       <s:if test="#indx.even == true">
@@ -101,7 +101,11 @@
       	 
       	</td>
       	
-      	<td align="left" style="padding-left: 10px;" height="25">Delete</td>
+      	<td align="left" style="padding-left: 10px;text-align: center;" height="25">
+      	<a href="javascript:void(0)" onclick="loadEditPanel('<s:property value="categoryId" />','<s:property value="subCategoryId" />','<s:property value="subSubCategoryId" />')">
+	      	<img id="edit<s:property value="#indx.count" />" src='/BMREG_WEB/resources/images/edit.png' border='0' height="18" width="18" />
+  		</a>   
+      	</td>
       	      	
         </tr> 
       </s:iterator>

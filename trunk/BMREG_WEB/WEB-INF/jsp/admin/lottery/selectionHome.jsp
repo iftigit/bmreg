@@ -137,12 +137,19 @@ document.getElementById("suggestedTotal").value=parseInt(total*3,10);
 
 function setAgency(licenseNo){
 
+var flag=0;
  $('#agentId option').each(function(){
       if(this.value==licenseNo)
        {        
-        $("select#agentId").find("option#"+licenseNo).attr("selected", true);        
+        $("select#agentId").find("option#"+licenseNo).attr("selected", true); 
+        flag=1;       
        }
     });
+    
+    if(flag==0)
+    {
+     alert("Please provide a valid License No.");
+    }
     
 }
 </script>
@@ -377,7 +384,7 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
 		
 			$("#"+waitingDiv) 
 			.html(ajax_url)  
-			.load(url, {parentJobId: parentJobId,jobLevel: level,componentIndex:componentIndex,selectType:selectType},function(responseText){  
+			.load(url, {parentJobId: parentJobId,jobLevel: level,componentIndex:componentIndex,selectType:selectType,allOrActive:0},function(responseText){  
 				if(responseText!="")
 				$("#"+waitingDiv).innerHTML= responseText;
 				
@@ -398,14 +405,17 @@ function fetchTotalExistingJobseekerCount(expYears,jobExp,jobPreference)
 {
 var gender=$('input:radio[name="selection.gender"]:checked').val();
 var countryPrefernce=document.getElementById("countryPreference").value;
-
+var language=$('#language').val();
+if(language!=null ){
+language=language+"";
+language=language.replace(new RegExp(",", 'g'),"','");}
 
   var ajax_url="<img src='/BMREG_WEB/resources/images/ajax-loader.gif' alt='Loading ....' />"; 
   var url="/BMREG_WEB/fetchJobseekerCount.action?etc="+new Date().getTime();
 		
 			$("#expCount") 
 			.html(ajax_url)  
-			.load(url, {cExpYears: expYears,cJobExp: jobExp,cJobPreference:jobPreference,cGender:gender,cCountryPrefernce:countryPrefernce},function(responseText){  
+			.load(url, {cExpYears: expYears,cJobExp: jobExp,cJobPreference:jobPreference,cGender:gender,cCountryPrefernce:countryPrefernce,cLanguage:language},function(responseText){  
 				if(responseText!="")
 					$("#expCount").innerHTML= responseText;
 			});

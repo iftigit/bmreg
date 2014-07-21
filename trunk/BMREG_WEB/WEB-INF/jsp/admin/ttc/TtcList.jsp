@@ -22,7 +22,7 @@
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="phone" /></td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="emailAddress" /></td>
       	<td align="center" style="padding-left: 10px;" height="25">
-      		<a onclick="fetchTTC('<s:property value="ttcId" />')" href="javascript:void">View</a>
+      		<a onclick="fetchTTC('<s:property value="ttcId" />')" href="#listTopAnchor">View</a>
       	</td>      	
         </tr> 
       </s:iterator>           

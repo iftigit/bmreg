@@ -41,6 +41,7 @@ else
 				.html(ajax_load)  
 				.load(loadUrl, {},function(responseText){  
 					jQuery("#"+divId).html(responseText);
+					setTimeout(function(){window.location.hash = 'listTopAnchor';}, 500);
 									   
 				});
 				
@@ -67,7 +68,7 @@ else
 <br/>
 <div class="box" style="margin-top: 50px;width: 900px;text-align: center;">
     <h3>TTC List</h3>
-
+	<a name="listTopAnchor"></a>
     <div id="singleTTCDiv" style="clear: both;"></div>
 	<div id="ttcDiv" style="clear: both;"></div>    
 
