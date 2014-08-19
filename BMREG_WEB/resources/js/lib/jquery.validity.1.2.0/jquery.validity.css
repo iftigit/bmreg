@@ -51,7 +51,7 @@ label.error {
     
     cursor:pointer;
     
-    padding:3px;
+    padding:1px;
     width:16em;
     
     border-width:1px;
@@ -60,8 +60,8 @@ label.error {
     color:#FFFFFF;
     
     position: absolute;
-    /*background-color:#f56600;*/
-    background-color:#A40052;
+    background-color:#f56600;
+    /*background-color:#A40052;*/
     
 }
 
@@ -97,10 +97,10 @@ label.error {
 .validity-tooltip .validity-tooltip-inner {
     border-top: 0px solid transparent; 
     border-bottom: 24px solid transparent;
-    /*border-right: 20px solid #f56600;*/
-    border-right: 20px solid #A40052;
+    border-right: 20px solid #f56600;
+    /*border-right: 20px solid #A40052;*/
     
     border-left-width:0px;
     top:1px;
-    left:3px;
+    left:1px;
 }
