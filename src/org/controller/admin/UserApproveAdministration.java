@@ -52,7 +52,7 @@ public class UserApproveAdministration extends ActionSupport{
 		{
 			res=userDao.approveNewUserRequest(approveUserList,startDate,endDate);
 			if(res.equalsIgnoreCase("SUCCESS")){
-				sendFirstPassword(approveUserList);
+				UserDAO.sendPassword(approveUserList);
 				this.message="Successfully Approved and SMS send to the approved users";
 			}
 			else
@@ -69,111 +69,10 @@ public class UserApproveAdministration extends ActionSupport{
 		else
 			return "input";
 	}
-	  public String sendFirstPassword(String[] userList)
-	  {
-		  UserDAO udao=new UserDAO();
-		  String pass = "";
-		  int counter=0;
-		  for(int i=0;i<userList.length;i++)
-		  {
-			  UserDTO udto=udao.getUserFromUserId(userList[i]);
-			  if(udto!=null && (udto.getPassword()==null || udto.getPassword().equalsIgnoreCase("")) )
-			  {
-			  try
-			  {
-				  pass = getPasswordCode().substring(0, 5);
-				  NewPaawordDAO.setNewPassword(userList[i], pass);
-				  String pass1="pls login: g2g.bmet.gov.bd ID:type your mobile no abong Password:"+pass+" .login korte na parle call korun 09613016364.";
 
-				  URL yahoo;
-					if(userList[i].substring(0,3).equalsIgnoreCase("011"))
-						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i])+
-								"&txt="+URLEncoder.encode(pass1)+
-								"&username="+URLEncoder.encode("bmet2")+"&password="+URLEncoder.encode("BI909")); 		  
-					else
-						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i])+
-								"&txt="+URLEncoder.encode(pass1)+
-								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("BI909")); 		  
-						
-					URLConnection yc = yahoo.openConnection();
-					BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-					String inputLine;
-					String inputLine1="";
-					while ((inputLine = in.readLine()) != null)
-					{
-						System.out.println(inputLine);
-						if(inputLine!=null)
-							inputLine1+=inputLine;
-					}
-					in.close();
-					counter++;
-					if(counter%500==0)
-						System.out.println("yes");
-//					Thread.sleep(100);
-			  }
-				  catch(Exception e)
-				  {
-					  e.printStackTrace();
-				  }
-			  }
-		  }
-		  System.out.println("END");
-		  return null;
-	  }
-	  public String getPasswordCode() {
-	      Random rand = new Random();
-	      int length = rand.nextInt(6) + 8;
-	      char[] password = new char[length];
-	      for (int x = 0; x < length; x++) {
-	        int randDecimalAsciiVal = 0;
-	        int cas = rand.nextInt(3);
-	        if (cas == 0)
-	          randDecimalAsciiVal = rand.nextInt(9) + 48;
-	        else if (cas == 1)
-	          randDecimalAsciiVal = rand.nextInt(26) + 65;
-	        else
-	          randDecimalAsciiVal = rand.nextInt(26) + 97;
-	        password[x] = (char) randDecimalAsciiVal;
-	      }
-	      String result = String.valueOf(password);
-	      
-
-	      while(result.contains("l") || result.contains("1") || result.contains("I") || result.contains("o") || result.contains("O") || result.contains("0"))
-	      {
-	              result=result.replaceAll("l", "");
-	              result=result.replaceAll("1", "");
-	              result=result.replaceAll("I", "");
-	              result=result.replaceAll("o", "");
-	              result=result.replaceAll("O", "");
-	              result=result.replaceAll("0", "");
-	              
-	              if(result.length()<6)
-	                      result=getSecurityCode();
-	              
-	      }
-	      
-	      return result.toUpperCase();
-	    }
+	 
 	
-	  public String getSecurityCode() {
-		    Random rand = new Random();
-		    int length = rand.nextInt(6) + 8;
-		    char[] password = new char[length];
-		    for (int x = 0; x < length; x++) {
-		      int randDecimalAsciiVal = 0;
-		      int cas = rand.nextInt(3);
-		      if (cas == 0)
-		        randDecimalAsciiVal = rand.nextInt(9) + 48;
-		      else if (cas == 1)
-		        randDecimalAsciiVal = rand.nextInt(26) + 65;
-		      else
-		        randDecimalAsciiVal = rand.nextInt(26) + 97;
-		      password[x] = String.valueOf(randDecimalAsciiVal/10).charAt(0);
-		    }
-		    String result = String.valueOf(password);
-		    return result;
-		  }	 
-
+	 
 	public ArrayList<UserTmpDTO> getUserList() {
 		return userList;
 	}

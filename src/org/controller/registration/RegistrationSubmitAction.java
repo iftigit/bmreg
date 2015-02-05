@@ -1,6 +1,11 @@
 package org.controller.registration;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ import org.table.NomineeDTO;
 import org.table.PersonalInfoDTO;
 import org.table.TrainingDTO;
 import org.table.UserDTO;
+import org.util.Utility;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -107,7 +113,10 @@ public String execute() throws Exception
             	return "input";
         	}
         }
-        registrationId=RegistrationSingleton.generateRegistrationId(pAddress.getDistrictId(),personalDTO.getEmpGender());
+        registrationId=RegistrationSingleton.generateRegistrationId(pAddress.getDistrictId(),personalDTO.getEmpGender(),(String)getServletContext().getAttribute("REGID_SUFFIX"));
+        String tmpRegId=Utility.generateTmpRegId(10);
+        personalDTO.setRegTypeId(String.valueOf(getServletContext().getAttribute("ACTIVE_REGTYPE")));
+        personalDTO.setTmpRegId(tmpRegId);
         String response=regDAO.insertEmpRegistrationInfo(
         		 registrationId,
 				 personalDTO,
@@ -125,7 +134,35 @@ public String execute() throws Exception
         	ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",registrationId);
         	personalDTO=null;
         	nomineeDTO=null;
-        	ServletActionContext.getRequest().getSession().setAttribute("sessionObj_PersonalInfo",null);
+        	ServletActionContext.getRequest().getSession().setAttribute("sessionObj_PersonalInfo",null);        	
+        	//
+        	if(userType.equalsIgnoreCase("UISC_REG_OPERATOR")){
+        		try{
+        		String fullName=personalDTO.getEmpGivenName()==null?"":personalDTO.getEmpGivenName()+" "+personalDTO.getEmpLastName()==null?"":personalDTO.getEmpLastName();        		
+        		URL ackUrl = new URL("http://123.49.43.139:9999/bmet/bmetsend2teletalk.php?user=bmet&password=bmet123&tmp_reg_id="+tmpRegId+"&name="+URLEncoder.encode(fullName,"UTF-8")+"&dist="+URLEncoder.encode(personalDTO.getPermanentAddress().getDistrictName(),"UTF-8")+"&thana="+URLEncoder.encode(personalDTO.getPermanentAddress().getUpazillaOrThanaName(),"UTF-8")+"&contact_number="+URLEncoder.encode(personalDTO.getEmpMobileNumber(),"UTF-8"));
+        		URLConnection yc = ackUrl.openConnection();
+        		BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+    			String inputLine;
+    			String inputLine1="";
+    			while ((inputLine = in.readLine()) != null)
+    			{
+    				System.out.println(inputLine);
+    				if(inputLine!=null)
+    					inputLine1+=inputLine;
+    			}
+    			in.close();
+    		    if(inputLine1!=null && inputLine1.endsWith("<reply>1</reply>"))
+  	 		    {
+    		 		regDAO.updateAcknowledgement(tmpRegId);
+  	 		    }
+        		}
+        		catch(Exception ex)
+        		{
+        			ex.printStackTrace();
+        		}
+    			
+        	}
+        	//
         	return "success";
         }
         else

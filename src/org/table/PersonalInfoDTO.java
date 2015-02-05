@@ -65,6 +65,14 @@ public class PersonalInfoDTO {
 	private String ipAddress;
 	private String regToken;
 	
+	private String paymentId;
+	private String regTypeId;
+	private String paymentPin;
+	private String paymentOperator;
+	
+	private String tmpRegId;
+	private String paymentStatus;
+	
 	public String getJobseekerNumber() {
 		return jobseekerNumber;
 	}
@@ -365,6 +373,42 @@ public class PersonalInfoDTO {
 	}
 	public void setRegToken(String regToken) {
 		this.regToken = regToken;
+	}
+	public String getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
+	public String getRegTypeId() {
+		return regTypeId;
+	}
+	public void setRegTypeId(String regTypeId) {
+		this.regTypeId = regTypeId;
+	}
+	public String getPaymentPin() {
+		return paymentPin;
+	}
+	public void setPaymentPin(String paymentPin) {
+		this.paymentPin = paymentPin;
+	}
+	public String getPaymentOperator() {
+		return paymentOperator;
+	}
+	public void setPaymentOperator(String paymentOperator) {
+		this.paymentOperator = paymentOperator;
+	}
+	public String getTmpRegId() {
+		return tmpRegId;
+	}
+	public void setTmpRegId(String tmpRegId) {
+		this.tmpRegId = tmpRegId;
+	}
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 	
 	

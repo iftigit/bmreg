@@ -98,10 +98,10 @@ public class CheckValidity extends ActionSupport{
 			addActionMessage("Invalid Userid or Password.");
 			return INPUT;
 		}
-		else if(user!=null & user.getLoginStatus()==1){
-			addActionMessage("User is already login from another session. Please close that session at first.");
-			return INPUT;
-		}
+//		else if(user!=null & user.getLoginStatus()==1){
+//			addActionMessage("User is already login from another session. Please close that session at first.");
+//			return INPUT;
+//		}
 		else
 		{
 				

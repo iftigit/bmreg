@@ -18,7 +18,7 @@ public class RegistrationSingleton {
     private RegistrationSingleton() {
     }
  
-    public static synchronized String generateRegistrationId(String distId,String sex)
+    public static synchronized String generateRegistrationId(String distId,String sex,String regIdSuffix)
 	 {
    	   	   String registrationId = null;
 	 	   Connection conn = ConnectionManager.getConnection();
@@ -27,14 +27,15 @@ public class RegistrationSingleton {
 			  {
 				 System.out.println("Procedure Generate_RegId Begins");
 				 stmt = (OracleCallableStatement) conn.prepareCall(
-						 	  "{ call Generate_RegId(?,?,?) }");
+						 	  "{ call Generate_RegId(?,?,?,?) }");
 				 
 
 			 		stmt.setString(1,  distId);
 					stmt.setString(2,  sex);
-					stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
+					stmt.setString(3,  regIdSuffix);
+					stmt.registerOutParameter(4, java.sql.Types.VARCHAR);
 					stmt.executeUpdate();
-					registrationId = (stmt.getString(3)).trim();
+					registrationId = (stmt.getString(4)).trim();
 					System.out.println("registrationId : " + registrationId);
 			  }
 			    catch (Exception e){e.printStackTrace();return registrationId;}

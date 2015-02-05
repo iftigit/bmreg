@@ -183,6 +183,10 @@
 	   <s:if test="%{#session.loggedInUser.userType=='DEMO_REG_OPERATOR'}">	   	
 	   	var regToken = $('#regToken').val();
 	   </s:if>
+	   <s:if test="%{#session.loggedInUser.userType=='UISC_REG_OPERATOR'}">	   	
+	   	var paymentPin = $('#paymentPin').val();
+	   	var paymentOperator = $('#paymentOperator').val();
+	   </s:if>
 	   var givenName = $('#givenName').val();
 	   var lastName = $('#lastName').val();	   
 	   var fatherName = $('#fatherName').val();
@@ -215,6 +219,20 @@
 	         $('#msg_regToken').html('').hide();
 	       }
 	   </s:if>
+	   <s:if test="%{#session.loggedInUser.userType=='UISC_REG_OPERATOR'}">	   	
+	       if(paymentPin==""){
+	         isValid = false;
+	         $('#sMsg_paymentPin').html(alertImg+'Please Provide Payment Pin'+postFix).show();
+	       }else{
+	         $('#sMsg_paymentPin').html('').hide();
+	       }
+	       if(paymentOperator=="0"){
+	         isValid = false;
+	         $('#sMsg_paymentPin').html(alertImg+'Please Select Payment Operator'+postFix).show();
+	       }else{
+	         $('#sMsg_paymentPin').html('').hide();
+	       }
+	   </s:if>
 	   	   
        if(givenName=="" && lastName==""){
          isValid = false;
@@ -238,9 +256,16 @@
          isValid = false;
          $('#msg_birthDate').html(alertImg+"Please fill Birth Date"+postFix).show();
        }else{
-         $('#msg_birthDate').html('').hide();
-       }
-       
+         	var dobArr=birthDate.split("-");
+			var bDate = new Date(dobArr[2], dobArr[1] - 1, dobArr[0]);
+			var age=ageCount(bDate);			
+			if(age< <s:property value="%{#application.MIN_AGE}" /> || age> <s:property value="%{#application.MAX_AGE}" /> )
+			{
+			 	$('#msg_birthDate').html(alertImg+"Allowed Age Limit is <s:property value='%{#application.MIN_AGE}' /> - <s:property value='%{#application.MAX_AGE}' />"+postFix).show();
+			}
+			else
+		    	$('#msg_birthDate').html('').hide();
+        }       
         if(isValidDate(birthDate)==false){
          isValid = false;
          $('#msg_birthDate').html(alertImg+"Incorrect Birth Date"+postFix).show();
@@ -320,7 +345,7 @@
        }else{
          $('#msg_disabilityDetail').html('').hide();
        }
-       
+       isValid=true;
             
        return isValid;
     }
@@ -600,7 +625,7 @@
          $('#msg_nomineeContactPerson3').html('').hide();
        }   
        
-       
+      isValid=true; 
       return isValid;
     }
     function validateStep3(){
@@ -651,7 +676,7 @@
        }
        
        
-       
+       isValid=true;
        
               
       return isValid;
@@ -890,6 +915,38 @@ function validateRegToken(regToken)
 				});
    					
 }
+function validatePaymentPin(paymentPin)
+{
+   var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader.gif' border='0' /></center>";
+   var paymentOperator=$("#paymentOperator").val();
+   var mobileNumber=$("#mobileNumber").val();
+   if(mobileNumber=="")
+   {
+    alert("Please provide mobile number at first");
+    return;
+   }
+   var loadUrl="validatePaymentPin.action?paymentPin="+paymentPin+"&paymentOperator="+paymentOperator+"&mobileNumber="+mobileNumber;
+			jQuery("#sMsg_paymentPin")  
+				.html(ajax_load)  
+				.load(loadUrl, {},function(responseText){  
+					if(responseText=="error")
+					{
+					 alert("Invalid Payment PIN");
+					 document.getElementById("paymentPin").value="";
+				     $(".buttonNext").addClass("buttonDisabled"); 
+					}
+					else{
+					if($(".buttonNext").hasClass('buttonDisabled')){
+                       $(".buttonNext").removeClass("buttonDisabled");
+                      }
+					
+					}
+					jQuery("#sMsg_paymentPin").html("");
+					
+									   
+				});
+   					
+}
 
 </script>  
 </head>
@@ -979,8 +1036,7 @@ http://rishida.net/tools/conversion/
                     	</td>
           			</tr>        
           			
-          			<s:if test="%{#session.loggedInUser.userType=='DEMO_REG_OPERATOR'}">
-          			
+          			<s:if test="%{#session.loggedInUser.userType=='DEMO_REG_OPERATOR'}">          			
           			<tr>
                     	<td align="left">Reg Token <font color="red">*</font></td>
                     	<td align="left">
@@ -993,6 +1049,7 @@ http://rishida.net/tools/conversion/
                     	</td>
           			</tr>
           			</s:if> 
+          			          			
           			<tr>
                     	<td align="left" width="20%" valign="top">Job-Seeker's Name <font color="red">*</font></td>
                     	<td align="left" width="50%" valign="top">
@@ -1063,8 +1120,9 @@ http://rishida.net/tools/conversion/
           			<tr>
                     	<td align="left">Gender <font color="red">*</font></td>
                     	<td align="left">
-                    	  <input type="radio" id="sexMale" name="personalDTO.empGender" value="M" checked="checked" tabindex="8" /> Male
-     					  <input type="radio" id="sexFemale" name="personalDTO.empGender" value="F" tabindex="9"  /> Female
+                    	<s:iterator value="%{#application.ALLOWED_GENDER}" id="genderList" status="stat">
+							<input type="radio" id="<s:property value='fieldId' />" name="<s:property value='fieldName' />" value="<s:property value='genderId' />" <s:property value='extraAttribute' /> tabindex="<s:property value='tabIndex' />" /> <s:property value='caption' /> 
+						</s:iterator>	                    	  
                       </td>
                     	<td align="left"><span id="msg_sex"></span>&nbsp;
                     	<font style="color:red"><s:label name="sMsg_sex"></s:label></font>

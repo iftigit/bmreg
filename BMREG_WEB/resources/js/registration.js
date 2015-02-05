@@ -388,6 +388,7 @@ function defaultTrainingLoad() {
 	if (window.addEventListener) {              //DOM compliant
 		elementDelete.addEventListener("click", function () {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("train_delete" + elementDelete.value).style.display = "none";
 			document.getElementById("train_column1" + elementDelete.value).style.display = "none";
 			document.getElementById("train_column2" + elementDelete.value).style.display = "none";
@@ -398,6 +399,7 @@ function defaultTrainingLoad() {
 	} else {           //IE6 standards compliant mode
 		elementDelete.attachEvent("onclick", function () {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("train_delete" + elementDelete.value).style.display = "none";
 			document.getElementById("train_column1" + elementDelete.value).style.display = "none";
 			document.getElementById("train_column2" + elementDelete.value).style.display = "none";
@@ -492,6 +494,7 @@ function addMoreTraining() {
 	if (window.addEventListener) {              //DOM compliant
 		elementDelete.addEventListener("click", function () {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("train_delete" + elementDelete.value).style.display = "none";
 			document.getElementById("train_column1" + elementDelete.value).style.display = "none";
 			document.getElementById("train_column2" + elementDelete.value).style.display = "none";
@@ -502,6 +505,7 @@ function addMoreTraining() {
 	} else {           //IE6 standards compliant mode
 		elementDelete.attachEvent("onclick", function () {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("train_delete" + elementDelete.value).style.display = "none";
 			document.getElementById("train_column1" + elementDelete.value).style.display = "none";
 			document.getElementById("train_column2" + elementDelete.value).style.display = "none";
@@ -643,6 +647,7 @@ function defaultTrainingLoad1() {
 	if (window.addEventListener) {              //DOM compliant
 		elementDelete.addEventListener("click", function () {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingName" + elementDelete.value).style.display = "none";
 			document.getElementById("trainingDuration" + elementDelete.value).style.display = "none";
@@ -680,6 +685,7 @@ function defaultTrainingLoad1() {
 	} else {           //IE6 standards compliant mode
 		elementDelete.attachEvent("onclick", function () {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingName" + elementDelete.value).style.display = "none";
 			document.getElementById("train_delete" + elementDelete.value).style.display = "none";
@@ -770,7 +776,7 @@ function fetchTradeSuccess(originalRequest) {
 	//selectTrainingName.appendChild(option);
 	for (var i = 0; i < result.tradeList.length; i = i + 2) {
 		option = document.createElement("option");
-		option.value = result.tradeList[i + 1];
+		option.value = result.tradeList[i+1];
 		option.appendChild(document.createTextNode(result.tradeList[i]));
 		document.getElementById(toId).appendChild(option);
 	}
@@ -860,6 +866,7 @@ function addMoreTraining1() {
 	if (window.addEventListener) {              //DOM compliant
 		elementDelete.addEventListener("click", function () {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingName" + elementDelete.value).style.display = "none";
 			document.getElementById("train_delete" + elementDelete.value).style.display = "none";
@@ -897,6 +904,7 @@ function addMoreTraining1() {
 	} else {           //IE6 standards compliant mode
 		elementDelete.attachEvent("onclick", function () {
 			document.getElementById("trainingName" + elementDelete.value).style.display = "none";
+			document.getElementById("trainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingFrom" + elementDelete.value).style.display = "none";
 			document.getElementById("selectTrainingName" + elementDelete.value).style.display = "none";
 			document.getElementById("train_delete" + elementDelete.value).style.display = "none";

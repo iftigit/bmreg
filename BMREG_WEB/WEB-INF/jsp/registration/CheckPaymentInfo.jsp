@@ -10,7 +10,7 @@
 
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
-<title>Reg. System - User Home</title>
+<title></title>
  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />	
   <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
@@ -20,7 +20,27 @@
  <link type="text/css" rel="Stylesheet" href="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jquery.validity.css" />
         <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jQuery.validity.js"></script>
  
+<script type="text/javascript">
+var ajax_load="<br/><center><img src='/BMREG_WEB/resources/images/ajax-loader1.gif' border='0' /></center>";
+function checkPayment(){
 
+    var tmpRegId=$("#tmpRegId").val();
+    
+    if(tmpRegId==""){
+    alert("Provide Tmp. Reg Id");return; }
+
+	var loadUrl="checkPaymentInfo.action?tmpRegId="+tmpRegId;
+	
+			jQuery("#msgDiv")  
+				.html(ajax_load)  
+				.load(loadUrl, {},function(responseText){  
+					jQuery("#msgDiv").html(responseText);
+					alert(responseText);					
+									   
+				});
+}
+</script>
+  
 </head>
 <body style="margin: 0px;">
 
@@ -32,79 +52,37 @@
 	</div>
 	<div style="float: left;margin-left: 30px;color: black;margin-top: 15px;text-align: left;">
 	 	<div style="font-size: 27px;font-weight: bold;">Bureau of Manpower, Employment & Training (BMET)</div>
-	 	<div style="font-size: 20px;margin-top: 10px;">Online Registration System</div>
 	</div>
 </div>
 </center>
 </div>
 <center>
 <br/>
-<div class="box" style="margin-top: 100px;width: 500px;text-align: center;">
-    <h3>Activities</h3>
+<div class="box" style="margin-top: 100px;width: 700px;text-align: center;">
+    <h3>Payment Info Check</h3>
     
-<form id="loginForm" name="loginForm" method="post" action="checkValidity.action">    
-    <table width="100%" border="0" cellspacing="1" class="infoTable">
     
+    <table width="80%" border="1" cellspacing="0" cellpadding="0" class="infoTable" style="border: 1px solid grey;"  align="center" >
     <tr>
-     <td style="text-align: center">
-     	<a href="regHomeAction.action">Registration Form</a>
+     <td style="text-align: left;padding-left: 10px;" width="50%">
+     	Tmp Reg Id 
+     </td>
+     <td style="text-align: left;padding-left: 10px;" width="50%">
+     	 <input type="text" id="tmpRegId" maxlength="10" style="width: 150px;border: 1px solid grey;" />
      </td>
     </tr>
-     <tr>
-     <td style="text-align: center">
-     	<a href="adminCardDownloadHome.action">Download Registration Card</a>
-     </td>
-    </tr>
-    
-    <tr>
-     <td style="text-align: center">
-     	<a href="nonAckRegistration.action">Check Tele-Talk Ack</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="checkPaymantInfoHome.action">Check Tele-Talk Payment Info</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="getRegisteredJobseekerList.action">Registered Jobseeker List</a>
-     </td>
-    </tr>
-  
- 	<tr>
-     <td style="text-align: center">
-     	<a href="technicalTeam.action">Contact your Technical Person</a>
-     </td>
-    </tr>
-    <tr>
-     <td style="text-align: center">
-     	<a href="passwordChangeHome.action">Change Password</a>
-     </td>
-    </tr>
-    
-     <tr>
-     <td style="text-align: center">
-     	<a href="logout.action">Logout</a>
-     </td>
-    </tr>
-    
-     <tr>
-     <td style="text-align: center" height="20px;">
-     
-     </td>
-    </tr>
-
     </table>
-</form>    
-    
-  
+    <center>
+    <input type="button" value="Check Payment Info." onclick="checkPayment()" />
+    </center>
+<br/>     
 </div>
-<p style="height: 30px"></p>
+    <br/>
+    <a href="homePage.action">Go Home</a>
+    <br/>
+<p style="height: 30px" id="msgDiv"></p>
 </center>
-<script type="text/javascript">
-$('input').attr('autocomplete','off');   
-</script>
+
 </body>
 
 </html>
