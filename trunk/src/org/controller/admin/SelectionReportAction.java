@@ -191,6 +191,8 @@ public class SelectionReportAction extends ActionSupport implements ServletConte
 		response.setHeader("Content-Disposition", "attachment;filename="+fileName);
 		out.write(baos.toByteArray());
 		out.flush();
+		baos.close();  //Newly Added
+		out.close();   //Newly Added
 
 	
 	}catch(Exception e){e.printStackTrace();}

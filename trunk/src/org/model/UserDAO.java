@@ -1,9 +1,15 @@
 package org.model;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Random;
 
 import oracle.jdbc.driver.OracleCallableStatement;
 import oracle.sql.ARRAY;
@@ -532,4 +538,192 @@ public class UserDAO {
 		return count;
 	}
 	
+	public static ArrayList<UserDTO> searchUser(String userId,String division,String district,String thana,String union,String userType)
+	{
+		ArrayList<UserDTO> userList=new ArrayList<UserDTO>();
+		UserDTO user=null;
+		
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="";
+		 
+		 if(!userId.equalsIgnoreCase(""))
+			 sql="Select USERID,PASSWORD,TO_CHAR(START_DATE,'dd-MM-YYYY HH24:MI:SS') START_DATE,TO_CHAR(END_DATE,'dd-MM-YYYY HH24:MI:SS') END_DATE from MST_USER where userid='"+userId+"' ";
+		 else {
+			 sql="Select USERID,PASSWORD,TO_CHAR(START_DATE,'dd-MM-YYYY HH24:MI:SS') START_DATE,TO_CHAR(END_DATE,'dd-MM-YYYY HH24:MI:SS') END_DATE from MST_USER where USER_TYPE='"+userType+"' ";
+			 
+			 if(!division.equalsIgnoreCase("")){
+				 sql+="DIVISION_ID='"+division+"' ";
+			 }
+			 if(!district.equalsIgnoreCase("")){
+				 sql+="DISTRICT_ID='"+district	+"' ";
+			 }
+			 if(!thana.equalsIgnoreCase("")){
+				 sql+="UPAZILLA_ID='"+thana+"' ";
+			 }
+			 if(!union.equalsIgnoreCase("")){
+				 sql+="UNION_ID='"+union+"' ";
+			 }
+			 
+		 
+		 }
+		   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					user=new UserDTO();
+					
+					user.setUserId(r.getString("USERID"));
+					user.setPassword(r.getString("PASSWORD"));
+					user.setFormDate(r.getString("START_DATE"));
+					user.setToDate(r.getString("END_DATE"));
+					userList.add(user);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		
+		return userList;
+	}
+	
+	public static boolean saveUser(String userId,String fromDate,String endDate)
+	{		
+		   Connection conn = ConnectionManager.getConnection();
+		   String sql = " Update MST_USER Set START_DATE=to_date(?,'dd-MM-YYYY HH24:MI:SS'),END_DATE=to_date(?,'dd-MM-YYYY HH24:MI:SS') Where USERID=?";
+		   int operation=0;
+		   PreparedStatement stmt = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);							    
+			    stmt.setString(1, fromDate);
+			    stmt.setString(2, endDate);
+			    stmt.setString(3, userId);
+			    operation=stmt.executeUpdate();
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		if(operation==1)
+			return true;
+		else
+			return false;
+	}
+	
+	  public static String sendPassword(String[] userList)
+	  {
+		  UserDAO udao=new UserDAO();
+		  String pass = "";
+		  int counter=0;
+		  for(int i=0;i<userList.length;i++)
+		  {
+			  UserDTO udto=udao.getUserFromUserId(userList[i]);
+			  //if(udto!=null && (udto.getPassword()==null || udto.getPassword().equalsIgnoreCase("")) )
+			  if(udto!=null && !udto.getPassword().equalsIgnoreCase("") )
+			  {
+			  try
+			  {
+				//  pass = getPasswordCode().substring(0, 5);
+				//  NewPaawordDAO.setNewPassword(userList[i], pass);
+				    pass=udto.getPassword();
+				  String pass1="pls login: bmet.gov.bd ID:type your mobile no abong Password:"+pass+" .login korte na parle call korun 09613016364.";
+
+				  URL yahoo;
+					if(userList[i].substring(0,3).equalsIgnoreCase("011"))
+						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i])+
+								"&txt="+URLEncoder.encode(pass1)+
+								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet231")); 		  
+					else
+						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i])+
+								"&txt="+URLEncoder.encode(pass1)+
+								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet231")); 		  
+						
+					URLConnection yc = yahoo.openConnection();
+					BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+					String inputLine;
+					String inputLine1="";
+					while ((inputLine = in.readLine()) != null)
+					{
+						System.out.println(inputLine);
+						if(inputLine!=null)
+							inputLine1+=inputLine;
+					}
+					in.close();
+					counter++;
+					if(counter%500==0)
+						System.out.println("yes");
+//					Thread.sleep(100);
+			  }
+				  catch(Exception e)
+				  {
+					  e.printStackTrace();
+				  }
+			  }
+		  }
+		  System.out.println("END");
+		  return null;
+	  }
+	
+	  public static String getPasswordCode() {
+	      Random rand = new Random();
+	      int length = rand.nextInt(6) + 8;
+	      char[] password = new char[length];
+	      for (int x = 0; x < length; x++) {
+	        int randDecimalAsciiVal = 0;
+	        int cas = rand.nextInt(3);
+	        if (cas == 0)
+	          randDecimalAsciiVal = rand.nextInt(9) + 48;
+	        else if (cas == 1)
+	          randDecimalAsciiVal = rand.nextInt(26) + 65;
+	        else
+	          randDecimalAsciiVal = rand.nextInt(26) + 97;
+	        password[x] = (char) randDecimalAsciiVal;
+	      }
+	      String result = String.valueOf(password);
+	      
+
+	      while(result.contains("l") || result.contains("1") || result.contains("I") || result.contains("o") || result.contains("O") || result.contains("0"))
+	      {
+	              result=result.replaceAll("l", "");
+	              result=result.replaceAll("1", "");
+	              result=result.replaceAll("I", "");
+	              result=result.replaceAll("o", "");
+	              result=result.replaceAll("O", "");
+	              result=result.replaceAll("0", "");
+	              
+	              if(result.length()<6)
+	                      result=getSecurityCode();
+	              
+	      }
+	      
+	      return result.toUpperCase();
+	    }
+	  
+	  public static String getSecurityCode() {
+		    Random rand = new Random();
+		    int length = rand.nextInt(6) + 8;
+		    char[] password = new char[length];
+		    for (int x = 0; x < length; x++) {
+		      int randDecimalAsciiVal = 0;
+		      int cas = rand.nextInt(3);
+		      if (cas == 0)
+		        randDecimalAsciiVal = rand.nextInt(9) + 48;
+		      else if (cas == 1)
+		        randDecimalAsciiVal = rand.nextInt(26) + 65;
+		      else
+		        randDecimalAsciiVal = rand.nextInt(26) + 97;
+		      password[x] = String.valueOf(randDecimalAsciiVal/10).charAt(0);
+		    }
+		    String result = String.valueOf(password);
+		    return result;
+		  }	 
+
+	  
 }

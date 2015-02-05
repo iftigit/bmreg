@@ -151,7 +151,7 @@ public class TtcDAO {
 	{
 		ArrayList<String> tradeList=new ArrayList<String>();
 		Connection conn = ConnectionManager.getConnection();
-		String sql = "SELECT * FROM TTC_TRADE_MAP,MST_TRADE WHERE TTC_TRADE_MAP.TRADE_ID=MST_TRADE.ID AND TTC_TRADE_MAP.TTC_ID="+ttcId+" TRADE_ID";
+		String sql = "SELECT * FROM TTC_TRADE_MAP,MST_TRADE WHERE TTC_TRADE_MAP.TRADE_ID=MST_TRADE.ID AND TTC_TRADE_MAP.TTC_ID="+ttcId+" order by trade_name";
 
 		Statement stmt = null;
 		ResultSet r = null;

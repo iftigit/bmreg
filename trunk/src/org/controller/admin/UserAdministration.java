@@ -16,6 +16,7 @@ public class UserAdministration extends ActionSupport{
 
 	private static final long serialVersionUID = 1L;
 	ArrayList<UserTmpDTO> userList=new ArrayList<UserTmpDTO>();
+	ArrayList<UserDTO> updateUserList=new ArrayList<UserDTO>();
 	String[] approveUserList;
 	private String message;
 	private String userId;
@@ -29,6 +30,7 @@ public class UserAdministration extends ActionSupport{
 	private String endDate;
 	private String userName;
 	private String designation;
+
 	
 	public String checkRequestedUserList()
 	{
@@ -48,11 +50,24 @@ public class UserAdministration extends ActionSupport{
 		return SUCCESS;
 	}
 	public String newUserForm(){
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		{
+			return "logout";
+		}
+
 		RegistrationDAO regDAO=new RegistrationDAO();
 		password=regDAO.getRandomPassword();
 		return SUCCESS;
-	}
+	}	
 	public String createNewUser(){
+		
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		{
+			return "logout";
+		}
+
 		
 		int count=UserDAO.checkUserIdAvailability(userId);
 		String msg="";
@@ -95,6 +110,75 @@ public class UserAdministration extends ActionSupport{
         password=regDAO.getRandomPassword();
 		return null;	
 	}
+	
+	public String userUpdateHome(){
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		{
+			return "logout";
+		}
+
+		return SUCCESS;
+	}	
+	public String searchUserForUpdate(){
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		{
+			return "logout";
+		}
+		updateUserList=UserDAO.searchUser(userId,division,district,upazila,union,userType);
+		
+		return SUCCESS;
+	}
+	
+	public String saveUser(){
+		
+		HttpServletResponse response = ServletActionContext.getResponse();
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		{
+			return "logout";
+		}
+		boolean resp=UserDAO.saveUser(userId,startDate,endDate);
+		
+		try{
+        	response.setContentType("text/html");
+        	response.setHeader("Cache-Control", "no-cache");
+        	response.getWriter().write(resp==true?"success":"error");
+        	response.flushBuffer();
+          }
+        catch(Exception e) {e.printStackTrace();}
+		return null;
+	}
+	
+	public String saveUserAndSendSms(){
+		HttpServletResponse response = ServletActionContext.getResponse();
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
+		if(!loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		{
+			return "logout";
+		}
+		boolean resp=UserDAO.saveUser(userId,startDate,endDate);
+		
+		try{
+        	response.setContentType("text/html");
+        	response.setHeader("Cache-Control", "no-cache");
+        	response.getWriter().write(resp==true?"success":"error");
+        	response.flushBuffer();
+          }
+        catch(Exception e) {e.printStackTrace();}
+        
+        if(resp==true){
+            String[] userList=new String[1];
+            userList[0]=userId;
+            UserDAO.sendPassword(userList);
+        }
+		return null;
+		
+	}
+	
+	
+	
 
 	public ArrayList<UserTmpDTO> getUserList() {
 		return userList;
@@ -180,6 +264,12 @@ public class UserAdministration extends ActionSupport{
 	}
 	public void setDesignation(String designation) {
 		this.designation = designation;
+	}
+	public ArrayList<UserDTO> getUpdateUserList() {
+		return updateUserList;
+	}
+	public void setUpdateUserList(ArrayList<UserDTO> updateUserList) {
+		this.updateUserList = updateUserList;
 	}
 	
 

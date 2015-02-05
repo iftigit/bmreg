@@ -14,15 +14,19 @@ import org.model.AddressDAO;
 import org.model.CountryDAO;
 import org.model.DegreeDAO;
 import org.model.JobCategoryDAO;
-import org.model.RegistrationDAO;
+import org.model.MasterDataManagement;
+import org.model.ParameterDAO;
 import org.model.RegistrationDAO;
 import org.model.RelationDAO;
 import org.model.TtcDAO;
 import org.model.UserDAO;
 import org.table.AddressDTO;
+import org.table.AgeLimitDTO;
 import org.table.CountryDTO;
 import org.table.DegreeDTO;
+import org.table.GenderDTO;
 import org.table.JobPreferenceDTO;
+import org.table.RegTypeDTO;
 import org.table.RelationDTO;
 import org.table.SettingDTO;
 import org.table.TtcDTO;
@@ -56,6 +60,9 @@ public class StartupResources  extends HttpServlet {
 		ArrayList<DegreeDTO> degreeList=new ArrayList<DegreeDTO>();
 		degreeList=DegreeDAO.getAllDegree();
 		
+		try {Thread.sleep(2000);} 
+		catch (InterruptedException e) {e.printStackTrace();}
+		
 		ArrayList<AddressDTO> divisionList=new ArrayList<AddressDTO>();
 		divisionList=AddressDAO.getAllDivision();
 		
@@ -74,6 +81,8 @@ public class StartupResources  extends HttpServlet {
 		ArrayList<AddressDTO> villageList=new ArrayList<AddressDTO>();
 		villageList=AddressDAO.getAllVillage();
 		
+		try {Thread.sleep(2000);} 
+		catch (InterruptedException e) {e.printStackTrace();}
 		
 		config.getServletContext().setAttribute("ALL_DIVISION", divisionList);
 		config.getServletContext().setAttribute("ALL_DISTRICT", districtList);
@@ -126,6 +135,11 @@ public class StartupResources  extends HttpServlet {
 		ArrayList<JobPreferenceDTO> activeJobCategoryList=new ArrayList<JobPreferenceDTO>();
 		jobCategoryList=JobCategoryDAO.getAllJob(1,0);
 		activeJobCategoryList=JobCategoryDAO.getAllJob(1,1);
+		
+		try {Thread.sleep(2000);} 
+		catch (InterruptedException e) {e.printStackTrace();}
+		
+		
 		HashMap<Integer, String>  jobCategoryMap = new HashMap<Integer, String>();
 				
 		config.getServletContext().setAttribute("ALL_JOB_MAIN_CATEGORY", jobCategoryList);
@@ -217,6 +231,9 @@ public class StartupResources  extends HttpServlet {
 		RegistrationDAO regDAO=new RegistrationDAO();
 		HashMap<String, SettingDTO> settingHash=regDAO.getParamSettings();
 		
+		
+
+		
 		config.getServletContext().setAttribute("ALL_DIVISTION_MAP", divisionMap);
 		config.getServletContext().setAttribute("ALL_DISTRICT_MAP", districtMap);
 		config.getServletContext().setAttribute("AL_UPAZILLA_THANA_MAP", upazillaOrThanaMap);
@@ -224,6 +241,17 @@ public class StartupResources  extends HttpServlet {
 		config.getServletContext().setAttribute("ALL_MAUZA_MOHOLLA_MAP", mauzaOrMohollaMap);
 		config.getServletContext().setAttribute("ALL_VILLAGE_MAP", villageMap);
 		config.getServletContext().setAttribute("ALL_SETTING_PARAM", settingHash);
+		
+		AgeLimitDTO ageLimit=MasterDataManagement.getAgeLimitMstData();
+		config.getServletContext().setAttribute("MIN_AGE", ageLimit.getMinAge());
+		config.getServletContext().setAttribute("MAX_AGE", ageLimit.getMaxAge());
+		config.getServletContext().setAttribute("ALLOWED_GENDER", ParameterDAO.getGenderList("active"));
+		
+		RegTypeDTO regType=MasterDataManagement.getActiveRegType();			
+		config.getServletContext().setAttribute("ACTIVE_REGTYPE", regType==null?null:regType.getTypeId());
+		config.getServletContext().setAttribute("REGID_SUFFIX", regType==null?null:regType.getRegIdSuffix());
+		
+		config.getServletContext().setAttribute("ACTIVE_PAYMENT_METHODS", MasterDataManagement.getActivePaymentMethods());
 		
 		
 		userDao.updateLoginStatus("allUser", 0);

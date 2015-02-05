@@ -154,6 +154,9 @@ public class JobCategoryManagement extends ActionSupport{
 		return null;
 
 	}
+	public String jobCatWiseRegViewHome(){
+		return null;
+	}
 	
 	public ArrayList<JobCategoryDTO> getJobList() {
 		return jobList;

@@ -3,6 +3,7 @@ package org.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -147,7 +148,7 @@ public class RegistrationDAO {
 					                                    "?,?,?,?,?,?,?,?,?,?, " +
 					                                    "?,?,?,?,?,?,?,?,?,?, " +
 					                                    "?,?,?,?,?,?,?,?,?,?, " +
-					                                    "?,?,?,?,?,?,?,?,?,?) }");
+					                                    "?,?,?,?,?,?,?,?,?,?,?,?) }");
 					 
 					 }else if(operationType.equalsIgnoreCase("update")){
 						 System.out.println("Procedure Update_RegInfo Begins");
@@ -279,16 +280,19 @@ public class RegistrationDAO {
 
 						stmt.setString(97, userType);
 						stmt.setString(98, userid);
+						
 						if(operationType.equalsIgnoreCase("new")){
-							stmt.setString(99, personalDTO.getRegToken());
-							stmt.registerOutParameter(100, java.sql.Types.VARCHAR);
+							stmt.setString(99,  personalDTO.getRegToken());
+							stmt.setString(100, personalDTO.getTmpRegId());
+							stmt.setString(101, personalDTO.getRegTypeId());
+							stmt.registerOutParameter(102, java.sql.Types.VARCHAR);
 						}
 						else
 							stmt.registerOutParameter(99, java.sql.Types.VARCHAR);
 						
 						stmt.executeUpdate();
 						if(operationType.equalsIgnoreCase("new"))
-							response = (stmt.getString(100)).trim();
+							response = (stmt.getString(102)).trim();
 						else
 							response = (stmt.getString(99)).trim();
 						System.out.println("Response : " + response);
@@ -300,26 +304,29 @@ public class RegistrationDAO {
 				 		return response;	           
 	    }
 	 
+	 
 	 public PersonalInfoDTO getPersonalInformation(String registrationId)
 	 {
 		 	Connection conn = ConnectionManager.getConnection();
-		   String sql = "  select tmp3.*, dist_name birth_dist_name from  " +
+		   String sql = "  Select tmp4.*,thana.THANA_NAME pthana_name from (select tmp3.*, dist_name birth_dist_name from  " +
 		   				"  (Select tmp2.*,dist_name pdistrict_name " +
 		   				"  from " +
 		   				"  (Select tmp1.*,villname villageName from " +
 		   				"  (  " +
 		   				" Select EMP_PERSONAL.jobseekerid,(GIVEN_NAME||' '||LAST_NAME) fullName,given_name,last_name,FATHER_NAME,MOTHER_NAME,MOBILE,PREFERRED_COUNTRIES, " +
-		   				" to_char(BIRTH_DATE,'dd-mm-YYYY') birthDate,GENDER,NATIONALID,BIRTHREGID,PPOST_OFFICE,PPOST_CODE,PROAD_NUMBER,PVILLAGE,PDISTRICT,BIRTH_DISTRICT,BIRTH_UPAZILA_OR_THANA, " +
-		   				" to_char(sysdate,'dd-mm-YYYY HH:MI:SS') printedOn,to_char(REG_DATE,'dd-mm-YYYY HH24:MI:SS') applicationDateTime,REMOTE_ADDRESS, " +
-		   				" DISABILITYYN,DISABILITY_DETAIL,RELIGION,MARITAL_STATUS,CHILDYN,TOTAL_SON,TOTAL_DAUGHTER,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,BLOOD_GROUP,SPOUSE_NAME"+
-		   				" from EMP_PERSONAL,EMP_REG_LOG,EMP_ADDRESS Where EMP_PERSONAL.jobseekerid=?   AND  EMP_PERSONAL.jobseekerid=EMP_REG_LOG.jobseekerid " +
-		   				" AND    EMP_PERSONAL.jobseekerid=EMP_ADDRESS.jobseekerid " +
+		   				" to_char(BIRTH_DATE,'dd-mm-YYYY') birthDate,GENDER,NATIONALID,BIRTHREGID,PPOST_OFFICE,PPOST_CODE,PROAD_NUMBER,PVILLAGE,PDISTRICT,pupazila_or_thana,BIRTH_DISTRICT,BIRTH_UPAZILA_OR_THANA, " +
+		   				" to_char(sysdate,'dd-mm-YYYY HH:MI:SS') printedOn,to_char(REG_DATE,'dd-mm-YYYY HH24:MI:SS') applicationDateTime,EMP_REG_LOG.REMOTE_ADDRESS, " +
+		   				" DISABILITYYN,DISABILITY_DETAIL,RELIGION,MARITAL_STATUS,CHILDYN,TOTAL_SON,TOTAL_DAUGHTER,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,BLOOD_GROUP,SPOUSE_NAME,EMP_REG_PAYMENT.PAYMENT_STATUS,EMP_REG_PAYMENT.TMP_REG_ID"+
+		   				" from EMP_PERSONAL,EMP_REG_LOG,EMP_ADDRESS,EMP_REG_PAYMENT  Where (EMP_PERSONAL.jobseekerid=? OR TMP_REG_ID=?)   AND  EMP_PERSONAL.jobseekerid=EMP_REG_LOG.jobseekerid " +
+		   				" AND    EMP_PERSONAL.jobseekerid=EMP_ADDRESS.jobseekerid And EMP_REG_PAYMENT.JOBSEEKERID=EMP_PERSONAL.JOBSEEKERID" +
 		   				" )tmp1 left outer join village  " +
 		   				" on tmp1.PVILLAGE=village.VILLID " +
 		   				" )tmp2 left outer join district " +
 		   				" on tmp2.PDISTRICT=district.DIST_ID " +
 		   				" )tmp3 left outer join district " +
-		   				" on tmp3.BIRTH_DISTRICT=district.DIST_ID   "; 
+		   				" on tmp3.BIRTH_DISTRICT=district.DIST_ID    )tmp4 " +
+		   				"  left outer join " +
+		   				"  thana on tmp4.pupazila_or_thana=thana.THANAID "; 
 		     
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -329,6 +336,7 @@ public class RegistrationDAO {
 			{
 				stmt = conn.prepareStatement(sql);
 				stmt.setString(1, registrationId);
+				stmt.setString(2, registrationId);
 				r = stmt.executeQuery();
 				if (r.next())
 				{
@@ -351,6 +359,8 @@ public class RegistrationDAO {
 					
 					personalDto.setEmpGivenName(r.getString("GIVEN_NAME"));
 					personalDto.setEmpLastName(r.getString("LAST_NAME"));
+					personalDto.setEmpFullName(r.getString("GIVEN_NAME")+" "+r.getString("LAST_NAME"));
+					
 					personalDto.setNationalId(r.getString("NATIONALID"));
 					personalDto.setBirthRegId(r.getString("BIRTHREGID"));
 					personalDto.setEmpGender(gender);
@@ -373,10 +383,13 @@ public class RegistrationDAO {
 					personalDto.setEmpWeight(r.getString("WEIGHT_KG"));
 					personalDto.setEmpBloodGroup(r.getString("BLOOD_GROUP"));
 					personalDto.setEmpSpouseName(r.getString("SPOUSE_NAME"));
+					personalDto.setTmpRegId(r.getString("TMP_REG_ID"));
+					personalDto.setPaymentStatus(r.getString("PAYMENT_STATUS"));
 					
 					
 					AddressDTO addDto=new AddressDTO();
 					addDto.setDistrictName(r.getString("pdistrict_name"));
+					addDto.setUpazillaOrThanaName(r.getString("pthana_name"));
 					addDto.setPostCode(r.getString("PPOST_CODE"));
 					addDto.setPostOffice(r.getString("PPOST_OFFICE"));
 					addDto.setVillageName(r.getString("villageName"));
@@ -695,6 +708,42 @@ public class RegistrationDAO {
 	   
 		 if(userType.equalsIgnoreCase("DEMO_REG_OPERATOR")){
 			 sql="Select count(*) total from DTL_REGISTRATION_TOKEN Where UserId='"+userId+"' and lower(Token)=lower('"+regToken+"') and Status='A'";
+		 }
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+
+		   int count=0;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				if(r.next())
+				{
+
+					count=r.getInt("TOTAL");
+				}
+				if(count>0)
+					response=true;
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+
+	 		
+		 
+		 
+		 return response;
+	 }
+	 
+	 public boolean isValidPaymentPin(String userType,String operator,String pinNumber,String mobileNumber){
+		 boolean response=false;
+		 
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="";
+		 if(userType.equalsIgnoreCase("UISC_REG_OPERATOR")){
+   		   sql="Select count(*) total from PAYMENT_INFO Where OPERATOR='"+operator+"' and  PIN_NUMBER='"+pinNumber+"' and MOBILE_NUMBER='"+mobileNumber+"' and IS_USED='N'";
 		 }
 		   PreparedStatement stmt = null;
 		   ResultSet r = null;
@@ -1515,5 +1564,88 @@ public class RegistrationDAO {
 		 return userList;
 	 }
 	 	 
+	 public int updateAcknowledgement(String tmpRegId) {
+		 Connection conn = ConnectionManager.getConnection();
+		   String sql = " Update EMP_REG_PAYMENT set Acknowledged='Y' where tmp_reg_id=?";
+		   PreparedStatement stmt = null;
+		   int response=0;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, tmpRegId);
+				response = stmt.executeUpdate();
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 		return response;
+		}
+	 
+	 public ArrayList<PersonalInfoDTO> getNonAckEmpList(String role,String userId)
+	 {
+		 ArrayList<PersonalInfoDTO> regList=null;		 
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="";
+		 if(role.equalsIgnoreCase("UISC_REG_OPERATOR")){
+			 sql=" Select tmp_reg_id,given_name,last_name,father_name,to_char(reg_date,'dd-mm-YYYY HH:MI') reg_date from EMP_REG_LOG,EMP_REG_PAYMENT,EMP_PERSONAL " +
+			 	 " Where EMP_REG_LOG.JOBSEEKERID=EMP_REG_PAYMENT.JOBSEEKERID " +
+			 	 " And   emp_personal.JOBSEEKERID=EMP_REG_PAYMENT.JOBSEEKERID " +
+			 	 " And   emp_personal.JOBSEEKERID=EMP_REG_LOG.JOBSEEKERID " +
+			 	 " And Reg_By=? and PAYMENT_STATUS='NON-PAID' AND ACKNOWLEDGED='N' ";
+			 
+		 }		
+		 else if(role.equalsIgnoreCase("SYSTEM_ADMIN")){
+			 sql=" Select tmp_reg_id,given_name,last_name,father_name,to_char(reg_date,'dd-mm-YYYY HH:MI') reg_date from EMP_REG_LOG,EMP_REG_PAYMENT,EMP_PERSONAL " +
+		 	 " Where EMP_REG_LOG.JOBSEEKERID=EMP_REG_PAYMENT.JOBSEEKERID " +
+		 	 " And   emp_personal.JOBSEEKERID=EMP_REG_PAYMENT.JOBSEEKERID " +
+		 	 " And   emp_personal.JOBSEEKERID=EMP_REG_LOG.JOBSEEKERID " +
+		 	 " and PAYMENT_STATUS='NON-PAID' AND ACKNOWLEDGED='N' ";
+		 }
+			 
+		 PreparedStatement stmt = null;
+		 ResultSet r = null;
+		 PersonalInfoDTO regDTO=null;
+
+		   int count=0;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				if(role.equalsIgnoreCase("UISC_REG_OPERATOR")){
+					stmt.setString(1, userId);
+				}
+				r = stmt.executeQuery();
+				while(r.next())
+				{
+					if(count==0)
+						regList=new ArrayList<PersonalInfoDTO>();
+					
+					regDTO=new PersonalInfoDTO();
+					
+					
+					
+					
+					
+					regDTO.setTmpRegId(r.getString("TMP_REG_ID"));
+					regDTO.setEmpGivenName(r.getString("GIVEN_NAME"));
+					regDTO.setEmpLastName(r.getString("LAST_NAME"));
+					regDTO.setEmpFatherName(r.getString("FATHER_NAME"));
+					regDTO.setRegDateTime(r.getString("REG_DATE"));
+					regList.add(regDTO);
+					count++;
+					
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 				 		 
+		 return regList;
+			 
+		 
+	 }
 
 }

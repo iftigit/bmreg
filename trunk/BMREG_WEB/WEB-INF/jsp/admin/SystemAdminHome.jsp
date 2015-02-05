@@ -59,7 +59,8 @@
      	 </td>
      	 <td style="text-align: left;padding-left: 5px;vertical-align: top;padding-top: 10px;">
      		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="userAdministrationHome.action">User Approval</a> <br/>
-     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="newUserForm.action">Create New User</a>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="newUserForm.action">Create New User</a><br/>
+     		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="userUpdateHome.action">Update Bulk User</a>
      	 </td>
     </tr>
     <tr>
@@ -71,7 +72,10 @@
      		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="countryManagement.action">Country</a> <br/>
      		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="degreeNameManagement.action">Educational Qualifications</a> <br/>
      		<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="passingYearManagement.action">Passing Year</a> <br/>
-	     	<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="languageManagement.action">Language</a>
+	     	<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="languageManagement.action">Language</a><br/>
+	     	<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="genderManagement.action">Gender</a><br/>
+	     	<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="ageLimitManagement.action">Age Limit</a><br/>
+	     	<img src="/BMREG_WEB/resources/images/green_bullet.png"/><a href="regTypeManagement.action">Reg. Type</a><br/>
      	 </td>
     </tr>
     <tr>
@@ -127,7 +131,9 @@
 <script type="text/javascript">
 $('input').attr('autocomplete','off');   
 </script>
+<!-- 
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/browserCloseDetect.js"></script>
+ -->
 </body>
 
 </html>

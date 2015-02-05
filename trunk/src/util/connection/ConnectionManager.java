@@ -29,7 +29,7 @@ public class ConnectionManager {
 	    			{
 	    				Context initContext = new InitialContext();
 	    				Context envContext = (Context) initContext.lookup("java:/comp/env");
-	    				ds = (DataSource) envContext.lookup("jdbc/reg2g");
+	    				ds = (DataSource) envContext.lookup("jdbc/dbreg");
 	    			}
 	    			conn = ds.getConnection();
     			} 
@@ -43,7 +43,7 @@ public class ConnectionManager {
     		        catch (Exception ex) {
     					System.out.println("******##############################################################################");
     					System.out.println(ex.getMessage());
-    					System.out.println("******############################ Exception in Get Connection ################################");
+    					System.out.println("******############################ Exception in Get Connection-- ################################");
     		     }
     			System.out.println("##############################################################################");
     			System.out.println(e.getMessage());

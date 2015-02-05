@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.table.AddressDTO;
+import org.table.AgeLimitDTO;
 import org.table.CountryDTO;
 import org.table.DegreeDTO;
 import org.table.PassingYearDTO;
+import org.table.PaymentMethodDTO;
+import org.table.RegTypeDTO;
 
 import util.connection.ConnectionManager;
 import util.connection.TransactionManager;
@@ -95,6 +97,206 @@ public class MasterDataManagement {
 	 	return resp;
 
 	}
+	
+	public static AgeLimitDTO getAgeLimitMstData()
+	{
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql = "Select MIN_AGE,MAX_AGE from MST_ALLOWED_AGE_LIMIT";
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   AgeLimitDTO ageLimitDTO  = null;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					ageLimitDTO=new AgeLimitDTO();
+					ageLimitDTO.setMinAge(r.getFloat("MIN_AGE"));
+					ageLimitDTO.setMaxAge(r.getFloat("MAX_AGE"));
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return ageLimitDTO;
+
+	}
+	
+	public static ArrayList<RegTypeDTO> getRegTypeMstData()
+	{
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql = "Select TYPE_ID,REGID_SUFFIX,TYPE_NAME,TYPE_DESC,ISACTIVE from MST_REGTYPE";
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   RegTypeDTO regTypeDTO  = null;
+		   ArrayList<RegTypeDTO> regTypeList=new ArrayList<RegTypeDTO>();
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					regTypeDTO=new RegTypeDTO();
+					regTypeDTO.setTypeId(r.getInt("TYPE_ID"));
+					regTypeDTO.setRegIdSuffix(r.getString("REGID_SUFFIX"));
+					regTypeDTO.setTypeName(r.getString("TYPE_NAME"));
+					regTypeDTO.setTypeDesc(r.getString("TYPE_DESC"));
+					regTypeDTO.setIsActive(r.getInt("ISACTIVE"));
+					regTypeList.add(regTypeDTO);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return regTypeList;
+	}
+	
+	public static RegTypeDTO getActiveRegType()
+	{
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql = "Select TYPE_ID,REGID_SUFFIX,TYPE_NAME,TYPE_DESC,ISACTIVE from MST_REGTYPE Where ISACTIVE=1";
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   RegTypeDTO regTypeDTO  = null;
+		   int count=0;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					regTypeDTO=new RegTypeDTO();
+					regTypeDTO.setTypeId(r.getInt("TYPE_ID"));
+					regTypeDTO.setRegIdSuffix(r.getString("REGID_SUFFIX"));
+					regTypeDTO.setTypeName(r.getString("TYPE_NAME"));
+					regTypeDTO.setTypeDesc(r.getString("TYPE_DESC"));
+					regTypeDTO.setIsActive(r.getInt("ISACTIVE"));
+					count++;
+				}
+				if(count>1)
+					regTypeDTO=null;
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return regTypeDTO;
+	}
+	
+	public static boolean addNewRegType(RegTypeDTO regTypeDTO)
+	{
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql = "Insert into MST_REGTYPE(TYPE_ID,REGID_SUFFIX,TYPE_NAME,TYPE_DESC,ISACTIVE)  " +
+	 	   		" values(SQN_REGTYPE_ID.nextval,?,?,?,?)";
+		   PreparedStatement stmt = null;
+		   boolean resp=false;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, regTypeDTO.getRegIdSuffix());
+				stmt.setString(2, regTypeDTO.getTypeName());
+				stmt.setString(3, regTypeDTO.getTypeDesc());
+				stmt.setInt(4, regTypeDTO.getIsActive());
+				if(stmt.executeUpdate()==1)
+					resp=true;
+					
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return resp;
+
+	}
+	public static boolean updateRegType(RegTypeDTO regTypeDTO)
+	{
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql = "Update MST_REGTYPE set REGID_SUFFIX=?,TYPE_NAME=?,TYPE_DESC=?,ISACTIVE=? Where TYPE_ID=?";
+		   PreparedStatement stmt = null;
+		   boolean resp=false;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, regTypeDTO.getRegIdSuffix());
+				stmt.setString(2, regTypeDTO.getTypeName());
+				stmt.setString(3, regTypeDTO.getTypeDesc());
+				stmt.setInt(4, regTypeDTO.getIsActive());
+				stmt.setInt(5, regTypeDTO.getTypeId());
+				if(stmt.executeUpdate()==1)
+					resp=true;
+					
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return resp;
+
+	}
+	
+	public static boolean deleteRegType(int regTypeId)
+	{
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql = "Delete MST_REGTYPE Where TYPE_ID=?";
+		   PreparedStatement stmt = null;
+		   boolean resp=false;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, regTypeId);
+				if(stmt.executeUpdate()==1)
+					resp=true;
+					
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return resp;
+
+	}
+	
+	
+	public static boolean updateAgeLimitInfo(float minYear,float maxYear)
+	{
+		
+		 Connection conn = ConnectionManager.getConnection();
+		   String sql = " Update MST_ALLOWED_AGE_LIMIT Set MIN_AGE=?,MAX_AGE=?";
+		   int operation=0;
+		   PreparedStatement stmt = null;
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				
+			    stmt.setFloat(1, minYear);
+			    stmt.setFloat(2, maxYear);
+			    operation=stmt.executeUpdate();
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+		
+		if(operation==1)
+			return true;
+		else
+			return false;
+	}
+	
 	public static boolean updateDegreeName(DegreeDTO degreeDTO)
 	{
 		
@@ -279,4 +481,33 @@ public class MasterDataManagement {
 		return response;
 	}
 	
+	public static ArrayList<PaymentMethodDTO> getActivePaymentMethods()
+	{
+		
+	 	   Connection conn = ConnectionManager.getConnection();
+	 	   String sql = "Select * from MST_PAYMENT_METHODS Where Active_YN=1";
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+		   PaymentMethodDTO pMethodDTO  = null;
+		   ArrayList<PaymentMethodDTO> methodList=new ArrayList<PaymentMethodDTO>();
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				while (r.next())
+				{
+					pMethodDTO=new PaymentMethodDTO();
+					pMethodDTO.setPaymentMethodId(r.getInt("METHOD_ID"));
+					pMethodDTO.setPaymentMethodName(r.getString("METHOD_NAME"));
+					pMethodDTO.setIsActive(r.getInt("ACTIVE_YN"));
+					methodList.add(pMethodDTO);
+				}
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+	 	return methodList;
+	}
 }

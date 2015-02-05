@@ -105,7 +105,13 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		PdfReader reader =null;
 		ByteArrayOutputStream certificate = null;
 		List<PdfReader> readers = new ArrayList<PdfReader>();
-		String realPath = servlet.getRealPath("/resources/staticpdf/application.pdf");
+		String paymentStatus=personalInfoDto.getPaymentStatus();
+		String realPath="";
+		if(paymentStatus.equalsIgnoreCase("PAID"))
+			realPath = servlet.getRealPath("/resources/staticpdf/application.pdf");
+		else
+			realPath = servlet.getRealPath("/resources/staticpdf/tmpRegistration.pdf");
+		
 		Document document = new Document();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		document.setPageSize(PageSize.A4);
@@ -121,32 +127,12 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 			BaseFont bf = BaseFont.createFont(BaseFont.TIMES_ROMAN,BaseFont.WINANSI,BaseFont.EMBEDDED);
 			over = stamp.getOverContent(1);
 			
+			if(paymentStatus.equalsIgnoreCase("PAID")){
 			Barcode128 code128 = new Barcode128(); 
 			code128.setCode(registrationId); 
 			PdfTemplate tp128= 
 			code128.createTemplateWithBarcode(over, null, null); 
 			over.addTemplate(tp128, 405, 758);
-			
-			/*cb.concatCTM(1, 0, 0, 1, 295, 770); 
-				Barcode128 code128 = new Barcode128(); 
-				code128.setCode(BOLNULDV);                  // code 
-				code128.setCodeType(Barcode.CODE128); // type 
-				code128.setBarHeight(15);             // height of the 
-				tall bars 
-				code128.setSize(11);                  // height of the 
-				short bars 
-				code128.setBaseline(12);              // the text 
-				distance under the bar 
-				code128.setN(5f);              // distance between 
-				bars 
-				code128.setX(1f);            // bar width 
-				code128.setFont(courB); 
-				code128.placeBarcode(cb, null, null); 
-				... 
-				cb.setFontAndSize(cour, 7); 
-				cb.showTextAligned(PdfContentByte.ALIGN_LEFT, "Data e 
-				ora", 450, 754, 0); 
-			*/
 			
 			over.beginText();
 			
@@ -160,16 +146,6 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 			over.setTextMatrix(200, 570);
 			over.showText(personalInfoDto.getEmpFullName());
 			
-			/*
-			over.setFontAndSize(bf, 12);
-			over.setTextMatrix(200, 550);
-			over.showText(personalInfoDto.getEmpFatherName());
-			
-			
-			over.setFontAndSize(bf, 12);
-			over.setTextMatrix(200, 514);
-			over.showText(personalInfoDto.getEmpMotherName());
-			*/
 			over.setFontAndSize(bf, 12);
 			over.setTextMatrix(200, 545);
 			over.showText(personalInfoDto.getEmpMobileNumber());
@@ -249,7 +225,37 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 			over.setTextMatrix(200, 62);
 			over.showText(personalInfoDto.getPermanentAddress().getDistrictName());
 			
-			
+			}
+			else
+			{
+				Barcode128 code128 = new Barcode128(); 
+				code128.setCode(personalInfoDto.getTmpRegId()); 
+				PdfTemplate tp128= 
+				code128.createTemplateWithBarcode(over, null, null); 
+				over.addTemplate(tp128, 405, 758);
+				
+				over.beginText();
+				
+				
+				over.setFontAndSize(bf, 12);
+				over.setTextMatrix(250, 575);
+				over.showText(personalInfoDto.getTmpRegId());
+				
+				
+				over.setFontAndSize(bf, 12);
+				over.setTextMatrix(170, 543);
+				over.showText(personalInfoDto.getEmpFullName());
+				
+				over.setFontAndSize(bf, 12);
+				over.setTextMatrix(170, 515);
+				over.showText(personalInfoDto.getEmpMobileNumber());
+				
+				
+				over.setFontAndSize(bf, 8);
+				over.setTextMatrix(90, 480);
+				over.showText("Printed on : "+personalInfoDto.getPrintDateTime()+"    IP Address : "+personalInfoDto.getIpAddress()+" , Submitted on :"+personalInfoDto.getRegDateTime());
+
+			}
 			over.endText();
 			stamp.close();
 			readers.add(new PdfReader(certificate.toByteArray()));
@@ -281,7 +287,10 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 
 			document.close();
 			ReportUtil rptUtil = new ReportUtil();
-			rptUtil.downloadPdf(out, response);
+			if(paymentStatus.equalsIgnoreCase("PAID"))
+				rptUtil.downloadPdf(out, response,"REG_"+personalInfoDto.getJobseekerNumber()+".pdf");
+			else
+				rptUtil.downloadPdf(out, response,"TMP_"+personalInfoDto.getTmpRegId()+".pdf");
 			document=null;	
 					
 		}

@@ -5,7 +5,7 @@
 <%@ page import="org.apache.struts2.ServletActionContext" %>
 <%@ page import="org.controller.registration.*" %>
 <%@ page import="java.util.ArrayList" %>
-         <table width="98%" align="center" border="0" cellpadding="2" cellspacing="0" style="border: 1px solid grey;">     
+   <table width="98%" align="center" border="0" cellpadding="2" cellspacing="0" style="border: 1px solid grey;">     
      <tr bgcolor="#F1F1F1">
      
         <td width="10%" align="center"  height="25">SL</td>
@@ -38,11 +38,11 @@
 			</s:elseif>
 		</td>
       	<td align="center"  height="25">
-      	<a href="#" onclick='updateDegreeName(<s:property value="degreeId" />,"<s:property value='degreeName' />",<s:property value="viewSerial" />,<s:property value="%{#indx.count}" />)'  style="text-decoration: none;">
+      	<a href="#" onclick='updateRegType(<s:property value="typeId" />,<s:property value="%{#indx.count}" />)'  style="text-decoration: none;">
 	      	<img src='/BMREG_WEB/resources/images/edit.png' border='0' width="20" height="20"/>
       	</a>
       	&nbsp;&nbsp;&nbsp;
-      	<a href="#" onclick='deleteDegreeName(<s:property value="degreeId" />)'  style="text-decoration: none;">
+      	<a href="#" onclick='deleteRegType(<s:property value="typeId" />)'  style="text-decoration: none;">
       	 <img src='/BMREG_WEB/resources/images/delete.png' border='0'  width="20" height="20"/>
       	 </a>
       	</td>
