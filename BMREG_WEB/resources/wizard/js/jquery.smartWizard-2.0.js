@@ -74,7 +74,7 @@
 
                   elmStepContainer.append(allDivs);
                   elmActionBar.append(loader);
-                  elmActionBar.append("<div style='float:left' id='goHomeAnchor'><a class='buttonFinish' href='regOperatorHome.action'><< Go Home</a></div>");
+                  elmActionBar.append("<div style='float:left' id='goHomeAnchor'><a class='buttonFinish' href='homePage.action'><< Go Home</a></div>");
                   obj.append(elmStepContainer);
                   obj.append(elmActionBar); 
                   if (options.includeFinishButton) {

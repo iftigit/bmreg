@@ -345,7 +345,7 @@
        }else{
          $('#msg_disabilityDetail').html('').hide();
        }
-       isValid=true;
+       //isValid=true;
             
        return isValid;
     }
@@ -625,7 +625,7 @@
          $('#msg_nomineeContactPerson3').html('').hide();
        }   
        
-      isValid=true; 
+      //isValid=true; 
       return isValid;
     }
     function validateStep3(){
@@ -676,7 +676,7 @@
        }
        
        
-       isValid=true;
+       //isValid=true;
        
               
       return isValid;
