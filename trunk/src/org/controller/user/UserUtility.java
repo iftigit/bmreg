@@ -35,6 +35,8 @@ public class UserUtility {
 			 return "regDcAdminHome";
 		else if(user.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))						 
 			 return "systemAdminHome";		
+		else if(user.getUserType().equalsIgnoreCase("OPEN_REG_OPERATOR"))						 
+			 return "openRegOperatorHome";		
 		 else
 			 return null;
 		

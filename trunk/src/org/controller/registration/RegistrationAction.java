@@ -42,7 +42,7 @@ public class RegistrationAction extends ActionSupport{
 		languageList=LanguageDAO.getAllLanguage(1);
 		
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
-		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR"))
+		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("OPEN_REG_OPERATOR"))
 		{
 			return "logout";
 		}

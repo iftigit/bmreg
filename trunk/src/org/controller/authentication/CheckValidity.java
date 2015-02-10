@@ -79,9 +79,10 @@ public class CheckValidity extends ActionSupport{
 		{
 			return "regDcAdminHome";
 		}
-		
-		
-		
+		else if(user!=null && user.getUserType().equalsIgnoreCase("OPEN_REG_OPERATOR"))
+		{
+			return "openRegOperatorHome";
+		}
 		
 		
 		String submittedAuthKey="";
@@ -188,6 +189,10 @@ public class CheckValidity extends ActionSupport{
 				else if(user!=null && user.getUserType().equalsIgnoreCase("REG_DC_ADMIN"))
 				{
 					return "regDcAdminHome";
+				}
+				else if(user!=null && user.getUserType().equalsIgnoreCase("OPEN_REG_OPERATOR"))
+				{
+					return "openRegOperatorHome";
 				}
 				
 
