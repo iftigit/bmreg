@@ -10,7 +10,7 @@
 
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
-<title>User Home</title>
+<title>Reg. System - User Home</title>
  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />	
   <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script> 
 <script type="text/javascript" src="/BMREG_WEB/resources/js/util/util.js"></script>
@@ -21,7 +21,6 @@
         <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery.validity.1.2.0/jQuery.validity.js"></script>
  
 
-  
 </head>
 <body style="margin: 0px;">
 
@@ -33,32 +32,57 @@
 	</div>
 	<div style="float: left;margin-left: 30px;color: black;margin-top: 15px;text-align: left;">
 	 	<div style="font-size: 27px;font-weight: bold;">Bureau of Manpower, Employment & Training (BMET)</div>
-	 	<div style="font-size: 20px;margin-top: 10px;">Registration System Login Page</div>
+	 	<div style="font-size: 20px;margin-top: 10px;">Online Registration System</div>
 	</div>
 </div>
 </center>
 </div>
 <center>
 <br/>
-<div class="box" style="margin-top: 100px;width: 700px;text-align: center;">
-    <h3>Time Over</h3>
+<div class="box" style="margin-top: 100px;width: 500px;text-align: center;">
+    <h3>Activities</h3>
     
-    <br/> 
+<form id="loginForm" name="loginForm" method="post" action="checkValidity.action">    
+    <table width="100%" border="0" cellspacing="1" class="infoTable">
     
-    <img src="/BMREG_WEB/resources/images/clock.png" border="0" />
-    <br/><br/>
-    <font style="color: red;font-weight: bold;">Sorry, you don't have permission to access this page now.</font>
-    <br/><br/>
+    <tr>
+     <td style="text-align: center">
+     	<a href="regHomeAction.action">Registration Form</a>
+     </td>
+    </tr>
+     <tr>
+     <td style="text-align: center">
+     	<a href="adminCardDownloadHome.action">Download Registration Card</a>
+     </td>
+    </tr>
+    <tr>
+     <td style="text-align: center">
+     	<a href="passwordChangeHome.action">Change Password</a>
+     </td>
+    </tr>
     
+     <tr>
+     <td style="text-align: center">
+     	<a href="logout.action">Logout</a>
+     </td>
+    </tr>
+    
+     <tr>
+     <td style="text-align: center" height="20px;">
+     
+     </td>
+    </tr>
 
-<br/>     
+    </table>
+</form>    
+    
+  
 </div>
-    <br/>
-    <a href="homePage.action">Go Home</a>
-    <br/>
 <p style="height: 30px"></p>
 </center>
-
+<script type="text/javascript">
+$('input').attr('autocomplete','off');   
+</script>
 </body>
 
 </html>
