@@ -13,6 +13,7 @@ import org.model.UserDAO;
 import org.table.AddressDTO;
 import org.table.UserDTO;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class CheckValidity extends ActionSupport{
@@ -123,6 +124,7 @@ public class CheckValidity extends ActionSupport{
 				
 			if(flag==true)
 			{
+				ActionContext.getContext().getSession().put("loggedInUser", user);
 				ServletActionContext.getRequest().getSession().setAttribute("loggedInUser", user);
 				userDao.updateLoginStatus(user.getUserId(), 1);
 				user.setLoginStatus(1);

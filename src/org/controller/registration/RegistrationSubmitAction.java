@@ -131,14 +131,17 @@ public String execute() throws Exception
 				 );
         if(response.equalsIgnoreCase("SUCCESS"))
         {
-        	ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",registrationId);
-        	personalDTO=null;
-        	nomineeDTO=null;
-        	ServletActionContext.getRequest().getSession().setAttribute("sessionObj_PersonalInfo",null);        	
+        	if(userType.equalsIgnoreCase("UISC_REG_OPERATOR")){
+        		ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",tmpRegId);	
+        	}
+        	else
+        		ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",registrationId);
+        	
+        	
         	//
         	if(userType.equalsIgnoreCase("UISC_REG_OPERATOR")){
         		try{
-        		String fullName=personalDTO.getEmpGivenName()==null?"":personalDTO.getEmpGivenName()+" "+personalDTO.getEmpLastName()==null?"":personalDTO.getEmpLastName();        		
+        		String fullName=personalDTO.getEmpGivenName()==null?"":personalDTO.getEmpGivenName()+" "+personalDTO.getEmpLastName()==null?"":personalDTO.getEmpLastName();
         		URL ackUrl = new URL("http://123.49.43.139:9999/bmet/bmetsend2teletalk.php?user=bmet&password=bmet123&tmp_reg_id="+tmpRegId+"&name="+URLEncoder.encode(fullName,"UTF-8")+"&dist="+URLEncoder.encode(personalDTO.getPermanentAddress().getDistrictName(),"UTF-8")+"&thana="+URLEncoder.encode(personalDTO.getPermanentAddress().getUpazillaOrThanaName(),"UTF-8")+"&contact_number="+URLEncoder.encode(personalDTO.getEmpMobileNumber(),"UTF-8"));
         		URLConnection yc = ackUrl.openConnection();
         		BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
@@ -163,6 +166,9 @@ public String execute() throws Exception
     			
         	}
         	//
+        	personalDTO=null;
+        	nomineeDTO=null;
+        	ServletActionContext.getRequest().getSession().setAttribute("sessionObj_PersonalInfo",null);        	
         	return "success";
         }
         else

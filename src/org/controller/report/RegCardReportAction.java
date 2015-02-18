@@ -13,6 +13,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.util.ServletContextAware;
 import org.model.RegistrationDAO;
 import org.table.PersonalInfoDTO;
+import org.table.UserDTO;
 import org.util.PassPhrase;
 import org.util.ReportUtil;
 
@@ -28,13 +29,16 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class PreAdmitReportAction extends ActionSupport implements ServletContextAware{
+public class RegCardReportAction extends ActionSupport implements ServletContextAware{
 
 	private static final long serialVersionUID = 8854240739341830184L;
 	private ServletContext servlet;
 	private String registrationId;
 	private String captchaCode;
 	private String requestType;
+	private String day;
+	private String month;
+	private String year;
 	
 	public ServletContext getServlet() {
 		return servlet;
@@ -51,7 +55,7 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 
 	public String execute() throws Exception
 	{	
-		
+		String birth_date=(day==null?"":day)+"-"+(month==null?"":month)+"-"+(year==null?"":year);
 		/*
 		String sessionRegId=(String)ServletActionContext.getRequest().getSession().getAttribute("sessionObj_regId");
 		
@@ -75,7 +79,7 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		
 		ServletActionContext.getRequest().getSession().setAttribute("sessionObj_regId",null);
 		RegistrationDAO regDAO=new RegistrationDAO();
-		
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
 		
 		String generatedCode = (String) ServletActionContext.getRequest().getSession().getAttribute("captchaText");
 		
@@ -85,7 +89,7 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		if(captchaCode==null || !captchaCode.equalsIgnoreCase(generatedCode))
 			{
 				addFieldError( "Err_captchaError", " Please Write Correctly" );
-				return "admit_home";
+				return "regCard_home";
 			}
 		else
 		{
@@ -93,11 +97,15 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 		}
 		}
 		
-		PersonalInfoDTO personalInfoDto= regDAO.getPersonalInformation(registrationId);
+		PersonalInfoDTO personalInfoDto= regDAO.getPersonalInformation(registrationId,loggedInUser,birth_date);
 		if(personalInfoDto==null)
 		{
-			addFieldError( "Err_regId", " Invalid Registration Id" );
-			return "admit_home";
+			if(loggedInUser==null)
+				addFieldError( "Err_regId", " Registration Id or Birth Date is incorrect." );
+			else
+				addFieldError( "Err_regId", " Invalid Registration Id." );
+			
+			return "regCard_home";
 		}
 
 		
@@ -323,6 +331,30 @@ public class PreAdmitReportAction extends ActionSupport implements ServletContex
 
 	public void setRequestType(String requestType) {
 		this.requestType = requestType;
+	}
+
+	public String getDay() {
+		return day;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
 	}
 	
 	
