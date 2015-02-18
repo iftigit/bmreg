@@ -53,7 +53,7 @@
     <!-- 
     <tr>
      <td style="text-align: center">
-     	<a href="adminCardDownloadHome.action">Lottery Dashboard</a>
+     	<a href="regCardDownloadHome.action">Lottery Dashboard</a>
      </td>
     </tr>
      -->
