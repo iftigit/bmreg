@@ -28,26 +28,70 @@
 </center>
 </div>
 
-<form action="downloadAdmit.action" method="post">
+<form action="downloadRegCard.action" method="post">
 <center>
 <div id="Example_F" style="height: 580px;width: 1000px;margin-top: 10px;">
-<table width="80%" border="0" align="center" style="padding-top: 100px;">
+<table width="80%" border="0" align="center" style="padding-top: 50px;">
 <tr> 
   <td align="right" width="40%" style="font-size: 25px;font-weight: bold;color: blue;">
   Registration Id:
   </td>
-  <td align="left" width="60%" style="padding-left: 10px;">
-   <input type="text" style="width: 300px;height: 30px;border: 1px solid grey;font-size: 20px;text-align: center;" name="registrationId" id="registrationId"/>
-   
+  <td align="left" width="60%" style="padding-left: 10px;padding-top: 20px;">
+   <input type="text" style="width: 300px;height: 30px;border: 1px solid grey;font-size: 20px;text-align: center;" name="registrationId" id="registrationId" value="<s:property value='registrationId' />"/>
    <br/>
    <div style="color: red"><s:label name="Err_regId" ></s:label></div>
   </td>
 </tr>
+<s:if test="%{#session.loggedInUser==null}">
 <tr> 
-  <td align="right" width="40%" style="font-size: 25px;font-weight: bold;color: blue;padding-top: 50px;">
+  <td align="right" width="40%" style="font-size: 25px;font-weight: bold;color: blue;">
+  Birth Date:
+  </td>
+  <td align="left" width="60%" style="padding-left: 10px;">
+   <select name="day" style="width:60px;height:30px;border:1px solid grey;">
+   <option value="">Day</option>
+     <%
+      for(int i=1;i<=31;i++)
+       {
+    %>
+     <option value="<%=i%>"><%=i%></option>
+    <%    
+       }
+    %>
+   </select>
+   &nbsp;&nbsp;&nbsp;
+   <select name="month" style="width:60px;height:30px;border:1px solid grey;">
+   <option value="">Month</option>
+     <%
+      for(int i=1;i<=12;i++)
+       {
+    %>
+     <option value="<%=i%>"><%=i%></option>
+    <%    
+       }
+    %>
+   </select>
+   &nbsp;&nbsp;&nbsp;
+   <select name="year" style="width:100px;height:30px;border:1px solid grey;">
+   <option value="">Year</option>
+     <%
+      for(int i=1970;i<=2000;i++)
+       {
+    %>
+     <option value="<%=i%>"><%=i%></option>
+    <%    
+       }
+    %>
+   </select>
+  </td>
+</tr>
+</s:if>
+
+<tr> 
+  <td align="right" width="40%" style="font-size: 25px;font-weight: bold;color: blue;padding-top: 20px;">
   Security Code:
   </td>
-  <td align="left" width="60%" style="padding-left: 10px;padding-top: 50px;">
+  <td align="left" width="60%" style="padding-left: 10px;padding-top: 20px;">  
    <input type="text" style="width: 300px;height: 30px;border: 1px solid grey;font-size: 20px;text-align: center;" name="captchaCode" id="captchaCode" />
   </td>
 </tr>
@@ -73,8 +117,11 @@
     	
 	<input type="submit" class="submitButton" name="Downalod_Card" value="Download Registration Card" style="width: 250px;"  />
 	&nbsp;&nbsp;&nbsp;&nbsp;
+
+	<s:if test="%{#session.loggedInUser!=null}">
 	<input type="button" class="submitButton" name="Registratoin_Home" value="Registration Home" style="width: 170px;" onclick="window.location='regHomeAction.action'"  />
-		
+    </s:if>
+    		
     	
   </td>
 </tr>
@@ -91,7 +138,7 @@
 </script>
 
 <div id="footer">
-&copy;BMET-2012. All right reserved.
+&copy;BMET-2015. All right reserved.
 </div>
 </body>
 
