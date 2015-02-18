@@ -71,7 +71,7 @@ function sendAck(divId,tmpRegId)
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="empFatherName" /></td>
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="regDateTime" /></td>
       	<td align="left" style="padding-left: 10px;" height="25">
-      	<a href="#" onclick="sendAck('w<s:property value='#ind.index' />','<s:property value='tmpRegId' />')">Acknowledge</a>
+      	<a href="javascript:void(0)" onclick="sendAck('w<s:property value='#ind.index' />','<s:property value='tmpRegId' />')">Acknowledge</a>
       	<span id="w<s:property value='#ind.index' />"></span>
       	
        </tr> 

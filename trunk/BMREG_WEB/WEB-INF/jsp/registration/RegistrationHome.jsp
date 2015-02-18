@@ -3045,6 +3045,9 @@ function fetchJobCategory(parentJobId,level,componentIndex,waitingDiv,selectType
 	         document.getElementById("abroadExpJobSubSubCat"+componentIndex).innerHTML="";
 	    if(level==2 && selectType=="localJobCategory")
 	         document.getElementById("localExpJobSubSubCat"+componentIndex).innerHTML="";
+	    if(level==2 && selectType=="jobPreferenceJobCategory")
+	         document.getElementById("leftDiv"+componentIndex+"2").innerHTML="";
+	         
 	    
 
  		var ajax_url="<img src='/BMREG_WEB/resources/images/ajax-loader.gif' alt='Loading ....' />"; 
