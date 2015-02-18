@@ -35,7 +35,8 @@
 				<interceptor-ref name="profiling" />
 				<interceptor-ref name="scopedModelDriven" />
 				<interceptor-ref name="modelDriven" />
-				<interceptor-ref name="fileUpload" />
+				<interceptor-ref name="fileUpload" />				
+    			<interceptor-ref name="params"/>
 			</interceptor-stack>
   </interceptors>
 
@@ -209,22 +210,24 @@
 		</result>
 	</action>
 	
-	<action name="downloadAdmit" class="org.controller.report.PreAdmitReportAction">
+	<action name="downloadRegCard" class="org.controller.report.RegCardReportAction">
+	   <interceptor-ref name="defaultStack"/>
 		<result type="stream">
 			<param name="contentType">application/pdf</param>
 			<param name="inputName">inputStream</param>
 		</result>
-		<result name="admit_home">
-			/WEB-INF/jsp/registration/AdmitCardHome.jsp
+		<result name="regCard_home">
+			/WEB-INF/jsp/registration/RegCardHome.jsp
 		</result>
 		<result name="registration_home" type="redirect">
 			regHomeAction.action
 		</result>
 	</action>
-	<action name="adminCardDownloadHome">
+	<action name="regCardDownloadHome">
 	 <result name="success">
-			/WEB-INF/jsp/registration/AdmitCardHome.jsp
-		</result>
+			/WEB-INF/jsp/registration/RegCardHome.jsp
+      </result>
+      <interceptor-ref name="defaultStack"/>
 	</action>
 	
 	<action name="fetchSubJob" class="org.controller.FetchSubJob">			

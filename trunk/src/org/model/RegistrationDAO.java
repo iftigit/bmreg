@@ -305,9 +305,14 @@ public class RegistrationDAO {
 	    }
 	 
 	 
-	 public PersonalInfoDTO getPersonalInformation(String registrationId)
+	 public PersonalInfoDTO getPersonalInformation(String registrationId,UserDTO user,String birth_date)
 	 {
-		 	Connection conn = ConnectionManager.getConnection();
+		   Connection conn = ConnectionManager.getConnection();
+		   String birth_day_query="";
+		   if(user==null)
+		   {
+			   birth_day_query=" and BIRTH_DATE =to_date('"+birth_date+"','DD-MM-YYYY') ";
+		   }
 		   String sql = "  Select tmp4.*,thana.THANA_NAME pthana_name from (select tmp3.*, dist_name birth_dist_name from  " +
 		   				"  (Select tmp2.*,dist_name pdistrict_name " +
 		   				"  from " +
@@ -318,7 +323,7 @@ public class RegistrationDAO {
 		   				" to_char(sysdate,'dd-mm-YYYY HH:MI:SS') printedOn,to_char(REG_DATE,'dd-mm-YYYY HH24:MI:SS') applicationDateTime,EMP_REG_LOG.REMOTE_ADDRESS, " +
 		   				" DISABILITYYN,DISABILITY_DETAIL,RELIGION,MARITAL_STATUS,CHILDYN,TOTAL_SON,TOTAL_DAUGHTER,HEIGHT_FEET,HEIGHT_INCHES,HEIGHT_CM,WEIGHT_KG,BLOOD_GROUP,SPOUSE_NAME,EMP_REG_PAYMENT.PAYMENT_STATUS,EMP_REG_PAYMENT.TMP_REG_ID"+
 		   				" from EMP_PERSONAL,EMP_REG_LOG,EMP_ADDRESS,EMP_REG_PAYMENT  Where (EMP_PERSONAL.jobseekerid=? OR TMP_REG_ID=?)   AND  EMP_PERSONAL.jobseekerid=EMP_REG_LOG.jobseekerid " +
-		   				" AND    EMP_PERSONAL.jobseekerid=EMP_ADDRESS.jobseekerid And EMP_REG_PAYMENT.JOBSEEKERID=EMP_PERSONAL.JOBSEEKERID" +
+		   				" AND    EMP_PERSONAL.jobseekerid=EMP_ADDRESS.jobseekerid And EMP_REG_PAYMENT.JOBSEEKERID=EMP_PERSONAL.JOBSEEKERID "+ birth_day_query+""+
 		   				" )tmp1 left outer join village  " +
 		   				" on tmp1.PVILLAGE=village.VILLID " +
 		   				" )tmp2 left outer join district " +
