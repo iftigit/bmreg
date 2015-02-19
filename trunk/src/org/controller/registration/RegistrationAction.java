@@ -120,7 +120,7 @@ public class RegistrationAction extends ActionSupport{
 		{
 			return "logout";
 		}
-		PersonalInfoDTO personalInfo=regDAO.getPersonalInformation(tmpRegId);
+		PersonalInfoDTO personalInfo=regDAO.getPersonalInformation(tmpRegId,null,"");
 		try{	
 			String url="http://123.49.43.139:9999/bmet/bmetsend2teletalk.php?user=bmet&password=bmet123&tmp_reg_id="+tmpRegId+"&name="+URLEncoder.encode(personalInfo.getEmpFullName(),"UTF-8")+"&dist="+URLEncoder.encode(personalInfo.getPermanentAddress().getDistrictName(),"UTF-8")+"&thana="+URLEncoder.encode(personalInfo.getPermanentAddress().getUpazillaOrThanaName(),"UTF-8")+"&contact_number="+URLEncoder.encode(personalInfo.getEmpMobileNumber(),"UTF-8");			
 			URL ackUrl = new URL(url);
