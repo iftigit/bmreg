@@ -2,6 +2,7 @@ package org.controller.admin;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.model.CountryDAO;
 import org.model.LanguageDAO;
@@ -16,6 +17,7 @@ import org.table.LanguageDTO;
 import org.table.NomineeDTO;
 import org.table.PersonalInfoDTO;
 import org.table.TrainingDTO;
+import org.table.UserDTO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -71,9 +73,9 @@ public class RegistrationManagement extends ActionSupport{
 		return SUCCESS;
 	}
 	public String getRegInfo(){
-	
+		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
 		RegistrationDAO regDAO=new RegistrationDAO();
-		personalDTO=regDAO.getPersonalInformation(jobseekerNumber);
+		personalDTO=regDAO.getPersonalInformation(jobseekerNumber,loggedInUser,StringUtils.EMPTY);
 		nomineeDTO=regDAO.getNomineeInformation(jobseekerNumber);
 		educationDTO=regDAO.getEducationInformation(jobseekerNumber);
 		localExperienceList=regDAO.getExperienceList(jobseekerNumber, "1");
