@@ -93,7 +93,7 @@ public class TeletalkAPI extends ActionSupport{
 	public String checkPaymentInfo()
 	{
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
-		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN") && !loggedInUser.getUserType().equalsIgnoreCase("ADHOC_REG_OPERATOR"))
 		{
 			return "logout";
 		}

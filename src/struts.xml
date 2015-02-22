@@ -92,6 +92,9 @@
 		<result name="openRegOperatorHome">
 			/WEB-INF/jsp/OpenRegOperatorHome.jsp
 		</result>
+		<result name="adhocRegOperatorHome">
+			/WEB-INF/jsp/AdhocRegOperatorHome.jsp
+		</result>
 		
 		
 		<!-- 
@@ -143,7 +146,8 @@
 	  -->
 	  <result name="systemAdminHome">/WEB-INF/jsp/admin/SystemAdminHome.jsp</result>
 	  <result name="regDcAdminHome">/WEB-INF/jsp/DCregAdminHome.jsp</result>
-	  <result name="openRegOperatorHome">/WEB-INF/jsp/OpenRegOperatorHome.jsp</result>		
+	  <result name="openRegOperatorHome">/WEB-INF/jsp/OpenRegOperatorHome.jsp</result>	
+	  <result name="adhocRegOperatorHome">/WEB-INF/jsp/AdhocRegOperatorHome.jsp</result>	  	
 	</action>
 
 	<action name="dataEntryAction" class="org.controller.DataEntryAction" >
