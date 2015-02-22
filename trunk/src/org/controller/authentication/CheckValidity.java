@@ -84,6 +84,11 @@ public class CheckValidity extends ActionSupport{
 		{
 			return "openRegOperatorHome";
 		}
+		else if(user!=null && user.getUserType().equalsIgnoreCase("ADHOC_REG_OPERATOR"))
+		{
+			return "adhocRegOperatorHome";
+		}
+		
 		
 		
 		String submittedAuthKey="";
@@ -196,6 +201,11 @@ public class CheckValidity extends ActionSupport{
 				{
 					return "openRegOperatorHome";
 				}
+				else if(user!=null && user.getUserType().equalsIgnoreCase("ADHOC_REG_OPERATOR"))
+				{
+					return "adhocRegOperatorHome";
+				}
+				
 				
 
 				else

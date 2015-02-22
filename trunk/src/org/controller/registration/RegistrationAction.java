@@ -44,7 +44,7 @@ public class RegistrationAction extends ActionSupport{
 		languageList=LanguageDAO.getAllLanguage(1);
 		
 		UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
-		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("OPEN_REG_OPERATOR"))
+		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("DEMO_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("OPEN_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("ADHOC_REG_OPERATOR"))
 		{
 			return "logout";
 		}
@@ -118,13 +118,19 @@ public class RegistrationAction extends ActionSupport{
 	    RegistrationDAO regDAO=new RegistrationDAO();
 	    HttpServletResponse response = ServletActionContext.getResponse();
 	    UserDTO loggedInUser=(UserDTO) ServletActionContext.getRequest().getSession().getAttribute("loggedInUser");
-		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN"))
+		if(!loggedInUser.getUserType().equalsIgnoreCase("UISC_REG_OPERATOR") && !loggedInUser.getUserType().equalsIgnoreCase("SYSTEM_ADMIN") && !loggedInUser.getUserType().equalsIgnoreCase("ADHOC_REG_OPERATOR"))
 		{
 			return "logout";
 		}
+    	String sms="";
+    	if(loggedInUser.getUserType().equalsIgnoreCase("ADHOC_REG_OPERATOR"))
+    		sms=" &SMS=Y";
+    	else
+    		sms=" &SMS=N";
+
 		PersonalInfoDTO personalInfo=regDAO.getPersonalInformation(tmpRegId,loggedInUser,StringUtils.EMPTY);
 		try{	
-			String url="http://123.49.43.139:9999/bmet/bmetsend2teletalk.php?user=bmet&password=bmet123&tmp_reg_id="+tmpRegId+"&name="+URLEncoder.encode(personalInfo.getEmpFullName(),"UTF-8")+"&dist="+URLEncoder.encode(personalInfo.getPermanentAddress().getDistrictName(),"UTF-8")+"&thana="+URLEncoder.encode(personalInfo.getPermanentAddress().getUpazillaOrThanaName(),"UTF-8")+"&contact_number="+URLEncoder.encode(personalInfo.getEmpMobileNumber(),"UTF-8");			
+			String url="http://123.49.43.139:9999/bmet/bmetsend2teletalk.php?user=bmet&password=bmet123&tmp_reg_id="+tmpRegId+"&reg_id="+personalInfo.getJobseekerNumber()+"&name="+URLEncoder.encode(personalInfo.getEmpFullName(),"UTF-8")+"&dist="+URLEncoder.encode(personalInfo.getPermanentAddress().getDistrictName(),"UTF-8")+"&thana="+URLEncoder.encode(personalInfo.getPermanentAddress().getUpazillaOrThanaName(),"UTF-8")+"&contact_number="+URLEncoder.encode(personalInfo.getEmpMobileNumber(),"UTF-8")+sms;			
 			URL ackUrl = new URL(url);
 			URLConnection yc = ackUrl.openConnection();
 			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
