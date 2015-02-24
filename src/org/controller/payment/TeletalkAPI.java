@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.model.PaymentDAO;
+import org.model.UserDAO;
 import org.table.UserDTO;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -20,6 +21,7 @@ public class TeletalkAPI extends ActionSupport{
 	private String password;
 	private String tmpRegId;
 	private String amount;
+	private String mobileNumber;
 	
 	public String paymentInfo()
 	{
@@ -33,7 +35,7 @@ public class TeletalkAPI extends ActionSupport{
 		System.out.println("##############     ttreceive        ###############  " + remoteAddress);
 		
 		
-		if(!remoteAddress.equalsIgnoreCase("123.49.43.158") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || password.equalsIgnoreCase("BmetQWSA!@"))
+		if(!remoteAddress.equalsIgnoreCase("123.49.43.158") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@"))
 		{
 			System.out.println("############## ttreceive from wrong ip###############  " + xForward);
 			System.out.println("############## ttreceive from wrong ip###############  " + via);
@@ -149,6 +151,66 @@ public class TeletalkAPI extends ActionSupport{
 	        
 	        return null;
 	}
+	public String pullPassword()
+	{
+		HttpServletResponse response = ServletActionContext.getResponse();
+		//String xForward=ServletActionContext.getRequest().getHeader("X-Forwarded-For")==null?"":ServletActionContext.getRequest().getHeader("X-Forwarded-For");
+		//String via=ServletActionContext.getRequest().getHeader("Via")==null?"":ServletActionContext.getRequest().getHeader("Via");
+		String remoteAddress=ServletActionContext.getRequest().getRemoteAddr()==null?"":ServletActionContext.getRequest().getRemoteAddr();
+		
+		if(!remoteAddress.equalsIgnoreCase("123.49.43.158") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@") || mobileNumber.equalsIgnoreCase(""))
+		{
+			try{
+	        	response.setContentType("text/xml");
+	        	response.setHeader("Cache-Control", "no-cache");
+	        	response.getWriter().write("<reply>0</reply>");
+	        	response.flushBuffer();
+	          }
+	        catch(Exception e) {e.printStackTrace();}	        
+			return null;
+		}
+		
+		String user=userId==null?"Not Given":userId;
+		String pass=password==null?"Not Given":password;
+		String mobile=mobileNumber==null?"Not Given":mobileNumber;
+		
+		if(user!=null)
+			user=user.trim().equalsIgnoreCase("")?"Blank Given":user;
+		if(pass!=null)
+			pass=pass.trim().equalsIgnoreCase("")?"Blank Given":pass;
+		if(mobile!=null)
+			mobile=mobile.trim().equalsIgnoreCase("")?"Blank Given":mobile;
+
+		try
+		{
+			if(user.equalsIgnoreCase("Not Given") || user.equalsIgnoreCase("Blank Given") || pass.equalsIgnoreCase("Not Given") || pass.equalsIgnoreCase("Blank Given") || mobile.equalsIgnoreCase("Not Given") || mobile.equalsIgnoreCase("Blank Given"))
+			{
+				response.getOutputStream().write("<reply>0</reply>".getBytes());
+				return null;
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		try
+		{
+			
+			UserDAO uDao=new UserDAO();
+			UserDTO userDTO=uDao.getUserFromUserId(mobile);
+			if(userDTO==null)
+				response.getOutputStream().write("<reply>0</reply>".getBytes());
+			else
+				response.getOutputStream().write(("<reply>"+userDTO.getPassword()+"</reply>").getBytes());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	
 	public String getUserId() {
 		return userId;
@@ -181,7 +243,13 @@ public class TeletalkAPI extends ActionSupport{
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
-	
-	
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
 	
 }

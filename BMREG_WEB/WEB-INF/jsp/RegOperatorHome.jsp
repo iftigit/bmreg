@@ -43,8 +43,7 @@
     <h3>Activities</h3>
     
 <form id="loginForm" name="loginForm" method="post" action="checkValidity.action">    
-    <table width="100%" border="0" cellspacing="1" class="infoTable">
-    
+    <table width="100%" border="0" cellspacing="1" class="infoTable">    
     <tr>
      <td style="text-align: center">
      	<a href="regHomeAction.action">Registration Form</a>
