@@ -8,8 +8,8 @@
 <meta content="utf-8" http-equiv="encoding">
 <title>Registration Statistics</title>
 
-  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />
-  <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script>
+  <link rel="stylesheet" href="/BMG2G_WEB/resources/css/style.css" />
+  <script type="text/javascript" src="/BMG2G_WEB/resources/js/lib/jquery-1.6.4.min.js"></script>
 </head>
 
 <body style="margin: 0px;">
@@ -17,10 +17,11 @@
 <center>
 <div style="width: 1000px;height: 100px;border-right: 1px solid #006219;border-left: 1px solid #006219;">
 	<div style="float: left; margin-top: 20px;width: 100px;">
-	 <img src="/BMREG_WEB/resources/images/bagladesh_logo.gif" width="60" height="60" />
+	 <img src="/BMG2G_WEB/resources/images/bagladesh_logo.gif" width="60" height="60" />
 	</div>
 	<div style="float: left;margin-left: 30px;color: black;margin-top: 15px;text-align: left;">
 	 	<div style="font-size: 27px;font-weight: bold;">Bureau of Manpower, Employment & Training (BMET)</div>
+	 	<div style="font-size: 20px;margin-top: 10px;">Registration Statistics for Malaysia G2G Project</div>
 	</div>
 </div>
 </center>
@@ -34,13 +35,13 @@
    
    <font style="color: maroon" >Select Division :</font>&nbsp;&nbsp;
    
-   <a href="#" onclick="updateDivisionStatResult(30,'Dhaka')">Dhaka</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(20,'Chittagong')">Chittagong</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(40,'Khulna')">Khulna</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(50,'Rajshahi')">Rajshahi</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(10,'Barishal')">Barisal</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(60,'Sylhet')">Sylhet</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(55,'Rangpur')">Rangpur</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(1,'Dhaka')">Dhaka</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(2,'Chittagong')">Chittagong</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(3,'Khulna')">Khulna</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(4,'Rajshahi')">Rajshahi</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(5,'Barishal')">Barisal</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(6,'Sylhet')">Sylhet</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(7,'Rangpur')">Rangpur</a>&nbsp;&nbsp;
    
 
 
@@ -68,7 +69,7 @@
 
 <script type="text/javascript">
 
-var ajax_load="<img src='/BMREG_WEB/resources/images/loading.gif' border='0' /> " ;
+var ajax_load="<img src='/BMG2G_WEB/resources/images/loading.gif' border='0' /> " ;
 var divId=0;
 var divName=0;
 var divisionTimerId = 0;
