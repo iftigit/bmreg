@@ -370,10 +370,10 @@ public class PreviewRegFormAction extends ActionSupport{
 				error=true;
 			}
 		}
-			if(personalDTO.getNationalId().length()<13 || personalDTO.getNationalId().length()>18)
-				if(personalDTO.getNationalId()!=null && !personalDTO.getNationalId().equalsIgnoreCase("") ){
+		if(personalDTO.getNationalId()!=null && !personalDTO.getNationalId().equalsIgnoreCase("") ){
+			if(personalDTO.getNationalId().length()!=13 && personalDTO.getNationalId().length()!=17)					
 			{
-				addFieldError( "sMsg_nationalId_birthReg", " National Id should be 13-18 digit long." );
+				addFieldError( "sMsg_nationalId_birthReg", " National Id should be 13-17 digit long." );
 				error=true;
 			}
 		}
@@ -381,6 +381,13 @@ public class PreviewRegFormAction extends ActionSupport{
 			if(regDao.getBirthRegIdCount(personalDTO.getBirthRegId().trim())>0)
 			{
 				addFieldError( "sMsg_nationalId_birthReg", " Brith Reg. Id Already Exist." );
+				error=true;
+			}
+		}
+		if(personalDTO.getBirthRegId()!=null && !personalDTO.getBirthRegId().equalsIgnoreCase("") ){
+			if(personalDTO.getBirthRegId().length()!=13 && personalDTO.getBirthRegId().length()!=17)					
+			{
+				addFieldError( "sMsg_nationalId_birthReg", " Birth Reg Id should be 13-17 digit long." );
 				error=true;
 			}
 		}

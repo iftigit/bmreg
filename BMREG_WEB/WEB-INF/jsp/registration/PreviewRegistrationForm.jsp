@@ -577,15 +577,15 @@
      <td colspan="3">     	
      	<table  width="80%" border="1" style="border-collapse: collapse;">
         <tr>
-        	<td width="30%" align="center"><b>Training Name</b></td>
         	<td width="30%" align="center"><b>Institute/Training Center</b></td>
+        	<td width="30%" align="center"><b>Training Name</b></td>        	
         	<td width="10%" align="center"><b>Duration</b></td>
         	<td width="30%" align="center"><b>Description</b></td>
         </tr>
 		<s:iterator value="trainingList" id="training">
-		 <tr>
-		  <td align="left"><s:property value="trainingName"/></td>
+		 <tr>		  
 		  <td align="left"><s:property value="fromWhere"/></td>
+		  <td align="left"><s:property value="trainingName"/></td>
 		  <td align="left"><s:property value="duration"/></td>
 		  <td align="left"><s:property value="description"/></td>
 		 </tr>

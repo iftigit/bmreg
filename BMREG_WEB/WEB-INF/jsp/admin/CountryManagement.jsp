@@ -57,15 +57,19 @@ function checkUncheckAll(){
 if(document.getElementById("selectAll").checked==true)
  {
    for(var i=0;i<300;i++){
-   		 if(document.getElementById("visibility"+i))
+   		 if(document.getElementById("visibility"+i)){
    		   document.getElementById("visibility"+i).checked=true;
+   		   document.getElementById("visibility"+i).value=1;
+   		   }
    	}
  }
  else
  {
    for(var i=0;i<300;i++){
-   		 if(document.getElementById("visibility"+i))
+   		 if(document.getElementById("visibility"+i)){
    		   document.getElementById("visibility"+i).checked=false;
+   		   document.getElementById("visibility"+i).value=0;
+   		   }
    	}
  }
 }
