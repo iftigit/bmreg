@@ -57,15 +57,19 @@ function checkUncheckAll(){
 if(document.getElementById("selectAll").checked==true)
  {
    for(var i=0;i<300;i++){
-   		 if(document.getElementById("visibility"+i))
+   		 if(document.getElementById("visibility"+i)){
    		   document.getElementById("visibility"+i).checked=true;
+   		   document.getElementById("visibility"+i).value=1;
+   		   }
    	}
  }
  else
  {
    for(var i=0;i<300;i++){
-   		 if(document.getElementById("visibility"+i))
+   		 if(document.getElementById("visibility"+i)){
    		   document.getElementById("visibility"+i).checked=false;
+   		   document.getElementById("visibility"+i).value=0;
+   		   }
    	}
  }
 }
@@ -101,7 +105,7 @@ if(document.getElementById("selectAll").checked==true)
       	</td>
       	<td width="10%" align="left" style="padding-left: 10px;" height="25">Edit</td>
       </tr>
-      <s:iterator value="languageList" id="country" status="indx">
+      <s:iterator value="languageList" id="language" status="indx">
        	<s:if test="#indx.even == true">
        	  <tr bgcolor="#eeeeee"> 
      	</s:if>
@@ -113,10 +117,10 @@ if(document.getElementById("selectAll").checked==true)
       	<td align="left" style="padding-left: 10px;" height="25"><s:property value="language"  /></td>
       	<td align="center" height="25">
       	 
-      	<s:if test="#country.visibility==1">
+      	<s:if test="#language.visibility==1">
 		  <input type="checkbox" name="lList[<s:property value="%{#indx.index}" />].visibility" checked="checked" id="visibility<s:property value="%{#indx.count}" />" value="1" onclick="setVisibilityValue(this.id)" />
 		</s:if>
-		<s:elseif test="#country.visibility==0">
+		<s:elseif test="#language.visibility==0">
 		  <input type="checkbox" name="lList[<s:property value="%{#indx.index}" />].visibility" id="visibility<s:property value="%{#indx.count}" />" value="0"  onclick="setVisibilityValue(this.id)" />
 		</s:elseif> 
 		<input type="hidden" name="lList[<s:property value="%{#indx.index}" />].language" value="<s:property value='language' />" /> 	

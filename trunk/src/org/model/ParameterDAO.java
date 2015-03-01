@@ -56,23 +56,26 @@ public class ParameterDAO {
 	public static boolean updateGenderList(List<GenderDTO> genderList)
 	{		
 		   Connection conn = ConnectionManager.getConnection();
+		    
 		   String sql = " Update MST_ALLOWED_GENDER Set FIELD_ID=?,FIELD_NAME=?,EXTRA_ATTRIBUTE=?,VISIBILITY=?,TAB_INDEX=?,CAPTION=? Where GENDER_ID=?";
 		   int[] operation=null;
 		   PreparedStatement stmt = null;
 			try
-			{
-				stmt = conn.prepareStatement(sql);
+			{	stmt = conn.prepareStatement(sql);
+				conn.setAutoCommit(false);//commit
 				for(int i=0;i<genderList.size();i++){
+					
 					stmt.setString(1, genderList.get(i).getFieldId());
 				    stmt.setString(2, genderList.get(i).getFieldName());	
 				    stmt.setString(3, genderList.get(i).getExtraAttribute());
 				    stmt.setInt(4, genderList.get(i).getVisibility());
-				    stmt.setString(5, genderList.get(i).getGenderId());
-				    stmt.setInt(6, genderList.get(i).getTabIndex());
-				    stmt.setString(7, genderList.get(i).getCaption());
+				    stmt.setInt(5, genderList.get(i).getTabIndex());
+				    stmt.setString(6, genderList.get(i).getCaption());
+				    stmt.setString(7, genderList.get(i).getGenderId());
 				    stmt.addBatch();
 				}			    
 			    operation=stmt.executeBatch();
+			    conn.commit();
 			} 
 			catch (Exception e){e.printStackTrace();}
 	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)

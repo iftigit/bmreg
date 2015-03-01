@@ -77,18 +77,22 @@ public class LanguageDAO {
 		
 		 Connection conn = ConnectionManager.getConnection();
 		   String sql = " Update MST_LANGUAGE Set VISIBILITY=? Where LANGUAGE_NAME=?";
+		   System.out.println(sql);
 		   int[] operation=null;
 		   PreparedStatement stmt = null;
 			try
 			{
 				stmt = conn.prepareStatement(sql);
+				conn.setAutoCommit(false);//commit
+
 				for(int i=0;i<languageList.size();i++){
 					stmt.setInt(1, languageList.get(i).getVisibility());
 				    stmt.setString(2, languageList.get(i).getLanguage());	
 				    stmt.addBatch();
 				}
 			    
-			    operation=stmt.executeBatch();
+				operation=stmt.executeBatch();
+			    conn.commit();
 			} 
 			catch (Exception e){e.printStackTrace();}
 	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)

@@ -30,15 +30,16 @@
 
 <center>
 <div id="Example_F" style="height: 580px;width: 1000px;margin-top: 10px;">
-<div style="font-size: 25px;font-weight: bold;padding-top: 100px;color: blue;">Registration Id: <color style="color:green;">
+<div style="font-size: 25px;font-weight: bold;padding-top: 100px;color: blue;">
+<s:if test="%{#session.loggedInUser.userType=='UISC_REG_OPERATOR'}">Temporary </s:if>Registration Id: <color style="color:green;">
 
 <%=(String)ServletActionContext.getRequest().getSession().getAttribute("sessionObj_regId")%></color></div>
 <div style="font-size: 22px;font-weight: bold;margin-top: 50px;">
-	Registration has successfully been received. Please click below button to download your Registration Card.
+	Registration has successfully been received. Please click below button to download your <s:if test="%{#session.loggedInUser.userType=='UISC_REG_OPERATOR'}">temporary </s:if>Registration Card.
 </div>
 <div style="margin-top: 100px;text-align: center;">
 <a href="downloadRegCard.action?registrationId=<%=(String)ServletActionContext.getRequest().getSession().getAttribute("sessionObj_regId")%>&requestType=A" style="text-decoration: none;">
-<input type="button" class="submitButton" name="Downalod Card" value="Click Here to Download Registration Card" style="width: 300px;"  />
+<input type="button" class="submitButton" name="Downalod Card" value="Click Here to Download <s:if test="%{#session.loggedInUser.userType=='UISC_REG_OPERATOR'}">temporary </s:if>Registration Card" style="width: 420px;"  />
 </a>
 
 <br/><br/>
@@ -48,7 +49,16 @@
 
 </div>
 <div style=" margin-top: 50px;">
-<b>Note :</b> <font style="color:red">Please Print your Registration Card and save it carefully.</font> 
+<b>Note :</b> <font style="color:red">
+<s:if test="%{#session.loggedInUser.userType=='UISC_REG_OPERATOR'}">
+	In order to complete your registration please pay the registration fees through a TeleTalk Mobile Phone.
+	 After that print and collect the Actual Registration Card.
+</s:if>
+<s:else>
+	Please Print your Registration Card and save it carefully.
+</s:else>
+
+</font> 
 </div>
 </div>
 </center>

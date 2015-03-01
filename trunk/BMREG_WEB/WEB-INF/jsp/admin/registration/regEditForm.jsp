@@ -363,12 +363,21 @@
        }
       if(nationalId!="")
       { 
-       if(nationalId.length<13 || nationalId.length>18)
+       if((nationalId.length!=13 && nationalId.length!=17) ||  !IsNumber(nationalId) )
          {
          	isValid = false;
-         	$('#msg_nationalId_birthReg').html(alertImg+"National Id must be 13-18 digit long."+postFix).show();
+         	$('#msg_nationalId_birthReg').html(alertImg+"National Id must be 13 or 17 digit(only numeric) long."+postFix).show();
          }
-       } 
+       }
+      if(birthRegId!="")
+      { 
+       if((birthRegId.length!=13 && birthRegId.length!=17) ||  !IsNumber(birthRegId) )
+         {
+         	isValid = false;
+         	$('#msg_nationalId_birthReg').html(alertImg+"Birth Reg. Id must be 13 or 17 digit(only numeric) long."+postFix).show();
+         }
+       }
+        
        
       if(passportNumber!=""){
       
@@ -1835,12 +1844,12 @@ http://rishida.net/tools/conversion/
 								<tbody>
 									
 									<tr bgcolor="#F2F7E3">
-										<td align="center" width="20%">
-											Training Name<font color="red">*</font>
-										</td>
 										<td align="center"  width="15%">
 											Institute/Training<br/>
 											Center Name<font color="red">*</font>
+										</td>
+										<td align="center" width="20%">
+											Training Name<font color="red">*</font>
 										</td>
 										<td align="center"  width="15%">
 											Duration<font color="red">*</font>
@@ -1856,14 +1865,14 @@ http://rishida.net/tools/conversion/
 
 										<td align="center"
 											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
-											id="train_column1">
-											<table width="100%" align="center" id="trainingNameTable"></table>
-										</td>
-										<td align="center"
-											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
 											id="train_column2">
 											<table width="100%" id="trainingFromTable" style="margin: 0px;"></table>
 										</td>
+										<td align="center"
+											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
+											id="train_column1">
+											<table width="100%" align="center" id="trainingNameTable"></table>
+										</td>										
 										<td align="center"
 											style="vertical-align: top; padding-top: 0px; padding-bottom: 0px"
 											id="train_column3">

@@ -380,13 +380,16 @@ public class MasterDataManagement {
 			try
 			{
 				stmt = conn.prepareStatement(sql);
+				conn.setAutoCommit(false);//commit
+
 				for(int i=0;i<countryList.size();i++){
 					stmt.setInt(1, countryList.get(i).getVisibility());
 				    stmt.setInt(2, countryList.get(i).getCountryId());	
 				    stmt.addBatch();
 				}
 			    
-			    operation=stmt.executeBatch();
+				operation=stmt.executeBatch();
+			    conn.commit();
 			} 
 			catch (Exception e){e.printStackTrace();}
 	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
