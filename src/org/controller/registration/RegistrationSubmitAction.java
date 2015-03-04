@@ -114,7 +114,14 @@ public String execute() throws Exception
         	}
         }
         registrationId=RegistrationSingleton.generateRegistrationId(pAddress.getDistrictId(),personalDTO.getEmpGender(),(String)getServletContext().getAttribute("REGID_SUFFIX"));
-        String tmpRegId=Utility.generateTmpRegId(10);
+        String tmpRegId="";
+        while(true)
+        {
+        	tmpRegId=Utility.generateTmpRegId(12);
+        	if(regDAO.isValidTmpRegId(tmpRegId))
+        		break;
+        }
+        
         personalDTO.setRegTypeId(String.valueOf(getServletContext().getAttribute("ACTIVE_REGTYPE")));
         personalDTO.setTmpRegId(tmpRegId);
         String response=regDAO.insertEmpRegistrationInfo(

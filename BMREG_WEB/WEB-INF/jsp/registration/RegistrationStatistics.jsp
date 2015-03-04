@@ -8,8 +8,8 @@
 <meta content="utf-8" http-equiv="encoding">
 <title>Registration Statistics</title>
 
-  <link rel="stylesheet" href="/BMG2G_WEB/resources/css/style.css" />
-  <script type="text/javascript" src="/BMG2G_WEB/resources/js/lib/jquery-1.6.4.min.js"></script>
+  <link rel="stylesheet" href="/BMREG_WEB/resources/css/style.css" />
+  <script type="text/javascript" src="/BMREG_WEB/resources/js/lib/jquery-1.6.4.min.js"></script>
 </head>
 
 <body style="margin: 0px;">
@@ -17,11 +17,11 @@
 <center>
 <div style="width: 1000px;height: 100px;border-right: 1px solid #006219;border-left: 1px solid #006219;">
 	<div style="float: left; margin-top: 20px;width: 100px;">
-	 <img src="/BMG2G_WEB/resources/images/bagladesh_logo.gif" width="60" height="60" />
+	 <img src="/BMREG_WEB/resources/images/bagladesh_logo.gif" width="60" height="60" />
 	</div>
 	<div style="float: left;margin-left: 30px;color: black;margin-top: 15px;text-align: left;">
 	 	<div style="font-size: 27px;font-weight: bold;">Bureau of Manpower, Employment & Training (BMET)</div>
-	 	<div style="font-size: 20px;margin-top: 10px;">Registration Statistics for Malaysia G2G Project</div>
+	 	<div style="font-size: 20px;margin-top: 10px;">Registration Statistics</div>
 	</div>
 </div>
 </center>
@@ -69,7 +69,7 @@
 
 <script type="text/javascript">
 
-var ajax_load="<img src='/BMG2G_WEB/resources/images/loading.gif' border='0' /> " ;
+var ajax_load="<img src='/BMREG_WEB/resources/images/loading.gif' border='0' /> " ;
 var divId=0;
 var divName=0;
 var divisionTimerId = 0;

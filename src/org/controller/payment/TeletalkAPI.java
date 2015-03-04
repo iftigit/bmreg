@@ -35,7 +35,7 @@ public class TeletalkAPI extends ActionSupport{
 		System.out.println("##############     ttreceive        ###############  " + remoteAddress);
 		
 		
-		if(!remoteAddress.equalsIgnoreCase("123.49.43.158") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@"))
+		if(!remoteAddress.equalsIgnoreCase("123.49.43.139") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@"))
 		{
 			System.out.println("############## ttreceive from wrong ip###############  " + xForward);
 			System.out.println("############## ttreceive from wrong ip###############  " + via);
@@ -158,7 +158,7 @@ public class TeletalkAPI extends ActionSupport{
 		//String via=ServletActionContext.getRequest().getHeader("Via")==null?"":ServletActionContext.getRequest().getHeader("Via");
 		String remoteAddress=ServletActionContext.getRequest().getRemoteAddr()==null?"":ServletActionContext.getRequest().getRemoteAddr();
 		
-		if(!remoteAddress.equalsIgnoreCase("123.49.43.158") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@") || mobileNumber.equalsIgnoreCase(""))
+		if(!remoteAddress.equalsIgnoreCase("123.49.43.139") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@") || mobileNumber.equalsIgnoreCase(""))
 		{
 			try{
 	        	response.setContentType("text/xml");

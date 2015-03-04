@@ -633,17 +633,17 @@ public class UserDAO {
 				//  pass = getPasswordCode().substring(0, 5);
 				//  NewPaawordDAO.setNewPassword(userList[i], pass);
 				    pass=udto.getPassword();
-				  String pass1="pls login: bmet.gov.bd ID:type your mobile no abong Password:"+pass+" .login korte na parle call korun 09613016364.";
+				    String pass1="pls login: registration.bmet.gov.bd ID:type your mobile no abong Password:"+pass+" .login korte na parle call korun 09613016364.";
 
 				  URL yahoo;
 					if(userList[i].substring(0,3).equalsIgnoreCase("011"))
 						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i])+
 								"&txt="+URLEncoder.encode(pass1)+
-								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet231")); 		  
+								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet9090")); 		  
 					else
 						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i])+
 								"&txt="+URLEncoder.encode(pass1)+
-								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet231")); 		  
+								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet9090")); 		  
 						
 					URLConnection yc = yahoo.openConnection();
 					BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));

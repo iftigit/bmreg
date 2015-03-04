@@ -138,7 +138,7 @@ public class CheckValidity extends ActionSupport{
 //					ServletActionContext.getRequest().getSession().setAttribute("OPERATOR_DIVISION", addressDao.getDivision(Integer.parseInt(user.getDivisionId())));
 //					ServletActionContext.getRequest().getSession().setAttribute("OPERATOR_DISTRICT", addressDao.getOperatorDistrict(Integer.parseInt(user.getDistrictId())));
 //					ServletActionContext.getRequest().getSession().setAttribute("OPERATOR_UPAZILLA", addressDao.getUpazilla(user.getUpazillaId(),user.getDistrictId()));
-					ArrayList<AddressDTO> abc=(ArrayList<AddressDTO>) getServletContext().getAttribute("OPERATOR_DISTRICT");
+//					ArrayList<AddressDTO> abc=(ArrayList<AddressDTO>) getServletContext().getAttribute("OPERATOR_DISTRICT");
 					ServletActionContext.getRequest().getSession().setAttribute("CONTACT_INFO", userDao.getTechnicalTeam(user.getDistrictId()));
 					return "regOperator";
 				}
@@ -205,6 +205,11 @@ public class CheckValidity extends ActionSupport{
 				{
 					return "adhocRegOperatorHome";
 				}
+				else if(user!=null && user.getUserType().equalsIgnoreCase("A2I_OPERATOR"))
+				{
+					return "a2iOperatorHome";
+				}
+
 				
 				
 
