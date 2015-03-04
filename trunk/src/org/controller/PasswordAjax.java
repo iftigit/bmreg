@@ -39,10 +39,10 @@ public class PasswordAjax extends ActionSupport implements ServletContextAware{
 		{
 			return "logout";
 		}
-		else if(loggedInUser.getAccessRight()==0)
-		{
-			return "timeOver";	
-		}
+//		else if(loggedInUser.getAccessRight()==0)
+//		{
+//			return "timeOver";	
+//		}
 		
 		ArrayList<UserDTO> userList=dataDao.getUserList(unionId);
 
@@ -110,10 +110,10 @@ public class PasswordAjax extends ActionSupport implements ServletContextAware{
 		{
 			return "logout";
 		}
-		else if(loggedInUser.getAccessRight()==0)
-		{
-			return "timeOver";	
-		}
+//		else if(loggedInUser.getAccessRight()==0)
+//		{
+//			return "timeOver";	
+//		}
 		
 		ArrayList<UserDTO> userList=dataDao.passwordByUserId(userId);
 
@@ -187,6 +187,11 @@ public class PasswordAjax extends ActionSupport implements ServletContextAware{
 	public void setServletContext(ServletContext arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static void main(String[] args)
+	{
+		System.out.println("--");
 	}
 	
 

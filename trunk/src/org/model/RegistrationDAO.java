@@ -1652,5 +1652,39 @@ public class RegistrationDAO {
 			 
 		 
 	 }
+	 public boolean isValidTmpRegId(String tmpRegId){
+		 boolean response=false;
+		 
+		 Connection conn = ConnectionManager.getConnection();
+		 String sql="Select count(*) total from EMP_REG_PAYMENT Where TMP_REG_ID='"+tmpRegId+"' ";
+	   
+		   PreparedStatement stmt = null;
+		   ResultSet r = null;
+
+		   int count=0;
+		   
+			try
+			{
+				stmt = conn.prepareStatement(sql);
+				r = stmt.executeQuery();
+				if(r.next())
+				{
+
+					count=r.getInt("TOTAL");
+				}
+				if(count==0)
+					response=true;
+			} 
+			catch (Exception e){e.printStackTrace();}
+	 		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+				{e.printStackTrace();}stmt = null;conn = null;}
+	 		
+
+	 		
+		 
+		 
+		 return response;
+	 }
+
 
 }

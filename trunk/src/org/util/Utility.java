@@ -55,7 +55,8 @@ public class Utility {
 	      // Pick from some letters that won't be easily mistaken for each
 	      // other. So, for example, omit o O and 0, 1 l and L.
 	      //String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
-		  String letters = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+		  //String letters = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+		  String letters = "0123456789";
 
 	      String pw = "";
 	      for (int i=0; i<idLength; i++)
