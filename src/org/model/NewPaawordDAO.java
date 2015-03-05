@@ -31,7 +31,7 @@ public class NewPaawordDAO {
 	    finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
 	    {e.printStackTrace();}stmt = null;conn = null;}
 	    return response;		
-	}
+	}	
 	public String setPasswordCode(String mobile,String scode,String pass)
 	{
 		String response="";
@@ -64,6 +64,33 @@ public class NewPaawordDAO {
 		try
 		{
 			stmt = conn.prepareStatement(sql);
+			r = stmt.executeQuery();
+			while (r.next())
+			{
+				user=new UserDTO();
+				user.setPassword(r.getString(1));
+				user.setUserId(r.getString(2));
+				tmp.add(user);
+			}
+		} 
+		catch (Exception e){e.printStackTrace();}
+		finally{try{stmt.close();ConnectionManager.closeConnection(conn);} catch (Exception e)
+		{e.printStackTrace();}stmt = null;conn = null;}
+		return tmp;
+	}
+	
+	public ArrayList<UserDTO> getUserByUserId(String userId)
+	{
+		ArrayList<UserDTO> tmp=new ArrayList<UserDTO>();
+		UserDTO user=null;
+		Connection conn = ConnectionManager.getConnection();
+		String sql = "select password,userid from mst_user where userId=?";
+		PreparedStatement stmt = null;
+		ResultSet r = null;
+		try
+		{
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
 			r = stmt.executeQuery();
 			while (r.next())
 			{

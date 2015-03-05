@@ -21,7 +21,7 @@ public class TeletalkAPI extends ActionSupport{
 	private String password;
 	private String tmpRegId;
 	private String amount;
-	private String mobileNumber;
+	private String mobile;
 	
 	public String paymentInfo()
 	{
@@ -35,7 +35,8 @@ public class TeletalkAPI extends ActionSupport{
 		System.out.println("##############     ttreceive        ###############  " + remoteAddress);
 		
 		
-		if(!remoteAddress.equalsIgnoreCase("123.49.43.139") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@"))
+		if((!remoteAddress.equalsIgnoreCase("123.49.43.139") && !remoteAddress.equalsIgnoreCase("114.130.64.3") && !remoteAddress.equalsIgnoreCase("114.130.66.133"))
+			||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@"))
 		{
 			System.out.println("############## ttreceive from wrong ip###############  " + xForward);
 			System.out.println("############## ttreceive from wrong ip###############  " + via);
@@ -158,12 +159,13 @@ public class TeletalkAPI extends ActionSupport{
 		//String via=ServletActionContext.getRequest().getHeader("Via")==null?"":ServletActionContext.getRequest().getHeader("Via");
 		String remoteAddress=ServletActionContext.getRequest().getRemoteAddr()==null?"":ServletActionContext.getRequest().getRemoteAddr();
 		
-		if(!remoteAddress.equalsIgnoreCase("123.49.43.139") ||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@") || mobileNumber.equalsIgnoreCase(""))
+		if((!remoteAddress.equalsIgnoreCase("123.49.43.139") && !remoteAddress.equalsIgnoreCase("114.130.64.3") && !remoteAddress.equalsIgnoreCase("114.130.66.133"))
+				||  !userId.equalsIgnoreCase("ttBmetRegUser") || !password.equalsIgnoreCase("BmetQWSA!@"))
 		{
 			try{
 	        	response.setContentType("text/xml");
 	        	response.setHeader("Cache-Control", "no-cache");
-	        	response.getWriter().write("<reply>0</reply>");
+	        	response.getWriter().write("<reply>01</reply>");
 	        	response.flushBuffer();
 	          }
 	        catch(Exception e) {e.printStackTrace();}	        
@@ -172,20 +174,20 @@ public class TeletalkAPI extends ActionSupport{
 		
 		String user=userId==null?"Not Given":userId;
 		String pass=password==null?"Not Given":password;
-		String mobile=mobileNumber==null?"Not Given":mobileNumber;
+		String mob=mobile==null?"Not Given":mobile;
 		
 		if(user!=null)
 			user=user.trim().equalsIgnoreCase("")?"Blank Given":user;
 		if(pass!=null)
 			pass=pass.trim().equalsIgnoreCase("")?"Blank Given":pass;
-		if(mobile!=null)
-			mobile=mobile.trim().equalsIgnoreCase("")?"Blank Given":mobile;
+		if(mob!=null)
+			mob=mob.trim().equalsIgnoreCase("")?"Blank Given":mob;
 
 		try
 		{
-			if(user.equalsIgnoreCase("Not Given") || user.equalsIgnoreCase("Blank Given") || pass.equalsIgnoreCase("Not Given") || pass.equalsIgnoreCase("Blank Given") || mobile.equalsIgnoreCase("Not Given") || mobile.equalsIgnoreCase("Blank Given"))
+			if(user.equalsIgnoreCase("Not Given") || user.equalsIgnoreCase("Blank Given") || pass.equalsIgnoreCase("Not Given") || pass.equalsIgnoreCase("Blank Given") || mob.equalsIgnoreCase("Not Given") || mob.equalsIgnoreCase("Blank Given"))
 			{
-				response.getOutputStream().write("<reply>0</reply>".getBytes());
+				response.getOutputStream().write("<reply>02</reply>".getBytes());
 				return null;
 			}
 		}
@@ -198,9 +200,9 @@ public class TeletalkAPI extends ActionSupport{
 		{
 			
 			UserDAO uDao=new UserDAO();
-			UserDTO userDTO=uDao.getUserFromUserId(mobile);
+			UserDTO userDTO=uDao.getUserFromUserId(mob);
 			if(userDTO==null)
-				response.getOutputStream().write("<reply>0</reply>".getBytes());
+				response.getOutputStream().write("<reply>03</reply>".getBytes());
 			else
 				response.getOutputStream().write(("<reply>"+userDTO.getPassword()+"</reply>").getBytes());
 		}
@@ -244,12 +246,14 @@ public class TeletalkAPI extends ActionSupport{
 		this.amount = amount;
 	}
 
-	public String getMobileNumber() {
-		return mobileNumber;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
+	
+	
 	
 }
