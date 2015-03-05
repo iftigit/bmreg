@@ -153,7 +153,7 @@ public String execute() throws Exception
         	//
         	if(userType.equalsIgnoreCase("UISC_REG_OPERATOR") || userType.equalsIgnoreCase("ADHOC_REG_OPERATOR")){
         		try{
-        		String fullName=personalDTO.getEmpGivenName()==null?"":personalDTO.getEmpGivenName()+" "+personalDTO.getEmpLastName()==null?"":personalDTO.getEmpLastName();
+        		String fullName=(personalDTO.getEmpGivenName()==null?"":personalDTO.getEmpGivenName())+" "+(personalDTO.getEmpLastName()==null?"":personalDTO.getEmpLastName());
         		URL ackUrl = new URL("http://123.49.43.139:9999/bmet/bmetsend2teletalk.php?user=bmet&password=bmet123&tmp_reg_id="+tmpRegId+"&reg_id="+registrationId+"&name="+URLEncoder.encode(fullName,"UTF-8")+"&dist="+URLEncoder.encode(personalDTO.getPermanentAddress().getDistrictName(),"UTF-8")+"&thana="+URLEncoder.encode(personalDTO.getPermanentAddress().getUpazillaOrThanaName(),"UTF-8")+"&contact_number="+URLEncoder.encode(personalDTO.getEmpMobileNumber(),"UTF-8")+sms);
         		URLConnection yc = ackUrl.openConnection();
         		BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
