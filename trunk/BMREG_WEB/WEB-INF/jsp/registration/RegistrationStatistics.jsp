@@ -35,13 +35,13 @@
    
    <font style="color: maroon" >Select Division :</font>&nbsp;&nbsp;
    
-   <a href="#" onclick="updateDivisionStatResult(1,'Dhaka')">Dhaka</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(2,'Chittagong')">Chittagong</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(3,'Khulna')">Khulna</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(4,'Rajshahi')">Rajshahi</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(5,'Barishal')">Barisal</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(6,'Sylhet')">Sylhet</a>&nbsp;&nbsp;
-   <a href="#" onclick="updateDivisionStatResult(7,'Rangpur')">Rangpur</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(30,'Dhaka')">Dhaka</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(20,'Chittagong')">Chittagong</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(40,'Khulna')">Khulna</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(50,'Rajshahi')">Rajshahi</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(10,'Barishal')">Barisal</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(60,'Sylhet')">Sylhet</a>&nbsp;&nbsp;
+   <a href="#" onclick="updateDivisionStatResult(55,'Rangpur')">Rangpur</a>&nbsp;&nbsp;
    
 
 

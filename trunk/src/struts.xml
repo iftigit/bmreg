@@ -272,6 +272,11 @@
 		<action name="sendPasswordBySms" class="org.controller.authentication.NewPassword" method="sendPasswordBySms">			
 			<interceptor-ref name="defaultStack"/>
 		</action>
+		<action name="sendSmsForThisUser" class="org.controller.authentication.NewPassword" method="sendSmsForThisUser">			
+			<interceptor-ref name="defaultStack"/>
+		</action>
+		
+		
 		<action name="passEnqueriHomeAction">			
 			<result name="success">/WEB-INF/jsp/registration/PassEnqueriHome.jsp</result>
 		</action>

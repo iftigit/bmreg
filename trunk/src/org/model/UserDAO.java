@@ -633,18 +633,20 @@ public class UserDAO {
 				//  pass = getPasswordCode().substring(0, 5);
 				//  NewPaawordDAO.setNewPassword(userList[i], pass);
 				    pass=udto.getPassword();
-				    String pass1="pls login: registration.bmet.gov.bd ID:type your mobile no abong Password:"+pass+" .login korte na parle call korun 09613016364.";
+				    String pass1="pls login: registration.bmet.gov.bd ID:type your mobile no abong Password:"+pass+" .login korte na parle call korun 09612016364.";
 
 				  URL yahoo;
+				  yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms=88"+userList[i]+"&txt="+URLEncoder.encode(pass1,"UTF-8")+"&username=bmet&password=bmet9090");
+				  /*
 					if(userList[i].substring(0,3).equalsIgnoreCase("011"))
-						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i])+
-								"&txt="+URLEncoder.encode(pass1)+
-								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet9090")); 		  
+						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i],"UTF-8")+
+								"&txt="+URLEncoder.encode(pass1,"UTF-8")+
+								"&username="+URLEncoder.encode("bmet","UTF-8")+"&password="+URLEncoder.encode("bmet9090","UTF-8")); 		  
 					else
-						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i])+
-								"&txt="+URLEncoder.encode(pass1)+
-								"&username="+URLEncoder.encode("bmet")+"&password="+URLEncoder.encode("bmet9090")); 		  
-						
+						yahoo = new URL("http://123.49.3.58:8081/web_send_sms.php?ms="+URLEncoder.encode("88"+userList[i],"UTF-8")+
+								"&txt="+URLEncoder.encode(pass1,"UTF-8")+
+								"&username="+URLEncoder.encode("bmet","UTF-8")+"&password="+URLEncoder.encode("bmet9090","UTF-8")); 		  
+				   */		
 					URLConnection yc = yahoo.openConnection();
 					BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 					String inputLine;
@@ -657,9 +659,12 @@ public class UserDAO {
 					}
 					in.close();
 					counter++;
-					if(counter%500==0)
-						System.out.println("yes");
-//					Thread.sleep(100);
+					if(counter%200==0){
+						Thread.sleep(2000);
+						System.out.println("----------------------------");
+						System.out.println("Total Sms Send : "+counter);
+						System.out.println("----------------------------");
+					}
 			  }
 				  catch(Exception e)
 				  {
