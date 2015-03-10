@@ -146,9 +146,9 @@ public String execute() throws Exception
         	
         	String sms="";
         	if(userType.equalsIgnoreCase("ADHOC_REG_OPERATOR"))
-        		sms=" &SMS=Y";
+        		sms="&SMS=Y";
         	else
-        		sms=" &SMS=N";
+        		sms="&SMS=N";
         	
         	//
         	if(userType.equalsIgnoreCase("UISC_REG_OPERATOR") || userType.equalsIgnoreCase("ADHOC_REG_OPERATOR")){
