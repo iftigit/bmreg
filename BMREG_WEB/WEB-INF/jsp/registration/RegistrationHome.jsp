@@ -256,22 +256,26 @@
          isValid = false;
          $('#msg_birthDate').html(alertImg+"Please fill Birth Date"+postFix).show();
        }else{
-         	var dobArr=birthDate.split("-");
+       
+   		if(isValidDate(birthDate)==false){
+         isValid = false;
+         $('#msg_birthDate').html(alertImg+"Incorrect Birth Date"+postFix).show();
+       }else{
+         var dobArr=birthDate.split("-");
 			var bDate = new Date(dobArr[2], dobArr[1] - 1, dobArr[0]);
 			var age=ageCount(bDate);			
-			if(age< <s:property value="%{#application.MIN_AGE}" /> || age> <s:property value="%{#application.MAX_AGE}" /> )
+			if(parseFloat(age,10)< parseFloat(<s:property value="%{#application.MIN_AGE}" />,10) || parseFloat(age,10) > parseFloat(<s:property value="%{#application.MAX_AGE}" />,10) )
 			{
+				isValid = false;
 			 	$('#msg_birthDate').html(alertImg+"Allowed Age Limit is <s:property value='%{#application.MIN_AGE}' /> - <s:property value='%{#application.MAX_AGE}' />"+postFix).show();
 			}
 			else
 		    	$('#msg_birthDate').html('').hide();
-        }       
-        if(isValidDate(birthDate)==false){
-         isValid = false;
-         $('#msg_birthDate').html(alertImg+"Incorrect Birth Date"+postFix).show();
-       }else{
-         $('#msg_birthDate').html('').hide();
        }
+   			    
+         	
+        }       
+    
        
        if(sexMale==false && sexFemale==false){
          isValid = false;
