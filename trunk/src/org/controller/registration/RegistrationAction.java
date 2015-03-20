@@ -124,13 +124,14 @@ public class RegistrationAction extends ActionSupport{
 		}
     	String sms="";
     	if(loggedInUser.getUserType().equalsIgnoreCase("ADHOC_REG_OPERATOR"))
-    		sms=" &SMS=Y";
+    		sms="&SMS=Y";
     	else
-    		sms=" &SMS=N";
+    		sms="&SMS=N";
 
 		PersonalInfoDTO personalInfo=regDAO.getPersonalInformation(tmpRegId,loggedInUser,StringUtils.EMPTY);
 		try{	
-			String url="http://123.49.43.139:9999/bmet/bmetsend2teletalk.php?user=bmet&password=bmet123&tmp_reg_id="+tmpRegId+"&reg_id="+personalInfo.getJobseekerNumber()+"&name="+URLEncoder.encode(personalInfo.getEmpFullName(),"UTF-8")+"&dist="+URLEncoder.encode(personalInfo.getPermanentAddress().getDistrictName(),"UTF-8")+"&thana="+URLEncoder.encode(personalInfo.getPermanentAddress().getUpazillaOrThanaName(),"UTF-8")+"&contact_number="+URLEncoder.encode(personalInfo.getEmpMobileNumber(),"UTF-8")+sms;			
+			String url="http://123.49.43.139:9999/bmet/bmetsend2teletalk.php?user=bmet&password=bmet123&tmp_reg_id="+tmpRegId+"&reg_id="+personalInfo.getJobseekerNumber()+"&name="+URLEncoder.encode(personalInfo.getEmpFullName(),"UTF-8")+"&dist="+URLEncoder.encode(personalInfo.getPermanentAddress().getDistrictName(),"UTF-8")+"&thana="+URLEncoder.encode(personalInfo.getPermanentAddress().getUpazillaOrThanaName(),"UTF-8")+"&contact_number="+URLEncoder.encode(personalInfo.getEmpMobileNumber(),"UTF-8")+sms;
+			System.out.println(url);
 			URL ackUrl = new URL(url);
 			URLConnection yc = ackUrl.openConnection();
 			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));

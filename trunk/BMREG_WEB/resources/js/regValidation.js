@@ -49,6 +49,8 @@ function checkLocalExperience()
 	                	  else
 	                		  jobSubCategory=jobSubCategory_Element.value;
 	                  }
+	                  else
+	                	  jobSubCategory="0";
 	                  if(jobSubSubCategory_Element)
 	                  {
 	                	  if(jobSubSubCategory_Element.value=='')
@@ -56,6 +58,9 @@ function checkLocalExperience()
 	                	  else
 	                		  jobSubSubCategory=jobSubSubCategory_Element.value;
 	                  }
+	                  else
+	                	  jobSubSubCategory="0";
+	                  
 	                  expHidden.value += jobCategory+"88khayer88"+jobSubCategory+"88khayer88"+jobSubSubCategory+"88khayer88"+expYear+"99ifti99";
                 }
             	}
@@ -118,6 +123,8 @@ function checkAbraodExperience()
 	                	  else
 	                		  jobSubCategory=jobSubCategory_Element.value;
 	                  }
+	                  else
+	                	  jobSubCategory="0";
 	                  if(jobSubSubCategory_Element)
 	                  {
 	                	  if(jobSubSubCategory_Element.value=='')
@@ -125,6 +132,8 @@ function checkAbraodExperience()
 	                	  else
 	                		  jobSubSubCategory=jobSubSubCategory_Element.value;
 	                  }
+	                  else
+	                	  jobSubSubCategory="0";
 	                  
 	                  expHidden.value += country+"88khayer88"+jobCategory+"88khayer88"+jobSubCategory+"88khayer88"+jobSubSubCategory+"88khayer88"+expYear+"99ifti99";
                 }
@@ -172,12 +181,16 @@ function checkJobPreference()
 	                		if(trim(subJob_1) == '')
 		                		return false;
 	                	}
+	                	else
+	                		subJob_1="0";
 	                	if(subJob_2_Element)	
 	                	{
 	                		subJob_2=subJob_2_Element.value;
 	                		if(trim(subJob_2) == '')
 		                		return false;
 	                	}
+	                	else
+	                		subJob_2="0";
 	
 
 	                	
